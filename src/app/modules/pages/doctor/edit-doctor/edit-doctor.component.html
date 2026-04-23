@@ -1,0 +1,62 @@
+<div class="w-full p-3 sm:p-8 mx-auto" style="max-width: 1400px">
+    <form [formGroup]="formGroup" (ngSubmit)="submit()">
+        <div class="mb-4">
+            <div class="flex justify-between">
+                <div class="flex items-center">
+                    <button
+                        mat-icon-button
+                        matTooltip="Back"
+                        routerLink="../.."
+                        type="button"
+                    >
+                        <mat-icon svgIcon="mat_outline:chevron_left"></mat-icon>
+                    </button>
+                    <h2 class="text-3xl font-semibold tracking-tight leading-8">
+                        Edit Doctor
+                    </h2>
+                </div>
+                <div>
+                    <button
+                        type="submit"
+                        mat-flat-button
+                        class="flex items-center bg-indigo-600 text-white"
+                    >
+                        <mat-icon
+                            svgIcon="mat_outline:save"
+                            class="icon-size-5 mr-2"
+                        ></mat-icon>
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full pt-2 pb-2 mx-5">
+            <div class="grid grid-cols-2 gap-4">
+                <mat-form-field class="w-full">
+                    <mat-label>Full Name</mat-label>
+                    <input type="text" matInput formControlName="fullName" />
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>Specialization</mat-label>
+                    <input
+                        type="text"
+                        matInput
+                        formControlName="specialization"
+                    />
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>License Number</mat-label>
+                    <input type="text" matInput formControlName="licenseNo" />
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>Phone Number</mat-label>
+                    <input type="text" matInput formControlName="phoneNumber" />
+                </mat-form-field>
+            </div>
+        </div>
+    </form>
+</div>

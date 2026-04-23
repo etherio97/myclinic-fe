@@ -1,0 +1,162 @@
+<div class="w-full p-3 sm:p-8 mx-auto" style="max-width: 1400px">
+    <form [formGroup]="formGroup" (ngSubmit)="submit()">
+        <div class="mb-4">
+            <div class="flex justify-between">
+                <div class="flex items-center">
+                    <button
+                        mat-icon-button
+                        matTooltip="Back"
+                        routerLink=".."
+                        type="button"
+                    >
+                        <mat-icon svgIcon="mat_outline:chevron_left"></mat-icon>
+                    </button>
+                    <h2 class="text-3xl font-semibold tracking-tight leading-8">
+                        Create New Appointment
+                    </h2>
+                </div>
+                <div>
+                    <button
+                        type="submit"
+                        mat-flat-button
+                        class="flex items-center bg-indigo-600 text-white"
+                    >
+                        <mat-icon
+                            svgIcon="mat_outline:save"
+                            class="icon-size-5 mr-2"
+                        ></mat-icon>
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- For Patient Information -->
+        <div class="w-full pt-2 pb-2 mx-5">
+            <div class="grid grid-cols-2 gap-4">
+                <mat-form-field class="w-full">
+                    <mat-label>Patient Name</mat-label>
+                    <input
+                        type="text"
+                        matInput
+                        formControlName="patient"
+                        [matAutocomplete]="patientAuto"
+                    />
+                    <mat-autocomplete
+                        #patientAuto="matAutocomplete"
+                        [displayWith]="displayPatientFn"
+                        (optionSelected)="onItemSelect($event)"
+                    >
+                        <mat-option
+                            *ngFor="
+                                let option of patientFilteredOptions | async
+                            "
+                            [value]="option"
+                        >
+                            {{ option.fullName }} #{{ option.patientNo }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>Phone Number</mat-label>
+                    <input type="text" matInput formControlName="phoneNumber" />
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>Doctor Name</mat-label>
+                    <input
+                        type="text"
+                        matInput
+                        formControlName="doctor"
+                        [matAutocomplete]="doctorAuto"
+                    />
+                    <mat-autocomplete
+                        #doctorAuto="matAutocomplete"
+                        [displayWith]="displayDoctorFn"
+                    >
+                        <mat-option
+                            *ngFor="let option of doctorFilteredOptions | async"
+                            [value]="option"
+                        >
+                            {{ option.fullName }} #{{ option.doctorNo }} ({{
+                                option.specialization
+                            }})
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>Refer Doctor</mat-label>
+                    <input
+                        type="text"
+                        matInput
+                        formControlName="referDoctor"
+                        [matAutocomplete]="referDoctorAuto"
+                    />
+                    <mat-autocomplete
+                        #referDoctorAuto="matAutocomplete"
+                        [displayWith]="displayDoctorFn"
+                    >
+                        <mat-option
+                            *ngFor="
+                                let option of referDoctorFilteredOptions | async
+                            "
+                            [value]="option"
+                        >
+                            {{ option.fullName }} #{{ option.doctorNo }} ({{
+                                option.specialization
+                            }})
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>Appointment Date & Time</mat-label>
+                    <input
+                        matInput
+                        [ngxMatDatetimePicker]="picker"
+                        placeholder="Choose a date"
+                        formControlName="appointmentDate"
+                    />
+                    <mat-datepicker-toggle
+                        matSuffix
+                        [for]="picker"
+                    ></mat-datepicker-toggle>
+                    <ngx-mat-datetime-picker
+                        #picker
+                        [showSeconds]="false"
+                        [stepSecond]="true"
+                    >
+                    </ngx-mat-datetime-picker>
+                </mat-form-field>
+
+                <div></div>
+
+                <mat-form-field class="w-full">
+                    <mat-label>Appointment Type</mat-label>
+                    <mat-select formControlName="appointmentType">
+                        <mat-option
+                            *ngFor="let item of appointmentTypes"
+                            [value]="item"
+                        >
+                            {{ item }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>Appointment Case</mat-label>
+                    <mat-select formControlName="appointmentCase">
+                        <mat-option
+                            *ngFor="let item of appointmentCases"
+                            [value]="item"
+                        >
+                            {{ item }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+    </form>
+</div>

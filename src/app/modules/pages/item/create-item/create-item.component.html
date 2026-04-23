@@ -1,0 +1,106 @@
+<div class="w-full p-3 sm:p-8 mx-auto" style="max-width: 1400px">
+    <form [formGroup]="formGroup" (ngSubmit)="submit()">
+        <div class="mb-4">
+            <div class="flex justify-between">
+                <div class="flex items-center">
+                    <button
+                        mat-icon-button
+                        matTooltip="Back"
+                        routerLink=".."
+                        type="button"
+                    >
+                        <mat-icon svgIcon="mat_outline:chevron_left"></mat-icon>
+                    </button>
+                    <h2 class="text-3xl font-semibold tracking-tight leading-8">
+                        Create New Item
+                    </h2>
+                </div>
+                <div>
+                    <button
+                        type="submit"
+                        mat-flat-button
+                        class="flex items-center bg-indigo-600 text-white"
+                    >
+                        <mat-icon
+                            svgIcon="mat_outline:save"
+                            class="icon-size-5 mr-2"
+                        ></mat-icon>
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full pt-2 pb-2 mx-5">
+            <div class="grid grid-cols-2 gap-4">
+                <mat-form-field class="w-full">
+                    <mat-label>Item Name</mat-label>
+                    <input type="text" matInput formControlName="name" />
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>Description</mat-label>
+                    <textarea
+                        formControlName="description"
+                        rows="3"
+                        matInput
+                    ></textarea>
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>Item Type</mat-label>
+                    <input
+                        type="text"
+                        matInput
+                        formControlName="itemType"
+                        [matAutocomplete]="itemTypeAuto"
+                    />
+                    <mat-autocomplete #itemTypeAuto="matAutocomplete">
+                        <mat-option
+                            *ngFor="
+                                let option of itemTypeFilteredOptions | async
+                            "
+                            [value]="option"
+                        >
+                            {{ option }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>Category</mat-label>
+                    <input
+                        type="text"
+                        matInput
+                        formControlName="category"
+                        [matAutocomplete]="categoryAuto"
+                    />
+                    <mat-autocomplete #categoryAuto="matAutocomplete">
+                        <mat-option
+                            *ngFor="
+                                let option of categoryFilteredOptions | async
+                            "
+                            [value]="option"
+                        >
+                            {{ option }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>Base Price</mat-label>
+                    <input type="number" matInput formControlName="basePrice" />
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>Selling Price</mat-label>
+                    <input
+                        type="number"
+                        matInput
+                        formControlName="sellingPrice"
+                    />
+                </mat-form-field>
+            </div>
+        </div>
+    </form>
+</div>

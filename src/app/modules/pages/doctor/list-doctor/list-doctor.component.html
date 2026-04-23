@@ -1,0 +1,227 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent"
+    >
+        <div class="flex-1 min-w-0">
+            <div class="mt-2">
+                <h2
+                    class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
+                >
+                    Doctor List
+                </h2>
+            </div>
+        </div>
+        <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <button
+                mat-flat-button
+                color="primary"
+                routerLink="create"
+                class="text-white"
+            >
+                <mat-icon
+                    class="icon-size-5 mr-2"
+                    svgIcon="heroicons_solid:plus"
+                ></mat-icon>
+                New
+            </button>
+        </div>
+    </div>
+
+    <div class="flex-auto p-6 sm:p-10">
+        <div class="w-full pt-2 pb-2 sm:pt-6 sm:pb-2 bg-card rounded shadow">
+            <form
+                [formGroup]="formGroup"
+                class="w-full"
+                (ngSubmit)="reloadData()"
+            >
+                <div class="flex flex-wrap w-full px-3 sm:px-6 pt-2 sm:pt-4">
+                    <div class="w-full sm:w-2/3 pr-6">
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>Search Value</mat-label>
+                            <input
+                                matInput
+                                formControlName="searchValue"
+                                type="text"
+                                placeholder="Search"
+                            />
+                        </mat-form-field>
+                    </div>
+
+                    <div class="w-full sm:w-1/3 pr-6">
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>Search By</mat-label>
+                            <mat-select
+                                formControlName="searchBy"
+                                placeholder="Search By"
+                            >
+                                <mat-option value="fullName"
+                                    >Full Name</mat-option
+                                >
+                                <mat-option value="doctorNo"
+                                    >Doctor No</mat-option
+                                >
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div
+                    class="flex justify-end w-full border-t px-3 sm:px-6 py-1 sm:py-2 border-gray-200 rounded-b"
+                >
+                    <button
+                        type="submit"
+                        mat-flat-button
+                        color="primary"
+                        class="text-white"
+                    >
+                        Search
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="bg-card shadow rounded mt-3 sm:mt-6">
+            <table
+                class="w-full text-center"
+                mat-table
+                [dataSource]="dataSource"
+            >
+                <ng-container matColumnDef="doctorNo">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="mx-2 text-center"
+                    >
+                        Doctor No
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="w-24 text-center"
+                    >
+                        {{ element.doctorNo }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="specialization">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="mx-2 text-center"
+                    >
+                        Specialization
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                        {{ element.specialization }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="fullName">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="mx-2 text-center"
+                    >
+                        Full Name
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                        {{ element.fullName }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="licenseNo">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="mx-2 text-center"
+                    >
+                        License No
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                        {{ element.licenseNo }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="phoneNumber">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="mx-2 text-center"
+                    >
+                        Phone Number
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                        {{ element.phoneNumber }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="createdAt">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="mx-2 text-center"
+                    >
+                        Created At
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.createdAt | date: "dd/MM/yyyy hh:mm a" }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="actions">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="mx-2 text-center w-30"
+                    >
+                        Actions
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="flex justify-center">
+                            <button
+                                mat-icon-button
+                                [routerLink]="['view', element.id]"
+                                matTooltip="Edit"
+                            >
+                                <mat-icon
+                                    svgIcon="feather:info"
+                                    class="icon-size-4"
+                                ></mat-icon>
+                            </button>
+                            <button
+                                mat-icon-button
+                                [routerLink]="['edit', element.id]"
+                                matTooltip="Edit"
+                            >
+                                <mat-icon
+                                    svgIcon="feather:edit"
+                                    class="icon-size-4"
+                                ></mat-icon>
+                            </button>
+                            <button
+                                *ngIf="['admin', 'manager'].includes(role)"
+                                mat-icon-button
+                                (click)="removeDoctor(element.id)"
+                                matTooltip="Delete"
+                            >
+                                <mat-icon
+                                    svgIcon="heroicons_outline:trash"
+                                    class="icon-size-4"
+                                ></mat-icon>
+                            </button>
+                        </div>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr
+                    mat-row
+                    *matRowDef="let row; columns: displayedColumns"
+                ></tr>
+            </table>
+            <div
+                class="flex flex-row justify-end border-t bg-gray-50 dark:bg-gray-700"
+            >
+                <mat-paginator
+                    showFirstLastButtons
+                    [pageSizeOptions]="[10, 15, 20]"
+                    class="bg-gray-50 dark:bg-gray-700"
+                >
+                </mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,253 @@
+<div class="w-full" *ngIf="data">
+    <div
+        class="w-full p-3 sm:p-8 mx-auto print:hidden"
+        style="max-width: 1400px"
+    >
+        <div class="mb-4 space-y-4">
+            <div class="flex justify-between">
+                <div class="flex items-center">
+                    <button
+                        mat-icon-button
+                        matTooltip="Back"
+                        routerLink="../.."
+                        type="button"
+                    >
+                        <mat-icon svgIcon="mat_outline:chevron_left"></mat-icon>
+                    </button>
+                    <h2 class="text-3xl font-semibold tracking-tight leading-8">
+                        View Receipt
+                    </h2>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button
+                        type="button"
+                        mat-flat-button
+                        class="items-center bg-slate-600 text-white"
+                        (click)="handlePrint()"
+                    >
+                        <mat-icon
+                            svgIcon="mat_outline:print"
+                            class="icon-size-5 mr-2"
+                        ></mat-icon>
+                        Print
+                    </button>
+                </div>
+            </div>
+
+            <div class="w-full pt-2 pb-2 mx-5 bg-white rounded p-5 shadow">
+                <div class="grid md:grid-cols-2 gap-x-20 gap-y-5">
+                    <div>
+                        <table class="w-full border-collapse">
+                            <tr class="">
+                                <td class="text-left py-2">Date</td>
+                                <td class="text-right py-2 font-bold">
+                                    {{
+                                        data.date
+                                            | date: "dd-MM-yyyy hh:mm:ss a"
+                                    }}
+                                </td>
+                            </tr>
+                            <tr class="">
+                                <td class="text-left py-2">Patient Name</td>
+                                <td class="text-right py-2 font-bold">
+                                    <a
+                                        class="hover:text-indigo-400 text-indigo-600 underline decoration-dotted transition-colors space-x-1"
+                                        [routerLink]="[
+                                            '/patients',
+                                            'view',
+                                            data.patient.id,
+                                        ]"
+                                    >
+                                        <span>{{ data.patient.fullName }}</span>
+                                        <mat-icon
+                                            svgIcon="mat_outline:open_in_new"
+                                            class="icon-size-3"
+                                        ></mat-icon>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr class="">
+                                <td class="text-left py-2">Patient ID</td>
+                                <td class="text-right py-2 font-bold">
+                                    #{{ data.patient.patientNo }}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div>
+                        <table class="w-full border-collapse">
+                            <tr class="">
+                                <td class="text-left py-2">Doctor Name</td>
+                                <td class="text-right py-2 font-bold">
+                                    <ng-container *ngIf="data.doctor">
+                                        <a
+                                            class="hover:text-indigo-400 text-indigo-600 underline decoration-dotted transition-colors space-x-1"
+                                            [routerLink]="[
+                                                '/doctors',
+                                                'view',
+                                                data.doctor.id,
+                                            ]"
+                                        >
+                                            <span>{{
+                                                data.doctor.fullName
+                                            }}</span>
+                                            <mat-icon
+                                                svgIcon="mat_outline:open_in_new"
+                                                class="icon-size-3"
+                                            ></mat-icon>
+                                        </a>
+                                    </ng-container>
+                                </td>
+                            </tr>
+                            <tr class="">
+                                <td class="text-left py-2">
+                                    Doctor Specialization
+                                </td>
+                                <td class="text-right py-2 font-bold">
+                                    {{ data.doctor?.specialization }}
+                                </td>
+                            </tr>
+                            <tr class="">
+                                <td class="text-left py-2">Doctor ID</td>
+                                <td class="text-right py-2 font-bold">
+                                    #{{ data.doctor?.doctorNo }}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div>
+                        <table class="w-full border-collapse">
+                            <tr class="">
+                                <td class="text-left py-2">Cashier Name</td>
+                                <td class="text-right py-2 font-bold">
+                                    {{ data.user.fullName }}
+                                </td>
+                            </tr>
+                            <tr class="">
+                                <td class="text-left py-2">Cashier Role</td>
+                                <td class="text-right py-2 font-bold">
+                                    {{ data.user.role }}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div>
+                        <table class="w-full border-collapse">
+                            <tr class="">
+                                <td class="text-left py-2">Receipt ID</td>
+                                <td class="text-right py-2 font-bold">
+                                    #{{ data.receiptNo }}
+                                </td>
+                            </tr>
+                            <tr class="">
+                                <td class="text-left py-2">Created At</td>
+                                <td class="text-right py-2 font-bold">
+                                    {{
+                                        data.createdAt
+                                            | date: "dd-MM-yyyy hh:mm a"
+                                    }}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full pt-2 pb-2 mx-5 bg-white rounded p-5 shadow">
+                <div class="mt-4">
+                    <table class="w-full border-collapse">
+                        <thead>
+                            <tr class="border-b">
+                                <th class="text-left py-2">Item Name</th>
+                                <th class="text-right py-2">Price</th>
+                                <th class="text-right py-2">Quantity</th>
+                                <th class="text-right py-2">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let item of data.items; let i = index"
+                                class="border-b"
+                            >
+                                <td class="py-2">{{ item.name }}</td>
+                                <td class="text-right py-2">
+                                    {{
+                                        item.sellingPrice
+                                            | currency: "MMK" : "" : "0.0-0"
+                                    }}
+                                </td>
+                                <td class="text-right py-2">
+                                    {{ item.quantity }}
+                                </td>
+                                <td class="text-right py-2 w-30">
+                                    {{
+                                        item.sellingPrice * item.quantity
+                                            | currency: "MMK" : "" : "0.0-0"
+                                    }}
+                                </td>
+                            </tr>
+
+                            <!-- Total -->
+                            <tr class="text-center">
+                                <th colspan="3" class="py-2">Sub Total</th>
+                                <th colspan="1" class="py-2">
+                                    {{
+                                        data.subtotal || 0
+                                            | currency: "MMK" : "" : "0.0-0"
+                                    }}
+                                </th>
+                            </tr>
+                            <tr class="text-center">
+                                <th colspan="3" class="py-2">Discount</th>
+                                <th colspan="1" class="py-2">
+                                    {{
+                                        data.discountAmount || 0
+                                            | currency: "MMK" : "" : "0.0-0"
+                                    }}
+                                </th>
+                            </tr>
+                            <tr class="text-center">
+                                <th colspan="3" class="py-2">Total</th>
+                                <th colspan="1" class="py-2">
+                                    {{
+                                        data.grandTotal || 0
+                                            | currency: "MMK" : "" : "0.0-0"
+                                    }}
+                                </th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <app-receipt-item
+        class="pb-10 print:p-0 print:m-0 print-only"
+        [receiptNo]="data.receiptNo"
+        [date]="data.date"
+        [items]="data.items"
+        [patient]="data.patient"
+        [paymentMethod]="data.paymentMethod"
+        [doctor]="data.doctor"
+        [grandTotal]="data.grandTotal"
+        [subTotal]="data.subtotal"
+        [discount]="data.discountAmount"
+        [cashier]="data.user"
+    ></app-receipt-item>
+</div>
+
+<style>
+    /* Hidden on screen (web) */
+    .print-only {
+        display: none;
+    }
+
+    /* Shown on print */
+    @media print {
+        .print-only {
+            display: block; /* Or 'inline', 'flex', etc., depending on the element type */
+        }
+    }
+</style>

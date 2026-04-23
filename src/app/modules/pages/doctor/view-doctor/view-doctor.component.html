@@ -1,0 +1,239 @@
+<div class="w-full" *ngIf="data">
+    <div
+        class="w-full p-3 sm:p-8 mx-auto print:hidden"
+        style="max-width: 1400px"
+    >
+        <div class="mb-4 space-y-4">
+            <div class="flex justify-between">
+                <div class="flex items-center">
+                    <button
+                        mat-icon-button
+                        matTooltip="Back"
+                        routerLink="../.."
+                        type="button"
+                    >
+                        <mat-icon svgIcon="mat_outline:chevron_left"></mat-icon>
+                    </button>
+                    <h2 class="text-3xl font-semibold tracking-tight leading-8">
+                        Doctor Details
+                    </h2>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button
+                        type="button"
+                        mat-flat-button
+                        class="items-center bg-indigo-600 text-white text-sm"
+                        [routerLink]="['/doctors', 'edit', data.id]"
+                    >
+                        <mat-icon
+                            svgIcon="mat_outline:edit"
+                            class="icon-size-5 mr-2"
+                        ></mat-icon>
+                        Edit
+                    </button>
+                </div>
+            </div>
+
+            <div class="w-full py-2 mx-5 bg-white rounded p-5 shadow">
+                <div class="grid md:grid-cols-2 gap-x-20 gap-y-0">
+                    <div>
+                        <table class="w-full border-collapse">
+                            <tr class="">
+                                <td class="text-left py-2">Doctor Name</td>
+                                <td class="text-right py-2 font-bold">
+                                    {{ data.fullName }}
+                                </td>
+                            </tr>
+                            <tr class="">
+                                <td class="text-left py-2">Doctor ID</td>
+                                <td class="text-right py-2 font-bold">
+                                    #{{ data.doctorNo }}
+                                </td>
+                            </tr>
+                            <tr class="">
+                                <td class="text-left py-2">Specialization</td>
+                                <td class="text-right py-2 font-bold">
+                                    {{ data.specialization }}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div>
+                        <table class="w-full border-collapse">
+                            <tr class="">
+                                <td class="text-left py-2">Phone Number</td>
+                                <td class="text-right py-2 font-bold">
+                                    {{ data.phoneNumber || "-" }}
+                                </td>
+                            </tr>
+                            <tr class="">
+                                <td class="text-left py-2">License No</td>
+                                <td class="text-right py-2 font-bold">
+                                    {{ data.licenseNo }}
+                                </td>
+                            </tr>
+                            <tr class="">
+                                <td class="text-left py-2">Status</td>
+                                <td class="text-right py-2 font-bold">
+                                    <app-status-chip
+                                        [status]="
+                                            data.isActive
+                                                ? 'Active'
+                                                : 'Inactive'
+                                        "
+                                    ></app-status-chip>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div>
+                        <table class="w-full border-collapse">
+                            <tr class="">
+                                <td class="text-left py-2">Created At</td>
+                                <td class="text-right py-2 font-bold">
+                                    {{
+                                        data.createdAt
+                                            | date: "dd-MM-yyyy hh:mm a"
+                                    }}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div>
+                        <table class="w-full border-collapse">
+                            <tr class="">
+                                <td class="text-left py-2">Updated At</td>
+                                <td class="text-right py-2 font-bold">
+                                    {{
+                                        data.updatedAt
+                                            | date: "dd-MM-yyyy hh:mm a"
+                                    }}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                *ngIf="appointments"
+                class="w-full py-4 mx-5 bg-white rounded p-5 shadow"
+            >
+                <div class="flex justify-between">
+                    <div class="flex items-center">
+                        <h3
+                            class="text-xl font-semibold tracking-tight leading-8"
+                        >
+                            Appointments
+                        </h3>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <table class="w-full border-collapse">
+                        <thead>
+                            <tr class="border-b">
+                                <th class="text-center py-2">
+                                    Appointment Date
+                                </th>
+                                <th class="text-center py-2">Patient Name</th>
+                                <th class="text-center py-2">Type</th>
+                                <th class="text-center py-2">Case</th>
+                                <th class="text-center py-2">Refer Doctor</th>
+                                <th class="text-center py-2"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="
+                                    let appointment of appointments;
+                                    let i = index
+                                "
+                                class="border-b"
+                            >
+                                <td class="text-center py-2">
+                                    {{
+                                        appointment.appointmentDate
+                                            | date: "dd-MM-yyyy hh:mm a"
+                                    }}
+                                </td>
+                                <td class="text-center py-2">
+                                    <a
+                                        class="hover:text-indigo-400 text-indigo-600 underline decoration-dotted transition-colors space-x-1"
+                                        [routerLink]="[
+                                            '/patients',
+                                            'view',
+                                            appointment.patient.id,
+                                        ]"
+                                    >
+                                        <span>
+                                            {{ appointment.patient.fullName }}
+                                        </span>
+                                        <mat-icon
+                                            svgIcon="mat_outline:open_in_new"
+                                            class="icon-size-3"
+                                        ></mat-icon>
+                                    </a>
+                                </td>
+                                <td class="text-center py-2">
+                                    {{ appointment.appointmentType }}
+                                </td>
+                                <td class="text-center py-2">
+                                    {{ appointment.appointmentCase }}
+                                </td>
+                                <td class="text-center py-2">
+                                    <ng-container
+                                        *ngIf="appointment.referDoctor"
+                                    >
+                                        <a
+                                            class="hover:text-indigo-400 text-indigo-600 underline decoration-dotted transition-colors space-x-1"
+                                            [routerLink]="[
+                                                '/doctors',
+                                                'view',
+                                                appointment.referDoctor.id,
+                                            ]"
+                                        >
+                                            <span>
+                                                {{
+                                                    appointment.referDoctor
+                                                        .fullName
+                                                }}
+                                                ({{
+                                                    appointment.referDoctor
+                                                        .specialization
+                                                }})
+                                            </span>
+                                            <mat-icon
+                                                svgIcon="mat_outline:open_in_new"
+                                                class="icon-size-3"
+                                            ></mat-icon>
+                                        </a>
+                                    </ng-container>
+                                </td>
+                                <td class="flex items-center justify-center">
+                                    <button
+                                        mat-icon-button
+                                        [routerLink]="[
+                                            '/appointments',
+                                            'view',
+                                            appointment.id,
+                                        ]"
+                                        matTooltip="View Details"
+                                    >
+                                        <mat-icon
+                                            svgIcon="feather:info"
+                                            class="icon-size-4"
+                                        ></mat-icon>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

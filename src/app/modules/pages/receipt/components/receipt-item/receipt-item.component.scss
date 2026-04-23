@@ -1,0 +1,61 @@
+/* Thermal receipt — 80mm standard POS printer (~72mm printable) */
+.receipt {
+    width: 72mm;
+    font-family: "Courier New", ui-monospace, monospace;
+    font-size: 11px;
+    line-height: 1.45;
+    color: #000;
+    background: #fff;
+    padding: 4mm;
+}
+.receipt h1,
+.receipt h2,
+.receipt h3 {
+    font-family: inherit;
+}
+.receipt .row {
+    display: flex;
+    justify-content: space-between;
+    gap: 6px;
+}
+.receipt .dashed {
+    border-top: 1px dashed #000;
+    margin: 6px 0;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+.receipt .center {
+    text-align: center;
+}
+.receipt .bold {
+    font-weight: 700;
+}
+.receipt table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.receipt td {
+    vertical-align: top;
+    padding: 1px 0;
+}
+
+@media print {
+    @page {
+        size: 80mm auto;
+        margin: 0;
+    }
+    body * {
+        visibility: hidden;
+    }
+    .receipt,
+    .receipt * {
+        visibility: visible;
+    }
+    .receipt {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 80mm;
+        padding: 3mm;
+    }
+}

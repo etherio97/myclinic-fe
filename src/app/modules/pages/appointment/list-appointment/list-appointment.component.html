@@ -1,0 +1,234 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent"
+    >
+        <div class="flex-1 min-w-0">
+            <div class="mt-2">
+                <h2
+                    class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
+                >
+                    Appointment List
+                </h2>
+            </div>
+        </div>
+        <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <button
+                mat-flat-button
+                color="primary"
+                routerLink="create"
+                class="text-white"
+            >
+                <mat-icon
+                    class="icon-size-5 mr-2"
+                    svgIcon="heroicons_solid:plus"
+                ></mat-icon>
+                New
+            </button>
+        </div>
+    </div>
+
+    <div class="flex-auto p-6 sm:p-10">
+        <div class="w-full pt-2 pb-2 sm:pt-6 sm:pb-2 bg-card rounded shadow">
+            <form
+                [formGroup]="formGroup"
+                class="w-full"
+                (ngSubmit)="reloadData()"
+            >
+                <div class="flex flex-wrap w-full px-3 sm:px-6 pt-2 sm:pt-4">
+                    <div class="w-full sm:w-1/4 pr-6">
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>Start Date</mat-label>
+                            <input
+                                matInput
+                                [matDatepicker]="pickerStart"
+                                formControlName="startDate"
+                            />
+                            <mat-datepicker-toggle
+                                matIconSuffix
+                                [for]="pickerStart"
+                            ></mat-datepicker-toggle>
+                            <mat-datepicker #pickerStart></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="w-full sm:w-1/4 pr-6">
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>End Date</mat-label>
+                            <input
+                                matInput
+                                [matDatepicker]="picker"
+                                formControlName="endDate"
+                            />
+                            <mat-datepicker-toggle
+                                matIconSuffix
+                                [for]="picker"
+                            ></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div
+                    class="flex justify-end w-full border-t px-3 sm:px-6 py-1 sm:py-2 border-gray-200 rounded-b"
+                >
+                    <button
+                        type="submit"
+                        mat-flat-button
+                        color="primary"
+                        class="text-white"
+                    >
+                        Search
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="bg-card shadow rounded mt-3 sm:mt-6">
+            <table
+                class="w-full text-center"
+                mat-table
+                [dataSource]="dataSource"
+            >
+                <ng-container matColumnDef="appointmentDate">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="mx-2 text-center"
+                    >
+                        Appointment Date
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="w-24 text-center"
+                    >
+                        {{
+                            element.appointmentDate | date: "dd/MM/yyyy hh:mm a"
+                        }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="appointmentNo">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="mx-2 text-center"
+                    >
+                        #
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                        {{ element.appointmentNo }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="patientName">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="mx-2 text-center"
+                    >
+                        Patient Name
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                        {{ element.patient?.fullName }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="appointmentType">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="mx-2 text-center"
+                    >
+                        Type
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                        {{ element.appointmentType }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="appointmentCase">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="mx-2 text-center"
+                    >
+                        Case
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                        {{ element.appointmentCase }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="doctorName">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="mx-2 text-center"
+                    >
+                        Doctor Name
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.doctor?.fullName }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="referDoctorName">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="mx-2 text-center"
+                    >
+                        Refer Doctor
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.referDoctor?.fullName }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="actions">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="mx-2 text-center w-30"
+                    >
+                        Actions
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="flex justify-center">
+                            <button
+                                mat-icon-button
+                                [routerLink]="['edit', element.id]"
+                                matTooltip="Edit"
+                            >
+                                <mat-icon
+                                    svgIcon="feather:edit"
+                                    class="icon-size-4"
+                                ></mat-icon>
+                            </button>
+                            <button
+                                *ngIf="['admin', 'manager'].includes(role)"
+                                mat-icon-button
+                                (click)="removeAppointment(element.id)"
+                                matTooltip="Delete"
+                            >
+                                <mat-icon
+                                    svgIcon="heroicons_outline:trash"
+                                    class="icon-size-4"
+                                ></mat-icon>
+                            </button>
+                        </div>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr
+                    mat-row
+                    *matRowDef="let row; columns: displayedColumns"
+                ></tr>
+            </table>
+            <div
+                class="flex flex-row justify-end border-t bg-gray-50 dark:bg-gray-700"
+            >
+                <mat-paginator
+                    showFirstLastButtons
+                    [pageSizeOptions]="[10, 15, 20]"
+                    class="bg-gray-50 dark:bg-gray-700"
+                >
+                </mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>
