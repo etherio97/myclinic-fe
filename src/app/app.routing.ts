@@ -67,6 +67,13 @@ export const appRoutes: Route[] = [
                         (m) => m.AppointmentModule,
                     ),
             },
+            {
+                path: 'appointment-calendar',
+                loadChildren: () =>
+                    import('app/modules/pages/appointment-calendar/appointment-calendar.module').then(
+                        (m) => m.AppointmentCalendarModule,
+                    ),
+            },
         ],
     },
 

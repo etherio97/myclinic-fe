@@ -160,8 +160,8 @@ export class CreateAppointmentComponent implements OnInit {
         if (!data.doctor) delete data.doctor;
         if (!data.referDoctor) delete data.referDoctor;
 
-        this._appointmentService.create(data).subscribe(() => {
-            this._router.navigate(['/patients', 'view', data.patient.id]);
+        this._appointmentService.create(data).subscribe((data: any) => {
+            this._router.navigate(['/appointments', 'view', data.id]);
         });
     }
 }

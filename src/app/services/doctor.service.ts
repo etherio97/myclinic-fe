@@ -8,17 +8,7 @@ import { SERVICE_URLS } from 'app/app.config';
 export class DoctorService {
     constructor(private _http: HttpClient) {}
 
-    getAll({ fullName, doctorNo }: { fullName?: string; doctorNo?: string }) {
-        const params: any = {};
-
-        if (fullName) {
-            params.fullName = fullName;
-        }
-
-        if (doctorNo) {
-            params.doctorNo = doctorNo;
-        }
-
+    getAll(params: any) {
         return this._http.get([SERVICE_URLS.DOCTOR_API, 'list'].join('/'), {
             params,
         });

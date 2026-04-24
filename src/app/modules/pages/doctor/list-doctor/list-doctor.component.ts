@@ -14,10 +14,11 @@ export class ListDoctorComponent implements OnInit, AfterViewInit {
     displayedColumns: string[] = [
         'doctorNo',
         'fullName',
-        'licenseNo',
-        'phoneNumber',
+        // 'licenseNo',
         'specialization',
-        'createdAt',
+        'phoneNumber',
+        'isActive',
+        // 'createdAt',
         'actions',
     ];
 
@@ -56,7 +57,7 @@ export class ListDoctorComponent implements OnInit, AfterViewInit {
     }
 
     reloadData() {
-        const condition: any = {};
+        const condition: any = { listAll: 1 };
 
         if (this.formGroup.value.searchValue) {
             condition[this.formGroup.value.searchBy] =

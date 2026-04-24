@@ -1,16 +1,7 @@
 <div class="receipt mx-auto shadow-card">
     <div class="center">
         <div style="display: flex; place-items: center">
-            <img
-                style="
-                    width: 100px;
-                    height: auto;
-                    margin: auto;
-                    filter: grayscale(100%);
-                "
-                src="assets/logo.png"
-                alt="Logo"
-            />
+            <img class="logo" src="assets/logo.png" alt="Logo" />
         </div>
         <div class="bold">MY အထွေထွေရောဂါကုဆေးခန်း</div>
         <div>
@@ -50,7 +41,7 @@
                 <td>Doctor Name</td>
                 <td style="text-align: right">
                     <ng-container *ngIf="doctor">
-                        {{ doctor.fullName }} ({{ doctor.specailization }})
+                        {{ doctor.fullName }} ({{ doctor.specialization }})
                     </ng-container>
                 </td>
             </tr>

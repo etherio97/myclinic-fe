@@ -182,7 +182,14 @@
 
             <mat-form-field class="w-full">
                 <mat-label>Username</mat-label>
-                <input type="text" matInput formControlName="username" />
+                <input
+                    type="text"
+                    matInput
+                    formControlName="username"
+                    autocapitalize="none"
+                    autocorrect="off"
+                    spellcheck="false"
+                />
             </mat-form-field>
 
             <mat-form-field class="w-full">

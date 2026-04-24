@@ -23,12 +23,14 @@ import {
     NgxNativeDateModule,
 } from '@angular-material-components/datetime-picker';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { ViewAppointmentComponent } from './view-appointment/view-appointment.component';
 
 @NgModule({
     declarations: [
         ListAppointmentComponent,
         CreateAppointmentComponent,
         EditAppointmentComponent,
+        ViewAppointmentComponent,
     ],
     imports: [
         RouterModule.forChild(appointmentRoutes),

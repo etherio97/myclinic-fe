@@ -1,0 +1,287 @@
+<div class="flex-auto -mt-px pt-4 sm:pt-6">
+    <div class="w-full max-w-screen-xl mx-auto space-y-8">
+        <!-- TODAY -->
+        <section>
+            <h2 class="text-2xl font-semibold px-2 pb-4">Today Report</h2>
+            <div
+                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full min-w-0"
+            >
+                <!-- Total Revenue -->
+                <div
+                    class="flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden pb-4"
+                >
+                    <div
+                        class="flex items-baseline justify-center w-full mt-5 text-secondary"
+                    >
+                        <div class="text-md font-bold truncate">
+                            Total Revenue
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center mt-2">
+                        <div
+                            class="text-xl sm:text-4xl font-bold tracking-tight leading-none text-blue-500"
+                        >
+                            {{
+                                searchData?.total_revenue
+                                    | currency: "MMK" : "" : "0.0-0"
+                            }}
+                        </div>
+                        <div
+                            class="text-lg font-medium text-blue-600 dark:text-blue-500"
+                        >
+                            KYATS
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Total Patient -->
+                <div
+                    class="flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden pb-4"
+                >
+                    <div
+                        class="flex items-baseline justify-center w-full mt-5 text-secondary"
+                    >
+                        <div class="text-md font-bold truncate">
+                            New Patients
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center mt-2">
+                        <div
+                            class="text-xl sm:text-4xl font-bold tracking-tight leading-none text-blue-500"
+                        >
+                            {{ searchData?.total_patients }}
+                        </div>
+                        <div
+                            class="text-lg font-medium text-blue-600 dark:text-blue-500"
+                        >
+                            Patients
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Total Appointment -->
+                <div
+                    class="flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden pb-4"
+                >
+                    <div
+                        class="flex items-baseline justify-center w-full mt-5 text-secondary"
+                    >
+                        <div class="text-md font-bold truncate">
+                            Total Appointments
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center mt-2">
+                        <div
+                            class="text-xl sm:text-4xl font-bold tracking-tight leading-none text-blue-500"
+                        >
+                            {{ searchData?.total_appointments }}
+                        </div>
+                        <div
+                            class="text-lg font-medium text-blue-600 dark:text-blue-500"
+                        >
+                            Appointments
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Total Discount -->
+                <div
+                    class="flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden pb-4"
+                >
+                    <div
+                        class="flex items-baseline justify-center w-full mt-5 text-secondary"
+                    >
+                        <div class="text-md font-bold truncate">
+                            Total Discounts
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center mt-2">
+                        <div
+                            class="text-xl sm:text-4xl font-bold tracking-tight leading-none text-blue-500"
+                        >
+                            {{
+                                searchData?.total_discount
+                                    | currency: "MMK" : "" : "0.0-0"
+                            }}
+                        </div>
+                        <div
+                            class="text-lg font-medium text-blue-600 dark:text-blue-500"
+                        >
+                            KYATS
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="text-2xl font-semibold px-2 pb-4">Monthly Report</h2>
+            <!-- MONTHLY -->
+            <div
+                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full min-w-0"
+            >
+                <!-- Total Revenue -->
+                <div
+                    class="flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden pb-4"
+                >
+                    <div
+                        class="flex items-baseline justify-center w-full mt-5 text-secondary"
+                    >
+                        <div class="text-md font-bold truncate">
+                            Total Revenue
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center mt-2">
+                        <div
+                            class="text-xl sm:text-4xl font-bold tracking-tight leading-none text-blue-500"
+                        >
+                            {{
+                                monthlyData?.total_revenue
+                                    | currency: "MMK" : "" : "0.0-0"
+                            }}
+                        </div>
+                        <div
+                            class="text-lg font-medium text-blue-600 dark:text-blue-500"
+                        >
+                            KYATS
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Total Patient -->
+                <div
+                    class="flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden pb-4"
+                >
+                    <div
+                        class="flex items-baseline justify-center w-full mt-5 text-secondary"
+                    >
+                        <div class="text-md font-bold truncate">
+                            New Patients
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center mt-2">
+                        <div
+                            class="text-xl sm:text-4xl font-bold tracking-tight leading-none text-blue-500"
+                        >
+                            {{ monthlyData?.total_patients }}
+                        </div>
+                        <div
+                            class="text-lg font-medium text-blue-600 dark:text-blue-500"
+                        >
+                            Patients
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Total Appointment -->
+                <div
+                    class="flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden pb-4"
+                >
+                    <div
+                        class="flex items-baseline justify-center w-full mt-5 text-secondary"
+                    >
+                        <div class="text-md font-bold truncate">
+                            Total Appointments
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center mt-2">
+                        <div
+                            class="text-xl sm:text-4xl font-bold tracking-tight leading-none text-blue-500"
+                        >
+                            {{ monthlyData?.total_appointments }}
+                        </div>
+                        <div
+                            class="text-lg font-medium text-blue-600 dark:text-blue-500"
+                        >
+                            Appointments
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Total Discount -->
+                <div
+                    class="flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden pb-4"
+                >
+                    <div
+                        class="flex items-baseline justify-center w-full mt-5 text-secondary"
+                    >
+                        <div class="text-md font-bold truncate">
+                            Total Discounts
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center mt-2">
+                        <div
+                            class="text-xl sm:text-4xl font-bold tracking-tight leading-none text-blue-500"
+                        >
+                            {{
+                                monthlyData?.total_discount
+                                    | currency: "MMK" : "" : "0.0-0"
+                            }}
+                        </div>
+                        <div
+                            class="text-lg font-medium text-blue-600 dark:text-blue-500"
+                        >
+                            KYATS
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Average Revenue -->
+                <div
+                    class="flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden pb-4"
+                >
+                    <div
+                        class="flex items-baseline justify-center w-full mt-5 text-secondary"
+                    >
+                        <div class="text-md font-bold truncate">
+                            Average Revenue
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center mt-2">
+                        <div
+                            class="text-xl sm:text-4xl font-bold tracking-tight leading-none text-blue-500"
+                        >
+                            {{
+                                monthlyData?.avg_daily_revenue
+                                    | currency: "MMK" : "" : "0.0-0"
+                            }}
+                        </div>
+                        <div
+                            class="text-lg font-medium text-blue-600 dark:text-blue-500"
+                        >
+                            KYATS
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Average Spending -->
+                <div
+                    class="flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden pb-4"
+                >
+                    <div
+                        class="flex items-baseline justify-center w-full mt-5 text-secondary"
+                    >
+                        <div class="text-md font-bold truncate">
+                            Average Spending
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center mt-2">
+                        <div
+                            class="text-xl sm:text-4xl font-bold tracking-tight leading-none text-blue-500"
+                        >
+                            {{
+                                monthlyData?.avg_per_patient
+                                    | currency: "MMK" : "" : "0.0-0"
+                            }}
+                        </div>
+                        <div
+                            class="text-lg font-medium text-blue-600 dark:text-blue-500"
+                        >
+                            KYATS
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

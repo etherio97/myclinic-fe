@@ -1,8 +1,5 @@
 <div class="w-full" *ngIf="data">
-    <div
-        class="w-full p-3 sm:p-8 mx-auto print:hidden"
-        style="max-width: 1400px"
-    >
+    <div class="w-full p-3 sm:p-8 mx-auto" style="max-width: 1400px">
         <div class="mb-4 space-y-4">
             <div class="flex justify-between">
                 <div class="flex items-center">
@@ -124,35 +121,38 @@
                 </div>
             </div>
 
-            <div
-                *ngIf="appointments"
-                class="w-full py-4 mx-5 bg-white rounded p-5 shadow"
-            >
-                <div class="flex justify-between">
-                    <div class="flex items-center">
-                        <h3
-                            class="text-xl font-semibold tracking-tight leading-8"
-                        >
-                            Appointments
-                        </h3>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <button
-                            type="button"
-                            mat-stroked-button
-                            class="items-center text-sm"
-                            [routerLink]="['/appointments', 'create', data.id]"
-                        >
-                            <mat-icon
-                                svgIcon="mat_outline:edit_calendar"
-                                class="icon-size-5 mr-2"
-                            ></mat-icon>
-                            Create Appointment
-                        </button>
+            <div class="w-full mx-5 bg-white rounded overflow-hidden shadow">
+                <div
+                    class="bg-[#f2f2f2] px-5 py-2 w-full border-b border-[#e2e2e2]"
+                >
+                    <div class="flex justify-between">
+                        <div class="flex items-center">
+                            <h3 class="font-semibold tracking-tight leading-8">
+                                Appointments
+                            </h3>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button
+                                type="button"
+                                mat-stroked-button
+                                class="items-center text-sm"
+                                [routerLink]="[
+                                    '/appointments',
+                                    'create',
+                                    data.id,
+                                ]"
+                            >
+                                <mat-icon
+                                    svgIcon="mat_outline:edit_calendar"
+                                    class="icon-size-5 mr-2"
+                                ></mat-icon>
+                                Create Appointment
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                <div class="mt-4">
+                <div class="mt-4 p-5">
                     <table class="w-full border-collapse">
                         <thead>
                             <tr class="border-b">
@@ -163,6 +163,7 @@
                                 <th class="text-center py-2">Case</th>
                                 <th class="text-center py-2">Doctor</th>
                                 <th class="text-center py-2">Refer Doctor</th>
+                                <th class="text-center py-2">Status</th>
                                 <th class="text-center py-2"></th>
                             </tr>
                         </thead>
@@ -241,6 +242,11 @@
                                         </a>
                                     </ng-container>
                                 </td>
+                                <td class="text-center py-2">
+                                    <app-status-chip
+                                        [status]="appointment.status"
+                                    ></app-status-chip>
+                                </td>
                                 <td class="flex items-center justify-center">
                                     <button
                                         mat-icon-button
@@ -265,33 +271,35 @@
 
             <div
                 *ngIf="receipts"
-                class="w-full py-4 mx-5 bg-white rounded p-5 shadow"
+                class="w-full mx-5 bg-white rounded overflow-hidden shadow"
             >
-                <div class="flex justify-between">
-                    <div class="flex items-center">
-                        <h3
-                            class="text-xl font-semibold tracking-tight leading-8"
-                        >
-                            Receipts
-                        </h3>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <button
-                            type="button"
-                            mat-stroked-button
-                            class="items-center text-sm"
-                            [routerLink]="['/receipts', 'create', data.id]"
-                        >
-                            <mat-icon
-                                svgIcon="mat_outline:add_shopping_cart"
-                                class="icon-size-5 mr-2"
-                            ></mat-icon>
-                            Create Receipt
-                        </button>
+                <div
+                    class="bg-[#f2f2f2] px-5 py-2 w-full border-b border-[#e2e2e2]"
+                >
+                    <div class="flex justify-between">
+                        <div class="flex items-center">
+                            <h3 class="font-semibold tracking-tight leading-8">
+                                Receipts
+                            </h3>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button
+                                type="button"
+                                mat-stroked-button
+                                class="items-center text-sm"
+                                [routerLink]="['/receipts', 'create', data.id]"
+                            >
+                                <mat-icon
+                                    svgIcon="mat_outline:add_shopping_cart"
+                                    class="icon-size-5 mr-2"
+                                ></mat-icon>
+                                Create Receipt
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                <div class="mt-4">
+                <div class="mt-4 p-5">
                     <table class="w-full border-collapse">
                         <thead>
                             <tr class="border-b">

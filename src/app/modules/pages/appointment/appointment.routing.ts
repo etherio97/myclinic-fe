@@ -2,6 +2,7 @@ import { Route } from '@angular/router';
 import { ListAppointmentComponent } from './list-appointment/list-appointment.component';
 import { CreateAppointmentComponent } from './create-appointment/create-appointment.component';
 import { EditAppointmentComponent } from './edit-appointment/edit-appointment.component';
+import { ViewAppointmentComponent } from './view-appointment/view-appointment.component';
 
 export const appointmentRoutes: Route[] = [
     {
@@ -19,5 +20,9 @@ export const appointmentRoutes: Route[] = [
     {
         path: 'edit/:id',
         component: EditAppointmentComponent,
+    },
+    {
+        path: 'view/:id',
+        component: ViewAppointmentComponent,
     },
 ];

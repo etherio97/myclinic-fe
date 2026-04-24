@@ -40,6 +40,8 @@ export class CreateReceiptComponent implements OnInit {
 
     patientId = '';
 
+    doctorId = '';
+
     cashier!: any;
 
     constructor(
@@ -74,9 +76,20 @@ export class CreateReceiptComponent implements OnInit {
 
         this.route.params.subscribe(({ patientId }) => {
             if (!patientId) return;
+
             this.patientId = patientId;
             this._patientService.findById(patientId).subscribe((result) => {
                 this.formGroup.controls.patient.setValue(result);
+            });
+
+            this.route.queryParamMap.subscribe((params) => {
+                if (!params.has('doctorId')) return;
+                this.doctorId = <string>params.get('doctorId');
+                this._doctorService
+                    .findById(this.doctorId)
+                    .subscribe((result) => {
+                        this.formGroup.controls.doctor.setValue(result);
+                    });
             });
         });
 
@@ -128,9 +141,16 @@ export class CreateReceiptComponent implements OnInit {
         const filterValue =
             typeof value === 'string' ? value.toLowerCase() : '';
 
-        return this.items.filter((option) =>
-            option.name.toLowerCase().includes(filterValue),
-        );
+        return this.items
+            .filter(
+                (option) =>
+                    !this.selectedItems.some(
+                        (selected) => selected.id == option.id,
+                    ),
+            )
+            .filter((option) =>
+                option.name.toLowerCase().includes(filterValue),
+            );
     }
 
     onItemSelect(event: MatAutocompleteSelectedEvent): void {

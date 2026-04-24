@@ -4,6 +4,7 @@ import { MY_DATE_FORMATS } from 'app/app.config';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { AppointmentService } from 'app/services/appointment.service';
 import { DoctorService } from 'app/services/doctor.service';
+import { FuseConfirmationService } from '@fuse/services/confirmation';
 
 @Component({
     selector: 'app-view-doctor',
@@ -20,6 +21,7 @@ export class ViewDoctorComponent implements OnInit {
     constructor(
         private _appointmentService: AppointmentService,
         private _doctorService: DoctorService,
+        private _confirmService: FuseConfirmationService,
         private route: ActivatedRoute,
     ) {}
 
@@ -31,20 +33,48 @@ export class ViewDoctorComponent implements OnInit {
     }
 
     loadData() {
+        this.loadDoctorDetails();
+        this.loadAppointments();
+    }
+
+    private loadDoctorDetails() {
         this._doctorService.findById(this.id).subscribe((result) => {
             this.data = result;
         });
+    }
 
+    private loadAppointments() {
         this._appointmentService
             .getDoctorAppointments(this.id)
             .subscribe((result) => {
-                console.log(result);
                 this.appointments = result;
             });
     }
 
-    handlePrint() {
-        window.print();
+    changeStatus() {
+        let message = '';
+        if (this.data.isActive) {
+            message = 'Are you sure do you want to inactive this doctor?';
+        } else {
+            message = 'Are you sure do you want to active this doctor?';
+        }
+        this._confirmService
+            .open({
+                title: 'Confirmation',
+                message,
+                dismissible: true,
+            })
+            .beforeClosed()
+            .subscribe(
+                (value) => value === 'confirmed' && this.confirmChangeStatus(),
+            );
+    }
+
+    private confirmChangeStatus() {
+        let isActive = !this.data.isActive;
+        this._doctorService.update(this.id, { isActive }).subscribe((data) => {
+            setTimeout(() => this.loadDoctorDetails());
+        });
     }
 
     calculateAge(dateOfBirth: string): number {

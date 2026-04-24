@@ -34,15 +34,12 @@
                             "crypto-js/enc-base64"
                         ],
                         "assets": [
-                            "src/favicon-16x16.png",
-                            "src/favicon-32x32.png",
+                            "src/favicon.png",
                             "src/version",
                             "src/assets"
                         ],
                         "stylePreprocessorOptions": {
-                            "includePaths": [
-                                "src/@fuse/styles"
-                            ]
+                            "includePaths": ["src/@fuse/styles"]
                         },
                         "styles": [
                             "src/@fuse/styles/tailwind.scss",
@@ -113,24 +110,15 @@
                         "tsConfig": "tsconfig.spec.json",
                         "karmaConfig": "karma.conf.js",
                         "inlineStyleLanguage": "scss",
-                        "assets": [
-                            "src/favicon-16x16.png",
-                            "src/favicon-32x32.png",
-                            "src/assets"
-                        ],
-                        "styles": [
-                            "src/styles/styles.scss"
-                        ],
+                        "assets": ["src/favicon.png", "src/assets"],
+                        "styles": ["src/styles/styles.scss"],
                         "scripts": []
                     }
                 },
                 "lint": {
                     "builder": "@angular-eslint/builder:lint",
                     "options": {
-                        "lintFilePatterns": [
-                            "src/**/*.ts",
-                            "src/**/*.html"
-                        ]
+                        "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
                     }
                 }
             }

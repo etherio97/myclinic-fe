@@ -113,7 +113,7 @@ export class ListUserComponent implements OnInit, AfterViewInit {
             this._confirmService.open({
                 title: 'Success',
                 message: 'User has been added!',
-                icon: { color: 'success', name: '' },
+                icon: { color: 'success', name: 'mat_outline:check' },
                 actions: {
                     confirm: { show: false },
                     cancel: { label: 'OK' },

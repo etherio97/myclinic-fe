@@ -26,7 +26,7 @@ export class CreateDoctorComponent implements OnInit {
             fullName: ['', Validators.required],
             specialization: ['', Validators.required],
             licenseNo: ['', Validators.required],
-            phoneNumber: [''],
+            phoneNumber: ['', Validators.required],
         });
     }
 

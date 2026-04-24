@@ -171,7 +171,7 @@ export class EditAppointmentComponent implements OnInit {
         if (!data.referDoctor) delete data.referDoctor;
 
         this._appointmentService.update(this.id, data).subscribe(() => {
-            this._router.navigate(['/appointments']);
+            this._router.navigate(['/appointments', 'view', this.id]);
         });
     }
 }

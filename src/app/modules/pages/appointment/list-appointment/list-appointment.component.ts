@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
+import { APP_CONFIG } from 'app/app.config';
 import { UserService } from 'app/core/user/user.service';
 import { AppointmentService } from 'app/services/appointment.service';
 import moment from 'moment';
@@ -13,10 +14,12 @@ import moment from 'moment';
 })
 export class ListAppointmentComponent implements OnInit, AfterViewInit {
     displayedColumns: string[] = [
-        'appointmentNo',
+        // 'appointmentNo',
         'appointmentDate',
         'patientName',
-        'appointmentType',
+        'status',
+        'phoneNumber',
+        // 'appointmentType',
         'appointmentCase',
         'doctorName',
         'referDoctorName',
@@ -33,6 +36,8 @@ export class ListAppointmentComponent implements OnInit, AfterViewInit {
 
     @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+    appointmentStatus = APP_CONFIG.APPOINTMENT_STATUS;
+
     constructor(
         private _fb: FormBuilder,
         private confirmService: FuseConfirmationService,
@@ -44,6 +49,7 @@ export class ListAppointmentComponent implements OnInit, AfterViewInit {
         this.formGroup = this._fb.group({
             startDate: [moment()],
             endDate: [moment()],
+            status: [''],
         });
 
         this._userService.get().subscribe((user) => {
@@ -74,6 +80,9 @@ export class ListAppointmentComponent implements OnInit, AfterViewInit {
             condition.endDate = moment(
                 this.formGroup.controls.endDate.value,
             ).format('yyyy-MM-DD');
+        }
+        if (this.formGroup.controls.status.value) {
+            condition.status = this.formGroup.controls.status.value;
         }
         this._appointmentService.getAll(condition).subscribe((data: any) => {
             this.searchResult = this.dataSource.data = data;

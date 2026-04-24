@@ -1,6 +1,6 @@
 import { FuseNavigationItem } from '../@fuse/components/navigation';
 
-export const BASE_URL = 'http://localhost:3000';
+export const BASE_URL = `http://${location.hostname}:3000`;
 
 export const SERVICE_URLS = {
     DOCTOR_API: `${BASE_URL}/doctor`,
@@ -9,6 +9,7 @@ export const SERVICE_URLS = {
     RECEIPT_API: `${BASE_URL}/receipt`,
     AUTH_API: `${BASE_URL}/auth`,
     APPOINTMENT_API: `${BASE_URL}/appointment`,
+    DASHBOARD_API: `${BASE_URL}/dashboard`,
 };
 
 export const MY_DATE_FORMATS = {
@@ -40,6 +41,7 @@ export const APP_CONFIG = {
         'O+',
         'O-',
     ],
+    APPOINTMENT_STATUS: ['Booked', 'Completed', 'No Show', 'Cancelled'],
     APPOINTMENT_TYPES: ['Old', 'New', 'Follow Up'],
     APPOINTMENT_CASES: [
         'OPD',
@@ -58,7 +60,7 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
                 id: 'dashboard',
                 title: 'Dashboard',
                 type: 'basic',
-                icon: 'mat_outline:dashboard',
+                icon: 'mat_solid:dashboard',
                 link: '/dashboard',
                 meta: {
                     roles: ['admin', 'manager', 'cashier'],
@@ -68,7 +70,7 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
                 id: 'patients',
                 title: 'Patients',
                 type: 'basic',
-                icon: 'mat_outline:people',
+                icon: 'mat_solid:people',
                 link: '/patients',
                 meta: {
                     roles: ['admin', 'manager', 'cashier'],
@@ -78,7 +80,7 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
                 id: 'receipts',
                 title: 'Receipts',
                 type: 'basic',
-                icon: 'mat_outline:receipt_long',
+                icon: 'mat_solid:receipt_long',
                 link: '/receipts',
                 meta: {
                     roles: ['admin', 'manager', 'cashier'],
@@ -88,8 +90,18 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
                 id: 'appointments',
                 title: 'Appointments',
                 type: 'basic',
-                icon: 'mat_outline:edit_calendar',
+                icon: 'mat_solid:edit_calendar',
                 link: '/appointments',
+                meta: {
+                    roles: ['admin', 'manager', 'cashier'],
+                },
+            },
+            {
+                id: 'appointment-calendar',
+                title: 'Appointment Calendar',
+                type: 'basic',
+                icon: 'heroicons_solid:calendar',
+                link: '/appointment-calendar',
                 meta: {
                     roles: ['admin', 'manager', 'cashier'],
                 },
@@ -98,7 +110,7 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
                 id: 'doctors',
                 title: 'Doctors',
                 type: 'basic',
-                icon: 'mat_outline:local_hospital',
+                icon: 'mat_solid:local_hospital',
                 link: '/doctors',
                 meta: {
                     roles: ['admin', 'manager', 'cashier'],
@@ -108,7 +120,7 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
                 id: 'items',
                 title: 'Items',
                 type: 'basic',
-                icon: 'mat_outline:inventory_2',
+                icon: 'mat_solid:inventory_2',
                 link: '/items',
                 meta: {
                     roles: ['admin', 'manager'],
@@ -119,7 +131,7 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
                 id: 'users',
                 title: 'Users',
                 type: 'basic',
-                icon: 'mat_outline:admin_panel_settings',
+                icon: 'mat_solid:admin_panel_settings',
                 link: '/users',
                 meta: {
                     roles: ['admin'],

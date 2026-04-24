@@ -1,0 +1,20 @@
+<div class="w-full p-3 sm:p-8 mx-auto" style="max-width: 1400px">
+    <div class="w-full py-2 mx-5 bg-white rounded p-5 shadow">
+        <full-calendar
+            *ngIf="calendarVisible"
+            [options]="calendarOptions"
+            [events]="appointments"
+        >
+            <ng-template #eventContent let-arg>
+                <span class="space-x-1 flex items-center">
+                    <span
+                        class="h-2 rounded-full w-2"
+                        [ngClass]="ngClass(arg.event.id)"
+                    ></span>
+                    <b>{{ arg.timeText }}</b>
+                    <i>{{ arg.event.title }}</i>
+                </span>
+            </ng-template>
+        </full-calendar>
+    </div>
+</div>

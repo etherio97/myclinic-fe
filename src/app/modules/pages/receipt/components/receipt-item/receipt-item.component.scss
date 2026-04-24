@@ -38,6 +38,13 @@
     vertical-align: top;
     padding: 1px 0;
 }
+.receipt .logo {
+    width: 100px;
+    height: auto;
+    margin: auto;
+    filter: grayscale(100%);
+    -webkit-filter: grayscale(100%);
+}
 
 @media print {
     @page {

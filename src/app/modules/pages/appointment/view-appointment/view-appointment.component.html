@@ -1,0 +1,444 @@
+<div class="w-full" *ngIf="data">
+    <div class="w-full p-3 sm:p-8 mx-auto" style="max-width: 1400px">
+        <div class="mb-4 space-y-4">
+            <div class="flex justify-between">
+                <div class="flex items-center">
+                    <button
+                        mat-icon-button
+                        matTooltip="Back"
+                        routerLink="../.."
+                        type="button"
+                    >
+                        <mat-icon svgIcon="mat_outline:chevron_left"></mat-icon>
+                    </button>
+                    <h2 class="text-3xl font-semibold tracking-tight leading-8">
+                        Appointment Details
+                    </h2>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button
+                        type="button"
+                        mat-flat-button
+                        class="items-center bg-cyan-600 text-white text-sm"
+                        [routerLink]="['/receipts', 'create', data.patient.id]"
+                        [queryParams]="{ doctorId: data.doctor?.id || '' }"
+                    >
+                        <mat-icon
+                            svgIcon="mat_outline:add_shopping_cart"
+                            class="icon-size-5 mr-2"
+                        ></mat-icon>
+                        Create Receipt
+                    </button>
+
+                    <button
+                        type="button"
+                        mat-flat-button
+                        class="items-center bg-amber-600 text-white text-sm"
+                        (click)="openChangeStatusModal()"
+                    >
+                        <mat-icon
+                            svgIcon="mat_outline:published_with_changes"
+                            class="icon-size-5 mr-2"
+                        ></mat-icon>
+                        Change Status
+                    </button>
+
+                    <button
+                        type="button"
+                        mat-flat-button
+                        class="items-center bg-indigo-600 text-white text-sm"
+                        [routerLink]="['/appointments', 'edit', data.id]"
+                    >
+                        <mat-icon
+                            svgIcon="mat_outline:edit"
+                            class="icon-size-5 mr-2"
+                        ></mat-icon>
+                        Edit
+                    </button>
+                </div>
+            </div>
+
+            <div class="w-full mx-5 bg-white rounded overflow-hidden shadow">
+                <div class="p-5">
+                    <div class="grid md:grid-cols-2 gap-x-20 gap-y-0">
+                        <div>
+                            <table class="w-full border-collapse">
+                                <tr class="">
+                                    <td class="text-left py-2">
+                                        Appointment ID
+                                    </td>
+                                    <td class="text-right py-2 font-bold">
+                                        #{{ data.appointmentNo }}
+                                    </td>
+                                </tr>
+                                <tr class="">
+                                    <td class="text-left py-2">
+                                        Appointment Date
+                                    </td>
+                                    <td class="text-right py-2 font-bold">
+                                        {{
+                                            data.appointmentDate
+                                                | date: "dd-MM-yyyy hh:mm a"
+                                        }}
+                                    </td>
+                                </tr>
+                                <tr class="">
+                                    <td class="text-left py-2">
+                                        Contact Number
+                                    </td>
+                                    <td class="text-right py-2 font-bold">
+                                        {{ data.phoneNumber }}
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div>
+                            <table class="w-full border-collapse">
+                                <tr class="">
+                                    <td class="text-left py-2">
+                                        Appointment Case
+                                    </td>
+                                    <td class="text-right py-2 font-bold">
+                                        {{ data.appointmentCase }}
+                                    </td>
+                                </tr>
+                                <tr class="">
+                                    <td class="text-left py-2">
+                                        Appointment Type
+                                    </td>
+                                    <td class="text-right py-2 font-bold">
+                                        {{ data.appointmentType }}
+                                    </td>
+                                </tr>
+                                <tr class="">
+                                    <td class="text-left py-2">
+                                        Appointment Status
+                                    </td>
+                                    <td class="text-right py-2 font-bold">
+                                        <app-status-chip
+                                            [status]="data.status"
+                                        ></app-status-chip>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div>
+                            <table class="w-full border-collapse">
+                                <tr class="">
+                                    <td class="text-left py-2">Created At</td>
+                                    <td class="text-right py-2 font-bold">
+                                        {{
+                                            data.createdAt
+                                                | date: "dd-MM-yyyy hh:mm a"
+                                        }}
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div>
+                            <table class="w-full border-collapse">
+                                <tr class="">
+                                    <td class="text-left py-2">Updated At</td>
+                                    <td class="text-right py-2 font-bold">
+                                        {{
+                                            data.updatedAt
+                                                | date: "dd-MM-yyyy hh:mm a"
+                                        }}
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full mx-5 bg-white rounded overflow-hidden shadow">
+                <div
+                    class="bg-[#f2f2f2] px-5 py-2 w-full border-b border-[#e2e2e2]"
+                >
+                    <h4 class="font-semibold">Patient Information</h4>
+                </div>
+                <div class="p-5">
+                    <div class="grid md:grid-cols-2 gap-x-20 gap-y-0">
+                        <div>
+                            <table class="w-full border-collapse">
+                                <tr class="">
+                                    <td class="text-left py-2">Patient Name</td>
+                                    <td class="text-right py-2 font-bold">
+                                        <a
+                                            class="hover:text-indigo-400 text-indigo-600 underline decoration-dotted transition-colors space-x-1"
+                                            [routerLink]="[
+                                                '/patients',
+                                                'view',
+                                                data.patient.id,
+                                            ]"
+                                        >
+                                            <span>{{
+                                                data.patient.fullName
+                                            }}</span>
+                                            <mat-icon
+                                                svgIcon="mat_outline:open_in_new"
+                                                class="icon-size-3"
+                                            ></mat-icon>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr class="">
+                                    <td class="text-left py-2">Patient ID</td>
+                                    <td class="text-right py-2 font-bold">
+                                        #{{ data.patient.patientNo }}
+                                    </td>
+                                </tr>
+                                <tr class="">
+                                    <td class="text-left py-2">Gender</td>
+                                    <td class="text-right py-2 font-bold">
+                                        {{ data.patient.gender }}
+                                    </td>
+                                </tr>
+                                <tr class="">
+                                    <td class="text-left py-2">Phone Number</td>
+                                    <td class="text-right py-2 font-bold">
+                                        {{ data.patient.phoneNumber }}
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div>
+                            <table class="w-full border-collapse">
+                                <tr class="">
+                                    <td class="text-left py-2">Age</td>
+                                    <td class="text-right py-2 font-bold">
+                                        {{
+                                            calculateAge(
+                                                data.patient.dateOfBirth
+                                            )
+                                        }}
+                                        years
+                                    </td>
+                                </tr>
+                                <tr class="">
+                                    <td class="text-left py-2">
+                                        Date of Birth
+                                    </td>
+                                    <td class="text-right py-2 font-bold">
+                                        {{
+                                            data.patient.dateOfBirth
+                                                | date: "dd/MM/yyyy"
+                                        }}
+                                    </td>
+                                </tr>
+                                <tr class="">
+                                    <td class="text-left py-2">Blood Type</td>
+                                    <td class="text-right py-2 font-bold">
+                                        {{ data.patient.bloodType || "-" }}
+                                    </td>
+                                </tr>
+                                <tr class="">
+                                    <td class="text-left py-2">Address</td>
+                                    <td class="text-right py-2 font-bold">
+                                        {{ data.patient.address || "-" }}
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full mx-5 bg-white rounded overflow-hidden shadow">
+                <div
+                    class="bg-[#f2f2f2] px-5 py-2 w-full border-b border-[#e2e2e2]"
+                >
+                    <h4 class="font-semibold">Doctor Information</h4>
+                </div>
+                <div class="p-5">
+                    <div class="grid md:grid-cols-2 gap-x-20 gap-y-0">
+                        <div>
+                            <table class="w-full border-collapse">
+                                <tr class="">
+                                    <td class="text-left py-2">Doctor Name</td>
+                                    <td class="text-right py-2 font-bold">
+                                        <ng-container *ngIf="data.doctor">
+                                            <a
+                                                class="hover:text-indigo-400 text-indigo-600 underline decoration-dotted transition-colors space-x-1"
+                                                [routerLink]="[
+                                                    '/doctors',
+                                                    'view',
+                                                    data.doctor.id,
+                                                ]"
+                                            >
+                                                <span>{{
+                                                    data.doctor.fullName
+                                                }}</span>
+                                                <mat-icon
+                                                    svgIcon="mat_outline:open_in_new"
+                                                    class="icon-size-3"
+                                                ></mat-icon>
+                                            </a>
+                                        </ng-container>
+                                    </td>
+                                </tr>
+                                <tr class="">
+                                    <td class="text-left py-2">Doctor ID</td>
+                                    <td class="text-right py-2 font-bold">
+                                        #{{ data.doctor?.doctorNo }}
+                                    </td>
+                                </tr>
+                                <tr class="">
+                                    <td class="text-left py-2">
+                                        Specialization
+                                    </td>
+                                    <td class="text-right py-2 font-bold">
+                                        {{ data.doctor?.specialization }}
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div>
+                            <table class="w-full border-collapse">
+                                <tr class="">
+                                    <td class="text-left py-2">Phone Number</td>
+                                    <td class="text-right py-2 font-bold">
+                                        {{ data.doctor?.phoneNumber || "-" }}
+                                    </td>
+                                </tr>
+                                <tr class="">
+                                    <td class="text-left py-2">License No</td>
+                                    <td class="text-right py-2 font-bold">
+                                        {{ data.doctor?.licenseNo }}
+                                    </td>
+                                </tr>
+                                <tr class="">
+                                    <td class="text-left py-2">Status</td>
+                                    <td class="text-right py-2 font-bold">
+                                        <app-status-chip
+                                            [status]="
+                                                data.doctor?.isActive
+                                                    ? 'Active'
+                                                    : 'Inactive'
+                                            "
+                                        ></app-status-chip>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="w-full mx-5 bg-white rounded overflow-hidden shadow"
+                *ngIf="data.referDoctor"
+            >
+                <div
+                    class="bg-[#f2f2f2] px-5 py-2 w-full border-b border-[#e2e2e2]"
+                >
+                    <h4 class="font-semibold">Refer Doctor Information</h4>
+                </div>
+                <div class="p-5">
+                    <div class="grid md:grid-cols-2 gap-x-20 gap-y-0">
+                        <div>
+                            <table class="w-full border-collapse">
+                                <tr class="">
+                                    <td class="text-left py-2">Doctor Name</td>
+                                    <td class="text-right py-2 font-bold">
+                                        <a
+                                            class="hover:text-indigo-400 text-indigo-600 underline decoration-dotted transition-colors space-x-1"
+                                            [routerLink]="[
+                                                '/doctors',
+                                                'view',
+                                                data.referDoctor.id,
+                                            ]"
+                                        >
+                                            <span>{{
+                                                data.referDoctor.fullName
+                                            }}</span>
+                                            <mat-icon
+                                                svgIcon="mat_outline:open_in_new"
+                                                class="icon-size-3"
+                                            ></mat-icon>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr class="">
+                                    <td class="text-left py-2">Doctor ID</td>
+                                    <td class="text-right py-2 font-bold">
+                                        #{{ data.referDoctor.doctorNo }}
+                                    </td>
+                                </tr>
+                                <tr class="">
+                                    <td class="text-left py-2">
+                                        Specialization
+                                    </td>
+                                    <td class="text-right py-2 font-bold">
+                                        {{ data.referDoctor.specialization }}
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div>
+                            <table class="w-full border-collapse">
+                                <tr class="">
+                                    <td class="text-left py-2">Phone Number</td>
+                                    <td class="text-right py-2 font-bold">
+                                        {{
+                                            data.referDoctor.phoneNumber || "-"
+                                        }}
+                                    </td>
+                                </tr>
+                                <tr class="">
+                                    <td class="text-left py-2">License No</td>
+                                    <td class="text-right py-2 font-bold">
+                                        {{ data.referDoctor.licenseNo }}
+                                    </td>
+                                </tr>
+                                <tr class="">
+                                    <td class="text-left py-2">Status</td>
+                                    <td class="text-right py-2 font-bold">
+                                        <app-status-chip
+                                            [status]="
+                                                data.referDoctor.isActive
+                                                    ? 'Active'
+                                                    : 'Inactive'
+                                            "
+                                        ></app-status-chip>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #changeStatusModalRef>
+    <form [formGroup]="formGroup" (ngSubmit)="submit()">
+        <div>
+            <mat-form-field class="w-full">
+                <mat-label>Status</mat-label>
+                <mat-select formControlName="status">
+                    <mat-option
+                        *ngFor="let status of appointmentStatus"
+                        [value]="status"
+                    >
+                        {{ status }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <div class="flex justify-center space-x-2 items-center">
+                <button mat-button class="bg-indigo-600 text-white">
+                    Save
+                </button>
+            </div>
+        </div>
+    </form>
+</ng-template>

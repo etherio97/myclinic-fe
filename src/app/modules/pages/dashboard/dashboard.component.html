@@ -15,4 +15,13 @@
             <!-- buttons -->
         </div>
     </div>
+
+    <div class="flex-auto p-6 sm:p-10">
+        <app-admin-dashboard
+            *ngIf="['admin'].includes(role)"
+        ></app-admin-dashboard>
+        <app-manager-dashboard
+            *ngIf="!['admin'].includes(role)"
+        ></app-manager-dashboard>
+    </div>
 </div>
