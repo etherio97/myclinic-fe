@@ -66,23 +66,17 @@
                                     {{ data.specialization }}
                                 </td>
                             </tr>
+                            <tr class="">
+                                <td class="text-left py-2">Remarks</td>
+                                <td class="text-right py-2 font-bold">
+                                    {{ data.remarks }}
+                                </td>
+                            </tr>
                         </table>
                     </div>
 
                     <div>
                         <table class="w-full border-collapse">
-                            <tr class="">
-                                <td class="text-left py-2">Phone Number</td>
-                                <td class="text-right py-2 font-bold">
-                                    {{ data.phoneNumber || "-" }}
-                                </td>
-                            </tr>
-                            <tr class="">
-                                <td class="text-left py-2">License No</td>
-                                <td class="text-right py-2 font-bold">
-                                    {{ data.licenseNo }}
-                                </td>
-                            </tr>
                             <tr class="">
                                 <td class="text-left py-2">Status</td>
                                 <td class="text-right py-2 font-bold">
@@ -93,6 +87,18 @@
                                                 : 'Inactive'
                                         "
                                     ></app-status-chip>
+                                </td>
+                            </tr>
+                            <tr class="">
+                                <td class="text-left py-2">Phone Number</td>
+                                <td class="text-right py-2 font-bold">
+                                    {{ data.phoneNumber || "-" }}
+                                </td>
+                            </tr>
+                            <tr class="">
+                                <td class="text-left py-2">Address</td>
+                                <td class="text-right py-2 font-bold">
+                                    {{ data.address }}
                                 </td>
                             </tr>
                         </table>

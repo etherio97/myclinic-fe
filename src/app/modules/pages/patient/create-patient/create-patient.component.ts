@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { APP_CONFIG, MY_DATE_FORMATS } from 'app/app.config';
 import { PatientService } from 'app/services/patient.service';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import moment from 'moment';
 import { clone } from 'lodash';
+import { ConfirmService } from 'app/services/confirm.service';
 
 @Component({
     selector: 'app-create-patient',
@@ -16,14 +16,12 @@ import { clone } from 'lodash';
 export class CreatePatientComponent implements OnInit {
     formGroup!: FormGroup;
 
-    bloodTypes = APP_CONFIG.BLOOD_TYPES;
-
     genders = APP_CONFIG.GENDERS;
 
     constructor(
         private _patientService: PatientService,
         private _fb: FormBuilder,
-        private _confirmService: FuseConfirmationService,
+        private _confirmService: ConfirmService,
         private _router: Router,
     ) {}
 
@@ -34,8 +32,10 @@ export class CreatePatientComponent implements OnInit {
             dateOfBirth: [''],
             age: [''],
             phoneNumber: ['', Validators.required],
-            bloodType: [''],
+            nrcNumber: [''],
             address: [''],
+            ssbNumber: [''],
+            notes: [''],
         });
 
         this.formGroup.controls.age.valueChanges.subscribe((value) => {
@@ -50,23 +50,14 @@ export class CreatePatientComponent implements OnInit {
 
     submit() {
         if (!this.formGroup.valid) {
-            return this._confirmService.open({
-                title: 'Invalid',
-                message: 'Please fill all the required fields.',
-                actions: {
-                    cancel: { label: 'OK' },
-                    confirm: { show: false },
-                },
-                dismissible: true,
-            });
+            return this._confirmService.error(
+                'Please fill all the required fields.',
+                'Invalid',
+            );
         }
 
         this._confirmService
-            .open({
-                title: 'Confirmation',
-                message: 'Are you sure to create this patient?',
-                dismissible: true,
-            })
+            .confirm('Are you sure to create this patient?')
             .beforeClosed()
             .subscribe(
                 (value) => value === 'confirmed' && this.confirmSubmit(),

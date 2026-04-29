@@ -54,9 +54,15 @@
                                 </td>
                             </tr>
                             <tr class="">
-                                <td class="text-left py-2">Phone Number</td>
+                                <td class="text-left py-2">SSB Number</td>
                                 <td class="text-right py-2 font-bold">
-                                    {{ data.phoneNumber || "-" }}
+                                    {{ data.ssbNumber || "-" }}
+                                </td>
+                            </tr>
+                            <tr class="">
+                                <td class="text-left py-2">NRC Number</td>
+                                <td class="text-right py-2 font-bold">
+                                    {{ data.nrcNumber || "-" }}
                                 </td>
                             </tr>
                         </table>
@@ -77,15 +83,21 @@
                                 </td>
                             </tr>
                             <tr class="">
-                                <td class="text-left py-2">Blood Type</td>
+                                <td class="text-left py-2">Phone Number</td>
                                 <td class="text-right py-2 font-bold">
-                                    {{ data.bloodType || "-" }}
+                                    {{ data.phoneNumber || "-" }}
                                 </td>
                             </tr>
                             <tr class="">
                                 <td class="text-left py-2">Address</td>
                                 <td class="text-right py-2 font-bold">
                                     {{ data.address || "-" }}
+                                </td>
+                            </tr>
+                            <tr class="">
+                                <td class="text-left py-2">Notes</td>
+                                <td class="text-right py-2 font-bold">
+                                    {{ data.notes }}
                                 </td>
                             </tr>
                         </table>
@@ -304,6 +316,7 @@
                         <thead>
                             <tr class="border-b">
                                 <th class="text-center py-2">Date</th>
+                                <th class="text-center py-2">Type</th>
                                 <th class="text-center py-2">Doctor</th>
                                 <th class="text-center py-2">Subtotal</th>
                                 <th class="text-center py-2">Discount</th>
@@ -321,6 +334,9 @@
                                         receipt.date
                                             | date: "dd-MM-yyyy hh:mm a"
                                     }}
+                                </td>
+                                <td class="text-center py-2">
+                                    {{ receipt.type }}
                                 </td>
                                 <td class="text-center py-2">
                                     <ng-container *ngIf="receipt.doctor">

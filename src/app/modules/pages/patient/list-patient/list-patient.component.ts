@@ -2,8 +2,8 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { UserService } from 'app/core/user/user.service';
+import { ConfirmService } from 'app/services/confirm.service';
 import { PatientService } from 'app/services/patient.service';
 
 @Component({
@@ -35,7 +35,7 @@ export class ListPatientComponent implements OnInit, AfterViewInit {
 
     constructor(
         private _fb: FormBuilder,
-        private confirmService: FuseConfirmationService,
+        private confirmService: ConfirmService,
         private _patientService: PatientService,
         private _userService: UserService,
     ) {}
@@ -72,13 +72,7 @@ export class ListPatientComponent implements OnInit, AfterViewInit {
 
     removePatient(id: string) {
         this.confirmService
-            .open({
-                title: 'Confirmation',
-                message: 'Are you sure to delete?',
-                icon: { color: 'primary' },
-                actions: { confirm: { color: 'primary' } },
-                dismissible: true,
-            })
+            .confirm('Are you sure to delete?')
             .beforeClosed()
             .subscribe(
                 (value) =>
@@ -90,28 +84,12 @@ export class ListPatientComponent implements OnInit, AfterViewInit {
         this._patientService.remove(id).subscribe((data: any) => {
             if (data.error) {
                 this.confirmService
-                    .open({
-                        title: 'Error',
-                        message: 'Failed to delete the pateint!',
-                        icon: { color: 'error', name: 'mat_outline:cancel' },
-                        actions: {
-                            confirm: { show: false },
-                            cancel: { label: 'OK' },
-                        },
-                    })
+                    .error('Failed to delete the pateint!')
                     .afterOpened()
                     .subscribe(() => this.reloadData());
             } else {
                 this.confirmService
-                    .open({
-                        title: 'Success',
-                        message: 'Patient has been successfully deleted',
-                        icon: { color: 'success', name: 'mat_outline:check' },
-                        actions: {
-                            confirm: { show: false },
-                            cancel: { label: 'OK' },
-                        },
-                    })
+                    .success('Patient has been successfully deleted')
                     .afterOpened()
                     .subscribe(() => this.reloadData());
             }

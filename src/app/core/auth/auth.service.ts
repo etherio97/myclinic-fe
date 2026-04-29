@@ -27,11 +27,11 @@ export class AuthService {
      * Setter & getter for access token
      */
     set accessToken(token: string) {
-        sessionStorage.setItem('accessToken', token);
+        localStorage.setItem('accessToken', token);
     }
 
     get accessToken(): string {
-        return sessionStorage.getItem('accessToken') ?? '';
+        return localStorage.getItem('accessToken') ?? '';
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -111,7 +111,7 @@ export class AuthService {
      */
     signOut(): Observable<any> {
         // Remove the access token from the local storage
-        sessionStorage.removeItem('accessToken');
+        localStorage.removeItem('accessToken');
 
         // Set the authenticated flag to false
         this._authenticated = false;

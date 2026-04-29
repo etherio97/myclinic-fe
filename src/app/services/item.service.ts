@@ -61,7 +61,13 @@ export class ItemService {
         );
     }
 
-    getUtils(): any {
-        return this._http.get([SERVICE_URLS.ITEM_API, 'utils'].join('/'));
+    getUtils(type?: string): any {
+        const params: any = {};
+        if (type) {
+            params.type = type;
+        }
+        return this._http.get([SERVICE_URLS.ITEM_API, 'categories'].join('/'), {
+            params,
+        });
     }
 }

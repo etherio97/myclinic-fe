@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { MY_DATE_FORMATS } from 'app/app.config';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { DoctorService } from 'app/services/doctor.service';
+import { ConfirmService } from 'app/services/confirm.service';
 
 @Component({
     selector: 'app-create-doctor',
@@ -17,7 +17,7 @@ export class CreateDoctorComponent implements OnInit {
     constructor(
         private _doctorService: DoctorService,
         private _fb: FormBuilder,
-        private _confirmService: FuseConfirmationService,
+        private _confirmService: ConfirmService,
         private _router: Router,
     ) {}
 
@@ -25,30 +25,22 @@ export class CreateDoctorComponent implements OnInit {
         this.formGroup = this._fb.group({
             fullName: ['', Validators.required],
             specialization: ['', Validators.required],
-            licenseNo: ['', Validators.required],
             phoneNumber: ['', Validators.required],
+            address: [''],
+            remarks: [''],
         });
     }
 
     submit() {
         if (!this.formGroup.valid) {
-            return this._confirmService.open({
-                title: 'Invalid',
-                message: 'Please fill all the required fields.',
-                actions: {
-                    cancel: { label: 'OK' },
-                    confirm: { show: false },
-                },
-                dismissible: true,
-            });
+            return this._confirmService.error(
+                'Please fill all the required fields.',
+                'Invalid',
+            );
         }
 
         this._confirmService
-            .open({
-                title: 'Confirmation',
-                message: 'Are you sure to create this doctor?',
-                dismissible: true,
-            })
+            .confirm('Are you sure to create this doctor?')
             .beforeClosed()
             .subscribe(
                 (value) => value === 'confirmed' && this.confirmSubmit(),

@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { MY_DATE_FORMATS } from 'app/app.config';
+import { APP_CONFIG, MY_DATE_FORMATS } from 'app/app.config';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { ItemService } from 'app/services/item.service';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { clone } from 'lodash';
+import { ConfirmService } from 'app/services/confirm.service';
 
 @Component({
     selector: 'app-edit-item',
@@ -19,7 +19,7 @@ export class EditItemComponent implements OnInit {
 
     categories: any = [];
 
-    itemTypes: any = [];
+    itemTypes: any = APP_CONFIG.ITEM_TYPES;
 
     itemTypeFilteredOptions!: Observable<string[]>;
 
@@ -30,7 +30,7 @@ export class EditItemComponent implements OnInit {
     constructor(
         private _itemService: ItemService,
         private _fb: FormBuilder,
-        private _confirmService: FuseConfirmationService,
+        private _confirmService: ConfirmService,
         private _router: Router,
         private route: ActivatedRoute,
     ) {}
@@ -41,13 +41,13 @@ export class EditItemComponent implements OnInit {
             itemType: ['', Validators.required],
             category: ['', Validators.required],
             sellingPrice: ['', Validators.required],
-            description: [''],
             basePrice: [''],
         });
 
-        this._itemService.getUtils().subscribe((res: any) => {
-            this.categories = res.categories;
-            this.itemTypes = res.itemTypes;
+        this.formGroup.controls.itemType.valueChanges.subscribe((value) => {
+            this._itemService.getUtils(value).subscribe((result: any) => {
+                this.categories = result;
+            });
         });
 
         this.itemTypeFilteredOptions =
@@ -74,30 +74,20 @@ export class EditItemComponent implements OnInit {
             this.formGroup.controls.itemType.setValue(result.itemType);
             this.formGroup.controls.category.setValue(result.category);
             this.formGroup.controls.sellingPrice.setValue(result.sellingPrice);
-            this.formGroup.controls.description.setValue(result.description);
             this.formGroup.controls.basePrice.setValue(result.basePrice);
         });
     }
 
     submit() {
         if (!this.formGroup.valid) {
-            return this._confirmService.open({
-                title: 'Invalid',
-                message: 'Please fill all the required fields.',
-                actions: {
-                    cancel: { label: 'OK' },
-                    confirm: { show: false },
-                },
-                dismissible: true,
-            });
+            return this._confirmService.error(
+                'Please fill all the required fields.',
+                'Invalid',
+            );
         }
 
         this._confirmService
-            .open({
-                title: 'Confirmation',
-                message: 'Are you sure to edit this item?',
-                dismissible: true,
-            })
+            .confirm('Are you sure to edit this item?')
             .beforeClosed()
             .subscribe(
                 (value) => value === 'confirmed' && this.confirmSubmit(),

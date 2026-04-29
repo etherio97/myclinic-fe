@@ -39,32 +39,15 @@
                 </mat-form-field>
 
                 <mat-form-field class="w-full">
-                    <mat-label>Description</mat-label>
-                    <textarea
-                        formControlName="description"
-                        rows="3"
-                        matInput
-                    ></textarea>
-                </mat-form-field>
-
-                <mat-form-field class="w-full">
                     <mat-label>Item Type</mat-label>
-                    <input
-                        type="text"
-                        matInput
-                        formControlName="itemType"
-                        [matAutocomplete]="itemTypeAuto"
-                    />
-                    <mat-autocomplete #itemTypeAuto="matAutocomplete">
+                    <mat-select formControlName="itemType">
                         <mat-option
-                            *ngFor="
-                                let option of itemTypeFilteredOptions | async
-                            "
-                            [value]="option"
+                            *ngFor="let type of itemTypes"
+                            [value]="type"
                         >
-                            {{ option }}
+                            {{ type }}
                         </mat-option>
-                    </mat-autocomplete>
+                    </mat-select>
                 </mat-form-field>
 
                 <mat-form-field class="w-full">

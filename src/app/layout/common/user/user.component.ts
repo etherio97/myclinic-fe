@@ -14,10 +14,10 @@ import { BooleanInput } from '@angular/cdk/coercion';
 import { Subject, takeUntil } from 'rxjs';
 import { UserService } from 'app/core/user/user.service';
 import { AuthService } from 'app/core/auth/auth.service';
-import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { UserService as UserApiService } from 'app/services/user.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ConfirmService } from 'app/services/confirm.service';
 
 @Component({
     selector: 'user',
@@ -53,7 +53,7 @@ export class UserComponent implements OnInit, OnDestroy {
         private _userService: UserService,
         private _authService: AuthService,
         private _uesrApiService: UserApiService,
-        private _confirmService: FuseConfirmationService,
+        private _confirmService: ConfirmService,
         private _dialog: MatDialog,
         private _fb: FormBuilder,
     ) {}
@@ -108,38 +108,24 @@ export class UserComponent implements OnInit, OnDestroy {
 
     submit() {
         if (!this.formGroup.valid) {
-            return this._confirmService.open({
-                title: 'Invalid',
-                message: 'Please fill all the required fields.',
-                actions: {
-                    cancel: { label: 'OK' },
-                    confirm: { show: false },
-                },
-                dismissible: true,
-            });
+            return this._confirmService.error(
+                'Please fill all the required fields.',
+                'Invalid',
+            );
         }
 
         if (
             this.formGroup.value.newPassword !=
             this.formGroup.value.retypePassword
         ) {
-            return this._confirmService.open({
-                title: 'Invalid',
-                message: 'Password does not match.',
-                actions: {
-                    cancel: { label: 'OK' },
-                    confirm: { show: false },
-                },
-                dismissible: true,
-            });
+            return this._confirmService.error(
+                'New password does not match.',
+                'Invalid',
+            );
         }
 
         this._confirmService
-            .open({
-                title: 'Confirmation',
-                message: 'Are you sure do you want to change your password?',
-                dismissible: true,
-            })
+            .confirm('Are you sure do you want to change your password?')
             .beforeClosed()
             .subscribe(
                 (value) => value === 'confirmed' && this.confirmSubmit(),
@@ -154,25 +140,9 @@ export class UserComponent implements OnInit, OnDestroy {
             )
             .subscribe((response: any) => {
                 if (response.error) {
-                    return this._confirmService.open({
-                        title: 'Error',
-                        message: response.message,
-                        actions: {
-                            cancel: { label: 'OK' },
-                            confirm: { show: false },
-                        },
-                        dismissible: true,
-                    });
+                    return this._confirmService.error(response.message);
                 }
-                this._confirmService.open({
-                    title: 'Success',
-                    message: 'Password has been changed',
-                    icon: { color: 'success', name: 'mat_solid:check' },
-                    actions: {
-                        confirm: { show: false },
-                        cancel: { label: 'OK' },
-                    },
-                });
+                this._confirmService.success('Password has been changed');
                 this._modal.close();
             });
     }

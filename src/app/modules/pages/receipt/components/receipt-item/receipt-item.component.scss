@@ -46,6 +46,10 @@
     -webkit-filter: grayscale(100%);
 }
 
+.receipt .header tr td:nth-child(2) {
+    padding: 0 2px;
+}
+
 @media print {
     @page {
         size: 80mm auto;

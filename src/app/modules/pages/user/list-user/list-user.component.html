@@ -127,17 +127,17 @@
                                     class="icon-size-4"
                                 ></mat-icon>
                             </button>
-                            <!-- <button
+                            <button
                                 mat-icon-button
-                                (click)="changePassword(element)"
-                                matTooltip="Change Password"
+                                (click)="changeRole(element)"
+                                matTooltip="Change Role"
                                 [disabled]="loggedUserId == element.id"
                             >
                                 <mat-icon
-                                    svgIcon="mat_outline:password"
+                                    svgIcon="mat_outline:admin_panel_settings"
                                     class="icon-size-4"
                                 ></mat-icon>
-                            </button> -->
+                            </button>
                             <button
                                 mat-icon-button
                                 (click)="removeUser(element)"
@@ -200,6 +200,30 @@
             <mat-form-field class="w-full">
                 <mat-label>Role</mat-label>
                 <mat-select formControlName="role">
+                    <mat-option *ngFor="let r of roles" [value]="r">
+                        {{ r }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <div class="flex justify-center space-x-2 items-center">
+                <button mat-button class="bg-indigo-600 text-white">
+                    Save
+                </button>
+            </div>
+        </div>
+    </form>
+</ng-template>
+
+<ng-template #changeRoleModal>
+    <form (ngSubmit)="confirmChangeRole()">
+        <div>
+            <mat-form-field class="w-full">
+                <mat-label>Role</mat-label>
+                <mat-select
+                    [(ngModel)]="selectedUser.role"
+                    [ngModelOptions]="{ standalone: true }"
+                >
                     <mat-option *ngFor="let r of roles" [value]="r">
                         {{ r }}
                     </mat-option>

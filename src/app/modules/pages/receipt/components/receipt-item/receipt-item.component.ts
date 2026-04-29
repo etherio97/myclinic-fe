@@ -26,11 +26,38 @@ export class ReceiptItemComponent implements OnInit {
 
     @Input() cashier: any;
 
+    @Input() type!: string;
+
     constructor() {}
 
     ngOnInit(): void {}
 
     get printDate() {
         return new Date();
+    }
+
+    get title() {
+        switch (this.type) {
+            case 'Laboratory':
+                return 'ဓာတ်ခွဲခန်းနှင့်ရောဂါရှာဖွေရေးစင်တာ';
+            default:
+                return 'အထွေထွေရောဂါကုဆေးခန်း';
+        }
+    }
+
+    calculateAge(dateOfBirth: string): number {
+        const today = new Date();
+        const birthDate = new Date(dateOfBirth);
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDifference = today.getMonth() - birthDate.getMonth();
+
+        if (
+            monthDifference < 0 ||
+            (monthDifference === 0 && today.getDate() < birthDate.getDate())
+        ) {
+            age--;
+        }
+
+        return age;
     }
 }

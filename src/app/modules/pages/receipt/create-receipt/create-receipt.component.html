@@ -123,6 +123,18 @@
                         >
                         </ngx-mat-datetime-picker>
                     </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Receipt Type</mat-label>
+                        <mat-select formControlName="type">
+                            <mat-option
+                                *ngFor="let item of itemTypes"
+                                [value]="item"
+                            >
+                                {{ item }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
                 </div>
             </div>
 
@@ -279,20 +291,6 @@
             </div>
         </form>
     </div>
-
-    <!-- <app-receipt-item
-        class="pb-10 print:p-0 print:m-0 print-only"
-        [receiptNo]="receiptNo"
-        [date]="formGroup.controls.date.value"
-        [items]="selectedItems"
-        [patient]="formGroup.controls.patient.value"
-        [paymentMethod]="formGroup.controls.paymentMethod.value"
-        [doctor]="formGroup.controls.doctor.value"
-        [grandTotal]="getGrandTotal()"
-        [subTotal]="getSubTotal()"
-        [discount]="formGroup.controls.discountAmount.value"
-        [cashier]="cashier"
-    ></app-receipt-item> -->
 </div>
 
 <style>

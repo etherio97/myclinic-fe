@@ -2,8 +2,8 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { UserService } from 'app/core/user/user.service';
+import { ConfirmService } from 'app/services/confirm.service';
 import { DoctorService } from 'app/services/doctor.service';
 
 @Component({
@@ -34,7 +34,7 @@ export class ListDoctorComponent implements OnInit, AfterViewInit {
 
     constructor(
         private _fb: FormBuilder,
-        private confirmService: FuseConfirmationService,
+        private confirmService: ConfirmService,
         private _doctorService: DoctorService,
         private _userService: UserService,
     ) {}
@@ -71,13 +71,7 @@ export class ListDoctorComponent implements OnInit, AfterViewInit {
 
     removeDoctor(id: string) {
         this.confirmService
-            .open({
-                title: 'Confirmation',
-                message: 'Are you sure to delete?',
-                icon: { color: 'primary' },
-                actions: { confirm: { color: 'primary' } },
-                dismissible: true,
-            })
+            .confirm('Are you sure to delete?')
             .beforeClosed()
             .subscribe(
                 (value) =>
@@ -86,17 +80,12 @@ export class ListDoctorComponent implements OnInit, AfterViewInit {
     }
 
     confirmRemoveDoctor(id: string) {
-        this._doctorService.remove(id).subscribe(() => {
+        this._doctorService.remove(id).subscribe(({ error }: any) => {
+            if (error) {
+                return this.confirmService.error('Unable to delete');
+            }
             this.confirmService
-                .open({
-                    title: 'Success',
-                    message: 'Doctor has been successfully deleted',
-                    icon: { color: 'success', name: '' },
-                    actions: {
-                        confirm: { show: false },
-                        cancel: { label: 'OK' },
-                    },
-                })
+                .success('Doctor has been successfully deleted')
                 .afterOpened()
                 .subscribe(() => this.reloadData());
         });

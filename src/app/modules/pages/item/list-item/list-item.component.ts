@@ -2,7 +2,8 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { FuseConfirmationService } from '@fuse/services/confirmation';
+import { APP_CONFIG } from 'app/app.config';
+import { ConfirmService } from 'app/services/confirm.service';
 import { ItemService } from 'app/services/item.service';
 
 @Component({
@@ -28,13 +29,13 @@ export class ListItemComponent implements OnInit, AfterViewInit {
 
     categories: any = [];
 
-    itemTypes: any = [];
+    itemTypes: any = APP_CONFIG.ITEM_TYPES;
 
     @ViewChild(MatPaginator) paginator!: MatPaginator;
 
     constructor(
         private _fb: FormBuilder,
-        private confirmService: FuseConfirmationService,
+        private confirmService: ConfirmService,
         private _itemService: ItemService,
     ) {}
 
@@ -46,8 +47,14 @@ export class ListItemComponent implements OnInit, AfterViewInit {
         });
 
         this._itemService.getUtils().subscribe((result: any) => {
-            this.categories = result.categories;
-            this.itemTypes = result.itemTypes;
+            this.categories = result;
+        });
+
+        this.formGroup.controls.itemType.valueChanges.subscribe((value) => {
+            this.formGroup.controls.category.setValue('');
+            this._itemService.getUtils(value).subscribe((result: any) => {
+                this.categories = result;
+            });
         });
 
         this.reloadData();
@@ -67,13 +74,7 @@ export class ListItemComponent implements OnInit, AfterViewInit {
 
     removeItem(id: string) {
         this.confirmService
-            .open({
-                title: 'Confirmation',
-                message: 'Are you sure to delete?',
-                icon: { color: 'primary' },
-                actions: { confirm: { color: 'primary' } },
-                dismissible: true,
-            })
+            .confirm('Are you sure to delete?')
             .beforeClosed()
             .subscribe(
                 (value) => value === 'confirmed' && this.confirmRemoveItem(id),
@@ -83,15 +84,7 @@ export class ListItemComponent implements OnInit, AfterViewInit {
     confirmRemoveItem(id: string) {
         this._itemService.remove(id).subscribe(() => {
             this.confirmService
-                .open({
-                    title: 'Success',
-                    message: 'Item has been successfully deleted',
-                    icon: { color: 'success', name: '' },
-                    actions: {
-                        confirm: { show: false },
-                        cancel: { label: 'OK' },
-                    },
-                })
+                .success('Item has been successfully deleted')
                 .afterOpened()
                 .subscribe(() => this.reloadData());
         });

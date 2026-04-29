@@ -66,6 +66,21 @@
                             <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
                     </div>
+
+                    <div class="w-full sm:w-1/4 pr-6">
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>Item Type</mat-label>
+                            <mat-select formControlName="type">
+                                <mat-option value="">All</mat-option>
+                                <mat-option
+                                    *ngFor="let item of types"
+                                    [value]="item"
+                                >
+                                    {{ item }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
                 </div>
 
                 <div
@@ -89,6 +104,18 @@
                 mat-table
                 [dataSource]="dataSource"
             >
+                <ng-container matColumnDef="receiptNo">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="mx-2 text-center"
+                    >
+                        #
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                        {{ element.receiptNo }}
+                    </td>
+                </ng-container>
                 <ng-container matColumnDef="date">
                     <th
                         mat-header-cell
@@ -190,6 +217,18 @@
                         {{
                             element.grandTotal | currency: "MMK" : "" : "0.0-0"
                         }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="type">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="mx-2 text-center"
+                    >
+                        Type
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.type }}
                     </td>
                 </ng-container>
                 <ng-container matColumnDef="actions">

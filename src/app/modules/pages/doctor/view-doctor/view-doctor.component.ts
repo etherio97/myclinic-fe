@@ -4,7 +4,7 @@ import { MY_DATE_FORMATS } from 'app/app.config';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { AppointmentService } from 'app/services/appointment.service';
 import { DoctorService } from 'app/services/doctor.service';
-import { FuseConfirmationService } from '@fuse/services/confirmation';
+import { ConfirmService } from 'app/services/confirm.service';
 
 @Component({
     selector: 'app-view-doctor',
@@ -21,7 +21,7 @@ export class ViewDoctorComponent implements OnInit {
     constructor(
         private _appointmentService: AppointmentService,
         private _doctorService: DoctorService,
-        private _confirmService: FuseConfirmationService,
+        private _confirmService: ConfirmService,
         private route: ActivatedRoute,
     ) {}
 
@@ -59,11 +59,7 @@ export class ViewDoctorComponent implements OnInit {
             message = 'Are you sure do you want to active this doctor?';
         }
         this._confirmService
-            .open({
-                title: 'Confirmation',
-                message,
-                dismissible: true,
-            })
+            .confirm(message)
             .beforeClosed()
             .subscribe(
                 (value) => value === 'confirmed' && this.confirmChangeStatus(),
@@ -73,7 +69,7 @@ export class ViewDoctorComponent implements OnInit {
     private confirmChangeStatus() {
         let isActive = !this.data.isActive;
         this._doctorService.update(this.id, { isActive }).subscribe((data) => {
-            setTimeout(() => this.loadDoctorDetails());
+            this.loadDoctorDetails();
         });
     }
 

@@ -48,13 +48,26 @@
                 </mat-form-field>
 
                 <mat-form-field class="w-full">
-                    <mat-label>License Number</mat-label>
-                    <input type="text" matInput formControlName="licenseNo" />
+                    <mat-label>Phone Number</mat-label>
+                    <input type="text" matInput formControlName="phoneNumber" />
                 </mat-form-field>
 
                 <mat-form-field class="w-full">
-                    <mat-label>Phone Number</mat-label>
-                    <input type="text" matInput formControlName="phoneNumber" />
+                    <mat-label>Address</mat-label>
+                    <textarea
+                        matInput
+                        formControlName="address"
+                        rows="3"
+                    ></textarea>
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>Remarks</mat-label>
+                    <textarea
+                        matInput
+                        formControlName="remarks"
+                        rows="3"
+                    ></textarea>
                 </mat-form-field>
             </div>
         </div>

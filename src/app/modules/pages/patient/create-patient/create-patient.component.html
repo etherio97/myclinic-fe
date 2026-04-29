@@ -76,16 +76,13 @@
                 </mat-form-field>
 
                 <mat-form-field class="w-full">
-                    <mat-label>Blood Group</mat-label>
-                    <mat-select formControlName="bloodType">
-                        <mat-option value="">(N/A)</mat-option>
-                        <mat-option
-                            [value]="bloodType"
-                            *ngFor="let bloodType of bloodTypes"
-                        >
-                            {{ bloodType }}
-                        </mat-option>
-                    </mat-select>
+                    <mat-label>SSB Number</mat-label>
+                    <input type="text" matInput formControlName="ssbNumber" />
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>NRC Number</mat-label>
+                    <input type="text" matInput formControlName="nrcNumber" />
                 </mat-form-field>
 
                 <mat-form-field class="w-full">
@@ -93,6 +90,15 @@
                     <textarea
                         matInput
                         formControlName="address"
+                        rows="3"
+                    ></textarea>
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>Notes</mat-label>
+                    <textarea
+                        matInput
+                        formControlName="notes"
                         rows="3"
                     ></textarea>
                 </mat-form-field>

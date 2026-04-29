@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { APP_CONFIG, MY_DATE_FORMATS } from 'app/app.config';
 import { PatientService } from 'app/services/patient.service';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { cloneDeep } from 'lodash';
+import { ConfirmService } from 'app/services/confirm.service';
 
 @Component({
     selector: 'app-edit-patient',
@@ -14,8 +15,6 @@ import { MAT_DATE_FORMATS } from '@angular/material/core';
 export class EditPatientComponent implements OnInit {
     formGroup!: FormGroup;
 
-    bloodTypes = APP_CONFIG.BLOOD_TYPES;
-
     genders = APP_CONFIG.GENDERS;
 
     id!: string;
@@ -23,7 +22,7 @@ export class EditPatientComponent implements OnInit {
     constructor(
         private _patientService: PatientService,
         private _fb: FormBuilder,
-        private _confirmService: FuseConfirmationService,
+        private _confirmService: ConfirmService,
         private _router: Router,
         private route: ActivatedRoute,
     ) {}
@@ -32,10 +31,12 @@ export class EditPatientComponent implements OnInit {
         this.formGroup = this._fb.group({
             fullName: ['', Validators.required],
             gender: ['', Validators.required],
-            dateOfBirth: ['', Validators.required],
+            dateOfBirth: [''],
             phoneNumber: ['', Validators.required],
-            bloodType: [''],
+            nrcNumber: [''],
             address: [''],
+            ssbNumber: [''],
+            notes: [''],
         });
 
         this.route.params.subscribe(({ id }) => {
@@ -50,30 +51,23 @@ export class EditPatientComponent implements OnInit {
             this.formGroup.controls.gender.setValue(result.gender);
             this.formGroup.controls.dateOfBirth.setValue(result.dateOfBirth);
             this.formGroup.controls.phoneNumber.setValue(result.phoneNumber);
-            this.formGroup.controls.bloodType.setValue(result.bloodType);
+            this.formGroup.controls.nrcNumber.setValue(result.nrcNumber);
+            this.formGroup.controls.ssbNumber.setValue(result.ssbNumber);
             this.formGroup.controls.address.setValue(result.address);
+            this.formGroup.controls.notes.setValue(result.notes);
         });
     }
 
     submit() {
         if (!this.formGroup.valid) {
-            return this._confirmService.open({
-                title: 'Invalid',
-                message: 'Please fill all the required fields.',
-                actions: {
-                    cancel: { label: 'OK' },
-                    confirm: { show: false },
-                },
-                dismissible: true,
-            });
+            return this._confirmService.error(
+                'Please fill all the required fields.',
+                'Invalid',
+            );
         }
 
         this._confirmService
-            .open({
-                title: 'Confirmation',
-                message: 'Are you sure to update this patient?',
-                dismissible: true,
-            })
+            .confirm('Are you sure to update this patient?')
             .beforeClosed()
             .subscribe(
                 (value) => value === 'confirmed' && this.confirmSubmit(),
@@ -81,10 +75,9 @@ export class EditPatientComponent implements OnInit {
     }
 
     confirmSubmit() {
-        this._patientService
-            .update(this.id, this.formGroup.value)
-            .subscribe(() => {
-                this._router.navigate(['/patients', 'view', this.id]);
-            });
+        const data = cloneDeep(this.formGroup.value);
+        this._patientService.update(this.id, data).subscribe(() => {
+            this._router.navigate(['/patients', 'view', this.id]);
+        });
     }
 }

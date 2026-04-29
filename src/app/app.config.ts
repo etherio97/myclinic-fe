@@ -12,35 +12,9 @@ export const SERVICE_URLS = {
     DASHBOARD_API: `${BASE_URL}/dashboard`,
 };
 
-export const MY_DATE_FORMATS = {
-    parse: {
-        dateInput: 'DD/MM/YYYY', // How the input is parsed from manual typing
-    },
-    display: {
-        dateInput: 'DD/MM/YYYY', // How the date is displayed in the input field
-        monthYearLabel: 'MMM YYYY',
-        dateA11yLabel: 'LL',
-        monthYearA11yLabel: 'MMMM YYYY',
-    },
-};
-
 export const APP_CONFIG = {
     ROLES: ['admin', 'manager', 'cashier'],
-    GENDERS: ['Male', 'Female', 'Other'],
-    BLOOD_TYPES: [
-        'A',
-        'B',
-        'AB',
-        'O',
-        'A+',
-        'A-',
-        'B+',
-        'B-',
-        'AB+',
-        'AB-',
-        'O+',
-        'O-',
-    ],
+    GENDERS: ['Male', 'Female'],
     APPOINTMENT_STATUS: ['Booked', 'Completed', 'No Show', 'Cancelled'],
     APPOINTMENT_TYPES: ['Old', 'New', 'Follow Up'],
     APPOINTMENT_CASES: [
@@ -50,6 +24,7 @@ export const APP_CONFIG = {
         'Daycare',
         'Ultrasound',
     ],
+    ITEM_TYPES: ['Clinic', 'Laboratory'],
 };
 
 export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
@@ -140,3 +115,15 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
         ],
     },
 ];
+
+export const MY_DATE_FORMATS = {
+    parse: {
+        dateInput: 'DD/MM/YYYY', // How the input is parsed from manual typing
+    },
+    display: {
+        dateInput: 'DD/MM/YYYY', // How the date is displayed in the input field
+        monthYearLabel: 'MMM YYYY',
+        dateA11yLabel: 'LL',
+        monthYearA11yLabel: 'MMMM YYYY',
+    },
+};

@@ -193,7 +193,7 @@
                             <button
                                 mat-icon-button
                                 [routerLink]="['view', element.id]"
-                                matTooltip="Edit"
+                                matTooltip="View Details"
                             >
                                 <mat-icon
                                     svgIcon="feather:info"
@@ -201,17 +201,7 @@
                                 ></mat-icon>
                             </button>
                             <button
-                                mat-icon-button
-                                [routerLink]="['edit', element.id]"
-                                matTooltip="Edit"
-                            >
-                                <mat-icon
-                                    svgIcon="feather:edit"
-                                    class="icon-size-4"
-                                ></mat-icon>
-                            </button>
-                            <button
-                                *ngIf="['admin', 'manager'].includes(role)"
+                                *ngIf="['admin'].includes(role)"
                                 mat-icon-button
                                 (click)="removeDoctor(element.id)"
                                 matTooltip="Delete"

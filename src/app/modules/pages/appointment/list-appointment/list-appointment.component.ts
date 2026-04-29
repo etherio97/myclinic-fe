@@ -2,10 +2,10 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { APP_CONFIG } from 'app/app.config';
 import { UserService } from 'app/core/user/user.service';
 import { AppointmentService } from 'app/services/appointment.service';
+import { ConfirmService } from 'app/services/confirm.service';
 import moment from 'moment';
 
 @Component({
@@ -40,7 +40,7 @@ export class ListAppointmentComponent implements OnInit, AfterViewInit {
 
     constructor(
         private _fb: FormBuilder,
-        private confirmService: FuseConfirmationService,
+        private confirmService: ConfirmService,
         private _appointmentService: AppointmentService,
         private _userService: UserService,
     ) {}
@@ -91,13 +91,7 @@ export class ListAppointmentComponent implements OnInit, AfterViewInit {
 
     removeAppointment(id: string) {
         this.confirmService
-            .open({
-                title: 'Confirmation',
-                message: 'Are you sure to delete?',
-                icon: { color: 'primary' },
-                actions: { confirm: { color: 'primary' } },
-                dismissible: true,
-            })
+            .confirm('Are you sure to delete this appointment?')
             .beforeClosed()
             .subscribe(
                 (value) =>
@@ -108,15 +102,7 @@ export class ListAppointmentComponent implements OnInit, AfterViewInit {
     confirmRemoveAppointment(id: string) {
         this._appointmentService.remove(id).subscribe(() => {
             this.confirmService
-                .open({
-                    title: 'Success',
-                    message: 'Appointment has been successfully deleted',
-                    icon: { color: 'success', name: '' },
-                    actions: {
-                        confirm: { show: false },
-                        cancel: { label: 'OK' },
-                    },
-                })
+                .success('Appointment has been successfully deleted')
                 .afterOpened()
                 .subscribe(() => this.reloadData());
         });

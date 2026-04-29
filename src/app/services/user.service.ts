@@ -33,6 +33,13 @@ export class UserService {
         );
     }
 
+    changeRole(id: string, role: string) {
+        return this._http.post(
+            [SERVICE_URLS.AUTH_API, 'change-status', id].join('/'),
+            { role },
+        );
+    }
+
     changePassword(oldPassword: string, newPassword: string) {
         return this._http.post(
             [SERVICE_URLS.AUTH_API, 'change-password'].join('/'),

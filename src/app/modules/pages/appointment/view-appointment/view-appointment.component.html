@@ -204,6 +204,12 @@
                                         {{ data.patient.phoneNumber }}
                                     </td>
                                 </tr>
+                                <tr class="">
+                                    <td class="text-left py-2">Address</td>
+                                    <td class="text-right py-2 font-bold">
+                                        {{ data.patient.address || "-" }}
+                                    </td>
+                                </tr>
                             </table>
                         </div>
 
@@ -232,15 +238,15 @@
                                     </td>
                                 </tr>
                                 <tr class="">
-                                    <td class="text-left py-2">Blood Type</td>
+                                    <td class="text-left py-2">SSB Number</td>
                                     <td class="text-right py-2 font-bold">
-                                        {{ data.patient.bloodType || "-" }}
+                                        {{ data.patient.ssbNumber || "-" }}
                                     </td>
                                 </tr>
                                 <tr class="">
-                                    <td class="text-left py-2">Address</td>
+                                    <td class="text-left py-2">NRC Number</td>
                                     <td class="text-right py-2 font-bold">
-                                        {{ data.patient.address || "-" }}
+                                        {{ data.patient.nrcNumber || "-" }}
                                     </td>
                                 </tr>
                             </table>
@@ -249,7 +255,10 @@
                 </div>
             </div>
 
-            <div class="w-full mx-5 bg-white rounded overflow-hidden shadow">
+            <div
+                class="w-full mx-5 bg-white rounded overflow-hidden shadow"
+                *ngIf="data.doctor"
+            >
                 <div
                     class="bg-[#f2f2f2] px-5 py-2 w-full border-b border-[#e2e2e2]"
                 >
@@ -308,9 +317,9 @@
                                     </td>
                                 </tr>
                                 <tr class="">
-                                    <td class="text-left py-2">License No</td>
+                                    <td class="text-left py-2">Address</td>
                                     <td class="text-right py-2 font-bold">
-                                        {{ data.doctor?.licenseNo }}
+                                        {{ data.doctor?.address || "-" }}
                                     </td>
                                 </tr>
                                 <tr class="">
@@ -393,9 +402,9 @@
                                     </td>
                                 </tr>
                                 <tr class="">
-                                    <td class="text-left py-2">License No</td>
+                                    <td class="text-left py-2">Address</td>
                                     <td class="text-right py-2 font-bold">
-                                        {{ data.referDoctor.licenseNo }}
+                                        {{ data.referDoctor.address || "-" }}
                                     </td>
                                 </tr>
                                 <tr class="">

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { APP_CONFIG, MY_DATE_FORMATS } from 'app/app.config';
+import { MY_DATE_FORMATS } from 'app/app.config';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { DoctorService } from 'app/services/doctor.service';
+import { ConfirmService } from 'app/services/confirm.service';
 
 @Component({
     selector: 'app-edit-doctor',
@@ -14,16 +14,12 @@ import { DoctorService } from 'app/services/doctor.service';
 export class EditDoctorComponent implements OnInit {
     formGroup!: FormGroup;
 
-    bloodTypes = APP_CONFIG.BLOOD_TYPES;
-
-    genders = APP_CONFIG.GENDERS;
-
     id!: string;
 
     constructor(
         private _doctorService: DoctorService,
         private _fb: FormBuilder,
-        private _confirmService: FuseConfirmationService,
+        private _confirmService: ConfirmService,
         private _router: Router,
         private route: ActivatedRoute,
     ) {}
@@ -32,8 +28,9 @@ export class EditDoctorComponent implements OnInit {
         this.formGroup = this._fb.group({
             fullName: ['', Validators.required],
             specialization: ['', Validators.required],
-            licenseNo: ['', Validators.required],
             phoneNumber: ['', Validators.required],
+            address: [''],
+            remarks: [''],
         });
 
         this.route.params.subscribe(({ id }) => {
@@ -48,30 +45,22 @@ export class EditDoctorComponent implements OnInit {
             this.formGroup.controls.specialization.setValue(
                 result.specialization,
             );
-            this.formGroup.controls.licenseNo.setValue(result.licenseNo);
             this.formGroup.controls.phoneNumber.setValue(result.phoneNumber);
+            this.formGroup.controls.address.setValue(result.address);
+            this.formGroup.controls.remarks.setValue(result.remarks);
         });
     }
 
     submit() {
         if (!this.formGroup.valid) {
-            return this._confirmService.open({
-                title: 'Invalid',
-                message: 'Please fill all the required fields.',
-                actions: {
-                    cancel: { label: 'OK' },
-                    confirm: { show: false },
-                },
-                dismissible: true,
-            });
+            return this._confirmService.error(
+                'Please fill all the required fields.',
+                'Invalid',
+            );
         }
 
         this._confirmService
-            .open({
-                title: 'Confirmation',
-                message: 'Are you sure to update this doctor?',
-                dismissible: true,
-            })
+            .confirm('Are you sure to update this doctor?')
             .beforeClosed()
             .subscribe(
                 (value) => value === 'confirmed' && this.confirmSubmit(),

@@ -129,6 +129,15 @@
                                     {{ data.user.role }}
                                 </td>
                             </tr>
+                            <tr class="">
+                                <td class="text-left py-2">Created At</td>
+                                <td class="text-right py-2 font-bold">
+                                    {{
+                                        data.createdAt
+                                            | date: "dd-MM-yyyy hh:mm a"
+                                    }}
+                                </td>
+                            </tr>
                         </table>
                     </div>
 
@@ -141,12 +150,9 @@
                                 </td>
                             </tr>
                             <tr class="">
-                                <td class="text-left py-2">Created At</td>
+                                <td class="text-left py-2">Receipt Type</td>
                                 <td class="text-right py-2 font-bold">
-                                    {{
-                                        data.createdAt
-                                            | date: "dd-MM-yyyy hh:mm a"
-                                    }}
+                                    {{ data.type }}
                                 </td>
                             </tr>
                         </table>
@@ -225,6 +231,7 @@
 
     <app-receipt-item
         class="pb-10 print:p-0 print:m-0 print-only"
+        [type]="data.type"
         [receiptNo]="data.receiptNo"
         [date]="data.date"
         [items]="data.items"

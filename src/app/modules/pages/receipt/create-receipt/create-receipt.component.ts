@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { MY_DATE_FORMATS } from 'app/app.config';
+import { APP_CONFIG, MY_DATE_FORMATS } from 'app/app.config';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { DoctorService } from 'app/services/doctor.service';
 import { ReceiptService } from 'app/services/receipt.service';
@@ -13,6 +12,7 @@ import { Observable } from 'rxjs';
 import { clone } from 'lodash';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import moment from 'moment';
+import { ConfirmService } from 'app/services/confirm.service';
 
 @Component({
     selector: 'app-create-receipt',
@@ -44,13 +44,15 @@ export class CreateReceiptComponent implements OnInit {
 
     cashier!: any;
 
+    itemTypes = APP_CONFIG.ITEM_TYPES;
+
     constructor(
         private _receiptService: ReceiptService,
         private _doctorService: DoctorService,
         private _patientService: PatientService,
         private _itemService: ItemService,
         private _fb: FormBuilder,
-        private _confirmService: FuseConfirmationService,
+        private _confirmService: ConfirmService,
         private _router: Router,
         private route: ActivatedRoute,
     ) {}
@@ -64,6 +66,7 @@ export class CreateReceiptComponent implements OnInit {
             discountAmount: [''],
             discountPercent: [''],
             item: [''],
+            type: ['Clinic'],
         });
 
         this.formGroup.controls.discountPercent.valueChanges.subscribe(
@@ -141,7 +144,11 @@ export class CreateReceiptComponent implements OnInit {
         const filterValue =
             typeof value === 'string' ? value.toLowerCase() : '';
 
-        return this.items
+        const itemList = this.items.filter(
+            (item) => item.itemType === this.formGroup.value.type,
+        );
+
+        return itemList
             .filter(
                 (option) =>
                     !this.selectedItems.some(
@@ -214,40 +221,25 @@ export class CreateReceiptComponent implements OnInit {
     private _filterDoctor(value: string): string[] {
         const filterValue = typeof value == 'string' ? value.toLowerCase() : '';
 
-        return this.doctors.filter((option) =>
-            option.fullName.toLowerCase().includes(filterValue),
+        return this.doctors.filter(
+            (option) =>
+                option.fullName.toLowerCase().includes(filterValue) ||
+                option.specialization.toLowerCase().includes(filterValue),
         );
     }
 
     submit() {
         if (!this.formGroup.valid) {
-            return this._confirmService.open({
-                title: 'Invalid',
-                message: 'Please fill all the required fields.',
-                actions: {
-                    cancel: { label: 'OK' },
-                    confirm: { show: false },
-                },
-                dismissible: true,
-            });
+            return this._confirmService.error(
+                'Please fill all the required fields.',
+                'Invalid',
+            );
         }
         if (!this.selectedItems.length) {
-            return this._confirmService.open({
-                title: 'Invalid',
-                message: 'Please input items.',
-                actions: {
-                    cancel: { label: 'OK' },
-                    confirm: { show: false },
-                },
-                dismissible: true,
-            });
+            return this._confirmService.error('Please input items.', 'Invalid');
         }
         this._confirmService
-            .open({
-                title: 'Confirmation',
-                message: 'Are you sure to create this receipt?',
-                dismissible: true,
-            })
+            .confirm('Are you sure to create this receipt?')
             .beforeClosed()
             .subscribe(
                 (value) => value === 'confirmed' && this.confirmSubmit(),

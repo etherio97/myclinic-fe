@@ -243,17 +243,6 @@
                             </button>
                             <button
                                 mat-icon-button
-                                [routerLink]="['edit', element.id]"
-                                matTooltip="Edit"
-                            >
-                                <mat-icon
-                                    svgIcon="feather:edit"
-                                    class="icon-size-4"
-                                ></mat-icon>
-                            </button>
-                            <button
-                                *ngIf="['admin', 'manager'].includes(role)"
-                                mat-icon-button
                                 (click)="removeAppointment(element.id)"
                                 matTooltip="Delete"
                             >

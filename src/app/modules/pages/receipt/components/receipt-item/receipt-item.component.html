@@ -3,50 +3,69 @@
         <div style="display: flex; place-items: center">
             <img class="logo" src="assets/logo.png" alt="Logo" />
         </div>
-        <div class="bold">MY အထွေထွေရောဂါကုဆေးခန်း</div>
+        <div class="bold">{{ title }}</div>
         <div>
-            အမှတ် ၁၂၈၊ အမှတ် ၃ လမ်းမကြီး၊ သင်္ဃန်းကျွန်းကြီးရပ်ကွက်၊
-            မင်္ဂလာဒုံမြို့နယ်၊ ရန်ကုန်။
+            အမှတ် ၁၂၈၊ အမှတ် ၃ လမ်းမကြီး၊ သင်္ဃန်းကျွန်းကြီးမှတ်တိုင်၊
+            မင်္ဂလာဒုံမြို့နယ်၊ ရန်ကုန်မြို့
         </div>
         <div>ဖုန်း - 0943200001</div>
     </div>
 
     <div class="dashed"></div>
 
-    <table>
+    <table class="header">
         <tbody>
             <tr>
                 <td>Invoice</td>
+                <td>:</td>
                 <td style="text-align: right">#{{ receiptNo || "-" }}</td>
             </tr>
             <tr>
                 <td>Date</td>
+                <td>:</td>
                 <td style="text-align: right">
                     {{ date | date: "dd-MM-yyyy hh:mm:ss a" }}
                 </td>
             </tr>
             <tr>
-                <td>Patient Name</td>
-                <td style="text-align: right">
-                    {{ patient?.fullName || "-" }}
-                </td>
-            </tr>
-            <tr>
                 <td>Patient ID</td>
+                <td>:</td>
                 <td style="text-align: right">
                     #{{ patient?.patientNo || "-" }}
                 </td>
             </tr>
             <tr>
-                <td>Doctor Name</td>
+                <td>Patient Name</td>
+                <td>:</td>
+                <td style="text-align: right">
+                    {{ patient?.fullName || "-" }}
+                </td>
+            </tr>
+            <tr>
+                <td>Age / Sex</td>
+                <td>:</td>
+                <td style="text-align: right">
+                    {{
+                        patient?.dateOfBirth
+                            ? calculateAge(patient?.dateOfBirth) + "Y"
+                            : ""
+                    }}
+                    /
+                    {{ patient?.gender?.slice(0, 1) }}
+                </td>
+            </tr>
+            <tr>
+                <td>Refer Doctor</td>
+                <td>:</td>
                 <td style="text-align: right">
                     <ng-container *ngIf="doctor">
-                        {{ doctor.fullName }} ({{ doctor.specialization }})
+                        {{ doctor.fullName }}
                     </ng-container>
                 </td>
             </tr>
             <tr>
                 <td>Cashier</td>
+                <td>:</td>
                 <td style="text-align: right">
                     {{ cashier?.fullName || "-" }}
                 </td>

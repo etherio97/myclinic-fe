@@ -11,7 +11,7 @@ export class UserService {
      * Constructor
      */
     constructor() {
-        const accessToken = sessionStorage.getItem('accessToken');
+        const accessToken = localStorage.getItem('accessToken');
         if (accessToken) {
             this.user = JSON.parse(atob(accessToken.split('.')[1]));
         }
@@ -43,7 +43,7 @@ export class UserService {
      * Get the current logged in user data
      */
     get(): Observable<any> {
-        const accessToken = sessionStorage.getItem('accessToken');
+        const accessToken = localStorage.getItem('accessToken');
         if (!accessToken) return of();
         return of(JSON.parse(atob(accessToken.split('.')[1])));
     }

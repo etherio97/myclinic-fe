@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { APP_CONFIG, MY_DATE_FORMATS } from 'app/app.config';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { AppointmentService } from 'app/services/appointment.service';
@@ -11,6 +10,7 @@ import { DoctorService } from 'app/services/doctor.service';
 import { map, Observable, startWith } from 'rxjs';
 import { clone } from 'lodash';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { ConfirmService } from 'app/services/confirm.service';
 
 @Component({
     selector: 'app-create-appointment',
@@ -36,12 +36,16 @@ export class CreateAppointmentComponent implements OnInit {
 
     patientId = '';
 
+    private _doctorList: any;
+    private _patientList: any;
+    private _itemList: any;
+
     constructor(
         private _appointmentService: AppointmentService,
         private _doctorService: DoctorService,
         private _patientService: PatientService,
         private _fb: FormBuilder,
-        private _confirmService: FuseConfirmationService,
+        private _confirmService: ConfirmService,
         private _router: Router,
         private route: ActivatedRoute,
     ) {}
@@ -116,8 +120,10 @@ export class CreateAppointmentComponent implements OnInit {
     private _filterDoctor(value: string): string[] {
         const filterValue = typeof value == 'string' ? value.toLowerCase() : '';
 
-        return this.doctors.filter((option) =>
-            option.fullName.toLowerCase().includes(filterValue),
+        return this.doctors.filter(
+            (option) =>
+                option.fullName.toLowerCase().includes(filterValue) ||
+                option.specialization.toLowerCase().includes(filterValue),
         );
     }
 
@@ -131,23 +137,14 @@ export class CreateAppointmentComponent implements OnInit {
 
     submit() {
         if (!this.formGroup.valid) {
-            return this._confirmService.open({
-                title: 'Invalid',
-                message: 'Please fill all the required fields.',
-                actions: {
-                    cancel: { label: 'OK' },
-                    confirm: { show: false },
-                },
-                dismissible: true,
-            });
+            return this._confirmService.error(
+                'Please fill all the required fields.',
+                'Invalid',
+            );
         }
 
         this._confirmService
-            .open({
-                title: 'Confirmation',
-                message: 'Are you sure to create this appointment?',
-                dismissible: true,
-            })
+            .confirm('Are you sure to create this appointment?')
             .beforeClosed()
             .subscribe(
                 (value) => value === 'confirmed' && this.confirmSubmit(),

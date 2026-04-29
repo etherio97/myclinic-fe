@@ -2,12 +2,9 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { APP_CONFIG, MY_DATE_FORMATS } from 'app/app.config';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
-import { ReceiptService } from 'app/services/receipt.service';
-import { PatientService } from 'app/services/patient.service';
 import { AppointmentService } from 'app/services/appointment.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { FuseConfirmationService } from '@fuse/services/confirmation';
 
 @Component({
     selector: 'app-view-appointment',
@@ -30,7 +27,6 @@ export class ViewAppointmentComponent implements OnInit {
     constructor(
         private _fb: FormBuilder,
         private _appointmentService: AppointmentService,
-        private _confirmService: FuseConfirmationService,
         private dialog: MatDialog,
         private route: ActivatedRoute,
     ) {}

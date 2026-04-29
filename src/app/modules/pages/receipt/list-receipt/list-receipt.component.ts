@@ -2,8 +2,9 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { FuseConfirmationService } from '@fuse/services/confirmation';
+import { APP_CONFIG } from 'app/app.config';
 import { UserService } from 'app/core/user/user.service';
+import { ConfirmService } from 'app/services/confirm.service';
 import { ReceiptService } from 'app/services/receipt.service';
 import moment from 'moment';
 
@@ -13,13 +14,14 @@ import moment from 'moment';
 })
 export class ListReceiptComponent implements OnInit, AfterViewInit {
     displayedColumns: string[] = [
+        'receiptNo',
         'date',
         'patient.fullName',
         'doctor.fullName',
-        // 'status',
+        'type',
         // 'paymentMethod',
-        'subTotal',
-        'discountAmount',
+        // 'subTotal',
+        // 'discountAmount',
         'grandTotal',
         'actions',
     ];
@@ -32,11 +34,13 @@ export class ListReceiptComponent implements OnInit, AfterViewInit {
 
     role!: string;
 
+    types = APP_CONFIG.ITEM_TYPES;
+
     @ViewChild(MatPaginator) paginator!: MatPaginator;
 
     constructor(
         private _fb: FormBuilder,
-        private confirmService: FuseConfirmationService,
+        private confirmService: ConfirmService,
         private _receiptService: ReceiptService,
         private _userService: UserService,
     ) {}
@@ -45,6 +49,7 @@ export class ListReceiptComponent implements OnInit, AfterViewInit {
         this.formGroup = this._fb.group({
             startDate: [moment()],
             endDate: [moment()],
+            type: [''],
         });
 
         this._userService.get().subscribe((user) => {
@@ -76,6 +81,9 @@ export class ListReceiptComponent implements OnInit, AfterViewInit {
                 this.formGroup.controls.endDate.value,
             ).format('yyyy-MM-DD');
         }
+        if (this.formGroup.controls.type.value) {
+            condition.type = this.formGroup.controls.type.value;
+        }
         this._receiptService.getAll(condition).subscribe((result: any) => {
             this.searchResult = this.dataSource.data = result;
         });
@@ -83,13 +91,7 @@ export class ListReceiptComponent implements OnInit, AfterViewInit {
 
     removeReceipt(id: string) {
         this.confirmService
-            .open({
-                title: 'Confirmation',
-                message: 'Are you sure to delete?',
-                icon: { color: 'primary' },
-                actions: { confirm: { color: 'primary' } },
-                dismissible: true,
-            })
+            .confirm('Are you sure to delete?')
             .beforeClosed()
             .subscribe(
                 (value) =>
@@ -100,15 +102,7 @@ export class ListReceiptComponent implements OnInit, AfterViewInit {
     confirmRemoveReceipt(id: string) {
         this._receiptService.remove(id).subscribe(() => {
             this.confirmService
-                .open({
-                    title: 'Success',
-                    message: 'Receipt has been successfully deleted',
-                    icon: { color: 'success', name: '' },
-                    actions: {
-                        confirm: { show: false },
-                        cancel: { label: 'OK' },
-                    },
-                })
+                .success('Receipt has been successfully deleted')
                 .afterOpened()
                 .subscribe(() => this.reloadData());
         });
