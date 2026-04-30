@@ -1,6 +1,8 @@
 import { FuseNavigationItem } from '../@fuse/components/navigation';
 
-export const BASE_URL = `http://${location.hostname}:3000`;
+export const BASE_URL = ['localhost', '127.0.0.1'].includes(location.hostname)
+    ? `http://${location.hostname}:3000`
+    : `${location.protocol}//${location.hostname}/api`;
 
 export const SERVICE_URLS = {
     DOCTOR_API: `${BASE_URL}/doctor`,
