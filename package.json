@@ -1,7 +1,7 @@
 {
-    "name": "@fuse/demo",
+    "name": "myclinic-fe",
     "version": "14.2.0",
-    "description": "Fuse - Angular Admin Template and Starter Project",
+    "description": "MY Clinic - Portal",
     "author": "https://themeforest.net/user/srcn",
     "license": "https://themeforest.net/licenses/standard",
     "private": true,
