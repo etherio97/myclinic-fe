@@ -12,6 +12,7 @@ export const SERVICE_URLS = {
     AUTH_API: `${BASE_URL}/auth`,
     APPOINTMENT_API: `${BASE_URL}/appointment`,
     DASHBOARD_API: `${BASE_URL}/dashboard`,
+    CASHFLOW_API: `${BASE_URL}/cashflow`,
 };
 
 export const APP_CONFIG = {
@@ -29,6 +30,7 @@ export const APP_CONFIG = {
     ],
     ITEM_TYPES: ['Clinic', 'Laboratory'],
     PAYMENT_METHODS: ['Cash', 'MMQR', 'Credit', 'Other'],
+    CASHFLOW_CATEGORY: ['Revenue', 'Operation', 'Other'],
 };
 
 export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
@@ -106,6 +108,19 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
                 },
             },
 
+            // Finance
+            {
+                id: 'cashflow',
+                title: 'Cashflow',
+                type: 'basic',
+                icon: 'heroicons_solid:cash',
+                link: '/cashflow',
+                meta: {
+                    roles: ['admin', 'manager'],
+                },
+            },
+
+            // Admin
             {
                 id: 'users',
                 title: 'Users',
