@@ -282,5 +282,28 @@
                 </mat-paginator>
             </div>
         </div>
+
+        <div class="bg-card shadow rounded p-5 mt-5">
+            <div>
+                <table class="w-full border-collapse">
+                    <tr>
+                        <td class="px-2">Clinic Revenue:</td>
+                        <td class="px-2">
+                            {{ clinicTotal | currency: "MMK" : "" : "0.0-0" }}
+                        </td>
+
+                        <td class="px-2">Laboratory Revenue:</td>
+                        <td class="px-2">
+                            {{ labTotal | currency: "MMK" : "" : "0.0-0" }}
+                        </td>
+
+                        <td class="px-2 font-bold">Total Revenue:</td>
+                        <td class="px-2 font-bold">
+                            {{ grandTotal | currency: "MMK" : "" : "0.0-0" }}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
 </div>

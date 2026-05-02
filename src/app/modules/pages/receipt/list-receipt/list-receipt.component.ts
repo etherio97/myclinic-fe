@@ -36,6 +36,12 @@ export class ListReceiptComponent implements OnInit, AfterViewInit {
 
     types = APP_CONFIG.ITEM_TYPES;
 
+    grandTotal = 0;
+
+    clinicTotal = 0;
+
+    labTotal = 0;
+
     @ViewChild(MatPaginator) paginator!: MatPaginator;
 
     constructor(
@@ -86,6 +92,25 @@ export class ListReceiptComponent implements OnInit, AfterViewInit {
         }
         this._receiptService.getAll(condition).subscribe((result: any) => {
             this.searchResult = this.dataSource.data = result;
+            let grandTotal = 0,
+                clinicTotal = 0,
+                labTotal = 0;
+            if (Array.isArray(result)) {
+                for (let item of result) {
+                    grandTotal += Number.parseFloat(item.grandTotal);
+                    switch (item.type) {
+                        case 'Clinic':
+                            clinicTotal += Number.parseFloat(item.grandTotal);
+                            break;
+                        case 'Laboratory':
+                            labTotal += Number.parseFloat(item.grandTotal);
+                            break;
+                    }
+                }
+            }
+            this.grandTotal = grandTotal;
+            this.clinicTotal = clinicTotal;
+            this.labTotal = labTotal;
         });
     }
 
