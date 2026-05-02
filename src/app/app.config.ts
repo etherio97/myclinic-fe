@@ -28,6 +28,7 @@ export const APP_CONFIG = {
         'Ultrasound',
     ],
     ITEM_TYPES: ['Clinic', 'Laboratory'],
+    PAYMENT_METHODS: ['Cash', 'MMQR', 'Credit', 'Other'],
 };
 
 export const NAVIGATION_ITEMS: FuseNavigationItem[] = [

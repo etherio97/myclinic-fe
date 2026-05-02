@@ -144,10 +144,12 @@
                     <mat-form-field class="w-full">
                         <mat-label>Payment Method</mat-label>
                         <mat-select formControlName="paymentMethod">
-                            <mat-option value="cash">Cash</mat-option>
-                            <mat-option value="online">Online</mat-option>
-                            <mat-option value="card">Card</mat-option>
-                            <mat-option value="pending">Pending</mat-option>
+                            <mat-option
+                                *ngFor="let paymentMethod of paymentMethods"
+                                [value]="paymentMethod"
+                            >
+                                {{ paymentMethod }}
+                            </mat-option>
                         </mat-select>
                     </mat-form-field>
 

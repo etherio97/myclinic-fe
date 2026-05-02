@@ -28,6 +28,8 @@ export class CreateReceiptComponent implements OnInit {
 
     patients: any[] = [];
 
+    paymentMethods = APP_CONFIG.PAYMENT_METHODS;
+
     patientFilteredOptions!: Observable<string[]>;
 
     doctorFilteredOptions!: Observable<string[]>;
@@ -237,6 +239,18 @@ export class CreateReceiptComponent implements OnInit {
         }
         if (!this.selectedItems.length) {
             return this._confirmService.error('Please input items.', 'Invalid');
+        }
+        if (
+            this.formGroup.value.patient &&
+            typeof this.formGroup.value.patient !== 'object'
+        ) {
+            return this._confirmService.error('Please create pateint first.');
+        }
+        if (
+            this.formGroup.value.doctor &&
+            typeof this.formGroup.value.doctor !== 'object'
+        ) {
+            return this._confirmService.error('Please create doctor first.');
         }
         this._confirmService
             .confirm('Are you sure to create this receipt?')

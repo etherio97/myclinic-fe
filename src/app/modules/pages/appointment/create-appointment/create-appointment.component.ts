@@ -142,6 +142,18 @@ export class CreateAppointmentComponent implements OnInit {
                 'Invalid',
             );
         }
+        if (
+            this.formGroup.value.patient &&
+            typeof this.formGroup.value.patient !== 'object'
+        ) {
+            return this._confirmService.error('Please create pateint first.');
+        }
+        if (
+            this.formGroup.value.doctor &&
+            typeof this.formGroup.value.doctor !== 'object'
+        ) {
+            return this._confirmService.error('Please create doctor first.');
+        }
 
         this._confirmService
             .confirm('Are you sure to create this appointment?')
