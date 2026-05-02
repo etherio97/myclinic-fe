@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { APP_CONFIG } from 'app/app.config';
+import { UserService } from 'app/core/user/user.service';
 import { ConfirmService } from 'app/services/confirm.service';
 import { ItemService } from 'app/services/item.service';
 
@@ -33,10 +34,13 @@ export class ListItemComponent implements OnInit, AfterViewInit {
 
     @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+    role!: string;
+
     constructor(
         private _fb: FormBuilder,
         private confirmService: ConfirmService,
         private _itemService: ItemService,
+        private _userService: UserService,
     ) {}
 
     ngOnInit(): void {
@@ -44,6 +48,10 @@ export class ListItemComponent implements OnInit, AfterViewInit {
             name: '',
             itemType: '',
             category: '',
+        });
+
+        this._userService.get().subscribe(({ role }) => {
+            this.role = role;
         });
 
         this._itemService.getUtils().subscribe((result: any) => {

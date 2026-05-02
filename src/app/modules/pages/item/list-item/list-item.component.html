@@ -196,6 +196,7 @@
                                 ></mat-icon>
                             </button>
                             <button
+                                *ngIf="['admin', 'manager'].includes(role)"
                                 mat-icon-button
                                 (click)="removeItem(element.id)"
                                 matTooltip="Delete"

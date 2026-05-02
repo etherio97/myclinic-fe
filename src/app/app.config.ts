@@ -100,7 +100,7 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
                 icon: 'mat_solid:inventory_2',
                 link: '/items',
                 meta: {
-                    roles: ['admin', 'manager'],
+                    roles: ['admin', 'manager', 'cashier'],
                 },
             },
 

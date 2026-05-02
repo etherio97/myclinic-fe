@@ -35,7 +35,7 @@ export class UserService {
 
     changeRole(id: string, role: string) {
         return this._http.post(
-            [SERVICE_URLS.AUTH_API, 'change-status', id].join('/'),
+            [SERVICE_URLS.AUTH_API, 'change-role', id].join('/'),
             { role },
         );
     }
