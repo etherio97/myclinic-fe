@@ -1,1 +1,12 @@
+<div
+    *ngIf="!isOnline"
+    [@slideInBottom]
+    [@slideOutBottom]
+    class="w-full bg-rose-600 text-white py-4 flex justify-center items-center absolute bottom-0 z-99999"
+>
+    <p class="text-sm">
+        အင်တာနက်လိုင်း ပြတ်တောက်နေပါသည်။ အင်တာနက် ချိတ်ဆက်မှုကို စစ်ဆေးပါ။
+    </p>
+</div>
+
 <router-outlet></router-outlet>
