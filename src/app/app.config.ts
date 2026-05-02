@@ -15,7 +15,8 @@ export const SERVICE_URLS = {
 };
 
 export const APP_CONFIG = {
-    ROLES: ['admin', 'manager', 'cashier'],
+    ADMIN_ROLES: ['admin', 'manager', 'cashier'],
+    MANAGER_ROLES: ['cashier'],
     GENDERS: ['Male', 'Female'],
     APPOINTMENT_STATUS: ['Booked', 'Completed', 'No Show', 'Cancelled'],
     APPOINTMENT_TYPES: ['Old', 'New', 'Follow Up'],
@@ -111,7 +112,7 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
                 icon: 'mat_solid:admin_panel_settings',
                 link: '/users',
                 meta: {
-                    roles: ['admin'],
+                    roles: ['admin', 'manager'],
                 },
             },
         ],

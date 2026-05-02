@@ -30,7 +30,7 @@ export class ListUserComponent implements OnInit, AfterViewInit {
         'actions',
     ];
 
-    roles = APP_CONFIG.ROLES;
+    roles: string[] = [];
 
     formGroup!: FormGroup;
 
@@ -47,6 +47,8 @@ export class ListUserComponent implements OnInit, AfterViewInit {
     loggedUserId!: string;
 
     selectedUser!: any;
+
+    role!: string;
 
     constructor(
         private _fb: FormBuilder,
@@ -66,6 +68,15 @@ export class ListUserComponent implements OnInit, AfterViewInit {
 
         this._loggedUserService.get().subscribe((user) => {
             this.loggedUserId = user.sub;
+            this.role = user.role;
+            switch (this.role) {
+                case 'manager':
+                    this.roles = APP_CONFIG.MANAGER_ROLES;
+                    break;
+                case 'admin':
+                    this.roles = APP_CONFIG.ADMIN_ROLES;
+                    break;
+            }
         });
 
         this.reloadData();
