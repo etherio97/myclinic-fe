@@ -139,7 +139,6 @@
                                     class="icon-size-4"
                                 ></mat-icon>
                             </button>
-                            <!-- *ngIf="['admin'].includes(role)" -->
                             <button
                                 mat-icon-button
                                 (click)="resetPassword(element)"
@@ -164,6 +163,7 @@
                                 ></mat-icon>
                             </button>
                             <button
+                                *ngIf="['admin'].includes(role)"
                                 mat-icon-button
                                 (click)="removeUser(element)"
                                 matTooltip="Delete"
@@ -218,7 +218,7 @@
             </mat-form-field>
 
             <mat-form-field class="w-full">
-                <mat-label>Password</mat-label>
+                <mat-label>Temporary Password</mat-label>
                 <input type="text" matInput formControlName="password" />
             </mat-form-field>
 
