@@ -139,8 +139,8 @@
                                     class="icon-size-4"
                                 ></mat-icon>
                             </button>
+                            <!-- *ngIf="['admin'].includes(role)" -->
                             <button
-                                *ngIf="['admin'].includes(role)"
                                 mat-icon-button
                                 (click)="resetPassword(element)"
                                 matTooltip="Reset Password"
