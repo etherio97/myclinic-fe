@@ -74,6 +74,12 @@ export class AuthService {
             .post([SERVICE_URLS.AUTH_API, 'login'].join('/'), credentials)
             .pipe(
                 switchMap((response: any) => {
+                    if (response.isDefaultPassword) {
+                        return of({
+                            isDefaultPassword: true,
+                        });
+                    }
+
                     if (!response.access_token) {
                         return of({
                             error: true,

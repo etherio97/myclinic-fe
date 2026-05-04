@@ -26,6 +26,7 @@ export class ListUserComponent implements OnInit, AfterViewInit {
         'username',
         'status',
         'role',
+        'lastLoggedIn',
         'createdAt',
         'actions',
     ];
@@ -41,6 +42,10 @@ export class ListUserComponent implements OnInit, AfterViewInit {
     @ViewChild('createUserModal') createUserModalRef!: TemplateRef<any>;
 
     @ViewChild('changeRoleModal') changeRoleModalRef!: TemplateRef<any>;
+
+    @ViewChild('resetTemplateModal') resetTemplateModalRef!: TemplateRef<any>;
+
+    resetFormGroup!: FormGroup;
 
     _modal!: MatDialogRef<HTMLElement>;
 
@@ -64,6 +69,10 @@ export class ListUserComponent implements OnInit, AfterViewInit {
             username: ['', Validators.required],
             password: ['', Validators.required],
             role: ['', Validators.required],
+        });
+
+        this.resetFormGroup = this._fb.group({
+            newPassword: ['', Validators.required],
         });
 
         this._loggedUserService.get().subscribe((user) => {
@@ -92,7 +101,29 @@ export class ListUserComponent implements OnInit, AfterViewInit {
         });
     }
 
+    resetPassword(user: any) {
+        this.selectedUser = user;
+        this.resetFormGroup.reset();
+        this._modal = this.dialog.open(this.resetTemplateModalRef, {
+            width: '100%',
+            minWidth: '280px',
+            maxWidth: '380px',
+        });
+    }
+
+    submitResetPassword() {
+        this._userService
+            .resetPassword(
+                this.selectedUser.id,
+                this.resetFormGroup.value.newPassword,
+            )
+            .subscribe(() => {
+                this._modal.close();
+            });
+    }
+
     openCreateUserModal() {
+        this.formGroup.reset();
         this._modal = this.dialog.open(this.createUserModalRef, {
             width: '100%',
             minWidth: '280px',

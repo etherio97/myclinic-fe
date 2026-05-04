@@ -153,3 +153,42 @@
         </div>
     </div>
 </div>
+
+<ng-template #createNewPasswordModal>
+    <form [formGroup]="newPasswordForm" (ngSubmit)="submitNewPassword()">
+        <div class="bg-white px-5 py-8 rounded-lg">
+            <fuse-alert class="mb-4" type="warning" appearance="outline">
+                သင့် Password အား အသစ်ပြုလုပ်ရန် လိုအပ်သည်။
+            </fuse-alert>
+
+            <mat-form-field class="w-full">
+                <mat-label>New Password</mat-label>
+                <input type="password" matInput formControlName="newPassword" />
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+                <mat-label>Confirm Password</mat-label>
+                <input
+                    type="password"
+                    matInput
+                    formControlName="confirmPassword"
+                />
+            </mat-form-field>
+
+            <fuse-alert
+                *ngIf="showNewPasswordAlert"
+                class="mb-4"
+                [type]="newPasswordAlert.type"
+                appearance="outline"
+            >
+                {{ newPasswordAlert.message }}
+            </fuse-alert>
+
+            <div class="flex justify-center space-x-2 items-center">
+                <button mat-button class="bg-indigo-600 text-white">
+                    Update Password
+                </button>
+            </div>
+        </div>
+    </form>
+</ng-template>

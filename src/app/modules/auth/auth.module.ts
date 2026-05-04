@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { FuseAlertModule } from '@fuse/components/alert';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
     declarations: [LoginComponent],
@@ -28,6 +29,7 @@ import { FuseAlertModule } from '@fuse/components/alert';
         MatCheckboxModule,
         MatButtonModule,
         FuseAlertModule,
+        MatDialogModule,
     ],
 })
 export class AuthModule {}

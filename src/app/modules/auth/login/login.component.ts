@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
+import { UserService } from 'app/services/user.service';
 
 @Component({
     selector: 'auth-login',
@@ -17,7 +19,18 @@ export class LoginComponent implements OnInit {
         message: '',
     };
     signInForm!: FormGroup;
+    newPasswordForm!: FormGroup;
     showAlert: boolean = false;
+
+    @ViewChild('createNewPasswordModal') createNewPasswordModal: any;
+
+    private _modal: any;
+
+    showNewPasswordAlert: boolean = false;
+    newPasswordAlert: { type: FuseAlertType; message: string } = {
+        type: 'success',
+        message: '',
+    };
 
     /**
      * Constructor
@@ -27,6 +40,8 @@ export class LoginComponent implements OnInit {
         private _authService: AuthService,
         private _formBuilder: FormBuilder,
         private _router: Router,
+        private _dialogModal: MatDialog,
+        private _userService: UserService,
     ) {}
 
     // -----------------------------------------------------------------------------------------------------
@@ -41,6 +56,11 @@ export class LoginComponent implements OnInit {
         this.signInForm = this._formBuilder.group({
             username: ['', [Validators.required]],
             password: ['', Validators.required],
+        });
+
+        this.newPasswordForm = this._formBuilder.group({
+            newPassword: ['', [Validators.required, Validators.minLength(6)]],
+            confirmPassword: ['', [Validators.required]],
         });
     }
 
@@ -65,7 +85,11 @@ export class LoginComponent implements OnInit {
 
         // Sign in
         this._authService.signIn(this.signInForm.value).subscribe(
-            ({ error, message }) => {
+            ({ error, message, isDefaultPassword }) => {
+                if (isDefaultPassword) {
+                    return this.openCreateNewPasswordModal();
+                }
+
                 if (error) {
                     // Set the alert
                     this.alert = {
@@ -111,5 +135,60 @@ export class LoginComponent implements OnInit {
                 this.showAlert = true;
             },
         );
+    }
+
+    submitNewPassword() {
+        if (this.newPasswordForm.invalid) {
+            this.showNewPasswordAlert = true;
+            this.newPasswordAlert = {
+                type: 'error',
+                message: 'Password must be at least 6 characters or nubmers',
+            };
+            return;
+        }
+
+        if (
+            this.newPasswordForm.value.newPassword !==
+            this.newPasswordForm.value.confirmPassword
+        ) {
+            this.showNewPasswordAlert = true;
+            this.newPasswordAlert = {
+                type: 'error',
+                message: 'Both password must be same.',
+            };
+            return;
+        }
+
+        this._userService
+            .newPassword(
+                this.signInForm.value.username,
+                this.signInForm.value.password,
+                this.newPasswordForm.value.newPassword,
+            )
+            .subscribe(({ error, message }: any) => {
+                if (error) {
+                    this.showNewPasswordAlert = true;
+                    this.newPasswordAlert = {
+                        type: 'error',
+                        message: message || 'Unexcepted Error',
+                    };
+                    return;
+                }
+
+                this.signInForm.controls.password.setValue(
+                    this.newPasswordForm.value.newPassword,
+                );
+                this._modal.close();
+                this.signIn();
+            });
+    }
+
+    private openCreateNewPasswordModal() {
+        this._modal = this._dialogModal.open(this.createNewPasswordModal, {
+            width: '100%',
+            minWidth: '320px',
+            maxWidth: '520px',
+            disableClose: true,
+        });
     }
 }

@@ -46,4 +46,18 @@ export class UserService {
             { oldPassword, newPassword },
         );
     }
+
+    newPassword(username: string, oldPassword: string, newPassword: string) {
+        return this._http.post(
+            [SERVICE_URLS.AUTH_API, 'new-password'].join('/'),
+            { username, oldPassword, newPassword },
+        );
+    }
+
+    resetPassword(userId: string, newPassword: string) {
+        return this._http.post(
+            [SERVICE_URLS.AUTH_API, 'reset-password'].join('/'),
+            { userId, newPassword },
+        );
+    }
 }
