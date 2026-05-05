@@ -77,8 +77,8 @@ export class UserComponent implements OnInit, OnDestroy {
 
         this.formGroup = this._fb.group({
             oldPassword: ['', Validators.required],
-            newPassword: ['', Validators.required],
-            retypePassword: ['', Validators.required],
+            newPassword: ['', [Validators.required, Validators.minLength(6)]],
+            retypePassword: ['', [Validators.required]],
         });
     }
 

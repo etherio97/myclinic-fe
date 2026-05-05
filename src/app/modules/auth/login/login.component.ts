@@ -142,7 +142,7 @@ export class LoginComponent implements OnInit {
             this.showNewPasswordAlert = true;
             this.newPasswordAlert = {
                 type: 'error',
-                message: 'Password must be at least 6 characters or nubmers',
+                message: 'Password must be at least 6 characters or numbers.',
             };
             return;
         }
