@@ -116,7 +116,7 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
                 icon: 'heroicons_solid:cash',
                 link: '/cashflow',
                 meta: {
-                    roles: ['admin', 'manager'],
+                    roles: ['admin'],
                 },
             },
 
