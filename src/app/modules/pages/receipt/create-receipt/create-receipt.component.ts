@@ -273,7 +273,7 @@ export class CreateReceiptComponent implements OnInit {
 
         data.grandTotal = this.getGrandTotal();
 
-        if (!data.discountAmount) data.discountAmount = 0;
+        data.discountAmount = this.getDiscount();
 
         if (data.date) {
             data.date = moment(data.date).toISOString();
@@ -297,15 +297,29 @@ export class CreateReceiptComponent implements OnInit {
         let i = 0;
 
         this.selectedItems.forEach((item) => {
-            i += item.sellingPrice * item.quantity;
+            i += item.sellingPrice * item.quantity - (item.discount || 0);
         });
 
         return i;
     }
 
     getGrandTotal() {
-        return (
-            this.getSubTotal() - this.formGroup.controls.discountAmount.value
-        );
+        return this.getSubTotal() - this.getDiscount();
+    }
+
+    getDiscount() {
+        let i = 0;
+
+        if (this.formGroup.controls.discountAmount.value) {
+            i += this.formGroup.controls.discountAmount.value;
+        }
+
+        this.selectedItems.forEach((item) => {
+            if (item.discount) {
+                i += item.discount;
+            }
+        });
+
+        return i;
     }
 }

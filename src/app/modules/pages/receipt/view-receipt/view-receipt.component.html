@@ -155,6 +155,12 @@
                                     {{ data.type }}
                                 </td>
                             </tr>
+                            <tr class="">
+                                <td class="text-left py-2">Payment Method</td>
+                                <td class="text-right py-2 font-bold">
+                                    {{ data.paymentMethod }}
+                                </td>
+                            </tr>
                         </table>
                     </div>
                 </div>
@@ -168,6 +174,7 @@
                                 <th class="text-left py-2">Item Name</th>
                                 <th class="text-right py-2">Price</th>
                                 <th class="text-right py-2">Quantity</th>
+                                <th class="text-right py-2">Discount</th>
                                 <th class="text-right py-2">Total</th>
                             </tr>
                         </thead>
@@ -186,9 +193,13 @@
                                 <td class="text-right py-2">
                                     {{ item.quantity }}
                                 </td>
+                                <td class="text-right py-2">
+                                    {{ item.discount || 0 }}
+                                </td>
                                 <td class="text-right py-2 w-30">
                                     {{
-                                        item.sellingPrice * item.quantity
+                                        item.sellingPrice * item.quantity -
+                                            (item.discount || 0)
                                             | currency: "MMK" : "" : "0.0-0"
                                     }}
                                 </td>
@@ -196,7 +207,7 @@
 
                             <!-- Total -->
                             <tr class="text-center">
-                                <th colspan="3" class="py-2">Sub Total</th>
+                                <th colspan="4" class="py-2">Sub Total</th>
                                 <th colspan="1" class="py-2">
                                     {{
                                         data.subtotal || 0
@@ -205,7 +216,7 @@
                                 </th>
                             </tr>
                             <tr class="text-center">
-                                <th colspan="3" class="py-2">Discount</th>
+                                <th colspan="4" class="py-2">Discount</th>
                                 <th colspan="1" class="py-2">
                                     {{
                                         data.discountAmount || 0
@@ -214,7 +225,7 @@
                                 </th>
                             </tr>
                             <tr class="text-center">
-                                <th colspan="3" class="py-2">Total</th>
+                                <th colspan="4" class="py-2">Total</th>
                                 <th colspan="1" class="py-2">
                                     {{
                                         data.grandTotal || 0

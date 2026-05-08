@@ -79,16 +79,25 @@
     <div style="margin-bottom: 4px">
         <ng-container *ngFor="let item of items">
             <div style="margin-bottom: 2px">
-                <div>{{ item.name }}</div>
+                <div>
+                    <b>{{ item.name }}</b>
+                </div>
                 <div class="row">
                     <span
                         >{{ item.quantity }} x
-                        {{
-                            item.sellingPrice | currency: "MMK" : "" : "0.0-0"
-                        }}</span
-                    >
+                        {{ item.sellingPrice | currency: "MMK" : "" : "0.0-0" }}
+                        <ng-container *ngIf="item.discount">
+                            <br />
+                            <i>
+                                Discount: -{{
+                                    item.discount
+                                        | currency: "MMK" : "" : "0.0-0"
+                                }}
+                            </i>
+                        </ng-container>
+                    </span>
                     <span>{{
-                        item.quantity * item.sellingPrice
+                        item.quantity * item.sellingPrice - (item.discount || 0)
                             | currency: "MMK" : "" : "0.0-0"
                     }}</span>
                 </div>
@@ -106,7 +115,7 @@
                     {{ subTotal || 0 | currency: "MMK" : "" : "0.0-0" }}
                 </td>
             </tr>
-            <tr>
+            <tr *ngIf="discount != 0">
                 <td>Discount</td>
                 <td style="text-align: right">
                     {{ discount || 0 | currency: "MMK" : "" : "0.0-0" }}

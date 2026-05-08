@@ -30,7 +30,7 @@ export const APP_CONFIG = {
     ],
     ITEM_TYPES: ['Clinic', 'Laboratory'],
     PAYMENT_METHODS: ['Cash', 'MMQR', 'Credit', 'Other'],
-    CASHFLOW_CATEGORY: ['Revenue', 'Operation', 'Other'],
+    CASHFLOW_CATEGORY: ['Capital', 'Revenue', 'Operation', 'Personal', 'Other'],
 };
 
 export const NAVIGATION_ITEMS: FuseNavigationItem[] = [

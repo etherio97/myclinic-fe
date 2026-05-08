@@ -207,6 +207,7 @@
                                 <th class="text-left py-2">Item Name</th>
                                 <th class="text-right py-2">Price</th>
                                 <th class="text-right py-2">Quantity</th>
+                                <th class="text-right py-2">Discount</th>
                                 <th class="text-right py-2">Total</th>
                                 <th class="text-center py-2">Action</th>
                             </tr>
@@ -240,9 +241,20 @@
                                         [ngModelOptions]="{ standalone: true }"
                                     />
                                 </td>
+                                <td class="text-right py-2">
+                                    <input
+                                        class="py-1 px-2 w-24 rounded bg-white text-center"
+                                        matInput
+                                        type="number"
+                                        (change)="recalculateDiscount()"
+                                        [(ngModel)]="item.discount"
+                                        [ngModelOptions]="{ standalone: true }"
+                                    />
+                                </td>
                                 <td class="text-right py-2 w-30">
                                     {{
-                                        item.sellingPrice * item.quantity
+                                        item.sellingPrice * item.quantity -
+                                            (item.discount || 0)
                                             | currency: "MMK" : "" : "0.0-0"
                                     }}
                                 </td>
@@ -260,7 +272,7 @@
 
                             <!-- Total -->
                             <tr class="text-center">
-                                <th colspan="3" class="py-4">Sub Total</th>
+                                <th colspan="4" class="py-4">Sub Total</th>
                                 <th colspan="2" class="py-4">
                                     {{
                                         getSubTotal()
@@ -269,17 +281,16 @@
                                 </th>
                             </tr>
                             <tr class="text-center">
-                                <th colspan="3" class="py-4">Discount</th>
+                                <th colspan="4" class="py-4">Discount</th>
                                 <th colspan="2" class="py-4">
                                     {{
-                                        formGroup.controls.discountAmount
-                                            .value || 0
+                                        getDiscount()
                                             | currency: "MMK" : "" : "0.0-0"
                                     }}
                                 </th>
                             </tr>
                             <tr class="text-center">
-                                <th colspan="3" class="py-4">Total</th>
+                                <th colspan="4" class="py-4">Total</th>
                                 <th colspan="2" class="py-4">
                                     {{
                                         getGrandTotal()
