@@ -61,6 +61,13 @@ export const appRoutes: Route[] = [
                     ),
             },
             {
+                path: 'deleted-receipts',
+                loadChildren: () =>
+                    import('app/modules/pages/deleted-receipt/deleted-receipt.module').then(
+                        (m) => m.DeletedReceiptModule,
+                    ),
+            },
+            {
                 path: 'appointments',
                 loadChildren: () =>
                     import('app/modules/pages/appointment/appointment.module').then(

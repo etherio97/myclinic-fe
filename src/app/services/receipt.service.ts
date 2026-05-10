@@ -14,6 +14,15 @@ export class ReceiptService {
         });
     }
 
+    getDeletedReceipts(params: any) {
+        return this._http.get(
+            [SERVICE_URLS.RECEIPT_API, 'deleted-receipts'].join('/'),
+            {
+                params,
+            },
+        );
+    }
+
     findById(id: string) {
         return this._http.get([SERVICE_URLS.RECEIPT_API, 'list', id].join('/'));
     }
@@ -23,6 +32,7 @@ export class ReceiptService {
             [SERVICE_URLS.RECEIPT_API, 'patient-receipts', patientId].join('/'),
         );
     }
+
     create(data: any) {
         return this._http.post(
             [SERVICE_URLS.RECEIPT_API, 'create'].join('/'),

@@ -68,6 +68,16 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
                 },
             },
             {
+                id: 'deleted-receipts',
+                title: 'Deleted Receipts',
+                type: 'basic',
+                icon: 'mat_solid:restore',
+                link: '/deleted-receipts',
+                meta: {
+                    roles: ['admin', 'manager'],
+                },
+            },
+            {
                 id: 'appointments',
                 title: 'Appointments',
                 type: 'basic',
