@@ -10,9 +10,13 @@ import moment from 'moment';
 export class AdminDashboardComponent implements OnInit {
     formGroup!: FormGroup;
 
-    searchData: any = {};
+    prevDailyData: any = {};
+
+    dailyData: any = {};
 
     monthlyData: any = {};
+
+    prevMonthlyData: any = {};
 
     constructor(
         private _fb: FormBuilder,
@@ -35,7 +39,14 @@ export class AdminDashboardComponent implements OnInit {
             this.formGroup.controls.startDate.value,
             this.formGroup.controls.endDate.value,
         ).subscribe((data: any) => {
-            this.searchData = data;
+            this.dailyData = data;
+        });
+
+        this.fetchData(
+            moment(this.formGroup.controls.startDate.value).subtract(1, 'day'),
+            moment(this.formGroup.controls.endDate.value).subtract(1, 'day'),
+        ).subscribe((data: any) => {
+            this.prevDailyData = data;
         });
     }
 
@@ -45,6 +56,13 @@ export class AdminDashboardComponent implements OnInit {
             moment().endOf('month'),
         ).subscribe((data: any) => {
             this.monthlyData = data;
+        });
+
+        this.fetchData(
+            moment().subtract(1, 'month').startOf('month'),
+            moment().subtract(1, 'month').endOf('month'),
+        ).subscribe((data: any) => {
+            this.prevMonthlyData = data;
         });
     }
 
@@ -57,5 +75,9 @@ export class AdminDashboardComponent implements OnInit {
             ? endDate.format('yyyy-MM-DD')
             : moment(endDate).format('yyyy-MM-DD');
         return this._dashboardService.getBatchAdmin(condition);
+    }
+
+    int(s: string | number) {
+        return typeof s === 'string' ? parseInt(s) : s;
     }
 }

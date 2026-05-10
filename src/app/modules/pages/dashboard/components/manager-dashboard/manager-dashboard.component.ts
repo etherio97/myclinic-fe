@@ -10,7 +10,9 @@ import moment from 'moment';
 export class ManagerDashboardComponent implements OnInit {
     formGroup!: FormGroup;
 
-    searchData: any = {};
+    dailyData: any = {};
+
+    prevDailyData: any = {};
 
     constructor(
         private _fb: FormBuilder,
@@ -31,7 +33,14 @@ export class ManagerDashboardComponent implements OnInit {
             this.formGroup.controls.startDate.value,
             this.formGroup.controls.endDate.value,
         ).subscribe((data: any) => {
-            this.searchData = data;
+            this.dailyData = data;
+        });
+
+        this.fetchData(
+            moment(this.formGroup.controls.startDate.value).subtract(1, 'day'),
+            moment(this.formGroup.controls.endDate.value).subtract(1, 'day'),
+        ).subscribe((data: any) => {
+            this.prevDailyData = data;
         });
     }
 
@@ -44,5 +53,9 @@ export class ManagerDashboardComponent implements OnInit {
             ? endDate.format('yyyy-MM-DD')
             : moment(endDate).format('yyyy-MM-DD');
         return this._dashboardService.getBatchAdmin(condition);
+    }
+
+    int(s: string | number) {
+        return typeof s === 'string' ? parseInt(s) : s;
     }
 }

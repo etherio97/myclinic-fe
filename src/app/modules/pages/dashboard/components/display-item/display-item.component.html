@@ -1,0 +1,45 @@
+<div
+    class="flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden pb-4"
+>
+    <div class="flex items-baseline justify-center w-full mt-5 text-secondary">
+        <div class="text-md font-bold truncate">
+            {{ title }}
+        </div>
+    </div>
+    <div class="flex flex-col items-center mt-2">
+        <div
+            class="text-xl sm:text-4xl font-bold tracking-tight leading-none text-blue-500"
+        >
+            <div class="flex items-center space-x-2">
+                <span>
+                    <ng-container *ngIf="isCurrency; else nonCurrency">
+                        {{ current | currency: "MMK" : "" : "0.0-0" }}
+                    </ng-container>
+                    <ng-template #nonCurrency>
+                        {{ current }}
+                    </ng-template>
+                </span>
+
+                <span
+                    *ngIf="previous != current"
+                    [ngClass]="className"
+                    class="font-medium flex items-center text-sm"
+                >
+                    <mat-icon
+                        [ngClass]="className"
+                        class="icon-size-5"
+                        [svgIcon]="icon"
+                    ></mat-icon>
+                    <p>{{ percentage.toFixed(0) }}%</p>
+                </span>
+            </div>
+        </div>
+        <div
+            class="text-sm flex space-x-2 items-center justify-center w-full mt-1"
+        >
+            <span class="font-medium text-blue-600 dark:text-blue-500">
+                {{ unit }}
+            </span>
+        </div>
+    </div>
+</div>
