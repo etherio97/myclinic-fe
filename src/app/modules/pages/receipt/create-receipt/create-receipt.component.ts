@@ -17,7 +17,6 @@ import { ConfirmService } from 'app/services/confirm.service';
 @Component({
     selector: 'app-create-receipt',
     templateUrl: './create-receipt.component.html',
-    providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }],
 })
 export class CreateReceiptComponent implements OnInit {
     formGroup!: FormGroup;

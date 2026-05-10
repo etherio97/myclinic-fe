@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { APP_CONFIG, MY_DATE_FORMATS } from 'app/app.config';
+import { APP_CONFIG } from 'app/app.config';
 import { PatientService } from 'app/services/patient.service';
-import { MAT_DATE_FORMATS } from '@angular/material/core';
 import moment from 'moment';
 import { clone } from 'lodash';
 import { ConfirmService } from 'app/services/confirm.service';
@@ -11,7 +10,6 @@ import { ConfirmService } from 'app/services/confirm.service';
 @Component({
     selector: 'app-create-patient',
     templateUrl: './create-patient.component.html',
-    providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }],
 })
 export class CreatePatientComponent implements OnInit {
     formGroup!: FormGroup;

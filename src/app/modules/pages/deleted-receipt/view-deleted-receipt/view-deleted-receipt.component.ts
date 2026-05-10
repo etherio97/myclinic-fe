@@ -7,7 +7,6 @@ import { ReceiptService } from 'app/services/receipt.service';
 @Component({
     selector: 'app-view-deleted-receipt',
     templateUrl: './view-deleted-receipt.component.html',
-    providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }],
 })
 export class ViewDeletedReceiptComponent implements OnInit {
     id!: string;

@@ -103,14 +103,17 @@
                     <mat-form-field class="w-full">
                         <mat-label>Date</mat-label>
                         <mat-hint>
-                            No selection needed for current date/time. Use the
-                            input only for backdated entries.
+                            <div class="h-4">
+                                ယခုအချိန်အားရွေးလိုပါက
+                                မရွေးချယ်ဘဲထားခဲ့နိုင်ပါသည်။
+                            </div>
                         </mat-hint>
                         <input
                             matInput
                             [ngxMatDatetimePicker]="picker"
                             placeholder="Choose a date"
                             formControlName="date"
+                            (click)="picker.open()"
                         />
                         <mat-datepicker-toggle
                             matSuffix

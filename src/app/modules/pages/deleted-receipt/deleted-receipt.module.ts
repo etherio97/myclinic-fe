@@ -22,6 +22,8 @@ import {
     NgxMatTimepickerModule,
     NgxNativeDateModule,
 } from '@angular-material-components/datetime-picker';
+import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { MY_DATE_FORMATS } from 'app/app.config';
 
 @NgModule({
     declarations: [ListDeletedReceiptComponent, ViewDeletedReceiptComponent],
@@ -50,6 +52,7 @@ import {
             provide: NGX_MAT_DATE_FORMATS,
             useValue: NGX_MAT_NATIVE_DATE_FORMATS,
         },
+        { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
     ],
 })
 export class DeletedReceiptModule {}

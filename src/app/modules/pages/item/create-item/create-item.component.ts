@@ -12,7 +12,6 @@ import { ConfirmService } from 'app/services/confirm.service';
 @Component({
     selector: 'app-create-item',
     templateUrl: './create-item.component.html',
-    providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }],
 })
 export class CreateItemComponent implements OnInit {
     formGroup!: FormGroup;

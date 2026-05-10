@@ -14,6 +14,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { ListCashflowComponent } from './list-cashflow/list-cashflow.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { MY_DATE_FORMATS } from 'app/app.config';
 
 @NgModule({
     declarations: [ListCashflowComponent],
@@ -33,5 +35,6 @@ import { MatPaginatorModule } from '@angular/material/paginator';
         MatAutocompleteModule,
         MatPaginatorModule,
     ],
+    providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }],
 })
 export class CashflowModule {}

@@ -12,6 +12,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MY_DATE_FORMATS } from 'app/app.config';
+import { MAT_DATE_FORMATS } from '@angular/material/core';
 
 @NgModule({
     declarations: [ListUserComponent],
@@ -29,5 +31,6 @@ import { MatSelectModule } from '@angular/material/select';
         MatPaginatorModule,
         MatDialogModule,
     ],
+    providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }],
 })
 export class UserModule {}

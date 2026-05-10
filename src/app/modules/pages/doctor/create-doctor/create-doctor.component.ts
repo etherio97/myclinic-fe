@@ -9,7 +9,6 @@ import { ConfirmService } from 'app/services/confirm.service';
 @Component({
     selector: 'app-create-doctor',
     templateUrl: './create-doctor.component.html',
-    providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }],
 })
 export class CreateDoctorComponent implements OnInit {
     formGroup!: FormGroup;

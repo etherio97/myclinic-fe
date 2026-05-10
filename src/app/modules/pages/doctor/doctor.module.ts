@@ -16,6 +16,8 @@ import { CreateDoctorComponent } from './create-doctor/create-doctor.component';
 import { EditDoctorComponent } from './edit-doctor/edit-doctor.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ViewDoctorComponent } from './view-doctor/view-doctor.component';
+import { MY_DATE_FORMATS } from 'app/app.config';
+import { MAT_DATE_FORMATS } from '@angular/material/core';
 
 @NgModule({
     declarations: [
@@ -39,5 +41,6 @@ import { ViewDoctorComponent } from './view-doctor/view-doctor.component';
         MatSelectModule,
         MatPaginatorModule,
     ],
+    providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }],
 })
 export class DoctorModule {}

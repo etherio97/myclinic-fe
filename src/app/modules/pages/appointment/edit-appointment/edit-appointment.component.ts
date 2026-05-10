@@ -15,7 +15,6 @@ import { ConfirmService } from 'app/services/confirm.service';
 @Component({
     selector: 'app-edit-appointment',
     templateUrl: './edit-appointment.component.html',
-    providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }],
 })
 export class EditAppointmentComponent implements OnInit {
     formGroup!: FormGroup;

@@ -9,7 +9,6 @@ import { ConfirmService } from 'app/services/confirm.service';
 @Component({
     selector: 'app-view-doctor',
     templateUrl: './view-doctor.component.html',
-    providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }],
 })
 export class ViewDoctorComponent implements OnInit {
     id!: string;

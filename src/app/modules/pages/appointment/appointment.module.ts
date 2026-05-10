@@ -24,6 +24,8 @@ import {
 } from '@angular-material-components/datetime-picker';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ViewAppointmentComponent } from './view-appointment/view-appointment.component';
+import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { MY_DATE_FORMATS } from 'app/app.config';
 
 @NgModule({
     declarations: [
@@ -56,6 +58,7 @@ import { ViewAppointmentComponent } from './view-appointment/view-appointment.co
             provide: NGX_MAT_DATE_FORMATS,
             useValue: NGX_MAT_NATIVE_DATE_FORMATS,
         },
+        { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
     ],
 })
 export class AppointmentModule {}

@@ -9,7 +9,6 @@ import { AppointmentService } from 'app/services/appointment.service';
 @Component({
     selector: 'app-view-patient',
     templateUrl: './view-patient.component.html',
-    providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }],
 })
 export class ViewPatientComponent implements OnInit {
     id!: string;

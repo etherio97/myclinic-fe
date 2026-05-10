@@ -9,7 +9,6 @@ import { ConfirmService } from 'app/services/confirm.service';
 @Component({
     selector: 'app-edit-doctor',
     templateUrl: './edit-doctor.component.html',
-    providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }],
 })
 export class EditDoctorComponent implements OnInit {
     formGroup!: FormGroup;

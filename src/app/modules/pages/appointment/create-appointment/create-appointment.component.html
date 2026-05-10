@@ -118,6 +118,7 @@
                         [ngxMatDatetimePicker]="picker"
                         placeholder="Choose a date"
                         formControlName="appointmentDate"
+                        (click)="picker.open()"
                     />
                     <mat-datepicker-toggle
                         matSuffix

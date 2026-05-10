@@ -9,7 +9,6 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 @Component({
     selector: 'app-view-appointment',
     templateUrl: './view-appointment.component.html',
-    providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }],
 })
 export class ViewAppointmentComponent implements OnInit {
     id!: string;
