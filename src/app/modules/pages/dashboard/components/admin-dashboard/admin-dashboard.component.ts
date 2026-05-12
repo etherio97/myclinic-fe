@@ -42,7 +42,7 @@ const CHART_VISITORS = {
     },
     xaxis: {
         labels: {
-            offsetY: -20,
+            // offsetY: -20,
             style: {
                 colors: '#CBD5E1',
             },
@@ -155,7 +155,7 @@ export class AdminDashboardComponent implements OnInit {
                     {
                         name: 'Patients',
                         data: data.map((item: any) => ({
-                            x: item.visit_date,
+                            x: moment(item.visit_date).format('yyyy-MM-DD'),
                             y: item.unique_patient_count,
                         })),
                     },
