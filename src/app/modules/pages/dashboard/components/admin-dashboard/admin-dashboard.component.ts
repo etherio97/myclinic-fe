@@ -13,7 +13,21 @@ const CHART_VISITORS = {
         zoom: { enabled: false },
     },
     colors: ['#35bbbd'],
-    dataLabels: { enabled: true, position: 'top' },
+    plotOptions: {
+        bar: {
+            dataLabels: {
+                position: 'top',
+            },
+        },
+    },
+    dataLabels: {
+        enabled: true,
+        offsetY: -20,
+        style: {
+            fontSize: '12px',
+            colors: ['#CBD5E1'],
+        },
+    },
     grid: {
         show: true,
         borderColor: '#334155',
@@ -42,7 +56,6 @@ const CHART_VISITORS = {
     },
     xaxis: {
         labels: {
-            // offsetY: -20,
             style: {
                 colors: '#CBD5E1',
             },
@@ -61,6 +74,7 @@ const CHART_VISITORS = {
         },
         max: (max: number): number => max + 1,
         tickAmount: 1,
+        show: false,
     },
 };
 
