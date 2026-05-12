@@ -42,6 +42,10 @@ const CHART_VISITORS = {
                 show: true,
             },
         },
+        padding: {
+            left: 30,
+            right: 30,
+        },
     },
     series: [],
     tooltip: {
@@ -78,6 +82,70 @@ const CHART_VISITORS = {
     },
 };
 
+const CHART_REVENUE = {
+    chart: {
+        width: '100%',
+        height: '100%',
+        type: 'area',
+        toolbar: { show: false },
+        zoom: { enabled: false },
+    },
+    colors: ['#35bbbd'],
+    dataLabels: {
+        enabled: true,
+    },
+    grid: {
+        show: true,
+        borderColor: '#334155',
+        position: 'back',
+        xaxis: {
+            lines: {
+                show: true,
+            },
+        },
+        yaxis: {
+            lines: {
+                show: true,
+            },
+        },
+        padding: {
+            left: 30,
+            right: 30,
+        },
+    },
+    series: [],
+    tooltip: {
+        followCursor: true,
+        theme: 'dark',
+        x: {
+            format: 'MMM dd, yyyy',
+        },
+        y: {
+            formatter: (value: number): string => `${value}`,
+        },
+    },
+    xaxis: {
+        labels: {
+            style: {
+                colors: '#CBD5E1',
+            },
+        },
+        tooltip: {
+            enabled: false,
+        },
+        type: 'datetime',
+    },
+    yaxis: {
+        labels: {
+            offsetY: -20,
+            style: {
+                colors: '#CBD5E1',
+            },
+        },
+        show: false,
+    },
+};
+
 @Component({
     selector: 'app-admin-dashboard',
     templateUrl: './admin-dashboard.component.html',
@@ -95,6 +163,8 @@ export class AdminDashboardComponent implements OnInit {
 
     chartVisitors: any = CHART_VISITORS;
 
+    chartRevenue: any = CHART_REVENUE;
+
     constructor(
         private _fb: FormBuilder,
         private _dashboardService: DashboardService,
@@ -109,6 +179,7 @@ export class AdminDashboardComponent implements OnInit {
         this.formGroup.controls.monthly.valueChanges.subscribe(() => {
             this.reloadMonthlyData();
             this.reloadPatientCountByDate();
+            this.reloadTotalRevenueByDate();
         });
 
         this.formGroup.controls.daily.valueChanges.subscribe(() => {
@@ -118,6 +189,7 @@ export class AdminDashboardComponent implements OnInit {
         this.reloadDailyData();
         this.reloadMonthlyData();
         this.reloadPatientCountByDate();
+        this.reloadTotalRevenueByDate();
     }
 
     reloadDailyData() {
@@ -171,6 +243,29 @@ export class AdminDashboardComponent implements OnInit {
                         data: data.map((item: any) => ({
                             x: moment(item.visit_date).format('yyyy-MM-DD'),
                             y: item.unique_patient_count,
+                        })),
+                    },
+                ];
+            });
+    }
+
+    reloadTotalRevenueByDate() {
+        const value = cloneDeep(this.formGroup.controls.monthly.value);
+        const date = moment.isMoment(value) ? value : moment(value);
+        this._dashboardService
+            .getTotalRevenueByDate({
+                startDate: cloneDeep(date)
+                    .startOf('month')
+                    .format('yyyy-MM-DD'),
+                endDate: cloneDeep(date).endOf('month').format('yyyy-MM-DD'),
+            })
+            .subscribe((data: any) => {
+                this.chartRevenue.series = [
+                    {
+                        name: 'Revenue',
+                        data: data.map((item: any) => ({
+                            x: moment(item.visit_date).format('yyyy-MM-DD'),
+                            y: item.total_revenue,
                         })),
                     },
                 ];

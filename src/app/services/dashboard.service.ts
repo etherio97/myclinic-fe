@@ -21,4 +21,11 @@ export class DashboardService {
             { params },
         );
     }
+
+    getTotalRevenueByDate(params: any) {
+        return this.http.get(
+            [SERVICE_URLS.DASHBOARD_API, 'revenue-by-date'].join('/'),
+            { params },
+        );
+    }
 }
