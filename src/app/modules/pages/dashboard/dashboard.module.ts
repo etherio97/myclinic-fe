@@ -10,6 +10,14 @@ import { ManagerDashboardComponent } from './components/manager-dashboard/manage
 import { DisplayItemComponent } from './components/display-item/display-item.component';
 import { MY_DATE_FORMATS } from 'app/app.config';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 @NgModule({
     declarations: [
@@ -23,6 +31,14 @@ import { MAT_DATE_FORMATS } from '@angular/material/core';
         SharedModule,
         MatIconModule,
         MatButtonModule,
+        MatButtonToggleModule,
+        MatTooltipModule,
+        MatMenuModule,
+        NgApexchartsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatDatepickerModule,
+        MatMomentDateModule,
     ],
     providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }],
 })

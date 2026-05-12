@@ -14,4 +14,11 @@ export class DashboardService {
             { params },
         );
     }
+
+    getPatientCountByDate(params: any) {
+        return this.http.get(
+            [SERVICE_URLS.DASHBOARD_API, 'patient-count-by-date'].join('/'),
+            { params },
+        );
+    }
 }
