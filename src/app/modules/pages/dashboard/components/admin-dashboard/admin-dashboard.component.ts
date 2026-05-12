@@ -108,7 +108,9 @@ export class AdminDashboardComponent implements OnInit {
     }
 
     reloadDailyData() {
-        const date = moment(this.formGroup.controls.daily.value);
+        const date = moment.isMoment(this.formGroup.controls.daily.value)
+            ? this.formGroup.controls.daily.value
+            : moment(this.formGroup.controls.daily.value);
         this.fetchData(date, date).subscribe((data: any) => {
             this.dailyData = data;
         });
@@ -122,7 +124,9 @@ export class AdminDashboardComponent implements OnInit {
     }
 
     reloadMonthlyData() {
-        const date = moment(this.formGroup.controls.monthly.value);
+        const date = moment.isMoment(this.formGroup.controls.monthly.value)
+            ? this.formGroup.controls.monthly.value
+            : moment(this.formGroup.controls.monthly.value);
         this.fetchData(date.startOf('month'), date.endOf('month')).subscribe(
             (data: any) => {
                 this.monthlyData = data;
@@ -138,7 +142,9 @@ export class AdminDashboardComponent implements OnInit {
     }
 
     reloadPatientCountByDate() {
-        const date = moment(this.formGroup.controls.monthly.value);
+        const date = moment.isMoment(this.formGroup.controls.monthly.value)
+            ? this.formGroup.controls.monthly.value
+            : moment(this.formGroup.controls.monthly.value);
 
         this._dashboardService
             .getPatientCountByDate({
