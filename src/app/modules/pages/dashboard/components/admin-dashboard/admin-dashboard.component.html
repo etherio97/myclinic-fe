@@ -27,128 +27,141 @@
                         </div>
                     </div>
 
-                    <!-- Cards -->
-                    <div
-                        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full min-w-0"
-                    >
-                        <!-- Total Revenue -->
-                        <app-display-item
-                            title="Total Revenue"
-                            unit="Kyats"
-                            [current]="int(monthlyData?.total_revenue)"
-                            [previous]="int(prevMonthlyData?.total_revenue)"
-                            [isCurrency]="true"
-                        ></app-display-item>
-
-                        <!-- Total Clinic Revenue -->
-                        <app-display-item
-                            title="Total Clinic Revenue"
-                            unit="Kyats"
-                            [current]="int(monthlyData?.total_clinic_revenue)"
-                            [previous]="
-                                int(prevMonthlyData?.total_clinic_revenue)
-                            "
-                            [isCurrency]="true"
-                        ></app-display-item>
-
-                        <!-- Total Lab Revenue -->
-                        <app-display-item
-                            title="Total Laboratory Revenue"
-                            unit="Kyats"
-                            [current]="int(monthlyData?.total_lab_revenue)"
-                            [previous]="int(prevMonthlyData?.total_lab_revenue)"
-                            [isCurrency]="true"
-                        ></app-display-item>
-
-                        <!-- Total Discount -->
-                        <app-display-item
-                            title="Total Discounts"
-                            unit="Kyats"
-                            [current]="int(monthlyData?.total_discount)"
-                            [previous]="int(prevMonthlyData?.total_discount)"
-                            [isCurrency]="true"
-                        ></app-display-item>
-
-                        <!-- Total Patient -->
-                        <app-display-item
-                            title="New Patients"
-                            unit="Patients"
-                            [current]="int(monthlyData?.total_patients)"
-                            [previous]="int(prevMonthlyData?.total_patients)"
-                            [isCurrency]="false"
-                        ></app-display-item>
-
-                        <!-- Total Appointments -->
-                        <app-display-item
-                            title="Total Appointments"
-                            unit="Appointments"
-                            [current]="int(monthlyData?.total_appointments)"
-                            [previous]="
-                                int(prevMonthlyData?.total_appointments)
-                            "
-                            [isCurrency]="false"
-                        ></app-display-item>
-                    </div>
-
-                    <!-- chart: revenue -->
-                    <div
-                        class="sm:col-span-2 lg:col-span-3 bg-card dark flex flex-col flex-auto shadow rounded-2xl overflow-hidden"
-                    >
-                        <div
-                            class="flex items-center justify-between mt-4 ml-10 mr-6 sm:mr-10"
-                        >
-                            <div class="flex flex-col">
+                    <div class="md:flex md:space-x-5 w-full">
+                        <div class="space-y-8 md:w-full">
+                            <!-- chart: revenue -->
+                            <div
+                                class="sm:col-span-2 lg:col-span-3 bg-card dark flex flex-col flex-auto shadow rounded-2xl overflow-hidden"
+                            >
                                 <div
-                                    class="mr-4 text-xl font-semibold tracking-tight leading-7"
+                                    class="flex items-center justify-between mt-4 ml-10 mr-6 sm:mr-10"
                                 >
-                                    Daily Revenue
+                                    <div class="flex flex-col">
+                                        <div
+                                            class="mr-4 text-xl font-semibold tracking-tight leading-7"
+                                        >
+                                            Daily Revenue
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col flex-auto h-80">
+                                    <apx-chart
+                                        class="flex-auto w-full h-full"
+                                        [chart]="chartRevenue.chart"
+                                        [colors]="chartRevenue.colors"
+                                        [dataLabels]="chartRevenue.dataLabels"
+                                        [grid]="chartRevenue.grid"
+                                        [series]="chartRevenue.series"
+                                        [tooltip]="chartRevenue.tooltip"
+                                        [xaxis]="chartRevenue.xaxis"
+                                        [yaxis]="chartRevenue.yaxis"
+                                        [stroke]="{ width: 2, curve: 'smooth' }"
+                                    ></apx-chart>
+                                </div>
+                            </div>
+
+                            <!-- chart: daily unique patients -->
+                            <div
+                                class="sm:col-span-2 lg:col-span-3 bg-card dark flex flex-col flex-auto shadow rounded-2xl overflow-hidden"
+                            >
+                                <div
+                                    class="flex items-center justify-between mt-4 ml-10 mr-6 sm:mr-10"
+                                >
+                                    <div class="flex flex-col">
+                                        <div
+                                            class="mr-4 text-xl font-semibold tracking-tight leading-7"
+                                        >
+                                            Unique Patients
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col flex-auto h-80">
+                                    <apx-chart
+                                        class="flex-auto w-full h-full"
+                                        [plotOptions]="
+                                            chartVisitors.plotOptions
+                                        "
+                                        [chart]="chartVisitors.chart"
+                                        [colors]="chartVisitors.colors"
+                                        [dataLabels]="chartVisitors.dataLabels"
+                                        [grid]="chartVisitors.grid"
+                                        [series]="chartVisitors.series"
+                                        [tooltip]="chartVisitors.tooltip"
+                                        [xaxis]="chartVisitors.xaxis"
+                                        [yaxis]="chartVisitors.yaxis"
+                                    ></apx-chart>
                                 </div>
                             </div>
                         </div>
-                        <div class="flex flex-col flex-auto h-80">
-                            <apx-chart
-                                class="flex-auto w-full h-full"
-                                [chart]="chartRevenue.chart"
-                                [colors]="chartRevenue.colors"
-                                [dataLabels]="chartRevenue.dataLabels"
-                                [grid]="chartRevenue.grid"
-                                [series]="chartRevenue.series"
-                                [tooltip]="chartRevenue.tooltip"
-                                [xaxis]="chartRevenue.xaxis"
-                                [yaxis]="chartRevenue.yaxis"
-                                [stroke]="{ width: 2, curve: 'smooth' }"
-                            ></apx-chart>
-                        </div>
-                    </div>
 
-                    <!-- chart: daily unique patients -->
-                    <div
-                        class="sm:col-span-2 lg:col-span-3 bg-card dark flex flex-col flex-auto shadow rounded-2xl overflow-hidden"
-                    >
                         <div
-                            class="flex items-center justify-between mt-4 ml-10 mr-6 sm:mr-10"
+                            class="space-y-3 flex flex-col py-6 lg:py-0 lg:w-[460px]"
                         >
-                            <div class="flex flex-col">
-                                <div
-                                    class="mr-4 text-xl font-semibold tracking-tight leading-7"
-                                >
-                                    Unique Patients
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex flex-col flex-auto h-80">
-                            <apx-chart
-                                class="flex-auto w-full h-full"
-                                [plotOptions]="chartVisitors.plotOptions"
-                                [chart]="chartVisitors.chart"
-                                [colors]="chartVisitors.colors"
-                                [dataLabels]="chartVisitors.dataLabels"
-                                [grid]="chartVisitors.grid"
-                                [series]="chartVisitors.series"
-                                [tooltip]="chartVisitors.tooltip"
-                                [xaxis]="chartVisitors.xaxis"
-                                [yaxis]="chartVisitors.yaxis"
-                            ></apx-chart>
+                            <!-- Total Revenue -->
+                            <app-display-item
+                                title="Total Revenue"
+                                unit="Kyats"
+                                [current]="int(monthlyData?.total_revenue)"
+                                [previous]="int(prevMonthlyData?.total_revenue)"
+                                [isCurrency]="true"
+                            ></app-display-item>
+
+                            <!-- Total Clinic Revenue -->
+                            <app-display-item
+                                title="Total Clinic Revenue"
+                                unit="Kyats"
+                                [current]="
+                                    int(monthlyData?.total_clinic_revenue)
+                                "
+                                [previous]="
+                                    int(prevMonthlyData?.total_clinic_revenue)
+                                "
+                                [isCurrency]="true"
+                            ></app-display-item>
+
+                            <!-- Total Lab Revenue -->
+                            <app-display-item
+                                title="Total Laboratory Revenue"
+                                unit="Kyats"
+                                [current]="int(monthlyData?.total_lab_revenue)"
+                                [previous]="
+                                    int(prevMonthlyData?.total_lab_revenue)
+                                "
+                                [isCurrency]="true"
+                            ></app-display-item>
+
+                            <!-- Total Discount -->
+                            <app-display-item
+                                title="Total Discounts"
+                                unit="Kyats"
+                                [current]="int(monthlyData?.total_discount)"
+                                [previous]="
+                                    int(prevMonthlyData?.total_discount)
+                                "
+                                [isCurrency]="true"
+                            ></app-display-item>
+
+                            <!-- Total Patient -->
+                            <app-display-item
+                                title="New Patients"
+                                unit="Patients"
+                                [current]="int(monthlyData?.total_patients)"
+                                [previous]="
+                                    int(prevMonthlyData?.total_patients)
+                                "
+                                [isCurrency]="false"
+                            ></app-display-item>
+
+                            <!-- Total Appointments -->
+                            <app-display-item
+                                title="Total Appointments"
+                                unit="Appointments"
+                                [current]="int(monthlyData?.total_appointments)"
+                                [previous]="
+                                    int(prevMonthlyData?.total_appointments)
+                                "
+                                [isCurrency]="false"
+                            ></app-display-item>
                         </div>
                     </div>
                 </section>
