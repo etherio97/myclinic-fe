@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { DashboardService } from 'app/services/dashboard.service';
+import { cloneDeep } from 'lodash';
 import moment from 'moment';
 
 const CHART_VISITORS = {
@@ -101,55 +102,53 @@ export class AdminDashboardComponent implements OnInit {
         });
 
         this.reloadDailyData();
-
         this.reloadMonthlyData();
-
         this.reloadPatientCountByDate();
     }
 
     reloadDailyData() {
-        const date = moment.isMoment(this.formGroup.controls.daily.value)
-            ? this.formGroup.controls.daily.value
-            : moment(this.formGroup.controls.daily.value);
-        this.fetchData(date, date).subscribe((data: any) => {
-            this.dailyData = data;
-        });
-
+        const value = cloneDeep(this.formGroup.controls.daily.value);
+        const date = moment.isMoment(value) ? value : moment(value);
+        this.fetchData(cloneDeep(date), cloneDeep(date)).subscribe(
+            (data: any) => {
+                this.dailyData = data;
+            },
+        );
         this.fetchData(
-            date.subtract(1, 'day'),
-            date.subtract(1, 'day'),
+            cloneDeep(date).subtract(1, 'day'),
+            cloneDeep(date).subtract(1, 'day'),
         ).subscribe((data: any) => {
             this.prevDailyData = data;
         });
     }
 
     reloadMonthlyData() {
-        const date = moment.isMoment(this.formGroup.controls.monthly.value)
-            ? this.formGroup.controls.monthly.value
-            : moment(this.formGroup.controls.monthly.value);
-        this.fetchData(date.startOf('month'), date.endOf('month')).subscribe(
-            (data: any) => {
-                this.monthlyData = data;
-            },
-        );
-
+        const value = cloneDeep(this.formGroup.controls.monthly.value);
+        const date = moment.isMoment(value) ? value : moment(value);
         this.fetchData(
-            date.subtract(1, 'month').startOf('month'),
-            date.subtract(1, 'month').endOf('month'),
+            cloneDeep(date).startOf('month'),
+            cloneDeep(date).endOf('month'),
+        ).subscribe((data: any) => {
+            this.monthlyData = data;
+        });
+        date.subtract(1, 'month');
+        this.fetchData(
+            cloneDeep(date).startOf('month'),
+            cloneDeep(date).endOf('month'),
         ).subscribe((data: any) => {
             this.prevMonthlyData = data;
         });
     }
 
     reloadPatientCountByDate() {
-        const date = moment.isMoment(this.formGroup.controls.monthly.value)
-            ? this.formGroup.controls.monthly.value
-            : moment(this.formGroup.controls.monthly.value);
-
+        const value = cloneDeep(this.formGroup.controls.monthly.value);
+        const date = moment.isMoment(value) ? value : moment(value);
         this._dashboardService
             .getPatientCountByDate({
-                startDate: date.startOf('month').format('yyyy-MM-DD'),
-                endDate: date.endOf('month').format('yyyy-MM-DD'),
+                startDate: cloneDeep(date)
+                    .startOf('month')
+                    .format('yyyy-MM-DD'),
+                endDate: cloneDeep(date).endOf('month').format('yyyy-MM-DD'),
             })
             .subscribe((data: any) => {
                 this.chartVisitors.series = [
@@ -165,14 +164,16 @@ export class AdminDashboardComponent implements OnInit {
     }
 
     private fetchData(startDate: any, endDate: any) {
-        const condition: any = {};
-        condition.startDate = moment.isMoment(startDate)
-            ? startDate.format('yyyy-MM-DD')
-            : moment(startDate).format('yyyy-MM-DD');
-        condition.endDate = moment.isMoment(endDate)
-            ? endDate.format('yyyy-MM-DD')
-            : moment(endDate).format('yyyy-MM-DD');
-        return this._dashboardService.getBatchAdmin(condition);
+        return this._dashboardService.getBatchAdmin({
+            startDate: (moment.isMoment(startDate)
+                ? startDate
+                : moment(startDate)
+            ).format('yyyy-MM-DD'),
+            endDate: (moment.isMoment(endDate)
+                ? endDate
+                : moment(endDate)
+            ).format('yyyy-MM-DD'),
+        });
     }
 
     int(s: string | number) {
