@@ -65,6 +65,12 @@ export class CreatePatientComponent implements OnInit {
     confirmSubmit() {
         const data = clone(this.formGroup.value);
         delete data.age;
+        data.fullName = data.fullName.trim();
+        data.phoneNumber = data.phoneNumber.trim();
+        data.nrcNumber = data.nrcNumber.trim();
+        data.address = data.address.trim();
+        data.ssbNumber = data.ssbNumber.trim();
+        data.notes = data.notes.trim();
         this._patientService.create(data).subscribe((result: any) => {
             this._router.navigate(['/patients', 'view', result.id]);
         });

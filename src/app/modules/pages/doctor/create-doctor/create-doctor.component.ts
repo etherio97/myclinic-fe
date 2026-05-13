@@ -5,6 +5,7 @@ import { MY_DATE_FORMATS } from 'app/app.config';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { DoctorService } from 'app/services/doctor.service';
 import { ConfirmService } from 'app/services/confirm.service';
+import { clone } from 'lodash';
 
 @Component({
     selector: 'app-create-doctor',
@@ -47,10 +48,14 @@ export class CreateDoctorComponent implements OnInit {
     }
 
     confirmSubmit() {
-        this._doctorService
-            .create(this.formGroup.value)
-            .subscribe((result: any) => {
-                this._router.navigate(['/doctors', 'view', result.id]);
-            });
+        const data = clone(this.formGroup.value);
+        data.fullName = data.fullName.trim();
+        data.phoneNumber = data.phoneNumber.trim();
+        data.specialization = data.specialization.trim();
+        data.address = data.address.trim();
+        data.remarks = data.remarks.trim();
+        this._doctorService.create(data).subscribe((result: any) => {
+            this._router.navigate(['/doctors', 'view', result.id]);
+        });
     }
 }

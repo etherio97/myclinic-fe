@@ -88,15 +88,32 @@
                 </div>
 
                 <div
-                    class="flex justify-end w-full border-t px-3 sm:px-6 py-1 sm:py-2 border-gray-200 rounded-b"
+                    class="flex justify-end space-x-2 w-full border-t px-3 sm:px-6 py-1 sm:py-2 border-gray-200 rounded-b"
                 >
+                    <button
+                        type="button"
+                        mat-flat-button
+                        class="bg-amber-600 text-white flex justify-center items-center"
+                        (click)="exportExcel()"
+                    >
+                        <mat-icon
+                            class="icon-size-4"
+                            svgIcon="download"
+                        ></mat-icon>
+                        <p class="pl-2">Export</p>
+                    </button>
+
                     <button
                         type="submit"
                         mat-flat-button
                         color="primary"
-                        class="text-white"
+                        class="text-white flex justify-center items-center"
                     >
-                        Search
+                        <mat-icon
+                            class="icon-size-4"
+                            svgIcon="search"
+                        ></mat-icon>
+                        <p class="pl-2">Search</p>
                     </button>
                 </div>
             </form>

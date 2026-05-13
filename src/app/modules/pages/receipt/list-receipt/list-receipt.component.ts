@@ -7,6 +7,7 @@ import { APP_CONFIG, MY_DATE_FORMATS } from 'app/app.config';
 import { UserService } from 'app/core/user/user.service';
 import { ConfirmService } from 'app/services/confirm.service';
 import { ReceiptService } from 'app/services/receipt.service';
+import { utils, writeFile } from 'xlsx';
 import moment from 'moment';
 
 @Component({
@@ -129,12 +130,43 @@ export class ListReceiptComponent implements OnInit, AfterViewInit {
             );
     }
 
-    confirmRemoveReceipt(id: string) {
+    private confirmRemoveReceipt(id: string) {
         this._receiptService.remove(id).subscribe(() => {
             this.confirmService
                 .success('Receipt has been successfully deleted')
                 .afterOpened()
                 .subscribe(() => this.reloadData());
         });
+    }
+
+    exportExcel() {
+        const fileName = `myclinic-receipts-${moment().format('YYYYMMDDHHmmss')}.xlsx`;
+        const worksheet = utils.json_to_sheet(
+            this.searchResult.map((data) => {
+                return {
+                    'Receipt ID': data.receiptNo,
+                    Date: moment(data.date).format('YYYY-MM-DD hh:mm:ss A'),
+                    'Patient Name': data.patient.fullName,
+                    'Doctor Name': data.doctor ? data.doctor.fullName : '',
+                    'Cashier Name': data.user ? data.user.fullName : '',
+                    Type: data.type,
+                    'Payment Method': data.paymentMethod,
+                    'Sub Total': parseInt(data.subTotal || '0'),
+                    'Discount Amount': parseInt(data.discountAmount || '0'),
+                    'Grand Total': parseInt(data.grandTotal || '0'),
+                    Items: data.items
+                        .map((item: any) => {
+                            return `${item.name} (${item.quantity} x ${item.sellingPrice})`;
+                        })
+                        .join(', '),
+                    'Created At': moment(data.createdAt).format(
+                        'YYYY-MM-DD hh:mm:ss A',
+                    ),
+                };
+            }),
+        );
+        const workbook = utils.book_new();
+        utils.book_append_sheet(workbook, worksheet, 'Receipts');
+        writeFile(workbook, fileName);
     }
 }
