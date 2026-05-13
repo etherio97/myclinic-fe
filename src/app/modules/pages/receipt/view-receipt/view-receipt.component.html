@@ -51,6 +51,10 @@
                                 <td class="text-left py-2">Patient Name</td>
                                 <td class="text-right py-2 font-bold">
                                     <a
+                                        *ngIf="
+                                            !['lab-admin'].includes(role);
+                                            else patientName
+                                        "
                                         class="hover:text-indigo-400 text-indigo-600 underline decoration-dotted transition-colors space-x-1"
                                         [routerLink]="[
                                             '/patients',
@@ -64,6 +68,9 @@
                                             class="icon-size-3"
                                         ></mat-icon>
                                     </a>
+                                    <ng-template #patientName>
+                                        <span>{{ data.patient.fullName }}</span>
+                                    </ng-template>
                                 </td>
                             </tr>
                             <tr class="">
@@ -81,6 +88,10 @@
                                 <td class="text-right py-2 font-bold">
                                     <ng-container *ngIf="data.doctor">
                                         <a
+                                            *ngIf="
+                                                !['lab-admin'].includes(role);
+                                                else doctorName
+                                            "
                                             class="hover:text-indigo-400 text-indigo-600 underline decoration-dotted transition-colors space-x-1"
                                             [routerLink]="[
                                                 '/doctors',
@@ -96,6 +107,11 @@
                                                 class="icon-size-3"
                                             ></mat-icon>
                                         </a>
+                                        <ng-template #doctorName>
+                                            <span>{{
+                                                data.doctor.fullName
+                                            }}</span>
+                                        </ng-template>
                                     </ng-container>
                                 </td>
                             </tr>
