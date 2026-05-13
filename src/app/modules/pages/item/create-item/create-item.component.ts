@@ -72,6 +72,7 @@ export class CreateItemComponent implements OnInit {
     confirmSubmit() {
         const data = clone(this.formGroup.value);
         if (!data.basePrice) data.basePrice = 0;
+        data.name = data.name.trim();
         this._itemService.create(data).subscribe(() => {
             this._router.navigate(['/items']);
         });
