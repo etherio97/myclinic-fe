@@ -99,6 +99,7 @@
                         >
                             <!-- Total Revenue -->
                             <app-display-item
+                                *ngIf="['admin'].includes(role)"
                                 title="Total Revenue"
                                 unit="Kyats"
                                 [current]="int(monthlyData?.total_revenue)"
@@ -108,6 +109,7 @@
 
                             <!-- Total Clinic Revenue -->
                             <app-display-item
+                                *ngIf="['admin'].includes(role)"
                                 title="Total Clinic Revenue"
                                 unit="Kyats"
                                 [current]="
@@ -132,6 +134,7 @@
 
                             <!-- Total Discount -->
                             <app-display-item
+                                *ngIf="['admin'].includes(role)"
                                 title="Total Discounts"
                                 unit="Kyats"
                                 [current]="int(monthlyData?.total_discount)"
@@ -143,6 +146,7 @@
 
                             <!-- Total Patient -->
                             <app-display-item
+                                *ngIf="['admin'].includes(role)"
                                 title="New Patients"
                                 unit="Patients"
                                 [current]="int(monthlyData?.total_patients)"
@@ -154,6 +158,7 @@
 
                             <!-- Total Appointments -->
                             <app-display-item
+                                *ngIf="['admin'].includes(role)"
                                 title="Total Appointments"
                                 unit="Appointments"
                                 [current]="int(monthlyData?.total_appointments)"
@@ -268,6 +273,7 @@
                         >
                             <!-- Total Revenue -->
                             <app-display-item
+                                *ngIf="['admin'].includes(role)"
                                 title="Total Revenue"
                                 unit="Kyats"
                                 [current]="int(dailyData?.total_revenue)"
@@ -277,6 +283,7 @@
 
                             <!-- Total Clinic Revenue -->
                             <app-display-item
+                                *ngIf="['admin'].includes(role)"
                                 title="Total Clinic Revenue"
                                 unit="Kyats"
                                 [current]="int(dailyData?.total_clinic_revenue)"
@@ -299,6 +306,7 @@
 
                             <!-- Total Discount -->
                             <app-display-item
+                                *ngIf="['admin'].includes(role)"
                                 title="Total Discounts"
                                 unit="Kyats"
                                 [current]="int(dailyData?.total_discount)"
@@ -308,6 +316,7 @@
 
                             <!-- Total Patient -->
                             <app-display-item
+                                *ngIf="['admin'].includes(role)"
                                 title="New Patients"
                                 unit="Patients"
                                 [current]="int(dailyData?.total_patients)"
@@ -317,6 +326,7 @@
 
                             <!-- Total Appointment -->
                             <app-display-item
+                                *ngIf="['admin'].includes(role)"
                                 title="Total Appointments"
                                 unit="Appointments"
                                 [current]="int(dailyData?.total_appointments)"

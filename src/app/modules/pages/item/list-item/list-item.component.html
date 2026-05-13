@@ -47,7 +47,10 @@
                         </mat-form-field>
                     </div>
 
-                    <div class="w-full sm:w-1/4 pr-6">
+                    <div
+                        class="w-full sm:w-1/4 pr-6"
+                        *ngIf="!['lab-admin'].includes(role)"
+                    >
                         <mat-form-field class="w-full" appearance="fill">
                             <mat-label>Item Type</mat-label>
                             <mat-select
@@ -196,7 +199,11 @@
                                 ></mat-icon>
                             </button>
                             <button
-                                *ngIf="['admin', 'manager'].includes(role)"
+                                *ngIf="
+                                    ['admin', 'manager', 'lab-admin'].includes(
+                                        role
+                                    )
+                                "
                                 mat-icon-button
                                 (click)="removeItem(element.id)"
                                 matTooltip="Delete"

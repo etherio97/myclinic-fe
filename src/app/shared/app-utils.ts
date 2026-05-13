@@ -48,7 +48,7 @@ export class AppUtils {
         ) {
             // eslint-disable-next-line @typescript-eslint/prefer-for-of
             for (let i = 0; i < fuseItem.meta.roles.length; i++) {
-                if (userRoles.includes(fuseItem.meta.roles[i])) {
+                if (userRoles == fuseItem.meta.roles[i]) {
                     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
                     fuseItem.hidden = () => false;
                     return;

@@ -52,8 +52,16 @@ export class ListItemComponent implements OnInit, AfterViewInit {
 
         this._userService.get().subscribe(({ role }) => {
             this.role = role;
-        });
 
+            if (this.role == 'lab-admin') {
+                this.formGroup.controls.itemType.setValue('Laboratory');
+            }
+
+            this.initializeData();
+        });
+    }
+
+    initializeData() {
         this._itemService.getUtils().subscribe((result: any) => {
             this.categories = result;
         });

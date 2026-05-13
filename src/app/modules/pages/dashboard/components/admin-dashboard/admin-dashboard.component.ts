@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { UserService } from 'app/core/user/user.service';
 import { DashboardService } from 'app/services/dashboard.service';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, initial } from 'lodash';
 import moment from 'moment';
 
 const CHART_VISITORS = {
@@ -311,9 +312,12 @@ export class AdminDashboardComponent implements OnInit {
 
     chartRevenueDaily: any = CHART_REVENUE_DAILY;
 
+    role!: string;
+
     constructor(
         private _fb: FormBuilder,
         private _dashboardService: DashboardService,
+        private _userService: UserService,
     ) {}
 
     ngOnInit(): void {
@@ -322,6 +326,13 @@ export class AdminDashboardComponent implements OnInit {
             daily: [moment()],
         });
 
+        this._userService.get().subscribe((user: any) => {
+            this.role = user.role;
+            this.initializeData();
+        });
+    }
+
+    initializeData() {
         this.formGroup.controls.monthly.valueChanges.subscribe(() => {
             this.reloadMonthlyData();
             this.reloadMonthlyStatistics();
@@ -375,13 +386,18 @@ export class AdminDashboardComponent implements OnInit {
     reloadMonthlyStatistics() {
         const value = cloneDeep(this.formGroup.controls.monthly.value);
         const date = moment.isMoment(value) ? value : moment(value);
+
+        let params: any = {
+            startDate: cloneDeep(date).startOf('month').format('yyyy-MM-DD'),
+            endDate: cloneDeep(date).endOf('month').format('yyyy-MM-DD'),
+        };
+
+        if (this.role === 'lab-admin') {
+            params.type = 'laboratory';
+        }
+
         this._dashboardService
-            .getMonthlyStatistics({
-                startDate: cloneDeep(date)
-                    .startOf('month')
-                    .format('yyyy-MM-DD'),
-                endDate: cloneDeep(date).endOf('month').format('yyyy-MM-DD'),
-            })
+            .getMonthlyStatistics(params)
             .subscribe((data: any) => {
                 this.chartVisitors.series = [
                     {
@@ -408,11 +424,18 @@ export class AdminDashboardComponent implements OnInit {
     reloadDailyStatistics() {
         const value = cloneDeep(this.formGroup.controls.daily.value);
         const date = moment.isMoment(value) ? value : moment(value);
+
+        let params: any = {
+            startDate: cloneDeep(date).format('yyyy-MM-DD'),
+            endDate: cloneDeep(date).format('yyyy-MM-DD'),
+        };
+
+        if (this.role === 'lab-admin') {
+            params.type = 'laboratory';
+        }
+
         this._dashboardService
-            .getDailyStatistics({
-                startDate: cloneDeep(date).format('yyyy-MM-DD'),
-                endDate: cloneDeep(date).format('yyyy-MM-DD'),
-            })
+            .getDailyStatistics(params)
             .subscribe((data: any) => {
                 this.chartVisitorsDaily.series = [
                     {
@@ -437,7 +460,7 @@ export class AdminDashboardComponent implements OnInit {
     }
 
     private fetchData(startDate: any, endDate: any) {
-        return this._dashboardService.getBatchAdmin({
+        let params: any = {
             startDate: (moment.isMoment(startDate)
                 ? startDate
                 : moment(startDate)
@@ -446,7 +469,11 @@ export class AdminDashboardComponent implements OnInit {
                 ? endDate
                 : moment(endDate)
             ).format('yyyy-MM-DD'),
-        });
+        };
+        if (this.role === 'lab-admin') {
+            params.type = 'laboratory';
+        }
+        return this._dashboardService.getBatchAdmin(params);
     }
 
     int(s: string | number) {

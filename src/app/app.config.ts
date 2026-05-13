@@ -16,7 +16,7 @@ export const SERVICE_URLS = {
 };
 
 export const APP_CONFIG = {
-    ADMIN_ROLES: ['admin', 'manager', 'cashier'],
+    ADMIN_ROLES: ['admin', 'manager', 'cashier', 'lab-admin'],
     MANAGER_ROLES: ['cashier'],
     GENDERS: ['Male', 'Female'],
     APPOINTMENT_STATUS: ['Booked', 'Completed', 'No Show', 'Cancelled'],
@@ -44,7 +44,7 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
                 icon: 'mat_solid:dashboard',
                 link: '/dashboard',
                 meta: {
-                    roles: ['admin', 'manager', 'cashier'],
+                    roles: ['admin', 'manager', 'cashier', 'lab-admin'],
                 },
             },
             {
@@ -64,7 +64,7 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
                 icon: 'mat_solid:receipt_long',
                 link: '/receipts',
                 meta: {
-                    roles: ['admin', 'manager', 'cashier'],
+                    roles: ['admin', 'manager', 'cashier', 'lab-admin'],
                 },
             },
             {
@@ -114,7 +114,7 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
                 icon: 'mat_solid:inventory_2',
                 link: '/items',
                 meta: {
-                    roles: ['admin', 'manager', 'cashier'],
+                    roles: ['admin', 'manager', 'cashier', 'lab-admin'],
                 },
             },
 

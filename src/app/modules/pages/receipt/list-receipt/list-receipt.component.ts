@@ -61,9 +61,13 @@ export class ListReceiptComponent implements OnInit, AfterViewInit {
 
         this._userService.get().subscribe((user) => {
             this.role = user.role;
-        });
 
-        this.reloadData();
+            if (this.role == 'lab-admin') {
+                this.formGroup.controls.type.setValue('Laboratory');
+            }
+
+            this.reloadData();
+        });
     }
 
     ngAfterViewInit(): void {

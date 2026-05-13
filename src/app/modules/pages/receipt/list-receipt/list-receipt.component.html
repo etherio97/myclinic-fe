@@ -13,6 +13,7 @@
         </div>
         <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
             <button
+                *ngIf="!['lab-admin'].includes(role)"
                 mat-flat-button
                 color="primary"
                 routerLink="create"
@@ -67,7 +68,10 @@
                         </mat-form-field>
                     </div>
 
-                    <div class="w-full sm:w-1/4 pr-6">
+                    <div
+                        *ngIf="!['lab-admin'].includes(role)"
+                        class="w-full sm:w-1/4 pr-6"
+                    >
                         <mat-form-field class="w-full" appearance="fill">
                             <mat-label>Item Type</mat-label>
                             <mat-select formControlName="type">
@@ -287,8 +291,10 @@
             <div>
                 <table class="w-full border-collapse">
                     <tr>
-                        <td class="px-2">Clinic Revenue:</td>
-                        <td class="px-2">
+                        <td *ngIf="!['lab-admin'].includes(role)" class="px-2">
+                            Clinic Revenue:
+                        </td>
+                        <td *ngIf="!['lab-admin'].includes(role)" class="px-2">
                             {{ clinicTotal | currency: "MMK" : "" : "0.0-0" }}
                         </td>
 
