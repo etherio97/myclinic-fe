@@ -15,16 +15,16 @@ export class DashboardService {
         );
     }
 
-    getPatientCountByDate(params: any) {
+    getMonthlyStatistics(params: any) {
         return this.http.get(
-            [SERVICE_URLS.DASHBOARD_API, 'patient-count-by-date'].join('/'),
+            [SERVICE_URLS.DASHBOARD_API, 'monthly-statistics'].join('/'),
             { params },
         );
     }
 
-    getTotalRevenueByDate(params: any) {
+    getDailyStatistics(params: any) {
         return this.http.get(
-            [SERVICE_URLS.DASHBOARD_API, 'revenue-by-date'].join('/'),
+            [SERVICE_URLS.DASHBOARD_API, 'daily-statistics'].join('/'),
             { params },
         );
     }

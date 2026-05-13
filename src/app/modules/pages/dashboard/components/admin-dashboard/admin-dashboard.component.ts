@@ -146,6 +146,148 @@ const CHART_REVENUE = {
     },
 };
 
+const CHART_VISITORS_DAILY = {
+    chart: {
+        width: '100%',
+        height: '100%',
+        type: 'bar',
+        toolbar: { show: false },
+        zoom: { enabled: false },
+    },
+    colors: ['#35bbbd'],
+    plotOptions: {
+        bar: {
+            dataLabels: {
+                position: 'top',
+            },
+        },
+    },
+    dataLabels: {
+        enabled: true,
+        offsetY: -20,
+        style: {
+            fontSize: '12px',
+            colors: ['#CBD5E1'],
+        },
+    },
+    grid: {
+        show: true,
+        borderColor: '#334155',
+        position: 'back',
+        xaxis: {
+            lines: {
+                show: true,
+            },
+        },
+        yaxis: {
+            lines: {
+                show: true,
+            },
+        },
+        padding: {
+            left: 30,
+            right: 30,
+        },
+    },
+    series: [],
+    tooltip: {
+        followCursor: true,
+        theme: 'dark',
+        x: {
+            format: 'HH:mm:ss',
+        },
+        y: {
+            formatter: (value: number): string => `${value}`,
+        },
+    },
+    xaxis: {
+        labels: {
+            style: {
+                colors: '#CBD5E1',
+            },
+        },
+        tooltip: {
+            enabled: false,
+        },
+        // type: 'time',
+    },
+    yaxis: {
+        labels: {
+            offsetY: -20,
+            style: {
+                colors: '#CBD5E1',
+            },
+        },
+        max: (max: number): number => max + 1,
+        tickAmount: 1,
+        show: false,
+    },
+};
+
+const CHART_REVENUE_DAILY = {
+    chart: {
+        width: '100%',
+        height: '100%',
+        type: 'area',
+        toolbar: { show: false },
+        zoom: { enabled: false },
+    },
+    colors: ['#35bbbd'],
+    dataLabels: {
+        enabled: true,
+    },
+    grid: {
+        show: true,
+        borderColor: '#334155',
+        position: 'back',
+        xaxis: {
+            lines: {
+                show: true,
+            },
+        },
+        yaxis: {
+            lines: {
+                show: true,
+            },
+        },
+        padding: {
+            left: 30,
+            right: 30,
+        },
+    },
+    series: [],
+    tooltip: {
+        followCursor: true,
+        theme: 'dark',
+        x: {
+            format: 'MMM dd, yyyy',
+        },
+        y: {
+            formatter: (value: number): string => `${value}`,
+        },
+    },
+    xaxis: {
+        labels: {
+            style: {
+                colors: '#CBD5E1',
+            },
+        },
+        tooltip: {
+            enabled: false,
+        },
+        // type: 'datetime',
+    },
+    yaxis: {
+        labels: {
+            offsetY: -20,
+            style: {
+                colors: '#CBD5E1',
+            },
+        },
+        show: false,
+    },
+};
+
 @Component({
     selector: 'app-admin-dashboard',
     templateUrl: './admin-dashboard.component.html',
@@ -165,6 +307,10 @@ export class AdminDashboardComponent implements OnInit {
 
     chartRevenue: any = CHART_REVENUE;
 
+    chartVisitorsDaily: any = CHART_VISITORS_DAILY;
+
+    chartRevenueDaily: any = CHART_REVENUE_DAILY;
+
     constructor(
         private _fb: FormBuilder,
         private _dashboardService: DashboardService,
@@ -178,18 +324,18 @@ export class AdminDashboardComponent implements OnInit {
 
         this.formGroup.controls.monthly.valueChanges.subscribe(() => {
             this.reloadMonthlyData();
-            this.reloadPatientCountByDate();
-            this.reloadTotalRevenueByDate();
+            this.reloadMonthlyStatistics();
         });
 
         this.formGroup.controls.daily.valueChanges.subscribe(() => {
             this.reloadDailyData();
+            this.reloadDailyStatistics();
         });
 
         this.reloadDailyData();
+        this.reloadDailyStatistics();
         this.reloadMonthlyData();
-        this.reloadPatientCountByDate();
-        this.reloadTotalRevenueByDate();
+        this.reloadMonthlyStatistics();
     }
 
     reloadDailyData() {
@@ -226,11 +372,11 @@ export class AdminDashboardComponent implements OnInit {
         });
     }
 
-    reloadPatientCountByDate() {
+    reloadMonthlyStatistics() {
         const value = cloneDeep(this.formGroup.controls.monthly.value);
         const date = moment.isMoment(value) ? value : moment(value);
         this._dashboardService
-            .getPatientCountByDate({
+            .getMonthlyStatistics({
                 startDate: cloneDeep(date)
                     .startOf('month')
                     .format('yyyy-MM-DD'),
@@ -240,32 +386,50 @@ export class AdminDashboardComponent implements OnInit {
                 this.chartVisitors.series = [
                     {
                         name: 'Patients',
-                        data: data.map((item: any) => ({
-                            x: moment(item.visit_date).format('yyyy-MM-DD'),
-                            y: item.unique_patient_count,
+                        data: data.patientCount.map((item: any) => ({
+                            x: moment(item.label).format('yyyy-MM-DD'),
+                            y: item.value,
+                        })),
+                    },
+                ];
+
+                this.chartRevenue.series = [
+                    {
+                        name: 'Revenue',
+                        data: data.revenueTrend.map((item: any) => ({
+                            x: moment(item.label).format('yyyy-MM-DD'),
+                            y: item.value,
                         })),
                     },
                 ];
             });
     }
 
-    reloadTotalRevenueByDate() {
-        const value = cloneDeep(this.formGroup.controls.monthly.value);
+    reloadDailyStatistics() {
+        const value = cloneDeep(this.formGroup.controls.daily.value);
         const date = moment.isMoment(value) ? value : moment(value);
         this._dashboardService
-            .getTotalRevenueByDate({
-                startDate: cloneDeep(date)
-                    .startOf('month')
-                    .format('yyyy-MM-DD'),
-                endDate: cloneDeep(date).endOf('month').format('yyyy-MM-DD'),
+            .getDailyStatistics({
+                startDate: cloneDeep(date).format('yyyy-MM-DD'),
+                endDate: cloneDeep(date).format('yyyy-MM-DD'),
             })
             .subscribe((data: any) => {
-                this.chartRevenue.series = [
+                this.chartVisitorsDaily.series = [
+                    {
+                        name: 'Patients',
+                        data: data.patientCount.map((item: any) => ({
+                            x: moment(item.label).format('HH:mm:ss'),
+                            y: item.value,
+                        })),
+                    },
+                ];
+
+                this.chartRevenueDaily.series = [
                     {
                         name: 'Revenue',
-                        data: data.map((item: any) => ({
-                            x: moment(item.visit_date).format('yyyy-MM-DD'),
-                            y: item.total_revenue,
+                        data: data.revenueTrend.map((item: any) => ({
+                            x: moment(item.label).format('HH:mm:ss'),
+                            y: item.value,
                         })),
                     },
                 ];
