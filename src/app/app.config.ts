@@ -9,6 +9,7 @@ export const SERVICE_URLS = {
     PATIENT_API: `${BASE_URL}/patient`,
     ITEM_API: `${BASE_URL}/item`,
     RECEIPT_API: `${BASE_URL}/receipt`,
+    EXPENSE_API: `${BASE_URL}/expense`,
     AUTH_API: `${BASE_URL}/auth`,
     APPOINTMENT_API: `${BASE_URL}/appointment`,
     DASHBOARD_API: `${BASE_URL}/dashboard`,
@@ -31,6 +32,7 @@ export const APP_CONFIG = {
     ITEM_TYPES: ['Clinic', 'Laboratory'],
     PAYMENT_METHODS: ['Cash', 'MMQR', 'Credit', 'Other'],
     CASHFLOW_CATEGORY: ['Capital', 'Revenue', 'Operation', 'Personal', 'Other'],
+    EXPENSE_CATEGORY: ['CF', 'Other'],
 };
 
 export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
@@ -75,6 +77,16 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
                 link: '/deleted-receipts',
                 meta: {
                     roles: ['admin', 'manager'],
+                },
+            },
+            {
+                id: 'expense',
+                title: 'Expense',
+                type: 'basic',
+                icon: 'mat_solid:history_edu',
+                link: '/expense',
+                meta: {
+                    roles: ['admin', 'manager', 'cashier'],
                 },
             },
             {

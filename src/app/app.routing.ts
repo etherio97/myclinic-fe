@@ -68,6 +68,13 @@ export const appRoutes: Route[] = [
                     ),
             },
             {
+                path: 'expense',
+                loadChildren: () =>
+                    import('app/modules/pages/expense/expense.module').then(
+                        (m) => m.ExpenseModule,
+                    ),
+            },
+            {
                 path: 'appointments',
                 loadChildren: () =>
                     import('app/modules/pages/appointment/appointment.module').then(

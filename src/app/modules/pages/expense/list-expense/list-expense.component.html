@@ -1,0 +1,363 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent"
+    >
+        <div class="flex-1 min-w-0">
+            <div class="mt-2">
+                <h2
+                    class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
+                >
+                    Expense List
+                </h2>
+            </div>
+        </div>
+        <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <button
+                mat-flat-button
+                color="primary"
+                (click)="openCreateModal()"
+                class="text-white"
+            >
+                <mat-icon
+                    class="icon-size-5 mr-2"
+                    svgIcon="heroicons_solid:plus"
+                ></mat-icon>
+                New
+            </button>
+        </div>
+    </div>
+
+    <div class="flex-auto p-6 sm:p-10">
+        <div class="w-full pt-2 pb-2 sm:pt-6 sm:pb-2 bg-card rounded shadow">
+            <form
+                [formGroup]="formGroup"
+                class="w-full"
+                (ngSubmit)="reloadData()"
+            >
+                <div class="flex flex-wrap w-full px-3 sm:px-6 pt-2 sm:pt-4">
+                    <div class="w-full sm:w-1/3 pr-6">
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>Start Date</mat-label>
+                            <input
+                                matInput
+                                [matDatepicker]="pickerStart"
+                                formControlName="startDate"
+                            />
+                            <mat-datepicker-toggle
+                                matIconSuffix
+                                [for]="pickerStart"
+                            ></mat-datepicker-toggle>
+                            <mat-datepicker #pickerStart></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="w-full sm:w-1/3 pr-6">
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>End Date</mat-label>
+                            <input
+                                matInput
+                                [matDatepicker]="picker"
+                                formControlName="endDate"
+                            />
+                            <mat-datepicker-toggle
+                                matIconSuffix
+                                [for]="picker"
+                            ></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="w-full sm:w-1/3 pr-6">
+                        <mat-form-field class="w-full">
+                            <mat-label>Category</mat-label>
+                            <mat-select formControlName="category">
+                                <mat-option value="">All</mat-option>
+                                <mat-option
+                                    *ngFor="let category of categories"
+                                    [value]="category"
+                                >
+                                    {{ category }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div
+                    class="flex justify-end space-x-2 w-full border-t px-3 sm:px-6 py-1 sm:py-2 border-gray-200 rounded-b"
+                >
+                    <button
+                        type="button"
+                        mat-flat-button
+                        class="bg-amber-600 text-white flex justify-center items-center"
+                        (click)="exportExcel()"
+                    >
+                        <mat-icon
+                            class="icon-size-4"
+                            svgIcon="download"
+                        ></mat-icon>
+                        <p class="pl-2">Export</p>
+                    </button>
+
+                    <button
+                        type="submit"
+                        mat-flat-button
+                        color="primary"
+                        class="text-white flex justify-center items-center"
+                    >
+                        <mat-icon
+                            class="icon-size-4"
+                            svgIcon="search"
+                        ></mat-icon>
+                        <p class="pl-2">Search</p>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="bg-card shadow rounded mt-3 sm:mt-6">
+            <table
+                class="w-full text-center"
+                mat-table
+                [dataSource]="dataSource"
+            >
+                <ng-container matColumnDef="date">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="mx-2 text-center"
+                    >
+                        Date
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="w-24 text-center"
+                    >
+                        {{ element.date | date: "dd/MM/yyyy hh:mm a" }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="description">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="mx-2 text-center"
+                    >
+                        Description
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                        {{ element.description }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="category">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="mx-2 text-center"
+                    >
+                        Category
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                        {{ element.category }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="amount">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="mx-2 text-center"
+                    >
+                        Amount
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                        {{ element.amount | currency: "MMK" : "" : "0.0-0" }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="actions">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="mx-2 text-center w-30"
+                    >
+                        Actions
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="flex justify-center">
+                            <button
+                                mat-icon-button
+                                (click)="viewExpenseModal(element)"
+                                matTooltip="View Details"
+                            >
+                                <mat-icon
+                                    svgIcon="feather:info"
+                                    class="icon-size-4"
+                                ></mat-icon>
+                            </button>
+                            <button
+                                mat-icon-button
+                                (click)="openEditModal(element)"
+                                matTooltip="Edit"
+                            >
+                                <mat-icon
+                                    svgIcon="feather:edit"
+                                    class="icon-size-4"
+                                ></mat-icon>
+                            </button>
+                            <button
+                                *ngIf="['admin', 'manager'].includes(role)"
+                                mat-icon-button
+                                (click)="removeExpense(element.id)"
+                                matTooltip="Delete"
+                            >
+                                <mat-icon
+                                    svgIcon="heroicons_outline:trash"
+                                    class="icon-size-4"
+                                ></mat-icon>
+                            </button>
+                        </div>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr
+                    mat-row
+                    *matRowDef="let row; columns: displayedColumns"
+                ></tr>
+            </table>
+            <div
+                class="flex flex-row justify-end border-t bg-gray-50 dark:bg-gray-700"
+            >
+                <mat-paginator
+                    showFirstLastButtons
+                    [pageSizeOptions]="[10, 15, 20]"
+                    class="bg-gray-50 dark:bg-gray-700"
+                >
+                </mat-paginator>
+            </div>
+        </div>
+
+        <div class="bg-card shadow rounded p-5 mt-5">
+            <div>
+                <table class="w-full border-collapse">
+                    <tr>
+                        <td class="px-2 font-bold">Total Expenses:</td>
+                        <td class="px-2 font-bold">
+                            {{ grandTotal | currency: "MMK" : "" : "0.0-0" }}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #createModal>
+    <form [formGroup]="createFormGroup" (ngSubmit)="createExpense()">
+        <div>
+            <mat-form-field class="w-full">
+                <mat-label>Date</mat-label>
+                <input
+                    matInput
+                    [matDatepicker]="pickerStart"
+                    formControlName="date"
+                />
+                <mat-datepicker-toggle
+                    matIconSuffix
+                    [for]="pickerStart"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #pickerStart></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+                <mat-label>Description</mat-label>
+                <textarea
+                    formControlName="description"
+                    rows="3"
+                    matInput
+                ></textarea>
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+                <mat-label>Category</mat-label>
+                <mat-select formControlName="category">
+                    <mat-option
+                        *ngFor="let category of categories"
+                        [value]="category"
+                    >
+                        {{ category }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+                <mat-label>Amount</mat-label>
+                <input type="number" matInput formControlName="amount" />
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+                <mat-label>Notes</mat-label>
+                <textarea formControlName="notes" rows="3" matInput></textarea>
+            </mat-form-field>
+
+            <div class="flex justify-center space-x-2 items-center">
+                <button mat-button class="bg-indigo-600 text-white">
+                    Save
+                </button>
+            </div>
+        </div>
+    </form>
+</ng-template>
+
+<ng-template #detailModal>
+    <div>
+        <table class="min-w-full rounded">
+            <tbody>
+                <tr>
+                    <td class="font-semibold px-4 py-2">Date</td>
+                    <td class="px-4 py-2">
+                        {{ element.date | date: "dd/MM/yyyy" }}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="font-semibold px-4 py-2">Description</td>
+                    <td class="px-4 py-2">{{ element.description }}</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold px-4 py-2">Category</td>
+                    <td class="px-4 py-2">{{ element.category }}</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold px-4 py-2">Amount</td>
+                    <td class="px-4 py-2">
+                        {{ element.amount | currency: "MMK" : "" : "0.0-0" }}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="font-semibold px-4 py-2">Notes</td>
+                    <td class="px-4 py-2">{{ element.notes }}</td>
+                </tr>
+                <tr>
+                    <td class="py-2"></td>
+                    <td class="py-2"></td>
+                </tr>
+                <tr>
+                    <td class="font-semibold px-4 py-2">Created User</td>
+                    <td class="px-4 py-2">
+                        {{ element.user.fullName }}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="font-semibold px-4 py-2">Created At</td>
+                    <td class="px-4 py-2">
+                        {{ element.createdAt | date: "dd/MM/yyyy hh:mm a" }}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="font-semibold px-4 py-2">Updated At</td>
+                    <td class="px-4 py-2">
+                        {{ element.updatedAt | date: "dd/MM/yyyy hh:mm a" }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</ng-template>
