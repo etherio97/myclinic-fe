@@ -61,7 +61,7 @@ export class ListExpenseComponent implements OnInit, AfterViewInit {
         this.formGroup = this._fb.group({
             startDate: [moment()],
             endDate: [moment()],
-            category: [''],
+            category: [[]],
         });
 
         this.createFormGroup = this._fb.group({
@@ -101,9 +101,15 @@ export class ListExpenseComponent implements OnInit, AfterViewInit {
                 this.formGroup.controls.endDate.value,
             ).format('yyyy-MM-DD');
         }
-        if (this.formGroup.controls.category.value) {
-            condition.category = this.formGroup.controls.category.value;
+        const selectedCategories = this.formGroup.controls.category.value;
+        if (
+            selectedCategories &&
+            selectedCategories.length > 0 &&
+            selectedCategories[0] !== ''
+        ) {
+            condition.category = selectedCategories;
         }
+        // If 'All' is selected or nothing is selected, do not send category filter
         this._expenseService.getAll(condition).subscribe((data: any) => {
             let grandTotal = 0;
             this.searchResult = this.dataSource.data = data;
