@@ -138,7 +138,7 @@ export class CreateReceiptComponent implements OnInit {
     }
 
     displayPatientFn(patient: any): string {
-        return patient.fullName;
+        return patient ? `${patient.fullName} #${patient.patientNo}` : '';
     }
 
     displayDoctorFn(doctor: any): string {
