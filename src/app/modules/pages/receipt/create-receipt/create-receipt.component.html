@@ -52,28 +52,43 @@
             <!-- For Patient Information -->
             <div class="w-full pt-2 pb-2 mx-5">
                 <div class="grid grid-cols-2 gap-4">
-                    <mat-form-field class="w-full">
-                        <mat-label>Patient Name</mat-label>
-                        <input
-                            type="text"
-                            matInput
-                            formControlName="patient"
-                            [matAutocomplete]="patientAuto"
-                        />
-                        <mat-autocomplete
-                            #patientAuto="matAutocomplete"
-                            [displayWith]="displayPatientFn"
-                        >
-                            <mat-option
-                                *ngFor="
-                                    let option of patientFilteredOptions | async
-                                "
-                                [value]="option"
+                    <div class="flex items-center justify-between">
+                        <mat-form-field class="w-full">
+                            <mat-label>Patient Name</mat-label>
+                            <input
+                                type="text"
+                                matInput
+                                formControlName="patient"
+                                [matAutocomplete]="patientAuto"
+                            />
+                            <mat-autocomplete
+                                #patientAuto="matAutocomplete"
+                                [displayWith]="displayPatientFn"
                             >
-                                {{ option.fullName }} #{{ option.patientNo }}
-                            </mat-option>
-                        </mat-autocomplete>
-                    </mat-form-field>
+                                <mat-option
+                                    *ngFor="
+                                        let option of patientFilteredOptions
+                                            | async
+                                    "
+                                    [value]="option"
+                                >
+                                    {{ option.fullName }} #{{
+                                        option.patientNo
+                                    }}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                        <button
+                            type="button"
+                            mat-icon-button
+                            (click)="openCreatePatientModal()"
+                            matTooltip="Create New Patient"
+                        >
+                            <mat-icon
+                                svgIcon="heroicons_solid:user-add"
+                            ></mat-icon>
+                        </button>
+                    </div>
 
                     <mat-form-field class="w-full">
                         <mat-label>Doctor Name</mat-label>

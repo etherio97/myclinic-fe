@@ -13,6 +13,8 @@ import { clone } from 'lodash';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import moment from 'moment';
 import { ConfirmService } from 'app/services/confirm.service';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { CreatePatientModalComponent } from '../components/create-patient-modal/create-patient-modal.component';
 
 @Component({
     selector: 'app-create-receipt',
@@ -47,6 +49,8 @@ export class CreateReceiptComponent implements OnInit {
 
     itemTypes = APP_CONFIG.ITEM_TYPES;
 
+    private _modal: MatDialogRef<CreatePatientModalComponent>;
+
     constructor(
         private _receiptService: ReceiptService,
         private _doctorService: DoctorService,
@@ -56,6 +60,7 @@ export class CreateReceiptComponent implements OnInit {
         private _confirmService: ConfirmService,
         private _router: Router,
         private route: ActivatedRoute,
+        private _dialog: MatDialog,
     ) {}
 
     ngOnInit(): void {
@@ -63,7 +68,7 @@ export class CreateReceiptComponent implements OnInit {
             patient: ['', Validators.required],
             doctor: [''],
             date: [''],
-            paymentMethod: ['', Validators.required],
+            paymentMethod: ['Cash', Validators.required],
             discountAmount: [''],
             discountPercent: [''],
             item: [''],
@@ -105,9 +110,7 @@ export class CreateReceiptComponent implements OnInit {
             this.doctors = res;
         });
 
-        this._patientService.getAll({}).subscribe((res: any) => {
-            this.patients = res;
-        });
+        this.reloadPatients();
 
         this.patientFilteredOptions =
             this.formGroup.controls.patient.valueChanges.pipe(
@@ -128,6 +131,12 @@ export class CreateReceiptComponent implements OnInit {
             );
     }
 
+    reloadPatients() {
+        this._patientService.getAll({}).subscribe((res: any) => {
+            this.patients = res;
+        });
+    }
+
     displayPatientFn(patient: any): string {
         return patient.fullName;
     }
@@ -141,7 +150,6 @@ export class CreateReceiptComponent implements OnInit {
     }
 
     private _filterItem(value: any): any[] {
-        // Check if value is a string (from typing) or an object (from selection)
         const filterValue =
             typeof value === 'string' ? value.toLowerCase() : '';
 
@@ -227,6 +235,22 @@ export class CreateReceiptComponent implements OnInit {
                 option.fullName.toLowerCase().includes(filterValue) ||
                 option.specialization.toLowerCase().includes(filterValue),
         );
+    }
+
+    openCreatePatientModal() {
+        this._modal = this._dialog.open(CreatePatientModalComponent, {
+            maxWidth: '80vw',
+            width: '100%',
+            disableClose: true,
+        });
+
+        this._modal.componentInstance.closeModal = () => this._modal.close();
+
+        this._modal.componentInstance.onCreatedPatient = (patient: any) => {
+            this.formGroup.controls.patient.setValue(patient);
+            this.reloadPatients();
+            this._modal.close();
+        };
     }
 
     submit() {

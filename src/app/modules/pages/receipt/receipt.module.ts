@@ -26,6 +26,8 @@ import {
 } from '@angular-material-components/datetime-picker';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { MY_DATE_FORMATS } from 'app/app.config';
+import { CreatePatientModalComponent } from './components/create-patient-modal/create-patient-modal.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
     declarations: [
@@ -33,6 +35,7 @@ import { MY_DATE_FORMATS } from 'app/app.config';
         CreateReceiptComponent,
         ReceiptItemComponent,
         ViewReceiptComponent,
+        CreatePatientModalComponent,
     ],
     imports: [
         RouterModule.forChild(receiptRoutes),
@@ -53,6 +56,7 @@ import { MY_DATE_FORMATS } from 'app/app.config';
         NgxMatTimepickerModule,
         NgxNativeDateModule,
         MatPaginatorModule,
+        MatTooltipModule,
     ],
     providers: [
         {
