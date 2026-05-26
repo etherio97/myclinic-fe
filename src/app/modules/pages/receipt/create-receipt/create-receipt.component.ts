@@ -241,6 +241,7 @@ export class CreateReceiptComponent implements OnInit {
         this._modal = this._dialog.open(CreatePatientModalComponent, {
             maxWidth: '80vw',
             width: '100%',
+            maxHeight: '90vh',
             disableClose: true,
         });
 
