@@ -36,6 +36,7 @@
         "fuse.js": "^7.3.0",
         "highlight.js": "11.4.0",
         "lodash-es": "4.17.21",
+        "millify": "^6.1.0",
         "moment": "2.29.1",
         "ng-apexcharts": "1.7.0",
         "ngx-markdown": "13.1.0",

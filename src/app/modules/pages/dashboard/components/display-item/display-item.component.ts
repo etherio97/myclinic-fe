@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { millify } from 'millify';
 
 @Component({
     selector: 'app-display-item',
@@ -24,11 +25,11 @@ export class DisplayItemComponent implements OnInit {
             return 0;
         }
         if (this.current > this.previous) {
-            return (
-                ((this.current - this.previous) / (this.previous || 1)) * 100
+            return millify(
+                ((this.current - this.previous) / (this.previous || 1)) * 100,
             );
         }
-        return ((this.previous - this.current) / this.previous) * 100;
+        return millify(((this.previous - this.current) / this.previous) * 100);
     }
 
     get icon() {
