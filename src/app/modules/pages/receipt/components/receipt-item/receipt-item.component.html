@@ -97,7 +97,7 @@
                         </ng-container>
                     </span>
                     <span>{{
-                        item.quantity * item.sellingPrice - (item.discount || 0)
+                        item.quantity * item.sellingPrice
                             | currency: "MMK" : "" : "0.0-0"
                     }}</span>
                 </div>
