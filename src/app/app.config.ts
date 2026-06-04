@@ -34,6 +34,7 @@ export const APP_CONFIG = {
     CASHFLOW_CATEGORY: ['Capital', 'Revenue', 'Operation', 'Personal', 'Other'],
     EXPENSE_CATEGORY: [
         'CF',
+        'Other',
         'Miscellaneous',
         'Pharmacy',
         'Stationery',
@@ -41,7 +42,6 @@ export const APP_CONFIG = {
         'Transportation',
         'Maintenance',
         'Utilities',
-        'Other',
     ],
 };
 
