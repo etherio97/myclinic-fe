@@ -91,7 +91,7 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
             },
             {
                 id: 'expense',
-                title: 'Expense',
+                title: 'Expenses',
                 type: 'basic',
                 icon: 'mat_solid:history_edu',
                 link: '/expense',

@@ -156,16 +156,16 @@
                                 [isCurrency]="false"
                             ></app-display-item>
 
-                            <!-- Total Appointments -->
+                            <!-- Total Expenses -->
                             <app-display-item
                                 *ngIf="['admin'].includes(role)"
-                                title="Total Appointments"
-                                unit="Appointments"
-                                [current]="int(monthlyData?.total_appointments)"
+                                title="Total Expenses"
+                                unit="Expenses"
+                                [current]="int(monthlyData?.total_expenses)"
                                 [previous]="
-                                    int(prevMonthlyData?.total_appointments)
+                                    int(prevMonthlyData?.total_expenses)
                                 "
-                                [isCurrency]="false"
+                                [isCurrency]="true"
                             ></app-display-item>
                         </div>
                     </div>
@@ -324,16 +324,14 @@
                                 [isCurrency]="false"
                             ></app-display-item>
 
-                            <!-- Total Appointment -->
+                            <!-- Total Expenses -->
                             <app-display-item
                                 *ngIf="['admin'].includes(role)"
-                                title="Total Appointments"
-                                unit="Appointments"
-                                [current]="int(dailyData?.total_appointments)"
-                                [previous]="
-                                    int(prevDailyData?.total_appointments)
-                                "
-                                [isCurrency]="false"
+                                title="Total Expenses"
+                                unit="Expenses"
+                                [current]="int(dailyData?.total_expenses)"
+                                [previous]="int(prevDailyData?.total_expenses)"
+                                [isCurrency]="true"
                             ></app-display-item>
                         </div>
                     </div>

@@ -131,13 +131,13 @@
                     [isCurrency]="false"
                 ></app-display-item>
 
-                <!-- Total Appointment -->
+                <!-- Total Expenses -->
                 <app-display-item
-                    title="Total Appointments"
-                    unit="Appointments"
-                    [current]="int(dailyData?.total_appointments)"
-                    [previous]="int(prevDailyData?.total_appointments)"
-                    [isCurrency]="false"
+                    title="Total Expenses"
+                    unit="Expenses"
+                    [current]="int(dailyData?.total_expenses)"
+                    [previous]="int(prevDailyData?.total_expenses)"
+                    [isCurrency]="true"
                 ></app-display-item>
             </div>
         </div>
