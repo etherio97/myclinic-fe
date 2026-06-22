@@ -34,6 +34,12 @@ export class ViewReceiptComponent implements OnInit {
     loadData() {
         this._receiptService.findById(this.id).subscribe((result) => {
             this.data = result;
+
+            this.route.queryParams.subscribe(
+                (params) =>
+                    params.print === 'true' &&
+                    setTimeout(() => this.handlePrint()),
+            );
         });
     }
 

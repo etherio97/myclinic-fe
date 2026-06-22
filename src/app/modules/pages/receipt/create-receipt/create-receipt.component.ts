@@ -312,7 +312,10 @@ export class CreateReceiptComponent implements OnInit {
             this.receiptNo = response.receiptNo;
             this.cashier = response.user;
             setTimeout(() => {
-                this._router.navigate(['/receipts', 'view', response.id]);
+                this._router.navigate(['/receipts', 'view', response.id], {
+                    // now disabled because of POS printer is not setup yet, will enable this in the future
+                    // queryParams: { print: 'true' },
+                });
             });
         });
     }
