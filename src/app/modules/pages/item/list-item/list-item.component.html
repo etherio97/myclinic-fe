@@ -188,7 +188,7 @@
                     </th>
                     <td mat-cell *matCellDef="let element">
                         <div class="flex">
-                            <button
+                            <a
                                 mat-icon-button
                                 [routerLink]="['edit', element.id]"
                                 matTooltip="Edit"
@@ -197,7 +197,7 @@
                                     svgIcon="feather:edit"
                                     class="icon-size-4"
                                 ></mat-icon>
-                            </button>
+                            </a>
                             <button
                                 *ngIf="
                                     ['admin', 'manager', 'lab-admin'].includes(
