@@ -20,6 +20,20 @@
                 </div>
                 <div class="flex items-center gap-2">
                     <button
+                        *ngIf="checkEditPermission()"
+                        type="button"
+                        mat-flat-button
+                        class="items-center bg-amber-600 text-white"
+                        [routerLink]="['../../edit', data.id]"
+                    >
+                        <mat-icon
+                            svgIcon="mat_outline:edit"
+                            class="icon-size-5 mr-2"
+                        ></mat-icon>
+                        Edit
+                    </button>
+
+                    <button
                         type="button"
                         mat-flat-button
                         class="items-center bg-slate-600 text-white"

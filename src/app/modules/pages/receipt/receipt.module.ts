@@ -28,6 +28,7 @@ import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { MY_DATE_FORMATS } from 'app/app.config';
 import { CreatePatientModalComponent } from './components/create-patient-modal/create-patient-modal.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { EditReceiptComponent } from './edit-receipt/edit-receipt.component';
 
 @NgModule({
     declarations: [
@@ -36,6 +37,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         ReceiptItemComponent,
         ViewReceiptComponent,
         CreatePatientModalComponent,
+        EditReceiptComponent,
     ],
     imports: [
         RouterModule.forChild(receiptRoutes),

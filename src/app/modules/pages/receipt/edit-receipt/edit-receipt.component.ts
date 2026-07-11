@@ -17,10 +17,10 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CreatePatientModalComponent } from '../components/create-patient-modal/create-patient-modal.component';
 
 @Component({
-    selector: 'app-create-receipt',
-    templateUrl: './create-receipt.component.html',
+    selector: 'app-edit-receipt',
+    templateUrl: './edit-receipt.component.html',
 })
-export class CreateReceiptComponent implements OnInit {
+export class EditReceiptComponent implements OnInit {
     formGroup!: FormGroup;
 
     items: any[] = [];
@@ -47,9 +47,11 @@ export class CreateReceiptComponent implements OnInit {
 
     cashier!: any;
 
+    receiptId = '';
+
     itemTypes = APP_CONFIG.ITEM_TYPES;
 
-    private _modal: MatDialogRef<CreatePatientModalComponent>;
+    private _modal!: MatDialogRef<CreatePatientModalComponent>;
 
     constructor(
         private _receiptService: ReceiptService,
@@ -83,23 +85,21 @@ export class CreateReceiptComponent implements OnInit {
             },
         );
 
-        this.route.params.subscribe(({ patientId }) => {
-            if (!patientId) return;
-
-            this.patientId = patientId;
-            this._patientService.findById(patientId).subscribe((result) => {
-                this.formGroup.controls.patient.setValue(result);
-            });
-
-            this.route.queryParamMap.subscribe((params) => {
-                if (!params.has('doctorId')) return;
-                this.doctorId = <string>params.get('doctorId');
-                this._doctorService
-                    .findById(this.doctorId)
-                    .subscribe((result) => {
-                        this.formGroup.controls.doctor.setValue(result);
-                    });
-            });
+        this.route.params.subscribe((params) => {
+            this.receiptId = params['id'];
+            this._receiptService
+                .findById(this.receiptId)
+                .subscribe((res: any) => {
+                    let discount = 0;
+                    for (let item of res.items) {
+                        if (item.discount) {
+                            discount += item.discount;
+                        }
+                    }
+                    res.discountAmount -= discount;
+                    this.formGroup.patchValue(res);
+                    this.selectedItems = res.items || [];
+                });
         });
 
         this._itemService.getAll({}).subscribe((res: any) => {
@@ -308,16 +308,19 @@ export class CreateReceiptComponent implements OnInit {
         delete data.item;
         delete data.discountPercent;
 
-        this._receiptService.create(data).subscribe((response: any) => {
-            this.receiptNo = response.receiptNo;
-            this.cashier = response.user;
-            setTimeout(() => {
-                this._router.navigate(['/receipts', 'view', response.id], {
-                    // now disabled because of POS printer is not setup yet, will enable this in the future
-                    // queryParams: { print: 'true' },
+        this._receiptService
+            .update(this.receiptId, data)
+            .subscribe((response: any) => {
+                setTimeout(() => {
+                    this._router.navigate(
+                        ['/receipts', 'view', this.receiptId],
+                        {
+                            // now disabled because of POS printer is not setup yet, will enable this in the future
+                            // queryParams: { print: 'true' },
+                        },
+                    );
                 });
             });
-        });
     }
 
     getSubTotal() {

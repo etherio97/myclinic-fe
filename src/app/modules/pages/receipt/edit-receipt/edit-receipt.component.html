@@ -1,0 +1,359 @@
+<div class="w-full">
+    <div class="w-full p-3 sm:p-8 mx-auto" style="max-width: 1400px">
+        <form [formGroup]="formGroup" (ngSubmit)="submit()">
+            <div class="mb-4">
+                <div class="flex justify-between">
+                    <div class="flex items-center">
+                        <button
+                            mat-icon-button
+                            matTooltip="Back"
+                            routerLink="../.."
+                            type="button"
+                        >
+                            <mat-icon
+                                svgIcon="mat_outline:chevron_left"
+                            ></mat-icon>
+                        </button>
+                        <h2
+                            class="text-3xl font-semibold tracking-tight leading-8"
+                        >
+                            Edit Receipt
+                        </h2>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button
+                            type="button"
+                            mat-flat-button
+                            class="items-center bg-slate-600 text-white hidden"
+                            (click)="handlePrint()"
+                        >
+                            <mat-icon
+                                svgIcon="mat_outline:print"
+                                class="icon-size-5 mr-2"
+                            ></mat-icon>
+                            Print
+                        </button>
+
+                        <button
+                            type="submit"
+                            mat-flat-button
+                            class="flex items-center bg-indigo-600 text-white"
+                        >
+                            <mat-icon
+                                svgIcon="mat_outline:save"
+                                class="icon-size-5 mr-2"
+                            ></mat-icon>
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- For Patient Information -->
+            <div class="w-full pt-2 pb-2 mx-5">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="flex items-center justify-between">
+                        <mat-form-field class="w-full">
+                            <mat-label>Patient Name</mat-label>
+                            <input
+                                type="text"
+                                matInput
+                                formControlName="patient"
+                                [matAutocomplete]="patientAuto"
+                            />
+                            <mat-autocomplete
+                                #patientAuto="matAutocomplete"
+                                [displayWith]="displayPatientFn"
+                            >
+                                <mat-option
+                                    *ngFor="
+                                        let option of patientFilteredOptions
+                                            | async
+                                    "
+                                    [value]="option"
+                                >
+                                    {{ option.fullName }} #{{
+                                        option.patientNo
+                                    }}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                        <button
+                            type="button"
+                            mat-icon-button
+                            (click)="openCreatePatientModal()"
+                            matTooltip="Create New Patient"
+                        >
+                            <mat-icon
+                                svgIcon="heroicons_solid:user-add"
+                            ></mat-icon>
+                        </button>
+                    </div>
+
+                    <mat-form-field class="w-full">
+                        <mat-label>Doctor Name</mat-label>
+                        <input
+                            type="text"
+                            matInput
+                            formControlName="doctor"
+                            [matAutocomplete]="doctorAuto"
+                        />
+                        <mat-autocomplete
+                            #doctorAuto="matAutocomplete"
+                            [displayWith]="displayDoctorFn"
+                        >
+                            <mat-option
+                                *ngFor="
+                                    let option of doctorFilteredOptions | async
+                                "
+                                [value]="option"
+                            >
+                                {{ option.fullName }} ({{
+                                    option.specialization
+                                }}) #{{ option.doctorNo }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+
+                    <mat-form-field class="w-full">
+                        <mat-label>Date</mat-label>
+                        <mat-hint>
+                            <div class="h-4">
+                                ယခုအချိန်အားရွေးလိုပါက
+                                မရွေးချယ်ဘဲထားခဲ့နိုင်ပါသည်။
+                            </div>
+                        </mat-hint>
+                        <input
+                            matInput
+                            [ngxMatDatetimePicker]="picker"
+                            placeholder="Choose a date"
+                            formControlName="date"
+                            (click)="picker.open()"
+                        />
+                        <mat-datepicker-toggle
+                            matSuffix
+                            [for]="picker"
+                        ></mat-datepicker-toggle>
+                        <ngx-mat-datetime-picker
+                            #picker
+                            [showSeconds]="true"
+                            [stepSecond]="true"
+                        >
+                        </ngx-mat-datetime-picker>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Receipt Type</mat-label>
+                        <mat-select formControlName="type">
+                            <mat-option
+                                *ngFor="let item of itemTypes"
+                                [value]="item"
+                            >
+                                {{ item }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <!-- For Others -->
+            <div class="w-full pt-2 pb-2 mx-5">
+                <div class="grid grid-cols-2 gap-4">
+                    <mat-form-field class="w-full">
+                        <mat-label>Payment Method</mat-label>
+                        <mat-select formControlName="paymentMethod">
+                            <mat-option
+                                *ngFor="let paymentMethod of paymentMethods"
+                                [value]="paymentMethod"
+                            >
+                                {{ paymentMethod }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <div class="grid grid-cols-3 gap-2">
+                        <mat-form-field class="w-full col-span-1">
+                            <mat-label>Discount Percentage</mat-label>
+                            <input
+                                type="number"
+                                matInput
+                                formControlName="discountPercent"
+                            />
+                            <span matTextSuffix>%</span>
+                        </mat-form-field>
+
+                        <mat-form-field class="w-full col-span-2">
+                            <mat-label>Discount Amount</mat-label>
+                            <input
+                                type="number"
+                                matInput
+                                formControlName="discountAmount"
+                            />
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+            <!-- For Items -->
+            <div class="w-full pt-2 pb-2 mx-5">
+                <mat-form-field class="w-full">
+                    <mat-label>Add Item</mat-label>
+                    <input
+                        type="text"
+                        matInput
+                        formControlName="item"
+                        [matAutocomplete]="itemAuto"
+                    />
+                    <mat-autocomplete
+                        #itemAuto="matAutocomplete"
+                        [displayWith]="displayItemFn"
+                        (optionSelected)="onItemSelect($event)"
+                    >
+                        <mat-option
+                            *ngFor="let option of itemFilteredOptions | async"
+                            [value]="option"
+                        >
+                            <table class="w-full">
+                                <tbody>
+                                    <tr class="w-full">
+                                        <td class="w-[60%] py-2">
+                                            {{ option.name }}
+                                        </td>
+                                        <td class="w-[20%] text-center py-2">
+                                            {{ option.category }}
+                                        </td>
+                                        <td class="w-[20%] text-right py-2">
+                                            {{
+                                                option.sellingPrice
+                                                    | currency
+                                                        : "MMK"
+                                                        : ""
+                                                        : "0.0-0"
+                                            }}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+                <div class="mt-4">
+                    <table class="w-full border-collapse">
+                        <thead>
+                            <tr class="border-b">
+                                <th class="text-left py-2">Item Name</th>
+                                <th class="text-right py-2">Price</th>
+                                <th class="text-right py-2">Quantity</th>
+                                <th class="text-right py-2">Discount</th>
+                                <th class="text-right py-2">Total</th>
+                                <th class="text-center py-2">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="
+                                    let item of selectedItems;
+                                    let i = index
+                                "
+                                class="border-b"
+                            >
+                                <td class="py-2">{{ item.name }}</td>
+                                <td class="text-right py-2">
+                                    <input
+                                        class="py-1 px-2 w-24 rounded bg-white text-center"
+                                        matInput
+                                        type="number"
+                                        (change)="recalculateDiscount()"
+                                        [(ngModel)]="item.sellingPrice"
+                                        [ngModelOptions]="{ standalone: true }"
+                                    />
+                                </td>
+                                <td class="text-right py-2">
+                                    <input
+                                        class="py-1 px-2 w-12 rounded bg-white text-center"
+                                        matInput
+                                        type="number"
+                                        (change)="recalculateDiscount()"
+                                        [(ngModel)]="item.quantity"
+                                        [ngModelOptions]="{ standalone: true }"
+                                    />
+                                </td>
+                                <td class="text-right py-2">
+                                    <input
+                                        class="py-1 px-2 w-24 rounded bg-white text-center"
+                                        matInput
+                                        type="number"
+                                        (change)="recalculateDiscount()"
+                                        [(ngModel)]="item.discount"
+                                        [ngModelOptions]="{ standalone: true }"
+                                    />
+                                </td>
+                                <td class="text-right py-2 w-30">
+                                    {{
+                                        item.sellingPrice * item.quantity -
+                                            (item.discount || 0)
+                                            | currency: "MMK" : "" : "0.0-0"
+                                    }}
+                                </td>
+                                <td class="text-center py-2">
+                                    <button
+                                        type="button"
+                                        mat-icon-button
+                                        color="warn"
+                                        (click)="removeItem(i)"
+                                    >
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <!-- Total -->
+                            <tr class="text-center">
+                                <th colspan="4" class="py-4">Sub Total</th>
+                                <th colspan="2" class="py-4">
+                                    {{
+                                        getSubTotal()
+                                            | currency: "MMK" : "" : "0.0-0"
+                                    }}
+                                </th>
+                            </tr>
+                            <tr class="text-center">
+                                <th colspan="4" class="py-4">Discount</th>
+                                <th colspan="2" class="py-4">
+                                    {{
+                                        getDiscount()
+                                            | currency: "MMK" : "" : "0.0-0"
+                                    }}
+                                </th>
+                            </tr>
+                            <tr class="text-center">
+                                <th colspan="4" class="py-4">Total</th>
+                                <th colspan="2" class="py-4">
+                                    {{
+                                        getGrandTotal()
+                                            | currency: "MMK" : "" : "0.0-0"
+                                    }}
+                                </th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    /* Hidden on screen (web) */
+    .print-only {
+        display: none;
+    }
+
+    /* Shown on print */
+    @media print {
+        .print-only {
+            display: block; /* Or 'inline', 'flex', etc., depending on the element type */
+        }
+    }
+</style>
