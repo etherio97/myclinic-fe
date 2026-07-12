@@ -23,6 +23,7 @@ import {
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { MY_DATE_FORMATS } from 'app/app.config';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @NgModule({
     declarations: [ListExpenseComponent],
@@ -44,6 +45,7 @@ import { MY_DATE_FORMATS } from 'app/app.config';
         NgxMatTimepickerModule,
         NgxNativeDateModule,
         MatPaginatorModule,
+        TranslocoModule,
     ],
     providers: [
         {

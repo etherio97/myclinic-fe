@@ -26,6 +26,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { ViewAppointmentComponent } from './view-appointment/view-appointment.component';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { MY_DATE_FORMATS } from 'app/app.config';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @NgModule({
     declarations: [
@@ -52,6 +53,7 @@ import { MY_DATE_FORMATS } from 'app/app.config';
         NgxMatTimepickerModule,
         NgxNativeDateModule,
         MatPaginatorModule,
+        TranslocoModule,
     ],
     providers: [
         {

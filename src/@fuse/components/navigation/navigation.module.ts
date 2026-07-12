@@ -19,6 +19,7 @@ import { FuseVerticalNavigationDividerItemComponent } from '@fuse/components/nav
 import { FuseVerticalNavigationGroupItemComponent } from '@fuse/components/navigation/vertical/components/group/group.component';
 import { FuseVerticalNavigationSpacerItemComponent } from '@fuse/components/navigation/vertical/components/spacer/spacer.component';
 import { FuseVerticalNavigationComponent } from '@fuse/components/navigation/vertical/vertical.component';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @NgModule({
     declarations: [
@@ -33,9 +34,9 @@ import { FuseVerticalNavigationComponent } from '@fuse/components/navigation/ver
         FuseVerticalNavigationDividerItemComponent,
         FuseVerticalNavigationGroupItemComponent,
         FuseVerticalNavigationSpacerItemComponent,
-        FuseVerticalNavigationComponent
+        FuseVerticalNavigationComponent,
     ],
-    imports     : [
+    imports: [
         CommonModule,
         RouterModule,
         MatButtonModule,
@@ -43,13 +44,12 @@ import { FuseVerticalNavigationComponent } from '@fuse/components/navigation/ver
         MatIconModule,
         MatMenuModule,
         MatTooltipModule,
-        FuseScrollbarModule
+        FuseScrollbarModule,
+        TranslocoModule,
     ],
-    exports     : [
+    exports: [
         FuseHorizontalNavigationComponent,
-        FuseVerticalNavigationComponent
-    ]
+        FuseVerticalNavigationComponent,
+    ],
 })
-export class FuseNavigationModule
-{
-}
+export class FuseNavigationModule {}

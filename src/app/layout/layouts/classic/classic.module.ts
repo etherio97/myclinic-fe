@@ -7,16 +7,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { FuseLoadingBarModule } from '@fuse/components/loading-bar';
 import { FuseNavigationModule } from '@fuse/components/navigation';
-// import { LanguagesModule } from 'app/layout/common/languages/languages.module';
 import { UserModule } from 'app/layout/common/user/user.module';
 import { SharedModule } from 'app/shared/shared.module';
 import { ClassicLayoutComponent } from './classic.component';
+import { LanguageModule } from 'app/layout/common/language/language.module';
 
 @NgModule({
-  declarations: [
-        ClassicLayoutComponent
-    ],
-  imports: [
+    declarations: [ClassicLayoutComponent],
+    imports: [
         HttpClientModule,
         RouterModule,
         MatButtonModule,
@@ -25,12 +23,10 @@ import { ClassicLayoutComponent } from './classic.component';
         MatMenuModule,
         FuseLoadingBarModule,
         FuseNavigationModule,
-        // LanguagesModule,
         UserModule,
-        SharedModule
+        LanguageModule,
+        SharedModule,
     ],
-  exports: [
-        ClassicLayoutComponent
-    ]
+    exports: [ClassicLayoutComponent],
 })
 export class ClassicLayoutModule {}

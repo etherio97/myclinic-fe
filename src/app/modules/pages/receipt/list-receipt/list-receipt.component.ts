@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { APP_CONFIG, MY_DATE_FORMATS } from 'app/app.config';
+import { APP_CONFIG, MESSAGES, MY_DATE_FORMATS } from 'app/app.config';
 import { UserService } from 'app/core/user/user.service';
 import { ConfirmService } from 'app/services/confirm.service';
 import { ReceiptService } from 'app/services/receipt.service';
@@ -122,7 +122,7 @@ export class ListReceiptComponent implements OnInit, AfterViewInit {
 
     removeReceipt(id: string) {
         this.confirmService
-            .confirm('Are you sure to delete?')
+            .confirm(MESSAGES.CONFIRM_DELETE_RECEIPT)
             .beforeClosed()
             .subscribe(
                 (value) =>
@@ -133,7 +133,7 @@ export class ListReceiptComponent implements OnInit, AfterViewInit {
     private confirmRemoveReceipt(id: string) {
         this._receiptService.remove(id).subscribe(() => {
             this.confirmService
-                .success('Receipt has been successfully deleted')
+                .success(MESSAGES.SUCCESS_DELETE_RECEIPT)
                 .afterOpened()
                 .subscribe(() => this.reloadData());
         });
@@ -142,7 +142,7 @@ export class ListReceiptComponent implements OnInit, AfterViewInit {
     exportExcel() {
         const fileName = `myclinic-receipts-${moment().format('YYYYMMDDHHmmss')}.xlsx`;
         const worksheet = utils.json_to_sheet(
-            this.searchResult.map((data) => {
+            [...this.searchResult].reverse().map((data) => {
                 return {
                     'Receipt ID': data.receiptNo,
                     Date: moment(data.date).format('YYYY-MM-DD hh:mm:ss A'),

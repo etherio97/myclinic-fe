@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MY_DATE_FORMATS } from 'app/app.config';
+import { MESSAGES, MY_DATE_FORMATS } from 'app/app.config';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { DoctorService } from 'app/services/doctor.service';
 import { ConfirmService } from 'app/services/confirm.service';
@@ -53,13 +53,13 @@ export class EditDoctorComponent implements OnInit {
     submit() {
         if (!this.formGroup.valid) {
             return this._confirmService.error(
-                'Please fill all the required fields.',
+                MESSAGES.REQUIRED_ALL_FIELDS,
                 'Invalid',
             );
         }
 
         this._confirmService
-            .confirm('Are you sure to update this doctor?')
+            .confirm(MESSAGES.CONFIRM_UPDATE_DOCTOR)
             .beforeClosed()
             .subscribe(
                 (value) => value === 'confirmed' && this.confirmSubmit(),

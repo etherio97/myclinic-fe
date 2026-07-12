@@ -5,12 +5,11 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
-import { TranslocoModule } from '@ngneat/transloco';
-import { UserComponent } from 'app/layout/common/user/user.component';
+import { LanguageComponent } from 'app/layout/common/language/language.component';
 import { SharedModule } from 'app/shared/shared.module';
 
 @NgModule({
-    declarations: [UserComponent],
+    declarations: [LanguageComponent],
     imports: [
         MatButtonModule,
         MatDividerModule,
@@ -19,8 +18,7 @@ import { SharedModule } from 'app/shared/shared.module';
         SharedModule,
         MatDialogModule,
         MatInputModule,
-        TranslocoModule,
     ],
-    exports: [UserComponent],
+    exports: [LanguageComponent],
 })
-export class UserModule {}
+export class LanguageModule {}

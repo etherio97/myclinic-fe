@@ -7,7 +7,7 @@
                 <h2
                     class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
                 >
-                    Expense List
+                    {{ "EXPENSES" | transloco }}
                 </h2>
             </div>
         </div>
@@ -22,7 +22,7 @@
                     class="icon-size-5 mr-2"
                     svgIcon="heroicons_solid:plus"
                 ></mat-icon>
-                New
+                {{ "NEW" | transloco }}
             </button>
         </div>
     </div>
@@ -37,7 +37,9 @@
                 <div class="flex flex-wrap w-full px-3 sm:px-6 pt-2 sm:pt-4">
                     <div class="w-full sm:w-1/3 pr-6">
                         <mat-form-field class="w-full" appearance="fill">
-                            <mat-label>Start Date</mat-label>
+                            <mat-label>{{
+                                "START_DATE" | transloco
+                            }}</mat-label>
                             <input
                                 matInput
                                 [matDatepicker]="pickerStart"
@@ -53,7 +55,7 @@
 
                     <div class="w-full sm:w-1/3 pr-6">
                         <mat-form-field class="w-full" appearance="fill">
-                            <mat-label>End Date</mat-label>
+                            <mat-label>{{ "END_DATE" | transloco }}</mat-label>
                             <input
                                 matInput
                                 [matDatepicker]="picker"
@@ -69,7 +71,7 @@
 
                     <div class="w-full sm:w-1/3 pr-6">
                         <mat-form-field class="w-full">
-                            <mat-label>Category</mat-label>
+                            <mat-label>{{ "CATEGORY" | transloco }}</mat-label>
                             <mat-select formControlName="category" multiple>
                                 <mat-option
                                     *ngFor="let category of categories"
@@ -95,7 +97,7 @@
                             class="icon-size-4"
                             svgIcon="download"
                         ></mat-icon>
-                        <p class="pl-2">Export</p>
+                        <p class="pl-2">{{ "EXPORT" | transloco }}</p>
                     </button>
 
                     <button
@@ -108,7 +110,7 @@
                             class="icon-size-4"
                             svgIcon="search"
                         ></mat-icon>
-                        <p class="pl-2">Search</p>
+                        <p class="pl-2">{{ "SEARCH" | transloco }}</p>
                     </button>
                 </div>
             </form>
@@ -126,7 +128,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Date
+                        {{ "DATE" | transloco }}
                     </th>
                     <td
                         mat-cell
@@ -142,7 +144,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Description
+                        {{ "DESCRIPTION" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element" class="text-center">
                         {{ element.description }}
@@ -154,7 +156,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Category
+                        {{ "CATEGORY" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element" class="text-center">
                         {{ element.category }}
@@ -166,7 +168,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Amount
+                        {{ "AMOUNT" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element" class="text-center">
                         {{ element.amount | currency: "MMK" : "" : "0.0-0" }}
@@ -178,14 +180,14 @@
                         *matHeaderCellDef
                         class="mx-2 text-center w-30"
                     >
-                        Actions
+                        {{ "ACTIONS" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element">
                         <div class="flex justify-center">
                             <button
                                 mat-icon-button
                                 (click)="viewExpenseModal(element)"
-                                matTooltip="View Details"
+                                matTooltip="{{ 'VIEW_DETAILS' | transloco }}"
                             >
                                 <mat-icon
                                     svgIcon="feather:info"
@@ -195,7 +197,7 @@
                             <button
                                 mat-icon-button
                                 (click)="openEditModal(element)"
-                                matTooltip="Edit"
+                                matTooltip="{{ 'EDIT' | transloco }}"
                             >
                                 <mat-icon
                                     svgIcon="feather:edit"
@@ -206,7 +208,7 @@
                                 *ngIf="['admin', 'manager'].includes(role)"
                                 mat-icon-button
                                 (click)="removeExpense(element.id)"
-                                matTooltip="Delete"
+                                matTooltip="{{ 'DELETE' | transloco }}"
                             >
                                 <mat-icon
                                     svgIcon="heroicons_outline:trash"
@@ -238,7 +240,9 @@
             <div>
                 <table class="w-full border-collapse">
                     <tr>
-                        <td class="px-2 font-bold">Total Expenses:</td>
+                        <td class="px-2 font-bold">
+                            {{ "TOTAL_EXPENSES" | transloco }}:
+                        </td>
                         <td class="px-2 font-bold">
                             {{ grandTotal | currency: "MMK" : "" : "0.0-0" }}
                         </td>
@@ -253,7 +257,7 @@
     <form [formGroup]="createFormGroup" (ngSubmit)="createExpense()">
         <div>
             <mat-form-field class="w-full">
-                <mat-label>Date</mat-label>
+                <mat-label>{{ "DATE" | transloco }}</mat-label>
                 <input
                     matInput
                     [matDatepicker]="pickerStart"
@@ -267,7 +271,7 @@
             </mat-form-field>
 
             <mat-form-field class="w-full">
-                <mat-label>Description</mat-label>
+                <mat-label>{{ "DESCRIPTION" | transloco }}</mat-label>
                 <textarea
                     formControlName="description"
                     rows="3"
@@ -276,7 +280,7 @@
             </mat-form-field>
 
             <mat-form-field class="w-full">
-                <mat-label>Category</mat-label>
+                <mat-label>{{ "CATEGORY" | transloco }}</mat-label>
                 <mat-select formControlName="category">
                     <mat-option
                         *ngFor="let category of categories"
@@ -288,18 +292,18 @@
             </mat-form-field>
 
             <mat-form-field class="w-full">
-                <mat-label>Amount</mat-label>
+                <mat-label>{{ "AMOUNT" | transloco }}</mat-label>
                 <input type="number" matInput formControlName="amount" />
             </mat-form-field>
 
             <mat-form-field class="w-full">
-                <mat-label>Notes</mat-label>
+                <mat-label>{{ "NOTES" | transloco }}</mat-label>
                 <textarea formControlName="notes" rows="3" matInput></textarea>
             </mat-form-field>
 
             <div class="flex justify-center space-x-2 items-center">
                 <button mat-button class="bg-indigo-600 text-white">
-                    Save
+                    {{ "SAVE" | transloco }}
                 </button>
             </div>
         </div>
@@ -311,27 +315,37 @@
         <table class="min-w-full rounded">
             <tbody>
                 <tr>
-                    <td class="font-semibold px-4 py-2">Date</td>
+                    <td class="font-semibold px-4 py-2">
+                        {{ "DATE" | transloco }}
+                    </td>
                     <td class="px-4 py-2">
                         {{ element.date | date: "dd/MM/yyyy" }}
                     </td>
                 </tr>
                 <tr>
-                    <td class="font-semibold px-4 py-2">Description</td>
+                    <td class="font-semibold px-4 py-2">
+                        {{ "DESCRIPTION" | transloco }}
+                    </td>
                     <td class="px-4 py-2">{{ element.description }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold px-4 py-2">Category</td>
+                    <td class="font-semibold px-4 py-2">
+                        {{ "CATEGORY" | transloco }}
+                    </td>
                     <td class="px-4 py-2">{{ element.category }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold px-4 py-2">Amount</td>
+                    <td class="font-semibold px-4 py-2">
+                        {{ "AMOUNT" | transloco }}
+                    </td>
                     <td class="px-4 py-2">
                         {{ element.amount | currency: "MMK" : "" : "0.0-0" }}
                     </td>
                 </tr>
                 <tr>
-                    <td class="font-semibold px-4 py-2">Notes</td>
+                    <td class="font-semibold px-4 py-2">
+                        {{ "NOTES" | transloco }}
+                    </td>
                     <td class="px-4 py-2">{{ element.notes }}</td>
                 </tr>
                 <tr>
@@ -339,19 +353,25 @@
                     <td class="py-2"></td>
                 </tr>
                 <tr>
-                    <td class="font-semibold px-4 py-2">Created User</td>
+                    <td class="font-semibold px-4 py-2">
+                        {{ "CREATED_USER" | transloco }}
+                    </td>
                     <td class="px-4 py-2">
                         {{ element.user.fullName }}
                     </td>
                 </tr>
                 <tr>
-                    <td class="font-semibold px-4 py-2">Created At</td>
+                    <td class="font-semibold px-4 py-2">
+                        {{ "CREATED_AT" | transloco }}
+                    </td>
                     <td class="px-4 py-2">
                         {{ element.createdAt | date: "dd/MM/yyyy hh:mm a" }}
                     </td>
                 </tr>
                 <tr>
-                    <td class="font-semibold px-4 py-2">Updated At</td>
+                    <td class="font-semibold px-4 py-2">
+                        {{ "UPDATED_AT" | transloco }}
+                    </td>
                     <td class="px-4 py-2">
                         {{ element.updatedAt | date: "dd/MM/yyyy hh:mm a" }}
                     </td>

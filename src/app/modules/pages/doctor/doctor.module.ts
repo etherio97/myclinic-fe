@@ -18,6 +18,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { ViewDoctorComponent } from './view-doctor/view-doctor.component';
 import { MY_DATE_FORMATS } from 'app/app.config';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @NgModule({
     declarations: [
@@ -40,6 +41,7 @@ import { MAT_DATE_FORMATS } from '@angular/material/core';
         MatMomentDateModule,
         MatSelectModule,
         MatPaginatorModule,
+        TranslocoModule,
     ],
     providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }],
 })

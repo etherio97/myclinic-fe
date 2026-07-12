@@ -7,7 +7,7 @@
                 <h2
                     class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
                 >
-                    Users
+                    {{ "USERS" | transloco }}
                 </h2>
             </div>
         </div>
@@ -22,7 +22,7 @@
                     class="icon-size-5 mr-2"
                     svgIcon="heroicons_solid:plus"
                 ></mat-icon>
-                Add User
+                {{ "ADD_USER" | transloco }}
             </button>
         </div>
     </div>
@@ -40,7 +40,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Full Name
+                        {{ "FULLNAME" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element" class="text-center">
                         {{ element.fullName }}
@@ -52,7 +52,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Username
+                        {{ "USERNAME" | transloco }}
                     </th>
                     <td
                         mat-cell
@@ -69,7 +69,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Role
+                        {{ "ROLE" | transloco }}
                     </th>
                     <td
                         mat-cell
@@ -86,7 +86,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Status
+                        {{ "STATUS" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element">
                         <app-status-chip
@@ -100,7 +100,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Last Logged In
+                        {{ "LAST_LOGGED_IN" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element">
                         {{ element.lastLoggedIn | date: "dd/MM/yyyy hh:mm a" }}
@@ -112,7 +112,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Created At
+                        {{ "CREATED_AT" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element">
                         {{ element.createdAt | date: "dd/MM/yyyy hh:mm a" }}
@@ -124,14 +124,14 @@
                         *matHeaderCellDef
                         class="mx-2 text-center w-30"
                     >
-                        Actions
+                        {{ "ACTIONS" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element">
                         <div class="flex">
                             <button
                                 mat-icon-button
                                 (click)="changeStatus(element)"
-                                matTooltip="Change Status"
+                                matTooltip="{{ 'CHANGE_STATUS' | transloco }}"
                                 [disabled]="loggedUserId == element.id"
                             >
                                 <mat-icon
@@ -142,7 +142,7 @@
                             <button
                                 mat-icon-button
                                 (click)="resetPassword(element)"
-                                matTooltip="Reset Password"
+                                matTooltip="{{ 'RESET_PASSWORD' | transloco }}"
                                 [disabled]="loggedUserId == element.id"
                             >
                                 <mat-icon
@@ -154,7 +154,7 @@
                                 *ngIf="['admin'].includes(role)"
                                 mat-icon-button
                                 (click)="changeRole(element)"
-                                matTooltip="Change Role"
+                                matTooltip="{{ 'CHANGE_ROLE' | transloco }}"
                                 [disabled]="loggedUserId == element.id"
                             >
                                 <mat-icon
@@ -166,7 +166,7 @@
                                 *ngIf="['admin'].includes(role)"
                                 mat-icon-button
                                 (click)="removeUser(element)"
-                                matTooltip="Delete"
+                                matTooltip="{{ 'DELETE' | transloco }}"
                                 [disabled]="loggedUserId == element.id"
                             >
                                 <mat-icon
@@ -201,12 +201,12 @@
     <form [formGroup]="formGroup" (ngSubmit)="submit()">
         <div>
             <mat-form-field class="w-full">
-                <mat-label>Full Name</mat-label>
+                <mat-label>{{ "FULLNAME" | transloco }}</mat-label>
                 <input type="text" matInput formControlName="fullName" />
             </mat-form-field>
 
             <mat-form-field class="w-full">
-                <mat-label>Username</mat-label>
+                <mat-label>{{ "USERNAME" | transloco }}</mat-label>
                 <input
                     type="text"
                     matInput
@@ -218,12 +218,12 @@
             </mat-form-field>
 
             <mat-form-field class="w-full">
-                <mat-label>Temporary Password</mat-label>
+                <mat-label>{{ "TEMPORARY_PASSWORD" | transloco }}</mat-label>
                 <input type="text" matInput formControlName="password" />
             </mat-form-field>
 
             <mat-form-field class="w-full">
-                <mat-label>Role</mat-label>
+                <mat-label>{{ "ROLE" | transloco }}</mat-label>
                 <mat-select formControlName="role">
                     <mat-option *ngFor="let r of roles" [value]="r">
                         {{ r }}
@@ -233,7 +233,7 @@
 
             <div class="flex justify-center space-x-2 items-center">
                 <button mat-button class="bg-indigo-600 text-white">
-                    Save
+                    {{ "SAVE" | transloco }}
                 </button>
             </div>
         </div>
@@ -244,7 +244,7 @@
     <form (ngSubmit)="confirmChangeRole()">
         <div>
             <mat-form-field class="w-full">
-                <mat-label>Role</mat-label>
+                <mat-label>{{ "ROLE" | transloco }}</mat-label>
                 <mat-select
                     [(ngModel)]="selectedUser.role"
                     [ngModelOptions]="{ standalone: true }"
@@ -257,7 +257,7 @@
 
             <div class="flex justify-center space-x-2 items-center">
                 <button mat-button class="bg-indigo-600 text-white">
-                    Save
+                    {{ "SAVE" | transloco }}
                 </button>
             </div>
         </div>
@@ -268,13 +268,13 @@
     <form [formGroup]="resetFormGroup" (ngSubmit)="submitResetPassword()">
         <div>
             <mat-form-field class="w-full">
-                <mat-label>Temporary Password</mat-label>
+                <mat-label>{{ "TEMPORARY_PASSWORD" | transloco }}</mat-label>
                 <input type="text" matInput formControlName="newPassword" />
             </mat-form-field>
 
             <div class="flex justify-center space-x-2 items-center">
                 <button mat-button class="bg-indigo-600 text-white">
-                    Reset Password
+                    {{ "RESET_PASSWORD" | transloco }}
                 </button>
             </div>
         </div>

@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { APP_CONFIG } from 'app/app.config';
+import { APP_CONFIG, MESSAGES } from 'app/app.config';
 import { UserService } from 'app/core/user/user.service';
 import { ConfirmService } from 'app/services/confirm.service';
 import { ItemService } from 'app/services/item.service';
@@ -90,7 +90,7 @@ export class ListItemComponent implements OnInit, AfterViewInit {
 
     removeItem(id: string) {
         this.confirmService
-            .confirm('Are you sure to delete?')
+            .confirm(MESSAGES.CONFIRM_DELETE_ITEM)
             .beforeClosed()
             .subscribe(
                 (value) => value === 'confirmed' && this.confirmRemoveItem(id),
@@ -100,7 +100,7 @@ export class ListItemComponent implements OnInit, AfterViewInit {
     confirmRemoveItem(id: string) {
         this._itemService.remove(id).subscribe(() => {
             this.confirmService
-                .success('Item has been successfully deleted')
+                .success(MESSAGES.SUCCESS_DELETE_ITEM)
                 .afterOpened()
                 .subscribe(() => this.reloadData());
         });

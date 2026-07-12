@@ -12,7 +12,7 @@
                         <mat-icon svgIcon="mat_outline:chevron_left"></mat-icon>
                     </button>
                     <h2 class="text-3xl font-semibold tracking-tight leading-8">
-                        Create New Patient
+                        {{ "CREATE_NEW_PATIENT" | transloco }}
                     </h2>
                 </div>
                 <div>
@@ -25,7 +25,7 @@
                             svgIcon="mat_outline:save"
                             class="icon-size-5 mr-2"
                         ></mat-icon>
-                        Save
+                        {{ "SAVE" | transloco }}
                     </button>
                 </div>
             </div>
@@ -34,12 +34,12 @@
         <div class="w-full pt-2 pb-2 mx-5">
             <div class="grid grid-cols-2 gap-4">
                 <mat-form-field class="w-full">
-                    <mat-label>Full Name</mat-label>
+                    <mat-label>{{ "FULLNAME" | transloco }}</mat-label>
                     <input type="text" matInput formControlName="fullName" />
                 </mat-form-field>
 
                 <mat-form-field class="w-full">
-                    <mat-label>Gender</mat-label>
+                    <mat-label>{{ "GENDER" | transloco }}</mat-label>
                     <mat-select formControlName="gender">
                         <mat-option
                             [value]="gender"
@@ -51,7 +51,7 @@
                 </mat-form-field>
 
                 <mat-form-field class="w-full">
-                    <mat-label>Date of Birth</mat-label>
+                    <mat-label>{{ "DATE_OF_BIRTH" | transloco }}</mat-label>
                     <mat-hint>DD/MM/YYYY</mat-hint>
                     <input
                         matInput
@@ -67,27 +67,27 @@
                 </mat-form-field>
 
                 <mat-form-field class="w-full">
-                    <mat-label>Age</mat-label>
+                    <mat-label>{{ "AGE" | transloco }}</mat-label>
                     <input type="number" matInput formControlName="age" />
                 </mat-form-field>
 
                 <mat-form-field class="w-full">
-                    <mat-label>Phone Number</mat-label>
+                    <mat-label>{{ "PHONE_NUMBER" | transloco }}</mat-label>
                     <input type="text" matInput formControlName="phoneNumber" />
                 </mat-form-field>
 
                 <mat-form-field class="w-full">
-                    <mat-label>SSB Number</mat-label>
+                    <mat-label>{{ "SBB_NUMBER" | transloco }}</mat-label>
                     <input type="text" matInput formControlName="ssbNumber" />
                 </mat-form-field>
 
                 <mat-form-field class="w-full">
-                    <mat-label>NRC Number</mat-label>
+                    <mat-label>{{ "NRC_NUMBER" | transloco }}</mat-label>
                     <input type="text" matInput formControlName="nrcNumber" />
                 </mat-form-field>
 
                 <mat-form-field class="w-full">
-                    <mat-label>Address</mat-label>
+                    <mat-label>{{ "ADDRESS" | transloco }}</mat-label>
                     <textarea
                         matInput
                         formControlName="address"
@@ -96,7 +96,7 @@
                 </mat-form-field>
 
                 <mat-form-field class="w-full">
-                    <mat-label>Notes</mat-label>
+                    <mat-label>{{ "NOTES" | transloco }}</mat-label>
                     <textarea
                         matInput
                         formControlName="notes"

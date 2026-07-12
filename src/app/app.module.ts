@@ -12,6 +12,7 @@ import { LayoutModule } from 'app/layout/layout.module';
 import { AppComponent } from 'app/app.component';
 import { appRoutes } from 'app/app.routing';
 import { HttpClientModule } from '@angular/common/http';
+import { TranslocoModule } from '@ngneat/transloco';
 
 const routerConfig: ExtraOptions = {
     preloadingStrategy: PreloadAllModules,
@@ -31,6 +32,7 @@ const routerConfig: ExtraOptions = {
         CoreModule,
         LayoutModule,
         HttpClientModule,
+        TranslocoModule,
     ],
     bootstrap: [AppComponent],
 })

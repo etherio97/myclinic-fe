@@ -24,6 +24,7 @@ import {
 } from '@angular-material-components/datetime-picker';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { MY_DATE_FORMATS } from 'app/app.config';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @NgModule({
     declarations: [ListDeletedReceiptComponent, ViewDeletedReceiptComponent],
@@ -46,6 +47,7 @@ import { MY_DATE_FORMATS } from 'app/app.config';
         NgxMatTimepickerModule,
         NgxNativeDateModule,
         MatPaginatorModule,
+        TranslocoModule,
     ],
     providers: [
         {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { APP_CONFIG, MY_DATE_FORMATS } from 'app/app.config';
+import { APP_CONFIG, MESSAGES, MY_DATE_FORMATS } from 'app/app.config';
 import { PatientService } from 'app/services/patient.service';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { cloneDeep } from 'lodash';
@@ -60,13 +60,13 @@ export class EditPatientComponent implements OnInit {
     submit() {
         if (!this.formGroup.valid) {
             return this._confirmService.error(
-                'Please fill all the required fields.',
+                MESSAGES.REQUIRED_ALL_FIELDS,
                 'Invalid',
             );
         }
 
         this._confirmService
-            .confirm('Are you sure to update this patient?')
+            .confirm(MESSAGES.CONFIRM_UPDATE_PATIENT)
             .beforeClosed()
             .subscribe(
                 (value) => value === 'confirmed' && this.confirmSubmit(),

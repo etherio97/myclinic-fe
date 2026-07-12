@@ -12,7 +12,7 @@
                         <mat-icon svgIcon="mat_outline:chevron_left"></mat-icon>
                     </button>
                     <h2 class="text-3xl font-semibold tracking-tight leading-8">
-                        Create New Appointment
+                        {{ "CREATE_NEW_APPOINTMENT" | transloco }}
                     </h2>
                 </div>
                 <div>
@@ -25,7 +25,7 @@
                             svgIcon="mat_outline:save"
                             class="icon-size-5 mr-2"
                         ></mat-icon>
-                        Save
+                        {{ "SAVE" | transloco }}
                     </button>
                 </div>
             </div>
@@ -35,7 +35,7 @@
         <div class="w-full pt-2 pb-2 mx-5">
             <div class="grid grid-cols-2 gap-4">
                 <mat-form-field class="w-full">
-                    <mat-label>Patient Name</mat-label>
+                    <mat-label>{{ "PATIENT_NAME" | transloco }}</mat-label>
                     <input
                         type="text"
                         matInput
@@ -59,12 +59,12 @@
                 </mat-form-field>
 
                 <mat-form-field class="w-full">
-                    <mat-label>Phone Number</mat-label>
+                    <mat-label>{{ "PHONE_NUMBER" | transloco }}</mat-label>
                     <input type="text" matInput formControlName="phoneNumber" />
                 </mat-form-field>
 
                 <mat-form-field class="w-full">
-                    <mat-label>Doctor Name</mat-label>
+                    <mat-label>{{ "DOCTOR_NAME" | transloco }}</mat-label>
                     <input
                         type="text"
                         matInput
@@ -87,7 +87,7 @@
                 </mat-form-field>
 
                 <mat-form-field class="w-full">
-                    <mat-label>Refer Doctor</mat-label>
+                    <mat-label>{{ "REFER_DOCTOR" | transloco }}</mat-label>
                     <input
                         type="text"
                         matInput
@@ -112,7 +112,7 @@
                 </mat-form-field>
 
                 <mat-form-field class="w-full">
-                    <mat-label>Appointment Date & Time</mat-label>
+                    <mat-label>{{ "APPOINTMENT_DATE" | transloco }}</mat-label>
                     <input
                         matInput
                         [ngxMatDatetimePicker]="picker"
@@ -135,7 +135,7 @@
                 <div></div>
 
                 <mat-form-field class="w-full">
-                    <mat-label>Appointment Type</mat-label>
+                    <mat-label>{{ "TYPE" | transloco }}</mat-label>
                     <mat-select formControlName="appointmentType">
                         <mat-option
                             *ngFor="let item of appointmentTypes"
@@ -147,7 +147,7 @@
                 </mat-form-field>
 
                 <mat-form-field class="w-full">
-                    <mat-label>Appointment Case</mat-label>
+                    <mat-label>{{ "APPOINTMENT_CASE" | transloco }}</mat-label>
                     <mat-select formControlName="appointmentCase">
                         <mat-option
                             *ngFor="let item of appointmentCases"

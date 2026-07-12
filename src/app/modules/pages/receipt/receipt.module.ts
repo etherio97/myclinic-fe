@@ -29,6 +29,7 @@ import { MY_DATE_FORMATS } from 'app/app.config';
 import { CreatePatientModalComponent } from './components/create-patient-modal/create-patient-modal.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { EditReceiptComponent } from './edit-receipt/edit-receipt.component';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @NgModule({
     declarations: [
@@ -59,6 +60,7 @@ import { EditReceiptComponent } from './edit-receipt/edit-receipt.component';
         NgxNativeDateModule,
         MatPaginatorModule,
         MatTooltipModule,
+        TranslocoModule,
     ],
     providers: [
         {

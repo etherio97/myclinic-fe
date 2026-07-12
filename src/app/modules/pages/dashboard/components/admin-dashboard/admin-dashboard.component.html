@@ -1,12 +1,12 @@
 <div class="flex-auto -mt-px pt-2">
     <div class="w-full max-w-screen-xl mx-auto space-y-8">
         <mat-tab-group mat-align-tabs="start">
-            <mat-tab label="Monthly">
+            <mat-tab label="{{ 'MONTHLY' | transloco }}">
                 <!-- MONTHLY -->
                 <section class="space-y-4">
                     <div class="flex items-center justify-between">
                         <h2 class="text-2xl font-semibold px-2">
-                            Monthly Report
+                            {{ "MONTHLY_REPORT" | transloco }}
                         </h2>
 
                         <div>
@@ -40,7 +40,7 @@
                                         <div
                                             class="mr-4 text-xl font-semibold tracking-tight leading-7"
                                         >
-                                            Revenue Trend
+                                            {{ "REVENUE_TREND" | transloco }}
                                         </div>
                                     </div>
                                 </div>
@@ -71,7 +71,7 @@
                                         <div
                                             class="mr-4 text-xl font-semibold tracking-tight leading-7"
                                         >
-                                            Unique Patients
+                                            {{ "UNIQUE_PATIENTS" | transloco }}
                                         </div>
                                     </div>
                                 </div>
@@ -100,8 +100,8 @@
                             <!-- Total Revenue -->
                             <app-display-item
                                 *ngIf="['admin'].includes(role)"
-                                title="Total Revenue"
-                                unit="Kyats"
+                                title="{{ 'TOTAL_REVENUE' | transloco }}"
+                                unit="{{ 'KYATS' | transloco }}"
                                 [current]="int(monthlyData?.total_revenue)"
                                 [previous]="int(prevMonthlyData?.total_revenue)"
                                 [isCurrency]="true"
@@ -110,8 +110,8 @@
                             <!-- Total Clinic Revenue -->
                             <app-display-item
                                 *ngIf="['admin'].includes(role)"
-                                title="Total Clinic Revenue"
-                                unit="Kyats"
+                                title="{{ 'TOTAL_CLINIC_REVENUE' | transloco }}"
+                                unit="{{ 'KYATS' | transloco }}"
                                 [current]="
                                     int(monthlyData?.total_clinic_revenue)
                                 "
@@ -123,8 +123,10 @@
 
                             <!-- Total Lab Revenue -->
                             <app-display-item
-                                title="Total Laboratory Revenue"
-                                unit="Kyats"
+                                title="{{
+                                    'TOTAL_LABORATORY_REVENUE' | transloco
+                                }}"
+                                unit="{{ 'KYATS' | transloco }}"
                                 [current]="int(monthlyData?.total_lab_revenue)"
                                 [previous]="
                                     int(prevMonthlyData?.total_lab_revenue)
@@ -135,8 +137,8 @@
                             <!-- Total Discount -->
                             <app-display-item
                                 *ngIf="['admin'].includes(role)"
-                                title="Total Discounts"
-                                unit="Kyats"
+                                title="{{ 'TOTAL_DISCOUNT' | transloco }}"
+                                unit="{{ 'KYATS' | transloco }}"
                                 [current]="int(monthlyData?.total_discount)"
                                 [previous]="
                                     int(prevMonthlyData?.total_discount)
@@ -147,8 +149,8 @@
                             <!-- Total Patient -->
                             <app-display-item
                                 *ngIf="['admin'].includes(role)"
-                                title="New Patients"
-                                unit="Patients"
+                                title="{{ 'NEW_PATIENTS' | transloco }}"
+                                unit="{{ 'PATIENTS' | transloco }}"
                                 [current]="int(monthlyData?.total_patients)"
                                 [previous]="
                                     int(prevMonthlyData?.total_patients)
@@ -159,8 +161,8 @@
                             <!-- Total Expenses -->
                             <app-display-item
                                 *ngIf="['admin'].includes(role)"
-                                title="Total Expenses"
-                                unit="Expenses"
+                                title="{{ 'TOTAL_EXPENSES' | transloco }}"
+                                unit="{{ 'KYATS' | transloco }}"
                                 [current]="int(monthlyData?.total_expenses)"
                                 [previous]="
                                     int(prevMonthlyData?.total_expenses)
@@ -172,12 +174,12 @@
                 </section>
             </mat-tab>
 
-            <mat-tab label="Daily">
+            <mat-tab label="{{ 'DAILY' | transloco }}">
                 <!-- DAILY -->
                 <ng-template matTabContent>
                     <div class="flex items-center justify-between">
                         <h2 class="text-2xl font-semibold px-2">
-                            Daily Report
+                            {{ "DAILY_REPORT" | transloco }}
                         </h2>
 
                         <div>
@@ -210,7 +212,7 @@
                                         <div
                                             class="mr-4 text-xl font-semibold tracking-tight leading-7"
                                         >
-                                            Revenue Trend
+                                            {{ "REVENUE_TREND" | transloco }}
                                         </div>
                                     </div>
                                 </div>
@@ -243,7 +245,7 @@
                                         <div
                                             class="mr-4 text-xl font-semibold tracking-tight leading-7"
                                         >
-                                            Unique Patients
+                                            {{ "UNIQUE_PATIENTS" | transloco }}
                                         </div>
                                     </div>
                                 </div>
@@ -274,8 +276,8 @@
                             <!-- Total Revenue -->
                             <app-display-item
                                 *ngIf="['admin'].includes(role)"
-                                title="Total Revenue"
-                                unit="Kyats"
+                                title="{{ 'TOTAL_REVENUE' | transloco }}"
+                                unit="{{ 'KYATS' | transloco }}"
                                 [current]="int(dailyData?.total_revenue)"
                                 [previous]="int(prevDailyData?.total_revenue)"
                                 [isCurrency]="true"
@@ -284,8 +286,8 @@
                             <!-- Total Clinic Revenue -->
                             <app-display-item
                                 *ngIf="['admin'].includes(role)"
-                                title="Total Clinic Revenue"
-                                unit="Kyats"
+                                title="{{ 'TOTAL_CLINIC_REVENUE' | transloco }}"
+                                unit="{{ 'KYATS' | transloco }}"
                                 [current]="int(dailyData?.total_clinic_revenue)"
                                 [previous]="
                                     int(prevDailyData?.total_clinic_revenue)
@@ -295,8 +297,10 @@
 
                             <!-- Total Lab Revenue -->
                             <app-display-item
-                                title="Total Laboratory Revenue"
-                                unit="Kyats"
+                                title="{{
+                                    'TOTAL_LABORATORY_REVENUE' | transloco
+                                }}"
+                                unit="{{ 'KYATS' | transloco }}"
                                 [current]="int(dailyData?.total_lab_revenue)"
                                 [previous]="
                                     int(prevDailyData?.total_lab_revenue)
@@ -307,8 +311,8 @@
                             <!-- Total Discount -->
                             <app-display-item
                                 *ngIf="['admin'].includes(role)"
-                                title="Total Discounts"
-                                unit="Kyats"
+                                title="{{ 'TOTAL_DISCOUNT' | transloco }}"
+                                unit="{{ 'KYATS' | transloco }}"
                                 [current]="int(dailyData?.total_discount)"
                                 [previous]="int(prevDailyData?.total_discount)"
                                 [isCurrency]="true"
@@ -317,8 +321,8 @@
                             <!-- Total Patient -->
                             <app-display-item
                                 *ngIf="['admin'].includes(role)"
-                                title="New Patients"
-                                unit="Patients"
+                                title="{{ 'NEW_PATIENTS' | transloco }}"
+                                unit="{{ 'PATIENTS' | transloco }}"
                                 [current]="int(dailyData?.total_patients)"
                                 [previous]="int(prevDailyData?.total_patients)"
                                 [isCurrency]="false"
@@ -327,8 +331,8 @@
                             <!-- Total Expenses -->
                             <app-display-item
                                 *ngIf="['admin'].includes(role)"
-                                title="Total Expenses"
-                                unit="Expenses"
+                                title="{{ 'TOTAL_EXPENSES' | transloco }}"
+                                unit="{{ 'KYATS' | transloco }}"
                                 [current]="int(dailyData?.total_expenses)"
                                 [previous]="int(prevDailyData?.total_expenses)"
                                 [isCurrency]="true"

@@ -12,7 +12,7 @@
                         <mat-icon svgIcon="mat_outline:chevron_left"></mat-icon>
                     </button>
                     <h2 class="text-3xl font-semibold tracking-tight leading-8">
-                        Appointment Details
+                        {{ "VIEW_APPOINTMENT" | transloco }}
                     </h2>
                 </div>
                 <div class="flex items-center gap-2">
@@ -27,7 +27,7 @@
                             svgIcon="mat_outline:add_shopping_cart"
                             class="icon-size-5 mr-2"
                         ></mat-icon>
-                        Create Receipt
+                        {{ "CREATE_RECEIPT" | transloco }}
                     </button>
 
                     <button
@@ -40,7 +40,7 @@
                             svgIcon="mat_outline:published_with_changes"
                             class="icon-size-5 mr-2"
                         ></mat-icon>
-                        Change Status
+                        {{ "CHANGE_STATUS" | transloco }}
                     </button>
 
                     <button
@@ -53,7 +53,7 @@
                             svgIcon="mat_outline:edit"
                             class="icon-size-5 mr-2"
                         ></mat-icon>
-                        Edit
+                        {{ "EDIT" | transloco }}
                     </button>
                 </div>
             </div>
@@ -65,7 +65,7 @@
                             <table class="w-full border-collapse">
                                 <tr class="">
                                     <td class="text-left py-2">
-                                        Appointment ID
+                                        {{ "APPOINTMENT_ID" | transloco }}
                                     </td>
                                     <td class="text-right py-2 font-bold">
                                         #{{ data.appointmentNo }}
@@ -73,7 +73,7 @@
                                 </tr>
                                 <tr class="">
                                     <td class="text-left py-2">
-                                        Appointment Date
+                                        {{ "APPOINTMENT_DATE" | transloco }}
                                     </td>
                                     <td class="text-right py-2 font-bold">
                                         {{
@@ -84,7 +84,7 @@
                                 </tr>
                                 <tr class="">
                                     <td class="text-left py-2">
-                                        Contact Number
+                                        {{ "PHONE_NUMBER" | transloco }}
                                     </td>
                                     <td class="text-right py-2 font-bold">
                                         {{ data.phoneNumber }}
@@ -97,7 +97,7 @@
                             <table class="w-full border-collapse">
                                 <tr class="">
                                     <td class="text-left py-2">
-                                        Appointment Case
+                                        {{ "APPOINTMENT_CASE" | transloco }}
                                     </td>
                                     <td class="text-right py-2 font-bold">
                                         {{ data.appointmentCase }}
@@ -105,7 +105,7 @@
                                 </tr>
                                 <tr class="">
                                     <td class="text-left py-2">
-                                        Appointment Type
+                                        {{ "TYPE" | transloco }}
                                     </td>
                                     <td class="text-right py-2 font-bold">
                                         {{ data.appointmentType }}
@@ -113,7 +113,7 @@
                                 </tr>
                                 <tr class="">
                                     <td class="text-left py-2">
-                                        Appointment Status
+                                        {{ "APPOINTMENT_STATUS" | transloco }}
                                     </td>
                                     <td class="text-right py-2 font-bold">
                                         <app-status-chip
@@ -127,7 +127,9 @@
                         <div>
                             <table class="w-full border-collapse">
                                 <tr class="">
-                                    <td class="text-left py-2">Created At</td>
+                                    <td class="text-left py-2">
+                                        {{ "CREATED_AT" | transloco }}
+                                    </td>
                                     <td class="text-right py-2 font-bold">
                                         {{
                                             data.createdAt
@@ -141,7 +143,9 @@
                         <div>
                             <table class="w-full border-collapse">
                                 <tr class="">
-                                    <td class="text-left py-2">Updated At</td>
+                                    <td class="text-left py-2">
+                                        {{ "UPDATED_AT" | transloco }}
+                                    </td>
                                     <td class="text-right py-2 font-bold">
                                         {{
                                             data.updatedAt
@@ -159,14 +163,18 @@
                 <div
                     class="bg-[#f2f2f2] px-5 py-2 w-full border-b border-[#e2e2e2]"
                 >
-                    <h4 class="font-semibold">Patient Information</h4>
+                    <h4 class="font-semibold">
+                        {{ "PATIENT_INFORMATION" | transloco }}
+                    </h4>
                 </div>
                 <div class="p-5">
                     <div class="grid md:grid-cols-2 gap-x-20 gap-y-0">
                         <div>
                             <table class="w-full border-collapse">
                                 <tr class="">
-                                    <td class="text-left py-2">Patient Name</td>
+                                    <td class="text-left py-2">
+                                        {{ "PATIENT_NAME" | transloco }}
+                                    </td>
                                     <td class="text-right py-2 font-bold">
                                         <a
                                             class="hover:text-indigo-400 text-indigo-600 underline decoration-dotted transition-colors space-x-1"
@@ -187,25 +195,33 @@
                                     </td>
                                 </tr>
                                 <tr class="">
-                                    <td class="text-left py-2">Patient ID</td>
+                                    <td class="text-left py-2">
+                                        {{ "PATIENT_ID" | transloco }}
+                                    </td>
                                     <td class="text-right py-2 font-bold">
                                         #{{ data.patient.patientNo }}
                                     </td>
                                 </tr>
                                 <tr class="">
-                                    <td class="text-left py-2">Gender</td>
+                                    <td class="text-left py-2">
+                                        {{ "GENDER" | transloco }}
+                                    </td>
                                     <td class="text-right py-2 font-bold">
                                         {{ data.patient.gender }}
                                     </td>
                                 </tr>
                                 <tr class="">
-                                    <td class="text-left py-2">Phone Number</td>
+                                    <td class="text-left py-2">
+                                        {{ "PHONE_NUMBER" | transloco }}
+                                    </td>
                                     <td class="text-right py-2 font-bold">
                                         {{ data.patient.phoneNumber }}
                                     </td>
                                 </tr>
                                 <tr class="">
-                                    <td class="text-left py-2">Address</td>
+                                    <td class="text-left py-2">
+                                        {{ "ADDRESS" | transloco }}
+                                    </td>
                                     <td class="text-right py-2 font-bold">
                                         {{ data.patient.address || "-" }}
                                     </td>
@@ -216,7 +232,9 @@
                         <div>
                             <table class="w-full border-collapse">
                                 <tr class="">
-                                    <td class="text-left py-2">Age</td>
+                                    <td class="text-left py-2">
+                                        {{ "AGE" | transloco }}
+                                    </td>
                                     <td class="text-right py-2 font-bold">
                                         {{
                                             calculateAge(
@@ -228,7 +246,7 @@
                                 </tr>
                                 <tr class="">
                                     <td class="text-left py-2">
-                                        Date of Birth
+                                        {{ "DATE_OF_BIRTH" | transloco }}
                                     </td>
                                     <td class="text-right py-2 font-bold">
                                         {{
@@ -238,13 +256,17 @@
                                     </td>
                                 </tr>
                                 <tr class="">
-                                    <td class="text-left py-2">SSB Number</td>
+                                    <td class="text-left py-2">
+                                        {{ "SBB_NUMBER" | transloco }}
+                                    </td>
                                     <td class="text-right py-2 font-bold">
                                         {{ data.patient.ssbNumber || "-" }}
                                     </td>
                                 </tr>
                                 <tr class="">
-                                    <td class="text-left py-2">NRC Number</td>
+                                    <td class="text-left py-2">
+                                        {{ "NRC_NUMBER" | transloco }}
+                                    </td>
                                     <td class="text-right py-2 font-bold">
                                         {{ data.patient.nrcNumber || "-" }}
                                     </td>
@@ -262,14 +284,18 @@
                 <div
                     class="bg-[#f2f2f2] px-5 py-2 w-full border-b border-[#e2e2e2]"
                 >
-                    <h4 class="font-semibold">Doctor Information</h4>
+                    <h4 class="font-semibold">
+                        {{ "DOCTOR_INFORMATION" | transloco }}
+                    </h4>
                 </div>
                 <div class="p-5">
                     <div class="grid md:grid-cols-2 gap-x-20 gap-y-0">
                         <div>
                             <table class="w-full border-collapse">
                                 <tr class="">
-                                    <td class="text-left py-2">Doctor Name</td>
+                                    <td class="text-left py-2">
+                                        {{ "DOCTOR_NAME" | transloco }}
+                                    </td>
                                     <td class="text-right py-2 font-bold">
                                         <ng-container *ngIf="data.doctor">
                                             <a
@@ -292,14 +318,16 @@
                                     </td>
                                 </tr>
                                 <tr class="">
-                                    <td class="text-left py-2">Doctor ID</td>
+                                    <td class="text-left py-2">
+                                        {{ "DOCTOR_ID" | transloco }}
+                                    </td>
                                     <td class="text-right py-2 font-bold">
                                         #{{ data.doctor?.doctorNo }}
                                     </td>
                                 </tr>
                                 <tr class="">
                                     <td class="text-left py-2">
-                                        Specialization
+                                        {{ "SPECIALIZATION" | transloco }}
                                     </td>
                                     <td class="text-right py-2 font-bold">
                                         {{ data.doctor?.specialization }}
@@ -311,19 +339,25 @@
                         <div>
                             <table class="w-full border-collapse">
                                 <tr class="">
-                                    <td class="text-left py-2">Phone Number</td>
+                                    <td class="text-left py-2">
+                                        {{ "PHONE_NUMBER" | transloco }}
+                                    </td>
                                     <td class="text-right py-2 font-bold">
                                         {{ data.doctor?.phoneNumber || "-" }}
                                     </td>
                                 </tr>
                                 <tr class="">
-                                    <td class="text-left py-2">Address</td>
+                                    <td class="text-left py-2">
+                                        {{ "ADDRESS" | transloco }}
+                                    </td>
                                     <td class="text-right py-2 font-bold">
                                         {{ data.doctor?.address || "-" }}
                                     </td>
                                 </tr>
                                 <tr class="">
-                                    <td class="text-left py-2">Status</td>
+                                    <td class="text-left py-2">
+                                        {{ "STATUS" | transloco }}
+                                    </td>
                                     <td class="text-right py-2 font-bold">
                                         <app-status-chip
                                             [status]="
@@ -347,14 +381,18 @@
                 <div
                     class="bg-[#f2f2f2] px-5 py-2 w-full border-b border-[#e2e2e2]"
                 >
-                    <h4 class="font-semibold">Refer Doctor Information</h4>
+                    <h4 class="font-semibold">
+                        {{ "REFER_DOCTOR_INFORMATION" | transloco }}
+                    </h4>
                 </div>
                 <div class="p-5">
                     <div class="grid md:grid-cols-2 gap-x-20 gap-y-0">
                         <div>
                             <table class="w-full border-collapse">
                                 <tr class="">
-                                    <td class="text-left py-2">Doctor Name</td>
+                                    <td class="text-left py-2">
+                                        {{ "DOCTOR_NAME" | transloco }}
+                                    </td>
                                     <td class="text-right py-2 font-bold">
                                         <a
                                             class="hover:text-indigo-400 text-indigo-600 underline decoration-dotted transition-colors space-x-1"
@@ -375,14 +413,16 @@
                                     </td>
                                 </tr>
                                 <tr class="">
-                                    <td class="text-left py-2">Doctor ID</td>
+                                    <td class="text-left py-2">
+                                        {{ "DOCTOR_ID" | transloco }}
+                                    </td>
                                     <td class="text-right py-2 font-bold">
                                         #{{ data.referDoctor.doctorNo }}
                                     </td>
                                 </tr>
                                 <tr class="">
                                     <td class="text-left py-2">
-                                        Specialization
+                                        {{ "SPECIALIZATION" | transloco }}
                                     </td>
                                     <td class="text-right py-2 font-bold">
                                         {{ data.referDoctor.specialization }}
@@ -394,7 +434,9 @@
                         <div>
                             <table class="w-full border-collapse">
                                 <tr class="">
-                                    <td class="text-left py-2">Phone Number</td>
+                                    <td class="text-left py-2">
+                                        {{ "PHONE_NUMBER" | transloco }}
+                                    </td>
                                     <td class="text-right py-2 font-bold">
                                         {{
                                             data.referDoctor.phoneNumber || "-"
@@ -402,13 +444,17 @@
                                     </td>
                                 </tr>
                                 <tr class="">
-                                    <td class="text-left py-2">Address</td>
+                                    <td class="text-left py-2">
+                                        {{ "ADDRESS" | transloco }}
+                                    </td>
                                     <td class="text-right py-2 font-bold">
                                         {{ data.referDoctor.address || "-" }}
                                     </td>
                                 </tr>
                                 <tr class="">
-                                    <td class="text-left py-2">Status</td>
+                                    <td class="text-left py-2">
+                                        {{ "STATUS" | transloco }}
+                                    </td>
                                     <td class="text-right py-2 font-bold">
                                         <app-status-chip
                                             [status]="

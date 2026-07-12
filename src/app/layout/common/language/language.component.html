@@ -1,0 +1,61 @@
+<button mat-icon-button [matMenuTriggerFor]="langActions">
+    <img
+        *ngIf="currentLang === 'mm'"
+        width="20"
+        height="15"
+        alt="mm"
+        src="assets/images/flags/MM.svg"
+    />
+    <img
+        *ngIf="currentLang === 'en'"
+        width="20"
+        height="15"
+        alt="en"
+        src="assets/images/flags/US.svg"
+    />
+</button>
+
+<mat-menu [xPosition]="'before'" #langActions="matMenu">
+    <button mat-menu-item (click)="changeLang('mm')">
+        <div class="flex items-center justify-between w-full">
+            <span class="flex leading-none space-x-2 items-center">
+                <img
+                    width="20"
+                    height="15"
+                    alt="en"
+                    src="assets/images/flags/MM.svg"
+                />
+
+                <p>မြန်မာ</p>
+            </span>
+
+            <mat-icon
+                *ngIf="currentLang === 'mm'"
+                class="icon-size-5 text-blue-600"
+                svgIcon="heroicons_outline:check"
+            ></mat-icon>
+        </div>
+    </button>
+
+    <mat-divider></mat-divider>
+
+    <button mat-menu-item (click)="changeLang('en')">
+        <div class="flex items-center justify-between w-full">
+            <span class="flex leading-none space-x-2 items-center">
+                <img
+                    width="20"
+                    height="15"
+                    alt="en"
+                    src="assets/images/flags/US.svg"
+                />
+                <p>English</p>
+            </span>
+
+            <mat-icon
+                *ngIf="currentLang === 'en'"
+                class="icon-size-5 text-blue-600"
+                svgIcon="heroicons_outline:check"
+            ></mat-icon>
+        </div>
+    </button>
+</mat-menu>

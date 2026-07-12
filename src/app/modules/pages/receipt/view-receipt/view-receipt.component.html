@@ -15,7 +15,7 @@
                         <mat-icon svgIcon="mat_outline:chevron_left"></mat-icon>
                     </button>
                     <h2 class="text-3xl font-semibold tracking-tight leading-8">
-                        View Receipt
+                        {{ "VIEW_RECEIPT" | transloco }}
                     </h2>
                 </div>
                 <div class="flex items-center gap-2">
@@ -30,7 +30,7 @@
                             svgIcon="mat_outline:edit"
                             class="icon-size-5 mr-2"
                         ></mat-icon>
-                        Edit
+                        {{ "EDIT_RECEIPT" | transloco }}
                     </button>
 
                     <button
@@ -43,7 +43,7 @@
                             svgIcon="mat_outline:print"
                             class="icon-size-5 mr-2"
                         ></mat-icon>
-                        Print
+                        {{ "PRINT" | transloco }}
                     </button>
                 </div>
             </div>
@@ -53,7 +53,9 @@
                     <div>
                         <table class="w-full border-collapse">
                             <tr class="">
-                                <td class="text-left py-2">Date</td>
+                                <td class="text-left py-2">
+                                    {{ "DATE" | transloco }}
+                                </td>
                                 <td class="text-right py-2 font-bold">
                                     {{
                                         data.date
@@ -62,7 +64,9 @@
                                 </td>
                             </tr>
                             <tr class="">
-                                <td class="text-left py-2">Patient Name</td>
+                                <td class="text-left py-2">
+                                    {{ "PATIENT_NAME" | transloco }}
+                                </td>
                                 <td class="text-right py-2 font-bold">
                                     <a
                                         *ngIf="
@@ -88,7 +92,9 @@
                                 </td>
                             </tr>
                             <tr class="">
-                                <td class="text-left py-2">Patient ID</td>
+                                <td class="text-left py-2">
+                                    {{ "PATIENT_ID" | transloco }}
+                                </td>
                                 <td class="text-right py-2 font-bold">
                                     #{{ data.patient.patientNo }}
                                 </td>
@@ -98,7 +104,9 @@
                     <div>
                         <table class="w-full border-collapse">
                             <tr class="">
-                                <td class="text-left py-2">Doctor Name</td>
+                                <td class="text-left py-2">
+                                    {{ "DOCTOR_NAME" | transloco }}
+                                </td>
                                 <td class="text-right py-2 font-bold">
                                     <ng-container *ngIf="data.doctor">
                                         <a
@@ -131,14 +139,16 @@
                             </tr>
                             <tr class="">
                                 <td class="text-left py-2">
-                                    Doctor Specialization
+                                    {{ "SPECIALIZATION" | transloco }}
                                 </td>
                                 <td class="text-right py-2 font-bold">
                                     {{ data.doctor?.specialization }}
                                 </td>
                             </tr>
                             <tr class="">
-                                <td class="text-left py-2">Doctor ID</td>
+                                <td class="text-left py-2">
+                                    {{ "DOCTOR_ID" | transloco }}
+                                </td>
                                 <td class="text-right py-2 font-bold">
                                     #{{ data.doctor?.doctorNo }}
                                 </td>
@@ -148,19 +158,25 @@
                     <div>
                         <table class="w-full border-collapse">
                             <tr class="">
-                                <td class="text-left py-2">Cashier Name</td>
+                                <td class="text-left py-2">
+                                    {{ "CASHIER_NAME" | transloco }}
+                                </td>
                                 <td class="text-right py-2 font-bold">
                                     {{ data.user.fullName }}
                                 </td>
                             </tr>
                             <tr class="">
-                                <td class="text-left py-2">Cashier Role</td>
+                                <td class="text-left py-2">
+                                    {{ "CASHIER_ROLE" | transloco }}
+                                </td>
                                 <td class="text-right py-2 font-bold">
                                     {{ data.user.role }}
                                 </td>
                             </tr>
                             <tr class="">
-                                <td class="text-left py-2">Created At</td>
+                                <td class="text-left py-2">
+                                    {{ "CREATED_AT" | transloco }}
+                                </td>
                                 <td class="text-right py-2 font-bold">
                                     {{
                                         data.createdAt
@@ -174,19 +190,25 @@
                     <div>
                         <table class="w-full border-collapse">
                             <tr class="">
-                                <td class="text-left py-2">Receipt ID</td>
+                                <td class="text-left py-2">
+                                    {{ "RECEIPT_ID" | transloco }}
+                                </td>
                                 <td class="text-right py-2 font-bold">
                                     #{{ data.receiptNo }}
                                 </td>
                             </tr>
                             <tr class="">
-                                <td class="text-left py-2">Receipt Type</td>
+                                <td class="text-left py-2">
+                                    {{ "TYPE" | transloco }}
+                                </td>
                                 <td class="text-right py-2 font-bold">
                                     {{ data.type }}
                                 </td>
                             </tr>
                             <tr class="">
-                                <td class="text-left py-2">Payment Method</td>
+                                <td class="text-left py-2">
+                                    {{ "PAYMENT_METHOD" | transloco }}
+                                </td>
                                 <td class="text-right py-2 font-bold">
                                     {{ data.paymentMethod }}
                                 </td>
@@ -201,11 +223,21 @@
                     <table class="w-full border-collapse">
                         <thead>
                             <tr class="border-b">
-                                <th class="text-left py-2">Item Name</th>
-                                <th class="text-right py-2">Price</th>
-                                <th class="text-right py-2">Quantity</th>
-                                <th class="text-right py-2">Discount</th>
-                                <th class="text-right py-2">Total</th>
+                                <th class="text-left py-2">
+                                    {{ "ITEM_NAME" | transloco }}
+                                </th>
+                                <th class="text-right py-2">
+                                    {{ "PRICE" | transloco }}
+                                </th>
+                                <th class="text-right py-2">
+                                    {{ "QUANTITY" | transloco }}
+                                </th>
+                                <th class="text-right py-2">
+                                    {{ "DISCOUNT" | transloco }}
+                                </th>
+                                <th class="text-right py-2">
+                                    {{ "TOTAL" | transloco }}
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -237,7 +269,9 @@
 
                             <!-- Total -->
                             <tr class="text-center">
-                                <th colspan="4" class="py-2">Sub Total</th>
+                                <th colspan="4" class="py-2">
+                                    {{ "SUBTOTAL" | transloco }}
+                                </th>
                                 <th colspan="1" class="py-2">
                                     {{
                                         data.subtotal || 0
@@ -246,7 +280,9 @@
                                 </th>
                             </tr>
                             <tr class="text-center">
-                                <th colspan="4" class="py-2">Discount</th>
+                                <th colspan="4" class="py-2">
+                                    {{ "DISCOUNT" | transloco }}
+                                </th>
                                 <th colspan="1" class="py-2">
                                     {{
                                         data.discountAmount || 0
@@ -255,7 +291,9 @@
                                 </th>
                             </tr>
                             <tr class="text-center">
-                                <th colspan="4" class="py-2">Total</th>
+                                <th colspan="4" class="py-2">
+                                    {{ "TOTAL" | transloco }}
+                                </th>
                                 <th colspan="1" class="py-2">
                                     {{
                                         data.grandTotal || 0

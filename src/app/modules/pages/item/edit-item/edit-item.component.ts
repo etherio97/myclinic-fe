@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { APP_CONFIG, MY_DATE_FORMATS } from 'app/app.config';
+import { APP_CONFIG, MESSAGES, MY_DATE_FORMATS } from 'app/app.config';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { ItemService } from 'app/services/item.service';
 import { Observable } from 'rxjs';
@@ -80,13 +80,13 @@ export class EditItemComponent implements OnInit {
     submit() {
         if (!this.formGroup.valid) {
             return this._confirmService.error(
-                'Please fill all the required fields.',
+                MESSAGES.REQUIRED_ALL_FIELDS,
                 'Invalid',
             );
         }
 
         this._confirmService
-            .confirm('Are you sure to edit this item?')
+            .confirm(MESSAGES.CONFIRM_UPDATE_ITEM)
             .beforeClosed()
             .subscribe(
                 (value) => value === 'confirmed' && this.confirmSubmit(),

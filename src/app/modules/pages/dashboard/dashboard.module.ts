@@ -19,6 +19,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatTabsModule } from '@angular/material/tabs';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @NgModule({
     declarations: [
@@ -41,6 +42,7 @@ import { MatTabsModule } from '@angular/material/tabs';
         MatDatepickerModule,
         MatMomentDateModule,
         MatTabsModule,
+        TranslocoModule,
     ],
     providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }],
 })

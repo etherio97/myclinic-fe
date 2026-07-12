@@ -14,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MY_DATE_FORMATS } from 'app/app.config';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @NgModule({
     declarations: [ListUserComponent],
@@ -30,6 +31,7 @@ import { MAT_DATE_FORMATS } from '@angular/material/core';
         MatTableModule,
         MatPaginatorModule,
         MatDialogModule,
+        TranslocoModule,
     ],
     providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }],
 })

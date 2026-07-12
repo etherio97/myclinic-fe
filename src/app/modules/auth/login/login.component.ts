@@ -1,8 +1,16 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewChild,
+    ViewEncapsulation,
+} from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FuseAlertType } from '@fuse/components/alert';
+import { TranslocoService } from '@ngneat/transloco';
+import { __LANG, MESSAGES } from 'app/app.config';
 import { AuthService } from 'app/core/auth/auth.service';
 import { UserService } from 'app/services/user.service';
 
@@ -11,7 +19,7 @@ import { UserService } from 'app/services/user.service';
     templateUrl: './login.component.html',
     encapsulation: ViewEncapsulation.None,
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
     @ViewChild('signInNgForm') signInNgForm!: NgForm;
 
     alert: { type: FuseAlertType; message: string } = {
@@ -32,6 +40,10 @@ export class LoginComponent implements OnInit {
         message: '',
     };
 
+    currentLang = '';
+
+    private _sub!: any;
+
     /**
      * Constructor
      */
@@ -42,6 +54,7 @@ export class LoginComponent implements OnInit {
         private _router: Router,
         private _dialogModal: MatDialog,
         private _userService: UserService,
+        private _transloco: TranslocoService,
     ) {}
 
     // -----------------------------------------------------------------------------------------------------
@@ -62,6 +75,17 @@ export class LoginComponent implements OnInit {
             newPassword: ['', [Validators.required, Validators.minLength(6)]],
             confirmPassword: ['', [Validators.required]],
         });
+
+        const lang = localStorage.getItem(__LANG);
+        lang && this._transloco.setActiveLang(lang);
+
+        this._sub = this._transloco.langChanges$.subscribe((lang) => {
+            this.currentLang = lang;
+        });
+    }
+
+    ngOnDestroy(): void {
+        this._sub.unsubscribe();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -94,7 +118,7 @@ export class LoginComponent implements OnInit {
                     // Set the alert
                     this.alert = {
                         type: 'error',
-                        message: message || 'Something went wrong!',
+                        message: message || MESSAGES.SOMETHING_WENT_WRONG,
                     };
 
                     // Show the alert
@@ -128,7 +152,7 @@ export class LoginComponent implements OnInit {
                 // Set the alert
                 this.alert = {
                     type: 'error',
-                    message: 'Something went wrong!',
+                    message: MESSAGES.SOMETHING_WENT_WRONG,
                 };
 
                 // Show the alert
@@ -142,7 +166,7 @@ export class LoginComponent implements OnInit {
             this.showNewPasswordAlert = true;
             this.newPasswordAlert = {
                 type: 'error',
-                message: 'Password must be at least 6 characters or numbers.',
+                message: MESSAGES.PASSWORD_LENGTH_ERROR,
             };
             return;
         }
@@ -154,7 +178,7 @@ export class LoginComponent implements OnInit {
             this.showNewPasswordAlert = true;
             this.newPasswordAlert = {
                 type: 'error',
-                message: 'Both password must be same.',
+                message: MESSAGES.MISMATCH_PASSWORD_ERROR,
             };
             return;
         }
@@ -170,7 +194,7 @@ export class LoginComponent implements OnInit {
                     this.showNewPasswordAlert = true;
                     this.newPasswordAlert = {
                         type: 'error',
-                        message: message || 'Unexcepted Error',
+                        message: message || MESSAGES.UNEXPECTED_ERROR,
                     };
                     return;
                 }
@@ -190,5 +214,18 @@ export class LoginComponent implements OnInit {
             maxWidth: '520px',
             disableClose: true,
         });
+    }
+
+    getClassNameFor(lang: string) {
+        return {
+            'text-white bg-indigo-600 ring-2 ring-brand':
+                lang === this.currentLang,
+            'text-gray-400': lang !== this.currentLang,
+        };
+    }
+
+    changeLang(lang: string) {
+        this._transloco.setActiveLang(lang);
+        localStorage.setItem(__LANG, lang);
     }
 }

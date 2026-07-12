@@ -1,7 +1,9 @@
 <div class="flex-auto -mt-px pt-4 sm:pt-6">
     <div class="w-full max-w-screen-xl mx-auto space-y-8">
         <div class="flex items-center justify-between">
-            <h2 class="text-2xl font-semibold px-2">Daily Report</h2>
+            <h2 class="text-2xl font-semibold px-2">
+                {{ "DAILY_REPORT" | transloco }}
+            </h2>
 
             <div>
                 <mat-form-field class="w-48">
@@ -33,7 +35,7 @@
                             <div
                                 class="mr-4 text-xl font-semibold tracking-tight leading-7"
                             >
-                                Revenue Trend
+                                {{ "REVENUE_TREND" | transloco }}
                             </div>
                         </div>
                     </div>
@@ -64,7 +66,7 @@
                             <div
                                 class="mr-4 text-xl font-semibold tracking-tight leading-7"
                             >
-                                Unique Patients
+                                {{ "UNIQUE_PATIENTS" | transloco }}
                             </div>
                         </div>
                     </div>
@@ -88,8 +90,8 @@
             <div class="space-y-3 flex flex-col py-6 lg:py-0 lg:w-[460px]">
                 <!-- Total Revenue -->
                 <app-display-item
-                    title="Total Revenue"
-                    unit="Kyats"
+                    title="{{ 'TOTAL_REVENUE' | transloco }}"
+                    unit="{{ 'KYATS' | transloco }}"
                     [current]="int(dailyData?.total_revenue)"
                     [previous]="int(prevDailyData?.total_revenue)"
                     [isCurrency]="true"
@@ -97,8 +99,8 @@
 
                 <!-- Total Clinic Revenue -->
                 <app-display-item
-                    title="Total Clinic Revenue"
-                    unit="Kyats"
+                    title="{{ 'TOTAL_CLINIC_REVENUE' | transloco }}"
+                    unit="{{ 'KYATS' | transloco }}"
                     [current]="int(dailyData?.total_clinic_revenue)"
                     [previous]="int(prevDailyData?.total_clinic_revenue)"
                     [isCurrency]="true"
@@ -106,8 +108,8 @@
 
                 <!-- Total Lab Revenue -->
                 <app-display-item
-                    title="Total Laboratory Revenue"
-                    unit="Kyats"
+                    title="{{ 'TOTAL_LABORATORY_REVENUE' | transloco }}"
+                    unit="{{ 'KYATS' | transloco }}"
                     [current]="int(dailyData?.total_lab_revenue)"
                     [previous]="int(prevDailyData?.total_lab_revenue)"
                     [isCurrency]="true"
@@ -115,8 +117,8 @@
 
                 <!-- Total Discount -->
                 <app-display-item
-                    title="Total Discounts"
-                    unit="Kyats"
+                    title="{{ 'TOTAL_DISCOUNT' | transloco }}"
+                    unit="{{ 'KYATS' | transloco }}"
                     [current]="int(dailyData?.total_discount)"
                     [previous]="int(prevDailyData?.total_discount)"
                     [isCurrency]="true"
@@ -124,8 +126,8 @@
 
                 <!-- Total Patient -->
                 <app-display-item
-                    title="New Patients"
-                    unit="Patients"
+                    title="{{ 'NEW_PATIENTS' | transloco }}"
+                    unit="{{ 'PATIENTS' | transloco }}"
                     [current]="int(dailyData?.total_patients)"
                     [previous]="int(prevDailyData?.total_patients)"
                     [isCurrency]="false"
@@ -133,8 +135,8 @@
 
                 <!-- Total Expenses -->
                 <app-display-item
-                    title="Total Expenses"
-                    unit="Expenses"
+                    title="{{ 'TOTAL_EXPENSES' | transloco }}"
+                    unit="{{ 'KYATS' | transloco }}"
                     [current]="int(dailyData?.total_expenses)"
                     [previous]="int(prevDailyData?.total_expenses)"
                     [isCurrency]="true"

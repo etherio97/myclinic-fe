@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MY_DATE_FORMATS } from 'app/app.config';
+import { MESSAGES, MY_DATE_FORMATS } from 'app/app.config';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { AppointmentService } from 'app/services/appointment.service';
 import { DoctorService } from 'app/services/doctor.service';
@@ -53,9 +53,9 @@ export class ViewDoctorComponent implements OnInit {
     changeStatus() {
         let message = '';
         if (this.data.isActive) {
-            message = 'Are you sure do you want to inactive this doctor?';
+            message = MESSAGES.CONFIRM_DEACTIVATE_DOCTOR;
         } else {
-            message = 'Are you sure do you want to active this doctor?';
+            message = MESSAGES.CONFIRM_ACTIVATE_DOCTOR;
         }
         this._confirmService
             .confirm(message)

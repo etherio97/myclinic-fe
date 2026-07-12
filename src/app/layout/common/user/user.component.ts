@@ -18,6 +18,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { UserService as UserApiService } from 'app/services/user.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmService } from 'app/services/confirm.service';
+import { MESSAGES } from 'app/app.config';
 
 @Component({
     selector: 'user',
@@ -109,7 +110,7 @@ export class UserComponent implements OnInit, OnDestroy {
     submit() {
         if (!this.formGroup.valid) {
             return this._confirmService.error(
-                'Please fill all the required fields.',
+                MESSAGES.REQUIRED_ALL_FIELDS,
                 'Invalid',
             );
         }
@@ -119,13 +120,13 @@ export class UserComponent implements OnInit, OnDestroy {
             this.formGroup.value.retypePassword
         ) {
             return this._confirmService.error(
-                'New password does not match.',
+                MESSAGES.MISMATCH_PASSWORD_ERROR,
                 'Invalid',
             );
         }
 
         this._confirmService
-            .confirm('Are you sure do you want to change your password?')
+            .confirm(MESSAGES.CONFIRM_CHANGE_PASSWORD)
             .beforeClosed()
             .subscribe(
                 (value) => value === 'confirmed' && this.confirmSubmit(),
@@ -142,7 +143,7 @@ export class UserComponent implements OnInit, OnDestroy {
                 if (response.error) {
                     return this._confirmService.error(response.message);
                 }
-                this._confirmService.success('Password has been changed');
+                this._confirmService.success(MESSAGES.SUCCESS_CHANGE_PASSWORD);
                 this._modal.close();
             });
     }

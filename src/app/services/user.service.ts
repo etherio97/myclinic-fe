@@ -60,4 +60,15 @@ export class UserService {
             { userId, newPassword },
         );
     }
+
+    getLocale() {
+        return this._http.get([SERVICE_URLS.AUTH_API, 'get-locale'].join('/'));
+    }
+
+    setLocale(lang: string) {
+        return this._http.post(
+            [SERVICE_URLS.AUTH_API, 'set-locale'].join('/'),
+            { lang },
+        );
+    }
 }

@@ -12,7 +12,7 @@
                         <mat-icon svgIcon="mat_outline:chevron_left"></mat-icon>
                     </button>
                     <h2 class="text-3xl font-semibold tracking-tight leading-8">
-                        Patient Details
+                        {{ "PATIENT_DETAILS" | transloco }}
                     </h2>
                 </div>
                 <div class="flex items-center gap-2">
@@ -26,7 +26,7 @@
                             svgIcon="mat_outline:edit"
                             class="icon-size-5 mr-2"
                         ></mat-icon>
-                        Edit
+                        {{ "EDIT" | transloco }}
                     </button>
                 </div>
             </div>
@@ -36,31 +36,41 @@
                     <div>
                         <table class="w-full border-collapse">
                             <tr class="">
-                                <td class="text-left py-2">Patient Name</td>
+                                <td class="text-left py-2">
+                                    {{ "PATIENT_NAME" | transloco }}
+                                </td>
                                 <td class="text-right py-2 font-bold">
                                     {{ data.fullName }}
                                 </td>
                             </tr>
                             <tr class="">
-                                <td class="text-left py-2">Patient ID</td>
+                                <td class="text-left py-2">
+                                    {{ "PATIENT_ID" | transloco }}
+                                </td>
                                 <td class="text-right py-2 font-bold">
                                     #{{ data.patientNo }}
                                 </td>
                             </tr>
                             <tr class="">
-                                <td class="text-left py-2">Gender</td>
+                                <td class="text-left py-2">
+                                    {{ "GENDER" | transloco }}
+                                </td>
                                 <td class="text-right py-2 font-bold">
                                     {{ data.gender }}
                                 </td>
                             </tr>
                             <tr class="">
-                                <td class="text-left py-2">SSB Number</td>
+                                <td class="text-left py-2">
+                                    {{ "SBB_NUMBER" | transloco }}
+                                </td>
                                 <td class="text-right py-2 font-bold">
                                     {{ data.ssbNumber || "-" }}
                                 </td>
                             </tr>
                             <tr class="">
-                                <td class="text-left py-2">NRC Number</td>
+                                <td class="text-left py-2">
+                                    {{ "NRC_NUMBER" | transloco }}
+                                </td>
                                 <td class="text-right py-2 font-bold">
                                     {{ data.nrcNumber || "-" }}
                                 </td>
@@ -71,31 +81,42 @@
                     <div>
                         <table class="w-full border-collapse">
                             <tr class="">
-                                <td class="text-left py-2">Age</td>
+                                <td class="text-left py-2">
+                                    {{ "AGE" | transloco }}
+                                </td>
                                 <td class="text-right py-2 font-bold">
-                                    {{ calculateAge(data.dateOfBirth) }} years
+                                    {{ calculateAge(data.dateOfBirth) }}
+                                    {{ "YEARS" | transloco }}
                                 </td>
                             </tr>
                             <tr class="">
-                                <td class="text-left py-2">Date of Birth</td>
+                                <td class="text-left py-2">
+                                    {{ "DATE_OF_BIRTH" | transloco }}
+                                </td>
                                 <td class="text-right py-2 font-bold">
                                     {{ data.dateOfBirth | date: "dd/MM/yyyy" }}
                                 </td>
                             </tr>
                             <tr class="">
-                                <td class="text-left py-2">Phone Number</td>
+                                <td class="text-left py-2">
+                                    {{ "PHONE_NUMBER" | transloco }}
+                                </td>
                                 <td class="text-right py-2 font-bold">
                                     {{ data.phoneNumber || "-" }}
                                 </td>
                             </tr>
                             <tr class="">
-                                <td class="text-left py-2">Address</td>
+                                <td class="text-left py-2">
+                                    {{ "ADDRESS" | transloco }}
+                                </td>
                                 <td class="text-right py-2 font-bold">
                                     {{ data.address || "-" }}
                                 </td>
                             </tr>
                             <tr class="">
-                                <td class="text-left py-2">Notes</td>
+                                <td class="text-left py-2">
+                                    {{ "NOTES" | transloco }}
+                                </td>
                                 <td class="text-right py-2 font-bold">
                                     {{ data.notes }}
                                 </td>
@@ -106,7 +127,9 @@
                     <div>
                         <table class="w-full border-collapse">
                             <tr class="">
-                                <td class="text-left py-2">Created At</td>
+                                <td class="text-left py-2">
+                                    {{ "CREATED_AT" | transloco }}
+                                </td>
                                 <td class="text-right py-2 font-bold">
                                     {{
                                         data.createdAt
@@ -120,7 +143,9 @@
                     <div>
                         <table class="w-full border-collapse">
                             <tr class="">
-                                <td class="text-left py-2">Updated At</td>
+                                <td class="text-left py-2">
+                                    {{ "UPDATED_AT" | transloco }}
+                                </td>
                                 <td class="text-right py-2 font-bold">
                                     {{
                                         data.updatedAt
@@ -140,7 +165,7 @@
                     <div class="flex justify-between">
                         <div class="flex items-center">
                             <h3 class="font-semibold tracking-tight leading-8">
-                                Appointments
+                                {{ "APPOINTMENTS" | transloco }}
                             </h3>
                         </div>
                         <div class="flex items-center gap-2">
@@ -158,7 +183,7 @@
                                     svgIcon="mat_outline:edit_calendar"
                                     class="icon-size-5 mr-2"
                                 ></mat-icon>
-                                Create Appointment
+                                {{ "CREATE_APPOINTMENT" | transloco }}
                             </button>
                         </div>
                     </div>
@@ -169,13 +194,23 @@
                         <thead>
                             <tr class="border-b">
                                 <th class="text-center py-2">
-                                    Appointment Date
+                                    {{ "APPOINTMENT_DATE" | transloco }}
                                 </th>
-                                <th class="text-center py-2">Type</th>
-                                <th class="text-center py-2">Case</th>
-                                <th class="text-center py-2">Doctor</th>
-                                <th class="text-center py-2">Refer Doctor</th>
-                                <th class="text-center py-2">Status</th>
+                                <th class="text-center py-2">
+                                    {{ "TYPE" | transloco }}
+                                </th>
+                                <th class="text-center py-2">
+                                    {{ "APPOINTMENT_CASE" | transloco }}
+                                </th>
+                                <th class="text-center py-2">
+                                    {{ "DOCTOR" | transloco }}
+                                </th>
+                                <th class="text-center py-2">
+                                    {{ "REFER_DOCTOR" | transloco }}
+                                </th>
+                                <th class="text-center py-2">
+                                    {{ "APPOINTMENT_STATUS" | transloco }}
+                                </th>
                                 <th class="text-center py-2"></th>
                             </tr>
                         </thead>
@@ -267,7 +302,9 @@
                                             'view',
                                             appointment.id,
                                         ]"
-                                        matTooltip="View Details"
+                                        matTooltip="{{
+                                            'VIEW_DETAILS' | transloco
+                                        }}"
                                     >
                                         <mat-icon
                                             svgIcon="feather:info"
@@ -291,7 +328,7 @@
                     <div class="flex justify-between">
                         <div class="flex items-center">
                             <h3 class="font-semibold tracking-tight leading-8">
-                                Receipts
+                                {{ "RECEIPTS" | transloco }}
                             </h3>
                         </div>
                         <div class="flex items-center gap-2">
@@ -305,7 +342,7 @@
                                     svgIcon="mat_outline:add_shopping_cart"
                                     class="icon-size-5 mr-2"
                                 ></mat-icon>
-                                Create Receipt
+                                {{ "CREATE_RECEIPT" | transloco }}
                             </button>
                         </div>
                     </div>
@@ -315,12 +352,24 @@
                     <table class="w-full border-collapse">
                         <thead>
                             <tr class="border-b">
-                                <th class="text-center py-2">Date</th>
-                                <th class="text-center py-2">Type</th>
-                                <th class="text-center py-2">Doctor</th>
-                                <th class="text-center py-2">Subtotal</th>
-                                <th class="text-center py-2">Discount</th>
-                                <th class="text-center py-2">Total</th>
+                                <th class="text-center py-2">
+                                    {{ "DATE" | transloco }}
+                                </th>
+                                <th class="text-center py-2">
+                                    {{ "TYPE" | transloco }}
+                                </th>
+                                <th class="text-center py-2">
+                                    {{ "DOCTOR" | transloco }}
+                                </th>
+                                <th class="text-center py-2">
+                                    {{ "SUBTOTAL" | transloco }}
+                                </th>
+                                <th class="text-center py-2">
+                                    {{ "DISCOUNT" | transloco }}
+                                </th>
+                                <th class="text-center py-2">
+                                    {{ "TOTAL" | transloco }}
+                                </th>
                                 <th class="text-center py-2"></th>
                             </tr>
                         </thead>
@@ -388,7 +437,9 @@
                                             'view',
                                             receipt.id,
                                         ]"
-                                        matTooltip="View Details"
+                                        matTooltip="{{
+                                            'VIEW_DETAILS' | transloco
+                                        }}"
                                     >
                                         <mat-icon
                                             svgIcon="feather:info"

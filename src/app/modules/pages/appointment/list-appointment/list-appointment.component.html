@@ -7,7 +7,7 @@
                 <h2
                     class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
                 >
-                    Appointment List
+                    {{ "APPOINTMENTS" | transloco }}
                 </h2>
             </div>
         </div>
@@ -22,7 +22,7 @@
                     class="icon-size-5 mr-2"
                     svgIcon="heroicons_solid:plus"
                 ></mat-icon>
-                New
+                {{ "NEW" | transloco }}
             </button>
         </div>
     </div>
@@ -37,9 +37,13 @@
                 <div class="flex flex-wrap w-full px-3 sm:px-6 pt-2 sm:pt-4">
                     <div class="w-full sm:w-1/3 pr-6">
                         <mat-form-field class="w-full">
-                            <mat-label>Status</mat-label>
+                            <mat-label>{{
+                                "APPOINTMENT_STATUS" | transloco
+                            }}</mat-label>
                             <mat-select formControlName="status">
-                                <mat-option value="">All</mat-option>
+                                <mat-option value="">
+                                    {{ "ALL" | transloco }}
+                                </mat-option>
                                 <mat-option
                                     *ngFor="let status of appointmentStatus"
                                     [value]="status"
@@ -52,7 +56,9 @@
 
                     <div class="w-full sm:w-1/3 pr-6">
                         <mat-form-field class="w-full" appearance="fill">
-                            <mat-label>Start Date</mat-label>
+                            <mat-label>{{
+                                "START_DATE" | transloco
+                            }}</mat-label>
                             <input
                                 matInput
                                 [matDatepicker]="pickerStart"
@@ -68,7 +74,7 @@
 
                     <div class="w-full sm:w-1/3 pr-6">
                         <mat-form-field class="w-full" appearance="fill">
-                            <mat-label>End Date</mat-label>
+                            <mat-label>{{ "END_DATE" | transloco }}</mat-label>
                             <input
                                 matInput
                                 [matDatepicker]="picker"
@@ -92,7 +98,7 @@
                         color="primary"
                         class="text-white"
                     >
-                        Search
+                        {{ "SEARCH" | transloco }}
                     </button>
                 </div>
             </form>
@@ -110,7 +116,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Appointment Date
+                        {{ "APPOINTMENT_DATE" | transloco }}
                     </th>
                     <td
                         mat-cell
@@ -128,7 +134,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        #
+                        {{ "APPOINTMENT_ID" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element" class="text-center">
                         {{ element.appointmentNo }}
@@ -141,7 +147,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Phone Number
+                        {{ "PHONE_NUMBER" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element" class="text-center">
                         {{ element.patient?.phoneNumber }}
@@ -153,7 +159,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Patient Name
+                        {{ "PATIENT_NAME" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element" class="text-center">
                         {{ element.patient?.fullName }}
@@ -165,7 +171,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Type
+                        {{ "TYPE" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element" class="text-center">
                         {{ element.appointmentType }}
@@ -177,7 +183,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Case
+                        {{ "APPOINTMENT_CASE" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element" class="text-center">
                         {{ element.appointmentCase }}
@@ -189,7 +195,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Doctor Name
+                        {{ "DOCTOR_NAME" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element">
                         {{ element.doctor?.fullName }}
@@ -201,7 +207,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Refer Doctor
+                        {{ "REFER_DOCTOR" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element">
                         {{ element.referDoctor?.fullName }}
@@ -213,7 +219,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Status
+                        {{ "APPOINTMENT_STATUS" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element">
                         <app-status-chip
@@ -227,14 +233,14 @@
                         *matHeaderCellDef
                         class="mx-2 text-center w-30"
                     >
-                        Actions
+                        {{ "ACTIONS" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element">
                         <div class="flex justify-center">
                             <button
                                 mat-icon-button
                                 [routerLink]="['view', element.id]"
-                                matTooltip="View Details"
+                                matTooltip="{{ 'VIEW_DETAILS' | transloco }}"
                             >
                                 <mat-icon
                                     svgIcon="feather:info"
@@ -244,7 +250,7 @@
                             <button
                                 mat-icon-button
                                 (click)="removeAppointment(element.id)"
-                                matTooltip="Delete"
+                                matTooltip="{{ 'DELETE' | transloco }}"
                             >
                                 <mat-icon
                                     svgIcon="heroicons_outline:trash"

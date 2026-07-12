@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { APP_CONFIG, MY_DATE_FORMATS } from 'app/app.config';
+import { APP_CONFIG, MESSAGES, MY_DATE_FORMATS } from 'app/app.config';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { DoctorService } from 'app/services/doctor.service';
 import { ReceiptService } from 'app/services/receipt.service';
@@ -208,7 +208,7 @@ export class CreateReceiptComponent implements OnInit {
         if (!this.formGroup.valid) {
             return this._confirmService.open({
                 title: 'Invalid',
-                message: 'Please fill all the required fields.',
+                message: MESSAGES.REQUIRED_ALL_FIELDS,
                 actions: {
                     cancel: { label: 'OK' },
                     confirm: { show: false },
@@ -257,27 +257,36 @@ export class CreateReceiptComponent implements OnInit {
     submit() {
         if (!this.formGroup.valid) {
             return this._confirmService.error(
-                'Please fill all the required fields.',
+                MESSAGES.REQUIRED_ALL_FIELDS,
                 'Invalid',
             );
         }
         if (!this.selectedItems.length) {
-            return this._confirmService.error('Please input items.', 'Invalid');
+            return this._confirmService.error(
+                MESSAGES.PLEASE_INPUT_ITEMS,
+                'Invalid',
+            );
         }
         if (
             this.formGroup.value.patient &&
             typeof this.formGroup.value.patient !== 'object'
         ) {
-            return this._confirmService.error('Please create pateint first.');
+            return this._confirmService.error(
+                MESSAGES.PLEASE_SELECT_PATIENT,
+                'Invalid',
+            );
         }
         if (
             this.formGroup.value.doctor &&
             typeof this.formGroup.value.doctor !== 'object'
         ) {
-            return this._confirmService.error('Please create doctor first.');
+            return this._confirmService.error(
+                MESSAGES.PLEASE_SELECT_DOCTOR,
+                'Invalid',
+            );
         }
         this._confirmService
-            .confirm('Are you sure to create this receipt?')
+            .confirm(MESSAGES.CONFIRM_CREATE_RECEIPT)
             .beforeClosed()
             .subscribe(
                 (value) => value === 'confirmed' && this.confirmSubmit(),
@@ -348,5 +357,9 @@ export class CreateReceiptComponent implements OnInit {
         });
 
         return i;
+    }
+
+    get selectedItemsReverse() {
+        return this.selectedItems ? [...this.selectedItems].reverse() : [];
     }
 }

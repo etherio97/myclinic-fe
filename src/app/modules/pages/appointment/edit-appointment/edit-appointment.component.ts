@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { APP_CONFIG, MY_DATE_FORMATS } from 'app/app.config';
+import { APP_CONFIG, MESSAGES, MY_DATE_FORMATS } from 'app/app.config';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { AppointmentService } from 'app/services/appointment.service';
 import moment from 'moment';
@@ -17,6 +17,8 @@ import { ConfirmService } from 'app/services/confirm.service';
     templateUrl: './edit-appointment.component.html',
 })
 export class EditAppointmentComponent implements OnInit {
+    isLoaded = false;
+
     formGroup!: FormGroup;
 
     doctors: any[] = [];
@@ -59,6 +61,7 @@ export class EditAppointmentComponent implements OnInit {
         this.route.params.subscribe(({ id }) => {
             this.id = id;
             this._appointmentService.findById(id).subscribe((result: any) => {
+                this.isLoaded = true;
                 this.formGroup.controls.patient.setValue(result.patient || '');
                 this.formGroup.controls.phoneNumber.setValue(
                     result.patient?.phoneNumber || '',
@@ -142,7 +145,7 @@ export class EditAppointmentComponent implements OnInit {
     submit() {
         if (!this.formGroup.valid) {
             return this._confirmService.error(
-                'Please fill all the required fields.',
+                MESSAGES.REQUIRED_ALL_FIELDS,
                 'Invalid',
             );
         }
@@ -150,17 +153,17 @@ export class EditAppointmentComponent implements OnInit {
             this.formGroup.value.patient &&
             typeof this.formGroup.value.patient !== 'object'
         ) {
-            return this._confirmService.error('Please create pateint first.');
+            return this._confirmService.error(MESSAGES.PLEASE_SELECT_PATIENT);
         }
         if (
             this.formGroup.value.doctor &&
             typeof this.formGroup.value.doctor !== 'object'
         ) {
-            return this._confirmService.error('Please create doctor first.');
+            return this._confirmService.error(MESSAGES.PLEASE_SELECT_DOCTOR);
         }
 
         this._confirmService
-            .confirm('Are you sure to update this appointment?')
+            .confirm(MESSAGES.CONFIRM_UPDATE_APPOINTMENT)
             .beforeClosed()
             .subscribe(
                 (value) => value === 'confirmed' && this.confirmSubmit(),

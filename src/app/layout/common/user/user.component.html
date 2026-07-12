@@ -11,7 +11,9 @@
 <mat-menu [xPosition]="'before'" #userActions="matMenu">
     <button mat-menu-item>
         <span class="flex flex-col leading-none">
-            <span>Signed in as</span>
+            <span>
+                {{ "SIGN_IN_AS" | transloco }}
+            </span>
             <span class="mt-1.5 text-md font-medium">
                 {{ user.fullname || user.username }}
             </span>
@@ -19,12 +21,14 @@
     </button>
     <mat-divider></mat-divider>
     <button mat-menu-item (click)="openChangePasswordModal()">
-        Change Password
+        {{ "CHANGE_PASSWORD" | transloco }}
     </button>
     <mat-divider class="my-2"></mat-divider>
     <button mat-menu-item (click)="signOut()">
         <mat-icon [svgIcon]="'heroicons_outline:logout'"></mat-icon>
-        <span>Sign out</span>
+        <span>
+            {{ "SIGN_OUT" | transloco }}
+        </span>
     </button>
 </mat-menu>
 
@@ -32,20 +36,20 @@
     <form [formGroup]="formGroup" (ngSubmit)="submit()">
         <div>
             <mat-form-field class="w-full">
-                <mat-label>Old Password</mat-label>
+                <mat-label>{{ "OLD_PASSWORD" | transloco }}</mat-label>
                 <input type="password" matInput formControlName="oldPassword" />
             </mat-form-field>
 
             <mat-form-field class="w-full">
-                <mat-label>New Password</mat-label>
+                <mat-label>{{ "NEW_PASSWORD" | transloco }}</mat-label>
                 <input type="password" matInput formControlName="newPassword" />
                 <mat-hint>
-                    Password must be at least 6 characters or numbers.
+                    {{ "MIN_PASSWORD_LENGTH" | transloco }}
                 </mat-hint>
             </mat-form-field>
 
             <mat-form-field class="w-full">
-                <mat-label>Retype Password</mat-label>
+                <mat-label>{{ "CONFIRM_PASSWORD" | transloco }}</mat-label>
                 <input
                     type="password"
                     matInput
@@ -61,10 +65,10 @@
                 class="bg-slate-600 text-white"
                 type="button"
             >
-                Cancel
+                {{ "CANCEL" | transloco }}
             </button>
             <button mat-button class="bg-indigo-600 text-white" type="submit">
-                Confirm
+                {{ "CONFIRM" | transloco }}
             </button>
         </div>
     </form>

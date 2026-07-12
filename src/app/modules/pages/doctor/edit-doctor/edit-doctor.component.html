@@ -12,7 +12,7 @@
                         <mat-icon svgIcon="mat_outline:chevron_left"></mat-icon>
                     </button>
                     <h2 class="text-3xl font-semibold tracking-tight leading-8">
-                        Edit Doctor
+                        {{ "EDIT_DOCTOR" | transloco }}
                     </h2>
                 </div>
                 <div>
@@ -25,7 +25,7 @@
                             svgIcon="mat_outline:save"
                             class="icon-size-5 mr-2"
                         ></mat-icon>
-                        Save
+                        {{ "SAVE" | transloco }}
                     </button>
                 </div>
             </div>
@@ -34,12 +34,12 @@
         <div class="w-full pt-2 pb-2 mx-5">
             <div class="grid grid-cols-2 gap-4">
                 <mat-form-field class="w-full">
-                    <mat-label>Full Name</mat-label>
+                    <mat-label>{{ "FULLNAME" | transloco }}</mat-label>
                     <input type="text" matInput formControlName="fullName" />
                 </mat-form-field>
 
                 <mat-form-field class="w-full">
-                    <mat-label>Specialization</mat-label>
+                    <mat-label>{{ "SPECIALIZATION" | transloco }}</mat-label>
                     <input
                         type="text"
                         matInput
@@ -47,12 +47,12 @@
                     />
                 </mat-form-field>
                 <mat-form-field class="w-full">
-                    <mat-label>Phone Number</mat-label>
+                    <mat-label>{{ "PHONE_NUMBER" | transloco }}</mat-label>
                     <input type="text" matInput formControlName="phoneNumber" />
                 </mat-form-field>
 
                 <mat-form-field class="w-full">
-                    <mat-label>Address</mat-label>
+                    <mat-label>{{ "ADDRESS" | transloco }}</mat-label>
                     <textarea
                         matInput
                         formControlName="address"
@@ -61,7 +61,7 @@
                 </mat-form-field>
 
                 <mat-form-field class="w-full">
-                    <mat-label>Remarks</mat-label>
+                    <mat-label>{{ "NOTES" | transloco }}</mat-label>
                     <textarea
                         matInput
                         formControlName="remarks"

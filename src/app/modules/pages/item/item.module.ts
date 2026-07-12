@@ -16,6 +16,7 @@ import { ListItemComponent } from './list-item/list-item.component';
 import { CreateItemComponent } from './create-item/create-item.component';
 import { EditItemComponent } from './edit-item/edit-item.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @NgModule({
     declarations: [ListItemComponent, CreateItemComponent, EditItemComponent],
@@ -34,6 +35,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
         MatSelectModule,
         MatAutocompleteModule,
         MatPaginatorModule,
+        TranslocoModule,
     ],
 })
 export class ItemModule {}

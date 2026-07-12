@@ -1,6 +1,10 @@
 import { FuseNavigationItem } from '../@fuse/components/navigation';
 
-export const BASE_URL = ['localhost', '127.0.0.1'].includes(location.hostname)
+export const __LANG = '__lang';
+
+export const BASE_URL = ['localhost', '127.0.0.1', '192.168.1.6'].includes(
+    location.hostname,
+)
     ? `http://${location.hostname}:3000`
     : `${location.protocol}//${location.hostname}/api`;
 
@@ -41,7 +45,7 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
         children: [
             {
                 id: 'dashboard',
-                title: 'Dashboard',
+                title: 'DASHBOARD',
                 type: 'basic',
                 icon: 'mat_solid:dashboard',
                 link: '/dashboard',
@@ -51,7 +55,7 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
             },
             {
                 id: 'patients',
-                title: 'Patients',
+                title: 'PATIENTS',
                 type: 'basic',
                 icon: 'mat_solid:people',
                 link: '/patients',
@@ -61,7 +65,7 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
             },
             {
                 id: 'receipts',
-                title: 'Receipts',
+                title: 'RECEIPTS',
                 type: 'basic',
                 icon: 'mat_solid:receipt_long',
                 link: '/receipts',
@@ -71,7 +75,7 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
             },
             {
                 id: 'deleted-receipts',
-                title: 'Deleted Receipts',
+                title: 'DELETED_RECEIPTS',
                 type: 'basic',
                 icon: 'mat_solid:restore',
                 link: '/deleted-receipts',
@@ -81,7 +85,7 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
             },
             {
                 id: 'expense',
-                title: 'Expenses',
+                title: 'EXPENSES',
                 type: 'basic',
                 icon: 'mat_solid:history_edu',
                 link: '/expense',
@@ -91,7 +95,7 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
             },
             {
                 id: 'appointments',
-                title: 'Appointments',
+                title: 'APPOINTMENTS',
                 type: 'basic',
                 icon: 'mat_solid:edit_calendar',
                 link: '/appointments',
@@ -101,7 +105,7 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
             },
             {
                 id: 'appointment-calendar',
-                title: 'Appointment Calendar',
+                title: 'APPOINTMENT_CALENDAR',
                 type: 'basic',
                 icon: 'heroicons_solid:calendar',
                 link: '/appointment-calendar',
@@ -111,7 +115,7 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
             },
             {
                 id: 'doctors',
-                title: 'Doctors',
+                title: 'DOCTORS',
                 type: 'basic',
                 icon: 'mat_solid:local_hospital',
                 link: '/doctors',
@@ -121,7 +125,7 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
             },
             {
                 id: 'items',
-                title: 'Items',
+                title: 'ITEMS',
                 type: 'basic',
                 icon: 'mat_solid:inventory_2',
                 link: '/items',
@@ -131,21 +135,21 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
             },
 
             // Finance
-            {
-                id: 'cashflow',
-                title: 'Cashflow',
-                type: 'basic',
-                icon: 'heroicons_solid:cash',
-                link: '/cashflow',
-                meta: {
-                    roles: ['admin'],
-                },
-            },
+            // {
+            //     id: 'cashflow',
+            //     title: 'CASHFLOW',
+            //     type: 'basic',
+            //     icon: 'heroicons_solid:cash',
+            //     link: '/cashflow',
+            //     meta: {
+            //         roles: ['admin'],
+            //     },
+            // },
 
             // Admin
             {
                 id: 'users',
-                title: 'Users',
+                title: 'USERS',
                 type: 'basic',
                 icon: 'mat_solid:admin_panel_settings',
                 link: '/users',
@@ -167,4 +171,57 @@ export const MY_DATE_FORMATS = {
         dateA11yLabel: 'LL',
         monthYearA11yLabel: 'MMMM YYYY',
     },
+};
+
+export const MESSAGES = {
+    UNEXPECTED_ERROR: 'Unexpected error occuried!',
+    SOMETHING_WENT_WRONG: 'အဆင်မပြေမှုတစ်ခုဖြစ်ပွားခဲ့ပါသည်။',
+    PASSWORD_LENGTH_ERROR:
+        'စကားဝှက်သည် အနည်းဆုံး စာလုံး (သို့မဟုတ်) ဂဏန်း ၆ လုံး ရှိရပါမည်။',
+    MISMATCH_PASSWORD_ERROR: 'စကားဝှက်နှစ်ခုစလုံး တူညီရပါမည်။',
+    CONFIRM_CHANGE_PASSWORD: 'စကားဝှက်အသစ် ပြောင်းရန် သေချာပါသလား?',
+    REQUIRED_ALL_FIELDS: 'လိုအပ်သော အချက်အလက်များအားလုံးကို ဖြည့်သွင်းပါ။',
+    SUCCESS_CHANGE_PASSWORD: 'သင့်စကားဝှက်ကို အောင်မြင်စွာ ပြောင်းလဲပြီးပါပြီ။',
+    PLEASE_INPUT_ITEMS: 'ဝန်ဆောင်မှုများထည့်သွင်းပါ။',
+    PLEASE_SELECT_PATIENT:
+        'လူနာကို ပြန်ရွေးချယ်ပါ သို့မဟုတ် လူနာအသစ်ကို ဖန်တီးပါ။',
+    PLEASE_SELECT_DOCTOR:
+        'ဆရာဝန်ကို ပြန်ရွေးချယ်ပါ သို့မဟုတ် ဆရာဝန်အသစ်ကို ဖန်တီးပါ။',
+    CONFIRM_CREATE_RECEIPT: 'ဘောက်ချာကို ဖန်တီးမှာ သေချာပါသလား?',
+    CONFIRM_UPDATE_RECEIPT: 'ဘောက်ချာကို ပြင်ဆင်မှာ သေချာပါသလား?',
+    CONFIRM_DELETE_RECEIPT: 'ဘောက်ချာကို ဖျက်မှာ သေချာပါသလား?',
+    SUCCESS_DELETE_RECEIPT: 'ဘောက်ချာကို အောင်မြင်စွာ ဖျက်ပြီးပါပြီ။',
+    CONFIRM_CREATE_PATIENT: 'လူနာအသစ်ကို ဖန်တီးမှာ သေချာပါသလား?',
+    CONFIRM_UPDATE_PATIENT: 'လူနာကို ပြင်ဆင်မှာ သေချာပါသလား?',
+    CONFIRM_DELETE_PATIENT: 'လူနာကို ဖျက်မှာ သေချာပါသလား?',
+    FAILED_TO_DELETE_PATIENT: 'လူနာကို ဖျက်ခြင်း မအောင်မြင်ပါ။',
+    SUCCESS_DELETE_PATIENT: 'လူနာကို အောင်မြင်စွာ ဖျက်ပြီးပါပြီ။',
+    CONFIRM_CREATE_EXPENSE: 'အသုံးစရိတ်ကို ဖန်တီးမှာ သေချာပါသလား?',
+    SUCCESS_CREATE_EXPENSE: 'အသုံးစရိတ်ကို အောင်မြင်စွာ ဖန်တီးပြီးပါပြီ။',
+    CONFIRM_UPDATE_EXPENSE: 'အသုံးစရိတ်ကို ပြင်ဆင်မှာ သေချာပါသလား?',
+    SUCCESS_UPDATE_EXPENSE: 'အသုံးစရိတ်ကို အောင်မြင်စွာ ပြင်ဆင်ပြီးပါပြီ။',
+    CONFIRM_DELETE_EXPENSE: 'အသုံးစရိတ်ကို ဖျက်မှာ သေချာပါသလား?',
+    SUCCESS_DELETE_EXPENSE: 'အသုံးစရိတ်ကို အောင်မြင်စွာ ဖျက်ပြီးပါပြီ။',
+    CONFIRM_CREATE_APPOINTMENT: 'ရက်ချိန်းကို ဖန်တီးမှာ သေချာပါသလား?',
+    CONFIRM_UPDATE_APPOINTMENT: 'ရက်ချိန်းကို ပြင်ဆင်မှာ သေချာပါသလား?',
+    CONFIRM_DELETE_APPOINTMENT: 'ရက်ချိန်းကို ဖျက်မှာ သေချာပါသလား?',
+    SUCCESS_DELETE_APPOINTMENT: 'ရက်ချိန်းကို အောင်မြင်စွာ ဖျက်ပြီးပါပြီ။',
+    CONFIRM_CREATE_DOCTOR: 'ဆရာဝန်ကို ဖန်တီးမှာ သေချာပါသလား?',
+    CONFIRM_UPDATE_DOCTOR: 'ဆရာဝန်ကို ပြင်ဆင်မှာ သေချာပါသလား?',
+    CONFIRM_DELETE_DOCTOR: 'ဆရာဝန်ကို ဖျက်မှာ သေချာပါသလား?',
+    SUCCESS_DELETE_DOCTOR: 'ဆရာဝန်ကို အောင်မြင်စွာ ဖျက်ပြီးပါပြီ။',
+    FAILED_TO_DELETE_DOCTOR: 'ဆရာဝန်ကို ဖျက်ခြင်း မအောင်မြင်ပါ။',
+    CONFIRM_DEACTIVATE_DOCTOR: 'ဆရာဝန်ကို ပိတ်မည်မှာ သေချာပါသလား?',
+    CONFIRM_ACTIVATE_DOCTOR: 'ဆရာဝန်ကို ဖွင့်မည်မှာ သေချာပါသလား?',
+    CONFIRM_CREATE_USER: 'အသုံးပြုသူကို စာရင်းသွင်းရန် သေချာပါသလား?',
+    SUCCESS_CREATE_USER: 'အသုံးပြုသူအသစ်ကို အောင်မြင်စွာ ထည့်သွင်းပြီးပါပြီ။',
+    CONFIRM_DELETE_USER: 'အသုံးပြုသူကို ဖျက်ရန် သေချာပါသလား?',
+    SUCCESS_DELETE_USER: 'အသုံးပြုသူကို အောင်မြင်စွာဖျက်ပြီးပါပြီ။',
+    CONFIRM_DEACTIVATE_USER: 'အသုံးပြုသူအား အကောင့်ပိတ်ရန် သေချာပါသလား?',
+    CONFIRM_ACTIVATE_USER: 'အသုံးပြုသူအား အကောင့်ပြန်ဖွင့်ရန် သေချာပါသလား?',
+    SUCCESS_USER_STATUS: 'အသုံးပြုသူ၏ အခြေအနေကို ပြောင်းလဲပြီးပါပြီ။',
+    CONFIRM_DELETE_ITEM: 'ဝန်ဆောင်မှုကို ဖျက်ရန် သေချာပါသလား?',
+    SUCCESS_DELETE_ITEM: 'ဝန်ဆောင်မှုကို အောင်မြင်စွာ ဖျက်ပြီးပါပြီ။',
+    CONFIRM_CREATE_ITEM: 'ဝန်ဆောင်မှုကို ထည့်သွင်းရန် သေချာပါသလား။',
+    CONFIRM_UPDATE_ITEM: 'ဝန်ဆောင်မှုကို ပြင်ဆင်ရန် သေချာပါသလား။',
 };

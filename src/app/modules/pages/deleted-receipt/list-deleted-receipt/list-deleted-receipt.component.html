@@ -7,7 +7,7 @@
                 <h2
                     class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
                 >
-                    Deleted Receipt List
+                    {{ "DELETED_RECEIPTS" | transloco }}
                 </h2>
             </div>
         </div>
@@ -24,7 +24,9 @@
                 <div class="flex flex-wrap w-full px-3 sm:px-6 pt-2 sm:pt-4">
                     <div class="w-full sm:w-1/4 pr-6">
                         <mat-form-field class="w-full" appearance="fill">
-                            <mat-label>Start Date</mat-label>
+                            <mat-label>{{
+                                "START_DATE" | transloco
+                            }}</mat-label>
                             <input
                                 matInput
                                 [matDatepicker]="pickerStart"
@@ -40,7 +42,7 @@
 
                     <div class="w-full sm:w-1/4 pr-6">
                         <mat-form-field class="w-full" appearance="fill">
-                            <mat-label>End Date</mat-label>
+                            <mat-label>{{ "END_DATE" | transloco }}</mat-label>
                             <input
                                 matInput
                                 [matDatepicker]="picker"
@@ -64,7 +66,7 @@
                         color="primary"
                         class="text-white"
                     >
-                        Search
+                        {{ "SEARCH" | transloco }}
                     </button>
                 </div>
             </form>
@@ -82,7 +84,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        #
+                        {{ "RECEIPT_ID" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element" class="text-center">
                         {{ element.receiptNo }}
@@ -94,7 +96,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Date
+                        {{ "DATE" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element" class="text-center">
                         {{ element.date | date: "dd/MM/yyyy hh:mm a" }}
@@ -106,7 +108,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Patient Name
+                        {{ "PATIENT_NAME" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element" class="text-center">
                         {{ element.patient?.fullName }}
@@ -118,7 +120,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Doctor Name
+                        {{ "DOCTOR_NAME" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element" class="text-center">
                         {{ element.doctor?.fullName }}
@@ -130,7 +132,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Status
+                        {{ "STATUS" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element" class="text-center">
                         <app-status-chip
@@ -144,7 +146,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Payment Method
+                        {{ "PAYMENT_METHOD" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element" class="text-center">
                         {{ element.paymentMethod }}
@@ -156,7 +158,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Sub-Total
+                        {{ "SUBTOTAL" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element" class="text-center">
                         {{ element.subtotal | currency: "MMK" : "" : "0.0-0" }}
@@ -168,7 +170,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Discount Amount
+                        {{ "DISCOUNT_AMOUNT" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element">
                         {{
@@ -183,7 +185,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Grand Total
+                        {{ "GRAND_TOTAL" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element">
                         {{
@@ -197,7 +199,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Type
+                        {{ "TYPE" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element">
                         {{ element.type }}
@@ -209,14 +211,14 @@
                         *matHeaderCellDef
                         class="mx-2 text-center w-30"
                     >
-                        Actions
+                        {{ "ACTIONS" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element">
                         <div class="flex justify-center">
                             <button
                                 mat-icon-button
                                 [routerLink]="['view', element.id]"
-                                matTooltip="View"
+                                matTooltip="{{ 'VIEW_DETAILS' | transloco }}"
                             >
                                 <mat-icon
                                     svgIcon="feather:info"

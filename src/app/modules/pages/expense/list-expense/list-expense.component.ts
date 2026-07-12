@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { APP_CONFIG } from 'app/app.config';
+import { APP_CONFIG, MESSAGES } from 'app/app.config';
 import { UserService } from 'app/core/user/user.service';
 import { ConfirmService } from 'app/services/confirm.service';
 import { ExpenseService } from 'app/services/expense.service';
@@ -136,12 +136,14 @@ export class ListExpenseComponent implements OnInit, AfterViewInit {
     createExpense() {
         if (this.createFormGroup.invalid)
             return this._confirmService.error(
-                'Please fill all the required fields.',
+                MESSAGES.REQUIRED_ALL_FIELDS,
                 'Invalid',
             );
-        if (this.mode === 'edit') return this.updateExpense();
+        if (this.mode === 'edit') {
+            return this.updateExpense();
+        }
         this._confirmService
-            .confirm('Are you sure to add this expense?')
+            .confirm(MESSAGES.CONFIRM_CREATE_EXPENSE)
             .beforeClosed()
             .subscribe(
                 (value) => value === 'confirmed' && this.confirmCreateExpense(),
@@ -153,7 +155,7 @@ export class ListExpenseComponent implements OnInit, AfterViewInit {
         data.amount = Number.parseFloat(data.amount);
         this._expenseService.create(data).subscribe(() => {
             this._modal.close();
-            this._confirmService.success('Expense has been added.');
+            // this._confirmService.success(MESSAGES.SUCCESS_CREATE_EXPENSE);
             this.reloadData();
         });
     }
@@ -173,7 +175,7 @@ export class ListExpenseComponent implements OnInit, AfterViewInit {
 
     private updateExpense() {
         this._confirmService
-            .confirm('Are you sure to update this expense?')
+            .confirm(MESSAGES.CONFIRM_UPDATE_EXPENSE)
             .beforeClosed()
             .subscribe(
                 (value) => value === 'confirmed' && this.confirmUpdateExpense(),
@@ -185,14 +187,14 @@ export class ListExpenseComponent implements OnInit, AfterViewInit {
         data.amount = Number.parseFloat(data.amount);
         this._expenseService.update(this.element.id, data).subscribe(() => {
             this._modal.close();
-            this._confirmService.success('Expense has been updated.');
+            this._confirmService.success(MESSAGES.SUCCESS_UPDATE_EXPENSE);
             this.reloadData();
         });
     }
 
     removeExpense(id: string) {
         this._confirmService
-            .confirm('Are you sure to delete this expense?')
+            .confirm(MESSAGES.CONFIRM_DELETE_EXPENSE)
             .beforeClosed()
             .subscribe(
                 (value) =>
@@ -203,7 +205,7 @@ export class ListExpenseComponent implements OnInit, AfterViewInit {
     private confirmRemoveExpense(id: string) {
         this._expenseService.remove(id).subscribe(() => {
             this._confirmService
-                .success('Expense has been successfully deleted')
+                .success(MESSAGES.SUCCESS_DELETE_EXPENSE)
                 .afterOpened()
                 .subscribe(() => this.reloadData());
         });
@@ -212,7 +214,7 @@ export class ListExpenseComponent implements OnInit, AfterViewInit {
     exportExcel() {
         const fileName = `myclinic-expenses-${moment().format('YYYYMMDDHHmmss')}.xlsx`;
         const worksheet = utils.json_to_sheet(
-            this.searchResult.map((data) => {
+            [...this.searchResult].reverse().map((data) => {
                 let i = 1;
                 return {
                     'No.': i++,

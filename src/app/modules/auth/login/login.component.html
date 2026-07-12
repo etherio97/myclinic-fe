@@ -2,8 +2,31 @@
     class="flex flex-col sm:flex-row items-center md:items-start sm:justify-center md:justify-start flex-auto w-screen h-screen"
 >
     <div
-        class="md:flex md:items-center md:justify-end w-full sm:w-auto md:h-full md:w-1/2 py-8 px-4 sm:p-12 md:p-16 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none sm:bg-card"
+        class="md:flex md:items-center md:justify-end w-full sm:w-auto md:h-full md:w-1/2 py-8 px-4 sm:p-12 md:p-16 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none sm:bg-card relative"
     >
+        <div class="absolute top-5 right-8 md:top-10 md:left-10 md:right-auto">
+            <div>
+                <div
+                    class="flex border-2 border-gray-300 rounded-full font-semibold"
+                >
+                    <button
+                        class="transition-all pl-3 pr-3 rounded-full cursor-pointer"
+                        [ngClass]="getClassNameFor('en')"
+                        (click)="changeLang('en')"
+                    >
+                        EN
+                    </button>
+                    <button
+                        class="transition-all pl-2 pr-3 rounded-full cursor-pointer"
+                        [ngClass]="getClassNameFor('mm')"
+                        (click)="changeLang('mm')"
+                    >
+                        MM
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <div class="w-full max-w-80 sm:w-80 mx-auto sm:mx-0">
             <!-- Title -->
             <div class="w-28 mx-auto">
@@ -24,7 +47,9 @@
             <form class="mt-8" [formGroup]="signInForm" #signInNgForm="ngForm">
                 <!-- Email field -->
                 <mat-form-field class="w-full">
-                    <mat-label>Username</mat-label>
+                    <mat-label>
+                        {{ "USERNAME" | transloco }}
+                    </mat-label>
                     <input
                         id="email"
                         matInput
@@ -38,7 +63,9 @@
 
                 <!-- Password field -->
                 <mat-form-field class="w-full">
-                    <mat-label>Password</mat-label>
+                    <mat-label>
+                        {{ "PASSWORD" | transloco }}
+                    </mat-label>
                     <input
                         id="password"
                         matInput
@@ -76,7 +103,9 @@
                     [disabled]="signInForm.disabled"
                     (click)="signIn()"
                 >
-                    <span *ngIf="!signInForm.disabled"> Sign in </span>
+                    <span *ngIf="!signInForm.disabled">
+                        {{ "SIGN_IN" | transloco }}
+                    </span>
                     <mat-progress-spinner
                         *ngIf="signInForm.disabled"
                         [diameter]="24"
@@ -158,16 +187,20 @@
     <form [formGroup]="newPasswordForm" (ngSubmit)="submitNewPassword()">
         <div class="bg-white px-5 py-8 rounded-lg">
             <fuse-alert class="mb-4" type="warning" appearance="outline">
-                သင့် Password အား အသစ်ပြုလုပ်ရန် လိုအပ်သည်။
+                {{ "NEW_PASSWORD_UPDATE_REQUIRED" | transloco }}
             </fuse-alert>
 
             <mat-form-field class="w-full">
-                <mat-label>New Password</mat-label>
+                <mat-label>
+                    {{ "NEW_PASSWORD" | transloco }}
+                </mat-label>
                 <input type="password" matInput formControlName="newPassword" />
             </mat-form-field>
 
             <mat-form-field class="w-full">
-                <mat-label>Confirm Password</mat-label>
+                <mat-label>
+                    {{ "Confirm Password" | transloco }}
+                </mat-label>
                 <input
                     type="password"
                     matInput
@@ -186,7 +219,7 @@
 
             <div class="flex justify-center space-x-2 items-center">
                 <button mat-button class="bg-indigo-600 text-white">
-                    Update Password
+                    {{ "UPDATE_PASSWORD" | transloco }}
                 </button>
             </div>
         </div>

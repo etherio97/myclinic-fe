@@ -9,7 +9,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { APP_CONFIG } from 'app/app.config';
+import { APP_CONFIG, MESSAGES } from 'app/app.config';
 import { UserService } from 'app/services/user.service';
 import { UserService as LoggedUserService } from 'app/core/user/user.service';
 import { ConfirmService } from 'app/services/confirm.service';
@@ -112,6 +112,9 @@ export class ListUserComponent implements OnInit, AfterViewInit {
     }
 
     submitResetPassword() {
+        if (this.resetFormGroup.invalid) {
+            return this._confirmService.error(MESSAGES.REQUIRED_ALL_FIELDS);
+        }
         this._userService
             .resetPassword(
                 this.selectedUser.id,
@@ -134,13 +137,13 @@ export class ListUserComponent implements OnInit, AfterViewInit {
     submit() {
         if (!this.formGroup.valid) {
             return this._confirmService.error(
-                'Please fill all the required fields.',
+                MESSAGES.REQUIRED_ALL_FIELDS,
                 'Invalid',
             );
         }
 
         this._confirmService
-            .confirm('Are you sure to create this user?')
+            .confirm(MESSAGES.CONFIRM_CREATE_USER)
             .beforeClosed()
             .subscribe(
                 (value) => value === 'confirmed' && this.confirmSubmit(),
@@ -151,13 +154,13 @@ export class ListUserComponent implements OnInit, AfterViewInit {
         this._userService.register(this.formGroup.value).subscribe(() => {
             this._modal.close();
             this.reloadData();
-            this._confirmService.success('User has been added!');
+            this._confirmService.success(MESSAGES.SUCCESS_CREATE_USER);
         });
     }
 
     removeUser(user: any) {
         this._confirmService
-            .confirm('Are you sure to delete this user?')
+            .confirm(MESSAGES.CONFIRM_DELETE_USER)
             .beforeClosed()
             .subscribe(
                 (value) =>
@@ -168,7 +171,7 @@ export class ListUserComponent implements OnInit, AfterViewInit {
     confirmRemoveUser(user: any) {
         this._userService.remove(user.id).subscribe(() => {
             this.reloadData();
-            this._confirmService.success('User has been deleted!');
+            this._confirmService.success(MESSAGES.SUCCESS_DELETE_USER);
         });
     }
 
@@ -192,9 +195,9 @@ export class ListUserComponent implements OnInit, AfterViewInit {
     changeStatus(user: any) {
         let message = '';
         if (user.isActive) {
-            message = 'Are you sure do you want to inactive this user?';
+            message = MESSAGES.CONFIRM_DEACTIVATE_USER;
         } else {
-            message = 'Are you sure do you want to active this user?';
+            message = MESSAGES.CONFIRM_ACTIVATE_USER;
         }
 
         this._confirmService
@@ -211,7 +214,7 @@ export class ListUserComponent implements OnInit, AfterViewInit {
             .changeStatus(user.id, user.isActive ? false : true)
             .subscribe(() => {
                 this.reloadData();
-                this._confirmService.success('User status has been changed!');
+                this._confirmService.success(MESSAGES.SUCCESS_USER_STATUS);
             });
     }
 }

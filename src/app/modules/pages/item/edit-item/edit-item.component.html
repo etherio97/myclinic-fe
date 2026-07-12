@@ -6,13 +6,13 @@
                     <button
                         mat-icon-button
                         matTooltip="Back"
-                        routerLink=".."
+                        routerLink="../.."
                         type="button"
                     >
                         <mat-icon svgIcon="mat_outline:chevron_left"></mat-icon>
                     </button>
                     <h2 class="text-3xl font-semibold tracking-tight leading-8">
-                        Edit Item
+                        {{ "EDIT_ITEM" | transloco }}
                     </h2>
                 </div>
                 <div>
@@ -25,7 +25,7 @@
                             svgIcon="mat_outline:save"
                             class="icon-size-5 mr-2"
                         ></mat-icon>
-                        Save
+                        {{ "EDIT" | transloco }}
                     </button>
                 </div>
             </div>
@@ -34,12 +34,12 @@
         <div class="w-full pt-2 pb-2 mx-5">
             <div class="grid grid-cols-2 gap-4">
                 <mat-form-field class="w-full">
-                    <mat-label>Item Name</mat-label>
+                    <mat-label>{{ "ITEM_NAME" | transloco }}</mat-label>
                     <input type="text" matInput formControlName="name" />
                 </mat-form-field>
 
                 <mat-form-field class="w-full">
-                    <mat-label>Item Type</mat-label>
+                    <mat-label>{{ "TYPE" | transloco }}</mat-label>
                     <mat-select formControlName="itemType">
                         <mat-option
                             *ngFor="let type of itemTypes"
@@ -51,7 +51,7 @@
                 </mat-form-field>
 
                 <mat-form-field class="w-full">
-                    <mat-label>Category</mat-label>
+                    <mat-label>{{ "CATEGORY" | transloco }}</mat-label>
                     <input
                         type="text"
                         matInput
@@ -71,12 +71,12 @@
                 </mat-form-field>
 
                 <mat-form-field class="w-full">
-                    <mat-label>Base Price</mat-label>
+                    <mat-label>{{ "BASE_PRICE" | transloco }}</mat-label>
                     <input type="number" matInput formControlName="basePrice" />
                 </mat-form-field>
 
                 <mat-form-field class="w-full">
-                    <mat-label>Selling Price</mat-label>
+                    <mat-label>{{ "SELLING_PRICE" | transloco }}</mat-label>
                     <input
                         type="number"
                         matInput

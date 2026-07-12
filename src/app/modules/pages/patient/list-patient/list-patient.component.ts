@@ -2,6 +2,7 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { MESSAGES } from 'app/app.config';
 import { UserService } from 'app/core/user/user.service';
 import { ConfirmService } from 'app/services/confirm.service';
 import { PatientService } from 'app/services/patient.service';
@@ -72,7 +73,7 @@ export class ListPatientComponent implements OnInit, AfterViewInit {
 
     removePatient(id: string) {
         this.confirmService
-            .confirm('Are you sure to delete?')
+            .confirm(MESSAGES.CONFIRM_DELETE_PATIENT)
             .beforeClosed()
             .subscribe(
                 (value) =>
@@ -84,12 +85,12 @@ export class ListPatientComponent implements OnInit, AfterViewInit {
         this._patientService.remove(id).subscribe((data: any) => {
             if (data.error) {
                 this.confirmService
-                    .error('Failed to delete the pateint!')
+                    .error(MESSAGES.FAILED_TO_DELETE_PATIENT)
                     .afterOpened()
                     .subscribe(() => this.reloadData());
             } else {
                 this.confirmService
-                    .success('Patient has been successfully deleted')
+                    .success(MESSAGES.SUCCESS_DELETE_PATIENT)
                     .afterOpened()
                     .subscribe(() => this.reloadData());
             }

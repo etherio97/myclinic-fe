@@ -7,7 +7,7 @@
                 <h2
                     class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
                 >
-                    Patient List
+                    {{ "PATIENTS" | transloco }}
                 </h2>
             </div>
         </div>
@@ -22,7 +22,7 @@
                     class="icon-size-5 mr-2"
                     svgIcon="heroicons_solid:plus"
                 ></mat-icon>
-                New
+                {{ "NEW" | transloco }}
             </button>
         </div>
     </div>
@@ -37,7 +37,9 @@
                 <div class="flex flex-wrap w-full px-3 sm:px-6 pt-2 sm:pt-4">
                     <div class="w-full sm:w-2/3 pr-6">
                         <mat-form-field class="w-full" appearance="fill">
-                            <mat-label>Search Value</mat-label>
+                            <mat-label>
+                                {{ "SEARCH_VALUE" | transloco }}
+                            </mat-label>
                             <input
                                 matInput
                                 formControlName="searchValue"
@@ -49,17 +51,22 @@
 
                     <div class="w-full sm:w-1/3 pr-6">
                         <mat-form-field class="w-full" appearance="fill">
-                            <mat-label>Search By</mat-label>
+                            <mat-label>
+                                {{ "SEARCH_BY" | transloco }}
+                            </mat-label>
                             <mat-select
                                 formControlName="searchBy"
                                 placeholder="Search By"
                             >
-                                <mat-option value="fullName"
-                                    >Full Name</mat-option
-                                >
-                                <mat-option value="patientNo"
-                                    >Patient No</mat-option
-                                >
+                                <mat-option value="fullName">
+                                    {{ "FULLNAME" | transloco }}
+                                </mat-option>
+                                <mat-option value="phoneNumber">
+                                    {{ "PHONE_NUMBER" | transloco }}
+                                </mat-option>
+                                <mat-option value="patientNo">
+                                    {{ "PATIENT_ID" | transloco }}
+                                </mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
@@ -74,7 +81,7 @@
                         color="primary"
                         class="text-white"
                     >
-                        Search
+                        {{ "SEARCH" | transloco }}
                     </button>
                 </div>
             </form>
@@ -92,7 +99,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Patient No
+                        {{ "PATIENT_ID" | transloco }}
                     </th>
                     <td
                         mat-cell
@@ -108,7 +115,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Age
+                        {{ "AGE" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element" class="text-center">
                         <span>
@@ -127,7 +134,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Full Name
+                        {{ "FULLNAME" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element" class="text-center">
                         {{ element.fullName }}
@@ -139,7 +146,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Gender
+                        {{ "GENDER" | transloco }}
                     </th>
                     <td
                         mat-cell
@@ -155,7 +162,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Phone Number
+                        {{ "PHONE_NUMBER" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element" class="text-center">
                         {{ element.phoneNumber }}
@@ -167,7 +174,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Address
+                        {{ "ADDRESS" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element" class="text-center">
                         {{ element.address }}
@@ -180,7 +187,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Created At
+                        {{ "CREATED_AT" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element">
                         {{ element.createdAt | date: "dd/MM/yyyy hh:mm a" }}
@@ -192,14 +199,14 @@
                         *matHeaderCellDef
                         class="mx-2 text-center w-30"
                     >
-                        Actions
+                        {{ "ACTIONS" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element">
                         <div class="flex justify-center">
                             <a
                                 mat-icon-button
                                 [routerLink]="['view', element.id]"
-                                matTooltip="View Details"
+                                matTooltip="{{ 'VIEW_DETAILS' | transloco }}"
                             >
                                 <mat-icon
                                     svgIcon="mat_outline:info"
@@ -210,7 +217,7 @@
                                 *ngIf="['admin'].includes(role)"
                                 mat-icon-button
                                 (click)="removePatient(element.id)"
-                                matTooltip="Delete"
+                                matTooltip="{{ 'DELETE' | transloco }}"
                             >
                                 <mat-icon
                                     svgIcon="heroicons_outline:trash"

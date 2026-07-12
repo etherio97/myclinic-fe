@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { APP_CONFIG } from 'app/app.config';
+import { APP_CONFIG, MESSAGES } from 'app/app.config';
 import { UserService } from 'app/core/user/user.service';
 import { AppointmentService } from 'app/services/appointment.service';
 import { ConfirmService } from 'app/services/confirm.service';
@@ -91,7 +91,7 @@ export class ListAppointmentComponent implements OnInit, AfterViewInit {
 
     removeAppointment(id: string) {
         this.confirmService
-            .confirm('Are you sure to delete this appointment?')
+            .confirm(MESSAGES.CONFIRM_DELETE_APPOINTMENT)
             .beforeClosed()
             .subscribe(
                 (value) =>
@@ -102,7 +102,7 @@ export class ListAppointmentComponent implements OnInit, AfterViewInit {
     confirmRemoveAppointment(id: string) {
         this._appointmentService.remove(id).subscribe(() => {
             this.confirmService
-                .success('Appointment has been successfully deleted')
+                .success(MESSAGES.SUCCESS_DELETE_APPOINTMENT)
                 .afterOpened()
                 .subscribe(() => this.reloadData());
         });
