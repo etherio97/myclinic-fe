@@ -76,9 +76,6 @@ export class LoginComponent implements OnInit, OnDestroy {
             confirmPassword: ['', [Validators.required]],
         });
 
-        const lang = localStorage.getItem(__LANG);
-        lang && this._transloco.setActiveLang(lang);
-
         this._sub = this._transloco.langChanges$.subscribe((lang) => {
             this.currentLang = lang;
         });

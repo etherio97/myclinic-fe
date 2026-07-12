@@ -23,6 +23,13 @@
                     >
                         MM
                     </button>
+                    <button
+                        class="transition-all pl-3 pr-3 rounded-full cursor-pointer"
+                        [ngClass]="getClassNameFor('kr')"
+                        (click)="changeLang('kr')"
+                    >
+                        KR
+                    </button>
                 </div>
             </div>
         </div>

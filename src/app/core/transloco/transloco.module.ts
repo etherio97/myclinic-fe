@@ -9,6 +9,7 @@ import {
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { environment } from 'environments/environment';
 import { TranslocoHttpLoader } from 'app/core/transloco/transloco.http-loader';
+import { __LANG } from 'app/app.config';
 
 @NgModule({
     exports: [TranslocoModule],
@@ -25,6 +26,10 @@ import { TranslocoHttpLoader } from 'app/core/transloco/transloco.http-loader';
                     {
                         id: 'mm',
                         label: 'မြန်မာ',
+                    },
+                    {
+                        id: 'kr',
+                        label: '한국어',
                     },
                 ],
                 defaultLang: 'en',
@@ -45,7 +50,9 @@ import { TranslocoHttpLoader } from 'app/core/transloco/transloco.http-loader';
             useFactory:
                 (translocoService: TranslocoService): any =>
                 (): Promise<Translation> => {
-                    const defaultLang = translocoService.getDefaultLang();
+                    const lang = localStorage.getItem(__LANG);
+                    const defaultLang =
+                        lang || translocoService.getDefaultLang();
                     translocoService.setActiveLang(defaultLang);
                     return translocoService.load(defaultLang).toPromise();
                 },
