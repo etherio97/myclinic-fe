@@ -199,7 +199,9 @@ export class CreateReceiptComponent implements OnInit {
         }
     }
 
-    removeItem(index: number): void {
+    removeItem(id: string): void {
+        const index = this.selectedItems.findIndex((item) => item.id === id);
+        if (index === -1) return;
         this.selectedItems.splice(index, 1);
         this.recalculateDiscount();
     }
