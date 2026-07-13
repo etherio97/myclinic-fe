@@ -370,4 +370,8 @@ export class EditReceiptComponent implements OnInit {
     get selectedItemsReverse() {
         return this.selectedItems ? [...this.selectedItems].reverse() : [];
     }
+
+    isObject(obj: any) {
+        return typeof obj === 'object';
+    }
 }

@@ -94,6 +94,7 @@ export class CreateReceiptComponent implements OnInit {
             this.route.queryParamMap.subscribe((params) => {
                 if (!params.has('doctorId')) return;
                 this.doctorId = <string>params.get('doctorId');
+                if (!this.doctorId) return;
                 this._doctorService
                     .findById(this.doctorId)
                     .subscribe((result) => {
@@ -363,5 +364,9 @@ export class CreateReceiptComponent implements OnInit {
 
     get selectedItemsReverse() {
         return this.selectedItems ? [...this.selectedItems].reverse() : [];
+    }
+
+    isObject(obj: any) {
+        return typeof obj === 'object';
     }
 }

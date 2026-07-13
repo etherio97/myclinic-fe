@@ -181,6 +181,7 @@ export const MESSAGES = {
     MISMATCH_PASSWORD_ERROR: 'စကားဝှက်နှစ်ခုစလုံး တူညီရပါမည်။',
     CONFIRM_CHANGE_PASSWORD: 'စကားဝှက်အသစ် ပြောင်းရန် သေချာပါသလား?',
     REQUIRED_ALL_FIELDS: 'လိုအပ်သော အချက်အလက်များအားလုံးကို ဖြည့်သွင်းပါ။',
+    REQUIRED_DATE_OF_BIRTH: 'မွေးသက္ကရာဇ် ထည့်သွင်းရန်လိုအပ်သည်။',
     SUCCESS_CHANGE_PASSWORD: 'သင့်စကားဝှက်ကို အောင်မြင်စွာ ပြောင်းလဲပြီးပါပြီ။',
     PLEASE_INPUT_ITEMS: 'ဝန်ဆောင်မှုများထည့်သွင်းပါ။',
     PLEASE_SELECT_PATIENT:

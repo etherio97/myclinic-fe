@@ -1,4 +1,8 @@
-<div class="w-full p-3 sm:p-8 mx-auto" style="max-width: 1400px">
+<div
+    *ngIf="isLoaded"
+    class="w-full p-3 sm:p-8 mx-auto"
+    style="max-width: 1400px"
+>
     <form [formGroup]="formGroup" (ngSubmit)="submit()">
         <div class="mb-4">
             <div class="flex justify-between">

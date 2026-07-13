@@ -11,6 +11,8 @@ import { ConfirmService } from 'app/services/confirm.service';
     templateUrl: './edit-doctor.component.html',
 })
 export class EditDoctorComponent implements OnInit {
+    isLoaded = false;
+
     formGroup!: FormGroup;
 
     id!: string;
@@ -40,6 +42,7 @@ export class EditDoctorComponent implements OnInit {
 
     loadData() {
         this._doctorService.findById(this.id).subscribe((result: any) => {
+            this.isLoaded = true;
             this.formGroup.controls.fullName.setValue(result.fullName);
             this.formGroup.controls.specialization.setValue(
                 result.specialization,

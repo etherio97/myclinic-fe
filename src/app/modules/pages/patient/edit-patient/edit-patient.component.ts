@@ -6,6 +6,7 @@ import { PatientService } from 'app/services/patient.service';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { cloneDeep } from 'lodash';
 import { ConfirmService } from 'app/services/confirm.service';
+import moment from 'moment';
 
 @Component({
     selector: 'app-edit-patient',
@@ -17,6 +18,8 @@ export class EditPatientComponent implements OnInit {
     genders = APP_CONFIG.GENDERS;
 
     id!: string;
+
+    isLoaded = false;
 
     constructor(
         private _patientService: PatientService,
@@ -46,6 +49,7 @@ export class EditPatientComponent implements OnInit {
 
     loadData() {
         this._patientService.findById(this.id).subscribe((result: any) => {
+            this.isLoaded = true;
             this.formGroup.controls.fullName.setValue(result.fullName);
             this.formGroup.controls.gender.setValue(result.gender);
             this.formGroup.controls.dateOfBirth.setValue(result.dateOfBirth);
@@ -75,6 +79,13 @@ export class EditPatientComponent implements OnInit {
 
     confirmSubmit() {
         const data = cloneDeep(this.formGroup.value);
+        if (
+            this.formGroup.controls.dateOfBirth.touched &&
+            moment.isMoment(this.formGroup.controls.dateOfBirth.value)
+        ) {
+            data.dateOfBirth =
+                this.formGroup.controls.dateOfBirth.value.format('YYYY-MM-DD');
+        }
         this._patientService.update(this.id, data).subscribe(() => {
             this._router.navigate(['/patients', 'view', this.id]);
         });

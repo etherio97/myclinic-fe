@@ -1,6 +1,6 @@
 import { Component, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { APP_CONFIG } from 'app/app.config';
+import { APP_CONFIG, MESSAGES } from 'app/app.config';
 import { ConfirmService } from 'app/services/confirm.service';
 import { PatientService } from 'app/services/patient.service';
 import { clone } from 'lodash';
@@ -51,13 +51,20 @@ export class CreatePatientModalComponent implements OnInit {
     submit() {
         if (!this.formGroup.valid) {
             return this._confirmService.error(
-                'Please fill all the required fields.',
+                MESSAGES.REQUIRED_ALL_FIELDS,
+                'Invalid',
+            );
+        }
+
+        if (!this.formGroup.value.dateOfBirth) {
+            return this._confirmService.error(
+                MESSAGES.REQUIRED_DATE_OF_BIRTH,
                 'Invalid',
             );
         }
 
         this._confirmService
-            .confirm('Are you sure to create this patient?')
+            .confirm(MESSAGES.CONFIRM_CREATE_PATIENT)
             .beforeClosed()
             .subscribe(
                 (value) => value === 'confirmed' && this.confirmSubmit(),

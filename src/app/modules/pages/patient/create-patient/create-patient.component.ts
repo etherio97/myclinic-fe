@@ -54,6 +54,13 @@ export class CreatePatientComponent implements OnInit {
             );
         }
 
+        if (!this.formGroup.value.dateOfBirth) {
+            return this._confirmService.error(
+                MESSAGES.REQUIRED_DATE_OF_BIRTH,
+                'Invalid',
+            );
+        }
+
         this._confirmService
             .confirm(MESSAGES.CONFIRM_CREATE_PATIENT)
             .beforeClosed()

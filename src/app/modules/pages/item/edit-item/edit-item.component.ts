@@ -14,6 +14,8 @@ import { ConfirmService } from 'app/services/confirm.service';
     templateUrl: './edit-item.component.html',
 })
 export class EditItemComponent implements OnInit {
+    isLoaded = false;
+
     formGroup!: FormGroup;
 
     categories: any = [];
@@ -69,6 +71,7 @@ export class EditItemComponent implements OnInit {
 
     loadData() {
         this._itemService.findById(this.id).subscribe((result: any) => {
+            this.isLoaded = true;
             this.formGroup.controls.name.setValue(result.name);
             this.formGroup.controls.itemType.setValue(result.itemType);
             this.formGroup.controls.category.setValue(result.category);

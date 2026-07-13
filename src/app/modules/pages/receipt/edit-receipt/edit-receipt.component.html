@@ -63,6 +63,27 @@
                                 formControlName="patient"
                                 [matAutocomplete]="patientAuto"
                             />
+                            <mat-icon
+                                *ngIf="
+                                    isObject(
+                                        formGroup.controls['patient']?.value
+                                    )
+                                "
+                                matSuffix
+                                class="text-teal-600"
+                                svgIcon="mat_outline:check"
+                            ></mat-icon>
+                            <mat-icon
+                                *ngIf="
+                                    formGroup.controls['patient'].touched &&
+                                    !isObject(
+                                        formGroup.controls['patient']?.value
+                                    )
+                                "
+                                matSuffix
+                                class="text-rose-600"
+                                svgIcon="mat_outline:cancel"
+                            ></mat-icon>
                             <mat-autocomplete
                                 #patientAuto="matAutocomplete"
                                 [displayWith]="displayPatientFn"
@@ -100,6 +121,23 @@
                             formControlName="doctor"
                             [matAutocomplete]="doctorAuto"
                         />
+                        <mat-icon
+                            *ngIf="
+                                isObject(formGroup.controls['doctor']?.value)
+                            "
+                            matSuffix
+                            class="text-teal-600"
+                            svgIcon="mat_outline:check"
+                        ></mat-icon>
+                        <mat-icon
+                            *ngIf="
+                                formGroup.controls['doctor'].touched &&
+                                !isObject(formGroup.controls['doctor']?.value)
+                            "
+                            matSuffix
+                            class="text-rose-600"
+                            svgIcon="mat_outline:cancel"
+                        ></mat-icon>
                         <mat-autocomplete
                             #doctorAuto="matAutocomplete"
                             [displayWith]="displayDoctorFn"
