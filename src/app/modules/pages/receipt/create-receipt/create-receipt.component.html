@@ -1,5 +1,5 @@
 <div class="w-full">
-    <div class="w-full p-3 sm:p-8 mx-auto" style="max-width: 1400px">
+    <div class="w-full p-3 sm:p-8 mx-auto relative" style="max-width: 1400px">
         <form [formGroup]="formGroup" (ngSubmit)="submit()">
             <div class="mb-4">
                 <div class="flex justify-between">
@@ -245,7 +245,7 @@
                     </mat-autocomplete>
                 </mat-form-field>
 
-                <div class="mt-4">
+                <div class="mt-4 relative">
                     <table class="w-full border-collapse">
                         <thead>
                             <tr class="border-b">
@@ -366,6 +366,37 @@
                 </div>
             </div>
         </form>
+
+        <div class="fixed bottom-0 inset-x-0 shadow-md z-50">
+            <div
+                class="flex justify-end items-center bg-white px-12 pt-2 pb-4 font-bold space-x-12"
+            >
+                <div class="text-center flex space-x-2">
+                    <p>
+                        {{ "SUBTOTAL" | transloco }}
+                    </p>
+                    <p>
+                        {{ getSubTotal() | currency: "MMK" : "" : "0.0-0" }}
+                    </p>
+                </div>
+                <div class="text-center flex space-x-2">
+                    <p>
+                        {{ "DISCOUNT" | transloco }}
+                    </p>
+                    <p>
+                        {{ getDiscount() | currency: "MMK" : "" : "0.0-0" }}
+                    </p>
+                </div>
+                <div class="text-center flex space-x-2">
+                    <p>
+                        {{ "TOTAL" | transloco }}
+                    </p>
+                    <p>
+                        {{ getGrandTotal() | currency: "MMK" : "" : "0.0-0" }}
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
