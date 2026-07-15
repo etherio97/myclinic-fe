@@ -35,6 +35,7 @@
                         ],
                         "assets": [
                             "src/favicon.png",
+                            "src/manifest.json",
                             "src/version",
                             "src/assets"
                         ],
