@@ -1,0 +1,16 @@
+{
+    "short_name": "MY General Clinic",
+    "name": "MY General Clinic",
+    "icons": [
+        {
+            "src": "assets/app-icon.jpg",
+            "type": "image/jpeg",
+            "sizes": "512x512",
+            "purpose": "any maskable"
+        }
+    ],
+    "start_url": "/",
+    "background_color": "#ffffff",
+    "display": "standalone",
+    "theme_color": "#ffffff"
+}
