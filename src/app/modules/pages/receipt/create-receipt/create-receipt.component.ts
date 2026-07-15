@@ -116,13 +116,25 @@ export class CreateReceiptComponent implements OnInit {
         this.patientFilteredOptions =
             this.formGroup.controls.patient.valueChanges.pipe(
                 startWith(''),
-                map((value) => this._filterPatient(value || '')),
+                map((value) => {
+                    const filterText =
+                        typeof value === 'object' && value
+                            ? value.fullName
+                            : value;
+                    return this._filterPatient(filterText || '');
+                }),
             );
 
         this.doctorFilteredOptions =
             this.formGroup.controls.doctor.valueChanges.pipe(
                 startWith(''),
-                map((value) => this._filterDoctor(value || '')),
+                map((value) => {
+                    const filterText =
+                        typeof value === 'object' && value
+                            ? value.fullName
+                            : value;
+                    return this._filterDoctor(filterText || '');
+                }),
             );
 
         this.itemFilteredOptions =
@@ -186,6 +198,7 @@ export class CreateReceiptComponent implements OnInit {
         this.recalculateDiscount();
 
         setTimeout(() => {
+            this.formGroup.get('item')?.markAsUntouched();
             this.formGroup.get('item')?.setValue('');
         });
     }
@@ -368,5 +381,9 @@ export class CreateReceiptComponent implements OnInit {
 
     isObject(obj: any) {
         return typeof obj === 'object';
+    }
+
+    doSomething() {
+        this.formGroup.controls.patient.setValue(null);
     }
 }

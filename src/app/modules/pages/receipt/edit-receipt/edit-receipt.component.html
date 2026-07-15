@@ -22,19 +22,6 @@
                     </div>
                     <div class="flex items-center gap-2">
                         <button
-                            type="button"
-                            mat-flat-button
-                            class="items-center bg-slate-600 text-white hidden"
-                            (click)="handlePrint()"
-                        >
-                            <mat-icon
-                                svgIcon="mat_outline:print"
-                                class="icon-size-5 mr-2"
-                            ></mat-icon>
-                            {{ "PRINT" | transloco }}
-                        </button>
-
-                        <button
                             type="submit"
                             mat-flat-button
                             class="flex items-center bg-indigo-600 text-white"
@@ -65,6 +52,7 @@
                             />
                             <mat-icon
                                 *ngIf="
+                                    formGroup.controls['patient']?.value &&
                                     isObject(
                                         formGroup.controls['patient']?.value
                                     )
@@ -123,6 +111,7 @@
                         />
                         <mat-icon
                             *ngIf="
+                                formGroup.controls['doctor']?.value &&
                                 isObject(formGroup.controls['doctor']?.value)
                             "
                             matSuffix
@@ -243,6 +232,10 @@
                         matInput
                         formControlName="item"
                         [matAutocomplete]="itemAuto"
+                        (click)="
+                            formGroup.controls.item.untouched &&
+                                formGroup.controls.item.setValue(null)
+                        "
                     />
                     <mat-autocomplete
                         #itemAuto="matAutocomplete"
@@ -277,6 +270,48 @@
                         </mat-option>
                     </mat-autocomplete>
                 </mat-form-field>
+
+                <div
+                    class="w-full border border-gray-200 overflow-hidden rounded"
+                >
+                    <div
+                        class="flex justify-end items-center bg-white px-12 font-bold space-x-12 rounded py-3"
+                    >
+                        <div class="text-center flex space-x-2">
+                            <p>
+                                {{ "SUBTOTAL" | transloco }}
+                            </p>
+                            <p>
+                                {{
+                                    getSubTotal()
+                                        | currency: "MMK" : "" : "0.0-0"
+                                }}
+                            </p>
+                        </div>
+                        <div class="text-center flex space-x-2">
+                            <p>
+                                {{ "DISCOUNT" | transloco }}
+                            </p>
+                            <p>
+                                {{
+                                    getDiscount()
+                                        | currency: "MMK" : "" : "0.0-0"
+                                }}
+                            </p>
+                        </div>
+                        <div class="text-center flex space-x-2">
+                            <p>
+                                {{ "TOTAL" | transloco }}
+                            </p>
+                            <p>
+                                {{
+                                    getGrandTotal()
+                                        | currency: "MMK" : "" : "0.0-0"
+                                }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="mt-4">
                     <table class="w-full border-collapse">
@@ -398,20 +433,22 @@
                     </table>
                 </div>
             </div>
+
+            <div class="my-4 flex justify-end">
+                <div class="flex items-center gap-2">
+                    <button
+                        type="submit"
+                        mat-flat-button
+                        class="flex items-center bg-indigo-600 text-white"
+                    >
+                        <mat-icon
+                            svgIcon="mat_outline:save"
+                            class="icon-size-5 mr-2"
+                        ></mat-icon>
+                        {{ "SAVE" | transloco }}
+                    </button>
+                </div>
+            </div>
         </form>
     </div>
 </div>
-
-<style>
-    /* Hidden on screen (web) */
-    .print-only {
-        display: none;
-    }
-
-    /* Shown on print */
-    @media print {
-        .print-only {
-            display: block; /* Or 'inline', 'flex', etc., depending on the element type */
-        }
-    }
-</style>
