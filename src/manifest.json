@@ -3,8 +3,8 @@
     "name": "MY General Clinic",
     "icons": [
         {
-            "src": "assets/app-icon.png",
-            "type": "image/png",
+            "src": "assets/app-icon.jpg",
+            "type": "image/jpeg",
             "sizes": "512x512",
             "purpose": "any maskable"
         }
