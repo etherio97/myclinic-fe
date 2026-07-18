@@ -1,0 +1,210 @@
+<div class="w-full p-3 sm:p-8 mx-auto" style="max-width: 1400px">
+    <form [formGroup]="formGroup" (ngSubmit)="submit()">
+        <div class="mb-4">
+            <div class="flex justify-between">
+                <div class="flex items-center">
+                    <button
+                        mat-icon-button
+                        matTooltip="Back"
+                        routerLink=".."
+                        type="button"
+                    >
+                        <mat-icon svgIcon="mat_outline:chevron_left"></mat-icon>
+                    </button>
+                    <h2 class="text-3xl font-semibold tracking-tight leading-8">
+                        Create new item
+                    </h2>
+                </div>
+                <div>
+                    <button
+                        type="submit"
+                        mat-flat-button
+                        class="flex items-center bg-indigo-600 text-white"
+                    >
+                        <mat-icon
+                            svgIcon="mat_outline:save"
+                            class="icon-size-5 mr-2"
+                        ></mat-icon>
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full pt-2 pb-2 mx-5 space-y-5">
+            <div class="grid grid-cols-2 gap-4">
+                <mat-form-field class="w-full">
+                    <mat-label>Item Name</mat-label>
+                    <input type="text" matInput formControlName="name" />
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>Unit</mat-label>
+                    <input matInput type="text" formControlName="unit" />
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>Category</mat-label>
+                    <input
+                        type="text"
+                        matInput
+                        formControlName="category"
+                        [matAutocomplete]="categoryAuto"
+                    />
+                    <mat-autocomplete #categoryAuto="matAutocomplete">
+                        <mat-option
+                            *ngFor="
+                                let option of categoryFilteredOptions | async
+                            "
+                            [value]="option"
+                        >
+                            {{ option }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>Sub Group</mat-label>
+                    <input
+                        type="text"
+                        matInput
+                        formControlName="subgroup"
+                        [matAutocomplete]="subgroupAuto"
+                    />
+                    <mat-autocomplete #subgroupAuto="matAutocomplete">
+                        <mat-option
+                            *ngFor="
+                                let option of subgroupFilteredOptions | async
+                            "
+                            [value]="option"
+                        >
+                            {{ option }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>Priority</mat-label>
+                    <input matInput type="number" formControlName="priority" />
+                </mat-form-field>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <mat-form-field class="w-full col-span-2">
+                    <mat-label>Type</mat-label>
+                    <mat-select formControlName="type">
+                        <mat-option
+                            *ngFor="let type of itemTypes"
+                            [value]="type"
+                        >
+                            {{ type }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field
+                    *ngIf="formGroup.controls.type.value === 'enum'"
+                    class="w-full col-span-2"
+                >
+                    <mat-label>Enum Values</mat-label>
+                    <input matInput type="text" formControlName="enumValues" />
+                    <mat-hint>Separate by comma (,)</mat-hint>
+                </mat-form-field>
+
+                <div
+                    *ngIf="formGroup.controls.type.value === 'numeric'"
+                    class="w-full grid grid-cols-2 gap-2"
+                >
+                    <h2 class="font-bold col-span-2">Range</h2>
+                    <mat-form-field class="w-full"
+                        ><mat-label>Low</mat-label>
+                        <input
+                            matInput
+                            type="number"
+                            formControlName="rangeLow"
+                    /></mat-form-field>
+                    <mat-form-field class="w-full"
+                        ><mat-label>High</mat-label>
+                        <input
+                            matInput
+                            type="number"
+                            formControlName="rangeHigh"
+                    /></mat-form-field>
+                </div>
+
+                <div
+                    *ngIf="formGroup.controls.type.value === 'numeric'"
+                    class="w-full grid grid-cols-2 gap-2"
+                >
+                    <h2 class="font-bold col-span-2">Range (Male)</h2>
+                    <mat-form-field class="w-full"
+                        ><mat-label>Low</mat-label>
+                        <input
+                            matInput
+                            type="number"
+                            formControlName="rangeMaleLow"
+                    /></mat-form-field>
+                    <mat-form-field class="w-full"
+                        ><mat-label>High</mat-label>
+                        <input
+                            matInput
+                            type="number"
+                            formControlName="rangeMaleHigh"
+                    /></mat-form-field>
+                </div>
+
+                <div
+                    *ngIf="formGroup.controls.type.value === 'numeric'"
+                    class="w-full grid grid-cols-2 gap-2"
+                >
+                    <h2 class="font-bold col-span-2">Range (Female)</h2>
+                    <mat-form-field class="w-full"
+                        ><mat-label>Low</mat-label>
+                        <input
+                            matInput
+                            type="number"
+                            formControlName="rangeFemaleLow"
+                    /></mat-form-field>
+                    <mat-form-field class="w-full"
+                        ><mat-label>High</mat-label>
+                        <input
+                            matInput
+                            type="number"
+                            formControlName="rangeFemaleHigh"
+                    /></mat-form-field>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <mat-form-field class="w-full">
+                        <mat-label>Reference Text</mat-label>
+                        <input matInput type="text" formControlName="refText" />
+                    </mat-form-field>
+                </div>
+
+                <div>
+                    <mat-form-field class="w-full">
+                        <mat-label>Custom Footer</mat-label>
+                        <textarea
+                            matInput
+                            rows="5"
+                            formControlName="customFooter"
+                        ></textarea>
+                    </mat-form-field>
+
+                    <div
+                        *ngIf="formGroup.controls.customFooter.value"
+                        class="bg-card shadow p-5 rouned"
+                    >
+                        <div
+                            [innerHTML]="
+                                sanitize(formGroup.controls.customFooter.value)
+                            "
+                        ></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

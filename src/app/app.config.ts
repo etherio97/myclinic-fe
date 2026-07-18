@@ -2,7 +2,7 @@ import { FuseNavigationItem } from '../@fuse/components/navigation';
 
 export const __LANG = '__lang';
 
-export const BASE_URL = ['localhost', '127.0.0.1', '192.168.1.6'].includes(
+export const BASE_URL = ['localhost', '127.0.0.1', '192.168.1.40'].includes(
     location.hostname,
 )
     ? `http://${location.hostname}:3000`
@@ -18,10 +18,13 @@ export const SERVICE_URLS = {
     APPOINTMENT_API: `${BASE_URL}/appointment`,
     DASHBOARD_API: `${BASE_URL}/dashboard`,
     CASHFLOW_API: `${BASE_URL}/cashflow`,
+    LAB_TEST_ITEM_API: `${BASE_URL}/lab-test-items`,
+    LAB_ORDER_API: `${BASE_URL}/lab-orders`,
+    LAB_RESULT_API: `${BASE_URL}/lab-results`,
 };
 
 export const APP_CONFIG = {
-    ADMIN_ROLES: ['admin', 'manager', 'cashier', 'lab-admin'],
+    ADMIN_ROLES: ['admin', 'manager', 'cashier', 'lab-admin', 'lab-cashier'],
     MANAGER_ROLES: ['cashier'],
     GENDERS: ['Male', 'Female'],
     APPOINTMENT_STATUS: ['Booked', 'Completed', 'No Show', 'Cancelled'],
@@ -37,6 +40,8 @@ export const APP_CONFIG = {
     PAYMENT_METHODS: ['Cash', 'MMQR', 'Credit', 'Other'],
     CASHFLOW_CATEGORY: ['Capital', 'Revenue', 'Operation', 'Personal', 'Other'],
     EXPENSE_CATEGORY: ['CF', 'Other', 'Pharmacy'],
+    LAB_ITEM_TYPES: ['enum', 'numeric', 'richtext', 'text'],
+    LAB_ORDER_STATUS: ['Completed', 'Pending', 'Deleted'],
 };
 
 export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
@@ -50,7 +55,13 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
                 icon: 'mat_solid:dashboard',
                 link: '/dashboard',
                 meta: {
-                    roles: ['admin', 'manager', 'cashier', 'lab-admin'],
+                    roles: [
+                        'admin',
+                        'manager',
+                        'cashier',
+                        'lab-admin',
+                        'lab-cashier',
+                    ],
                 },
             },
             {
@@ -145,6 +156,31 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
             //         roles: ['admin'],
             //     },
             // },
+            {
+                title: 'Laboratory',
+                type: 'collapsable',
+                icon: 'heroicons_solid:beaker',
+                children: [
+                    {
+                        title: 'Orders',
+                        type: 'basic',
+                        link: '/laboratory/orders',
+                    },
+                    {
+                        title: 'Reports',
+                        type: 'basic',
+                        link: '/laboratory/reports',
+                    },
+                    {
+                        title: 'Test Items',
+                        type: 'basic',
+                        link: '/laboratory/items',
+                    },
+                ],
+                meta: {
+                    roles: ['admin', 'manager', 'lab-admin', 'lab-cashier'],
+                },
+            },
 
             // Admin
             {

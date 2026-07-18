@@ -49,7 +49,7 @@ export class CreateReceiptComponent implements OnInit {
 
     itemTypes = APP_CONFIG.ITEM_TYPES;
 
-    private _modal: MatDialogRef<CreatePatientModalComponent>;
+    private _modal!: MatDialogRef<CreatePatientModalComponent>;
 
     constructor(
         private _receiptService: ReceiptService,

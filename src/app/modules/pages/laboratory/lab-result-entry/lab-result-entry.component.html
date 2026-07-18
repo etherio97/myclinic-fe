@@ -1,0 +1,207 @@
+<div *ngIf="data" class="flex flex-col flex-auto min-w-0">
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent"
+    >
+        <div class="flex-1 min-w-0">
+            <div class="mt-2">
+                <h2
+                    class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
+                >
+                    Result Entry
+                </h2>
+            </div>
+        </div>
+        <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <button
+                mat-flat-button
+                color="primary"
+                class="text-white"
+                (click)="submit()"
+            >
+                <mat-icon
+                    class="icon-size-5 mr-2"
+                    svgIcon="heroicons_solid:save"
+                ></mat-icon>
+                {{ "SAVE" | transloco }}
+            </button>
+        </div>
+    </div>
+
+    <div class="flex-auto p-6 sm:p-10 space-y-6">
+        <div class="bg-card shadow rounded mt-3 sm:mt-6">
+            <div class="p-5 space-y-5">
+                <div class="lg:flex justify-between lg:space-x-2">
+                    <div>
+                        <table class="w-full border-collapse">
+                            <tbody>
+                                <tr>
+                                    <td class="py-2 pr-2 w-32">Patient Name</td>
+                                    <td class="py-2 font-bold">
+                                        {{ data.patient.fullName }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 pr-2 w-32">Refer Doctor</td>
+                                    <td class="py-2 font-bold">
+                                        {{ data.doctor?.fullName }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 pr-2 w-32">Refer Centre</td>
+                                    <td class="py-2 font-bold">
+                                        {{ data.referCentre }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <table class="w-full border-collapse">
+                            <tbody>
+                                <tr>
+                                    <td class="py-2 pr-2 w-32">Age</td>
+                                    <td class="py-2 font-bold">
+                                        {{
+                                            calculateAge(
+                                                data.patient.dateOfBirth
+                                            )
+                                        }}
+                                        Yrs
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 pr-2 w-32">Sex</td>
+                                    <td class="py-2 font-bold">
+                                        {{ data.patient.gender }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 pr-2 w-32">Patient ID</td>
+                                    <td class="py-2 font-bold">
+                                        MYP-{{ data.patient.patientNo }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="lg:w-96">
+                        <table class="w-full border-collapse">
+                            <tbody>
+                                <tr>
+                                    <td class="py-2 pr-2 w-32">
+                                        Collected Date
+                                    </td>
+                                    <td class="py-2 font-bold">
+                                        {{
+                                            data.collectedDate
+                                                | date: "d/MM/YYYY, hh:mm a"
+                                        }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 pr-2 w-32">
+                                        Recieved Date
+                                    </td>
+                                    <td class="py-2 font-bold">
+                                        {{
+                                            data.receivedDate
+                                                | date: "d/MM/YYYY, hh:mm a"
+                                        }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 pr-2 w-32">
+                                        Reported Date
+                                    </td>
+                                    <td class="py-2 font-bold">
+                                        <mat-form-field class="w-full">
+                                            <input
+                                                matInput
+                                                [ngxMatDatetimePicker]="
+                                                    reportedDate
+                                                "
+                                                placeholder="Choose a date"
+                                                [formControl]="
+                                                    formGroup.controls
+                                                        .reportedDate
+                                                "
+                                                (focus)="reportedDate.open()"
+                                            />
+                                            <mat-datepicker-toggle
+                                                matSuffix
+                                                [for]="reportedDate"
+                                            ></mat-datepicker-toggle>
+                                            <ngx-mat-datetime-picker
+                                                #reportedDate
+                                                [showSeconds]="true"
+                                                [stepSecond]="true"
+                                            >
+                                            </ngx-mat-datetime-picker>
+                                        </mat-form-field>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <mat-accordion multi>
+                <ng-container *ngFor="let category of categories">
+                    <mat-expansion-panel [expanded]="true">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <h4 class="font-bold text-lg">
+                                    {{ category }}
+                                </h4>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+
+                        <div class="space-y-5">
+                            <ng-container
+                                *ngIf="
+                                    labTests[category]['_uncategorized'].length
+                                "
+                            >
+                                <ng-container
+                                    *ngFor="
+                                        let item of labTests[category]
+                                            ._uncategorized
+                                    "
+                                >
+                                    <app-lab-input-item
+                                        [item]="item"
+                                        [patient]="data.patient"
+                                        [(value)]="item.value"
+                                        [(flag)]="item.flag"
+                                    ></app-lab-input-item>
+                                </ng-container>
+                            </ng-container>
+                            <ng-container
+                                *ngFor="let subgroup of subCat[category]"
+                            >
+                                <h6 class="font-bold text-sm">
+                                    {{ subgroup }}
+                                </h6>
+
+                                <ng-container
+                                    *ngFor="
+                                        let item of labTests[category][subgroup]
+                                    "
+                                >
+                                    <app-lab-input-item
+                                        [item]="item"
+                                        [patient]="data.patient"
+                                        [(value)]="item.value"
+                                    ></app-lab-input-item>
+                                </ng-container>
+                            </ng-container>
+                        </div>
+                    </mat-expansion-panel>
+                </ng-container>
+            </mat-accordion>
+        </div>
+    </div>
+</div>

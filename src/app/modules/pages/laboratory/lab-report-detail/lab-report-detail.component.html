@@ -1,0 +1,458 @@
+<div *ngIf="isLoaded" class="flex flex-col flex-auto min-w-0 print:hidden">
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent"
+    >
+        <div class="flex-1 min-w-0">
+            <div class="mt-2">
+                <h2
+                    class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
+                >
+                    Report Detail
+                </h2>
+            </div>
+        </div>
+        <div
+            class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4 space-x-2"
+        >
+            <button
+                *ngIf="checkEditPermission()"
+                type="button"
+                mat-flat-button
+                class="items-center bg-amber-600 text-white"
+                [routerLink]="['/laboratory', 'reports', 'edit', resultId]"
+            >
+                <mat-icon
+                    svgIcon="mat_outline:edit"
+                    class="icon-size-5 mr-2"
+                ></mat-icon>
+                Edit Result
+            </button>
+
+            <button
+                mat-flat-button
+                color="primary"
+                class="text-white"
+                (click)="handlePrint()"
+            >
+                <mat-icon
+                    class="icon-size-5 mr-2"
+                    svgIcon="mat_solid:print"
+                ></mat-icon>
+                {{ "PRINT" | transloco }}
+            </button>
+        </div>
+    </div>
+
+    <div class="flex-auto p-6 sm:p-10 space-y-6">
+        <div class="bg-card shadow rounded mt-3">
+            <div class="p-5 space-y-5">
+                <div class="lg:flex justify-between lg:space-x-2">
+                    <div>
+                        <table class="w-full border-collapse">
+                            <tbody>
+                                <tr>
+                                    <td class="py-2 pr-2 w-32">Patient Name</td>
+                                    <td class="py-2 font-bold">
+                                        {{ data.order.patient.fullName }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 pr-2 w-32">Refer Doctor</td>
+                                    <td class="py-2 font-bold">
+                                        {{ data.order.doctor?.fullName }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 pr-2 w-32">Refer Centre</td>
+                                    <td class="py-2 font-bold">
+                                        {{ data.order.referCentre }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <table class="w-full border-collapse">
+                            <tbody>
+                                <tr>
+                                    <td class="py-2 pr-2 w-32">Age</td>
+                                    <td class="py-2 font-bold">
+                                        {{
+                                            calculateAge(
+                                                data.order.patient.dateOfBirth
+                                            )
+                                        }}
+                                        Yrs
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 pr-2 w-32">Sex</td>
+                                    <td class="py-2 font-bold">
+                                        {{ data.order.patient.gender }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 pr-2 w-32">Patient ID</td>
+                                    <td class="py-2 font-bold">
+                                        MYP-{{ data.order.patient.patientNo }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="lg:w-96">
+                        <table class="w-full border-collapse">
+                            <tbody>
+                                <tr>
+                                    <td class="py-2 pr-2 w-32">
+                                        Collected Date
+                                    </td>
+                                    <td class="py-2 font-bold">
+                                        {{
+                                            data.order.collectedDate
+                                                | date: "d/MM/YYYY, hh:mm a"
+                                        }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 pr-2 w-32">
+                                        Recieved Date
+                                    </td>
+                                    <td class="py-2 font-bold">
+                                        {{
+                                            data.order.receivedDate
+                                                | date: "d/MM/YYYY, hh:mm a"
+                                        }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 pr-2 w-32">
+                                        Reported Date
+                                    </td>
+                                    <td class="py-2 font-bold">
+                                        {{
+                                            data.reportedDate
+                                                | date: "d/MM/YYYY, hh:mm a"
+                                        }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="p-3 flex justify-end space-x-2">
+                <mat-slide-toggle
+                    [(ngModel)]="signatureInBottom"
+                    color="primary"
+                >
+                    Signature in bottom
+                </mat-slide-toggle>
+
+                <mat-slide-toggle [(ngModel)]="displayHeader" color="primary">
+                    Show Header
+                </mat-slide-toggle>
+            </div>
+
+            <div *ngIf="signatureInBottom" class="pb-5 pt-2">
+                <fuse-alert type="warning" class="w-fit px-4 mx-auto">
+                    A4 Size တစ်မျက်နှာထက်ပိုသွားပါက လက်မှတ်သည် ဆေးအဖြေများနှင့်
+                    ရောနှောသွားတတ်ပါသည်။
+                </fuse-alert>
+            </div>
+
+            <mat-accordion multi>
+                <ng-container *ngFor="let category of categories">
+                    <mat-expansion-panel [expanded]="true">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <h4 class="font-bold text-lg">
+                                    {{ category }}
+                                </h4>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+
+                        <table class="w-full border-collapse text-sm">
+                            <thead>
+                                <tr
+                                    class="border-b-2 border-slate-800 text-left uppercase tracking-wider text-slate-700"
+                                >
+                                    <th class="py-1.5 pr-3 font-semibold">
+                                        <mat-checkbox
+                                            color="primary"
+                                            (change)="
+                                                selectAll(
+                                                    labTests[category],
+                                                    $event.checked
+                                                )
+                                            "
+                                            [checked]="
+                                                checkSelectAll(
+                                                    labTests[category]
+                                                )
+                                            "
+                                        ></mat-checkbox>
+                                    </th>
+                                    <th
+                                        class="py-1.5 pr-3 font-semibold"
+                                        *ngIf="displayHeader"
+                                    >
+                                        TEST
+                                    </th>
+                                    <th
+                                        class="py-1.5 pr-3 font-semibold text-center"
+                                        *ngIf="displayHeader"
+                                    >
+                                        RESULT
+                                    </th>
+                                    <th
+                                        class="py-1.5 pr-3 font-semibold text-center"
+                                        *ngIf="displayHeader"
+                                    >
+                                        FLAG
+                                    </th>
+                                    <th
+                                        class="py-1.5 pr-3 font-semibold text-center"
+                                        *ngIf="displayHeader"
+                                    >
+                                        UNIT
+                                    </th>
+                                    <th
+                                        class="py-1.5 pr-3 font-semibold text-center"
+                                        *ngIf="displayHeader"
+                                    >
+                                        REFERENCE RANGE
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <ng-container
+                                    *ngIf="
+                                        labTests[category]['_uncategorized']
+                                            .length
+                                    "
+                                >
+                                    <ng-container
+                                        *ngFor="
+                                            let item of labTests[category]
+                                                ._uncategorized
+                                        "
+                                    >
+                                        <tr
+                                            class="{{
+                                                item.customFooter
+                                                    ? ''
+                                                    : 'border-b'
+                                            }} border-slate-100 align-top"
+                                        >
+                                            <td class="py-1.5 pr-3 w-12">
+                                                <mat-checkbox
+                                                    color="primary"
+                                                    [(ngModel)]="item._show"
+                                                ></mat-checkbox>
+                                            </td>
+                                            <td
+                                                class="py-1.5 pr-3 text-slate-900"
+                                            >
+                                                {{ item.name }}
+                                            </td>
+                                            <td
+                                                class="py-1.5 pr-3 font-semibold text-slate-900 text-center"
+                                                [innerHTML]="
+                                                    showText(item.value)
+                                                "
+                                            ></td>
+                                            <td
+                                                class="py-1.5 pr-3 text-slate-900 text-center"
+                                            >
+                                                <p
+                                                    *ngIf="
+                                                        item.flag == 'High' ||
+                                                        item.flag == 'Low'
+                                                    "
+                                                    class="font-bold text-rose-500"
+                                                >
+                                                    {{ item.flag }}
+                                                </p>
+                                                <p
+                                                    *ngIf="
+                                                        item.flag == 'Normal'
+                                                    "
+                                                >
+                                                    {{ item.flag }}
+                                                </p>
+                                            </td>
+                                            <td
+                                                class="py-1.5 pr-3 text-slate-900 text-center"
+                                            >
+                                                {{ item.unit }}
+                                            </td>
+                                            <td
+                                                class="py-1.5 pr-3 text-slate-900 text-center"
+                                            >
+                                                {{ item.referenceText }}
+                                            </td>
+                                        </tr>
+                                        <tr
+                                            *ngIf="item.customFooter"
+                                            class="border-b border-slate-100 w-full"
+                                        >
+                                            <td class="py-1.5 pb-4" colspan="6">
+                                                <div
+                                                    [innerHTML]="
+                                                        item.customFooter
+                                                    "
+                                                ></div>
+                                            </td>
+                                        </tr>
+                                    </ng-container>
+                                </ng-container>
+                                <ng-container
+                                    *ngFor="let subgroup of subCat[category]"
+                                >
+                                    <tr class="bg-slate-50">
+                                        <td
+                                            colspan="6"
+                                            class="py-1.5 pr-3 font-semibold uppercase tracking-wider text-sky-800"
+                                        >
+                                            <div
+                                                class="flex items-center space-x-2"
+                                            >
+                                                <mat-checkbox
+                                                    color="primary"
+                                                    (change)="
+                                                        selectAll(
+                                                            labTests[category][
+                                                                subgroup
+                                                            ],
+                                                            $event.checked
+                                                        )
+                                                    "
+                                                    [checked]="
+                                                        checkSelectAll(
+                                                            labTests[category][
+                                                                subgroup
+                                                            ]
+                                                        )
+                                                    "
+                                                ></mat-checkbox>
+                                                <h6 class="font-bold text-sm">
+                                                    {{ subgroup }}
+                                                </h6>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <ng-container
+                                        *ngFor="
+                                            let item of labTests[category][
+                                                subgroup
+                                            ]
+                                        "
+                                    >
+                                        <tr
+                                            class="{{
+                                                item.customFooter
+                                                    ? ''
+                                                    : 'border-b'
+                                            }} border-slate-100 align-top"
+                                        >
+                                            <td
+                                                class="py-1.5 pr-3 text-slate-900"
+                                            >
+                                                <mat-checkbox
+                                                    color="primary"
+                                                    [(ngModel)]="item._show"
+                                                ></mat-checkbox>
+                                            </td>
+                                            <td
+                                                class="py-1.5 pr-3 text-slate-900"
+                                            >
+                                                {{ item.name }}
+                                            </td>
+                                            <td
+                                                class="py-1.5 pr-3 font-semibold text-slate-900 text-center"
+                                                [innerHTML]="
+                                                    showText(item.value)
+                                                "
+                                            ></td>
+                                            <td
+                                                class="py-1.5 pr-3 text-slate-900 text-center"
+                                            >
+                                                <p
+                                                    *ngIf="
+                                                        item.flag == 'High' ||
+                                                        item.flag == 'Low'
+                                                    "
+                                                    class="font-bold text-rose-500"
+                                                >
+                                                    {{ item.flag }}
+                                                </p>
+                                                <p
+                                                    *ngIf="
+                                                        item.flag == 'Normal'
+                                                    "
+                                                >
+                                                    {{ item.flag }}
+                                                </p>
+                                            </td>
+                                            <td
+                                                class="py-1.5 pr-3 text-slate-900 text-center"
+                                            >
+                                                {{ item.unit }}
+                                            </td>
+                                            <td
+                                                class="py-1.5 pr-3 text-slate-900 text-center"
+                                            >
+                                                {{ item.referenceText }}
+                                            </td>
+                                        </tr>
+                                        <tr
+                                            *ngIf="item.customFooter"
+                                            class="border-b border-slate-100 w-full"
+                                        >
+                                            <td class="py-1.5 pb-4" colspan="6">
+                                                <div
+                                                    [innerHTML]="
+                                                        item.customFooter
+                                                    "
+                                                ></div>
+                                            </td>
+                                        </tr>
+                                    </ng-container>
+                                </ng-container>
+                            </tbody>
+                        </table>
+                    </mat-expansion-panel>
+                </ng-container>
+            </mat-accordion>
+        </div>
+    </div>
+</div>
+
+<app-print-result
+    *ngIf="isLoaded"
+    class="print-only print:m-0 print:p-0 w-full"
+    [displayHeader]="displayHeader"
+    [signatureInBottom]="signatureInBottom"
+    [items]="displayItems"
+    [data]="data"
+    [resultId]="resultId"
+></app-print-result>
+
+<style>
+    /* Hidden on screen (web) */
+    .print-only {
+        display: none;
+    }
+
+    /* Shown on print */
+    @media print {
+        .print-only {
+            display: block; /* Or 'inline', 'flex', etc., depending on the element type */
+        }
+    }
+</style>

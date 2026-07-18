@@ -7,7 +7,7 @@
                 <h2
                     class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
                 >
-                    {{ "PATIENTS" | transloco }}
+                    Orders
                 </h2>
             </div>
         </div>
@@ -22,7 +22,7 @@
                     class="icon-size-5 mr-2"
                     svgIcon="heroicons_solid:plus"
                 ></mat-icon>
-                {{ "NEW" | transloco }}
+                New
             </button>
         </div>
     </div>
@@ -35,37 +35,50 @@
                 (ngSubmit)="reloadData()"
             >
                 <div class="flex flex-wrap w-full px-3 sm:px-6 pt-2 sm:pt-4">
-                    <div class="w-full sm:w-2/3 pr-6">
-                        <mat-form-field class="w-full" appearance="fill">
-                            <mat-label>
-                                {{ "SEARCH_VALUE" | transloco }}
-                            </mat-label>
-                            <input
-                                matInput
-                                formControlName="searchValue"
-                                type="text"
-                                placeholder="Search"
-                            />
-                        </mat-form-field>
-                    </div>
-
                     <div class="w-full sm:w-1/3 pr-6">
                         <mat-form-field class="w-full" appearance="fill">
-                            <mat-label>
-                                {{ "SEARCH_BY" | transloco }}
-                            </mat-label>
-                            <mat-select
-                                formControlName="searchBy"
-                                placeholder="Search By"
-                            >
-                                <mat-option value="fullName">
-                                    {{ "FULLNAME" | transloco }}
+                            <mat-label>{{
+                                "START_DATE" | transloco
+                            }}</mat-label>
+                            <input
+                                matInput
+                                [matDatepicker]="pickerStart"
+                                formControlName="startDate"
+                            />
+                            <mat-datepicker-toggle
+                                matIconSuffix
+                                [for]="pickerStart"
+                            ></mat-datepicker-toggle>
+                            <mat-datepicker #pickerStart></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="w-full sm:w-1/3 pr-6">
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>{{ "END_DATE" | transloco }}</mat-label>
+                            <input
+                                matInput
+                                [matDatepicker]="pickerEnd"
+                                formControlName="endDate"
+                            />
+                            <mat-datepicker-toggle
+                                matIconSuffix
+                                [for]="pickerEnd"
+                            ></mat-datepicker-toggle>
+                            <mat-datepicker #pickerEnd></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="w-full sm:w-1/3 pr-6">
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>{{ "TYPE" | transloco }}</mat-label>
+                            <mat-select formControlName="status">
+                                <mat-option value="">
+                                    {{ "ALL" | transloco }}
                                 </mat-option>
-                                <mat-option value="phoneNumber">
-                                    {{ "PHONE_NUMBER" | transloco }}
-                                </mat-option>
-                                <mat-option value="patientNo">
-                                    {{ "PATIENT_ID" | transloco }}
+                                <mat-option
+                                    *ngFor="let item of labOrderStatus"
+                                    [value]="item"
+                                >
+                                    {{ item }}
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
@@ -81,7 +94,7 @@
                         color="primary"
                         class="text-white"
                     >
-                        {{ "SEARCH" | transloco }}
+                        Search
                     </button>
                 </div>
             </form>
@@ -93,104 +106,78 @@
                 mat-table
                 [dataSource]="dataSource"
             >
-                <ng-container matColumnDef="patientNo">
+                <ng-container matColumnDef="orderNo">
                     <th
                         mat-header-cell
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        {{ "PATIENT_ID" | transloco }}
-                    </th>
-                    <td
-                        mat-cell
-                        *matCellDef="let element"
-                        class="w-24 text-center"
-                    >
-                        MYP-{{ element.patientNo }}
-                    </td>
-                </ng-container>
-                <ng-container matColumnDef="dateOfBirth">
-                    <th
-                        mat-header-cell
-                        *matHeaderCellDef
-                        class="mx-2 text-center"
-                    >
-                        {{ "AGE" | transloco }}
+                        Order ID
                     </th>
                     <td mat-cell *matCellDef="let element" class="text-center">
-                        <span>
-                            {{ calculateAge(element.dateOfBirth) }} years
-                        </span>
-                        <span
-                            class="block text-xs text-slate-600 bg-slate-200 w-fit mx-auto font-mono"
-                        >
-                            DOB: {{ element.dateOfBirth | date: "dd/MM/yyyy" }}
-                        </span>
+                        <p class="font-bold">MLO-{{ element.orderNo }}</p>
                     </td>
                 </ng-container>
-                <ng-container matColumnDef="fullName">
+                <ng-container matColumnDef="patient.fullName">
                     <th
                         mat-header-cell
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        {{ "FULLNAME" | transloco }}
+                        Patient Name
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="">
+                        {{ element.patient.fullName }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="doctor.fullName">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="mx-2 text-center"
+                    >
+                        Refer Doctor
                     </th>
                     <td mat-cell *matCellDef="let element" class="text-center">
-                        {{ element.fullName }}
+                        {{ element.doctor ? element.doctor.fullName : "" }}
                     </td>
                 </ng-container>
-                <ng-container matColumnDef="gender">
+                <ng-container matColumnDef="referCentre">
                     <th
                         mat-header-cell
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        {{ "GENDER" | transloco }}
-                    </th>
-                    <td
-                        mat-cell
-                        *matCellDef="let element"
-                        class="w-15 text-center"
-                    >
-                        {{ element.gender }}
-                    </td>
-                </ng-container>
-                <ng-container matColumnDef="phoneNumber">
-                    <th
-                        mat-header-cell
-                        *matHeaderCellDef
-                        class="mx-2 text-center"
-                    >
-                        {{ "PHONE_NUMBER" | transloco }}
+                        Refer Centre
                     </th>
                     <td mat-cell *matCellDef="let element" class="text-center">
-                        {{ element.phoneNumber }}
+                        {{ element.referCentre }}
                     </td>
                 </ng-container>
-                <ng-container matColumnDef="address">
+                <ng-container matColumnDef="status">
                     <th
                         mat-header-cell
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        {{ "ADDRESS" | transloco }}
+                        Status
                     </th>
                     <td mat-cell *matCellDef="let element" class="text-center">
-                        {{ element.address }}
+                        <app-status-chip
+                            [status]="element.status"
+                        ></app-status-chip>
                     </td>
                 </ng-container>
-
-                <ng-container matColumnDef="createdAt">
+                <ng-container matColumnDef="collectedDate">
                     <th
                         mat-header-cell
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        {{ "CREATED_AT" | transloco }}
+                        Collected Date
                     </th>
-                    <td mat-cell *matCellDef="let element">
-                        {{ element.createdAt | date: "dd/MM/yyyy hh:mm a" }}
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                        {{ element.collectedDate | date: "dd/MM/yyyy hh:mm a" }}
                     </td>
                 </ng-container>
                 <ng-container matColumnDef="actions">
@@ -199,24 +186,51 @@
                         *matHeaderCellDef
                         class="mx-2 text-center w-30"
                     >
-                        {{ "ACTIONS" | transloco }}
+                        Actions
                     </th>
                     <td mat-cell *matCellDef="let element">
-                        <div class="flex justify-center">
+                        <div class="flex justify-center items-center">
                             <a
+                                *ngIf="
+                                    !['Deleted', 'Completed'].includes(
+                                        element.status
+                                    )
+                                "
                                 mat-icon-button
-                                [routerLink]="['view', element.id]"
-                                matTooltip="{{ 'VIEW_DETAILS' | transloco }}"
+                                [routerLink]="['report', element.id]"
+                                matTooltip="{{ 'Result Entry' | transloco }}"
                             >
                                 <mat-icon
-                                    svgIcon="mat_outline:info"
+                                    svgIcon="mat_outline:input"
+                                    class="icon-size-4"
+                                ></mat-icon>
+                            </a>
+                            <a
+                                *ngIf="
+                                    !['Deleted', 'Completed'].includes(
+                                        element.status
+                                    )
+                                "
+                                mat-icon-button
+                                [routerLink]="['edit', element.id]"
+                                matTooltip="{{ 'EDIT' | transloco }}"
+                            >
+                                <mat-icon
+                                    svgIcon="feather:edit"
                                     class="icon-size-4"
                                 ></mat-icon>
                             </a>
                             <button
-                                *ngIf="['admin'].includes(role)"
+                                *ngIf="
+                                    ['admin', 'manager', 'lab-admin'].includes(
+                                        role
+                                    ) &&
+                                    !['Deleted', 'Completed'].includes(
+                                        element.status
+                                    )
+                                "
                                 mat-icon-button
-                                (click)="removePatient(element.id)"
+                                (click)="removeItem(element.id)"
                                 matTooltip="{{ 'DELETE' | transloco }}"
                             >
                                 <mat-icon

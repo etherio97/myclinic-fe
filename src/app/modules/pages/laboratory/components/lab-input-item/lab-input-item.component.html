@@ -1,0 +1,82 @@
+<div class="w-full">
+    <ng-container *ngIf="item.type === 'numeric'">
+        <div class="py-2 flex items-center space-x-2">
+            <mat-form-field class="w-full">
+                <mat-label>{{ item.name }}</mat-label>
+                <mat-hint>{{ getReferenceText() }}</mat-hint>
+                <span *ngIf="item.unit" matSuffix>{{ item.unit }}</span>
+                <input
+                    matInput
+                    [value]="value"
+                    (input)="onValueChange($any($event.target).value)"
+                    type="number"
+                    class="w-full"
+                />
+            </mat-form-field>
+
+            <div class="w-50 pt-1.5">
+                <mat-form-field class="w-full">
+                    <mat-select
+                        [value]="flag"
+                        (valueChange)="onFlagChange($event)"
+                    >
+                        <mat-option value=""></mat-option>
+                        <mat-option value="Low">Low</mat-option>
+                        <mat-option value="Normal">Normal</mat-option>
+                        <mat-option value="High">High</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="item.type === 'text'">
+        <mat-form-field class="w-full">
+            <mat-label>{{ item.name }}</mat-label>
+            <mat-hint>{{ getReferenceText() }}</mat-hint>
+            <span *ngIf="item.unit" matSuffix>{{ item.unit }}</span>
+            <input
+                matInput
+                [value]="value"
+                type="text"
+                class="w-full"
+                (input)="onValueChange($any($event.target).value)"
+            />
+        </mat-form-field>
+    </ng-container>
+    <ng-container *ngIf="item.type === 'richtext'">
+        <mat-form-field class="w-full">
+            <mat-label>{{ item.name }}</mat-label>
+            <mat-hint>{{ getReferenceText() }}</mat-hint>
+            <span *ngIf="item.unit" matSuffix>{{ item.unit }}</span>
+            <textarea
+                matInput
+                [value]="value"
+                row="3"
+                class="w-full"
+                (input)="onValueChange($any($event.target).value)"
+            ></textarea>
+        </mat-form-field>
+    </ng-container>
+    <ng-container *ngIf="item.type === 'enum'">
+        <mat-form-field class="w-full">
+            <mat-label>{{ item.name }}</mat-label>
+            <mat-hint>{{ getReferenceText() }}</mat-hint>
+            <span *ngIf="item.unit" matSuffix>{{ item.unit }}</span>
+            <mat-select
+                [value]="value"
+                (valueChange)="onValueChange($any($event))"
+            >
+                <mat-option
+                    *ngFor="let option of item.enumValues"
+                    [value]="option"
+                >
+                    {{ option }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </ng-container>
+
+    <div *ngIf="item.customFooter" class="overflow-x-scroll">
+        <div [innerHTML]="sanitize(item.customFooter)"></div>
+    </div>
+</div>

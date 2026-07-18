@@ -1,0 +1,273 @@
+<article
+    className="print-report mx-auto max-w-[210mm] bg-white p-8 ring-1 ring-slate-200 print:shadow-none print:ring-0 "
+>
+    <header
+        class="flex items-start justify-between border-b-2 border-slate-900 pb-4"
+    >
+        <div class="flex items-center w-full gap-3">
+            <div>
+                <img src="assets/logo.png" class="w-64" />
+            </div>
+            <div class="w-full">
+                <h1
+                    class="text-3xl font-bold tracking-tight text-slate-900 font-serif"
+                >
+                    Diagnostic Centre
+                </h1>
+                <h1
+                    class="text-xl font-bold tracking-tight text-slate-900 pb-2"
+                >
+                    ဓာတ်ခွဲခန်းနှင့် ရောဂါရှာဖွေစစ်ဆေးရေးစင်တာ
+                </h1>
+                <div class="text-slate-600 pb-2">
+                    အမှတ် ၁၂၄၊ အမှတ် ၃ လမ်းမကြီး၊ သင်္ဃန်းကျွန်းကြီးမှတ်တိုင်၊
+                    မင်္ဂလာဒုံမြို့နယ်၊ ရန်ကုန်မြို့။ Hotline - 0943200001
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="text-right text-xs text-slate-600 absolute top-0 right-0">
+        <div class="font-semibold text-slate-900">LABORATORY REPORT</div>
+    </div>
+
+    <section
+        class="my-4 grid grid-rows-3 grid-flow-col gap-x-6 gap-y-1 border-b border-slate-200 pb-4 text-sm"
+    >
+        <div class="flex gap-2">
+            <span class="w-36 text-slate-500">Patient Name:</span>
+            <span class="font-medium text-slate-900">
+                {{ data.order.patient.fullName }}
+            </span>
+        </div>
+        <div class="flex gap-2">
+            <span class="w-36 text-slate-500">Refer Doctor:</span>
+            <span class="font-medium text-slate-900">
+                {{ data.order.doctor?.fullName || "—" }}
+            </span>
+        </div>
+        <div class="flex gap-2">
+            <span class="w-36 text-slate-500">Refer Centre:</span>
+            <span class="font-medium text-slate-900">
+                {{ data.order.referCentre || "—" }}
+            </span>
+        </div>
+        <div class="flex gap-2">
+            <span class="w-36 text-slate-500">Age / Gender:</span>
+            <span class="font-medium text-slate-900">
+                {{ calculateAge(data.order.patient.dateOfBirth) }} Y /
+                {{ data.order.patient.gender }}
+            </span>
+        </div>
+        <div class="flex gap-2">
+            <span class="w-36 text-slate-500">Patient ID:</span>
+            <span class="font-medium text-slate-900">
+                MYP-{{ data.order.patient.patientNo }}
+            </span>
+        </div>
+        <div class="flex gap-2">
+            <span class="w-36 text-slate-500">Report ID:</span>
+            <span class="font-medium text-slate-900">
+                MLR-{{ data.resultNo }}
+            </span>
+        </div>
+        <div class="flex gap-2">
+            <span class="w-36 text-slate-500">Collected Date:</span>
+            <span class="font-medium text-slate-900">
+                {{ data.order.collectedDate | date: "d/MM/YYYY, hh:mm a" }}
+            </span>
+        </div>
+        <div class="flex gap-2">
+            <span class="w-36 text-slate-500">Received Date:</span>
+            <span class="font-medium text-slate-900">
+                {{ data.order.receivedDate | date: "d/MM/YYYY, hh:mm a" }}
+            </span>
+        </div>
+        <div class="flex gap-2">
+            <span class="w-36 text-slate-500">Reported Date:</span>
+            <span class="font-medium text-slate-900">
+                {{ data.reportedDate | date: "d/MM/YYYY, hh:mm a" }}
+            </span>
+        </div>
+    </section>
+
+    <section class="space-y-6">
+        <ng-container *ngFor="let category of categories; let i = index">
+            <div>
+                <h4 class="font-bold text-lg">
+                    {{ category }}
+                </h4>
+
+                <table class="w-full border-collapse text-sm">
+                    <thead *ngIf="displayHeader">
+                        <tr
+                            class="border-b border-slate-800 text-left uppercase tracking-wider text-slate-700"
+                        >
+                            <th class="py-1.5 pr-3 font-semibold">TEST</th>
+                            <th class="py-1.5 pr-3 font-semibold text-center">
+                                RESULT
+                            </th>
+                            <th class="py-1.5 pr-3 font-semibold text-center">
+                                FLAG
+                            </th>
+                            <th class="py-1.5 pr-3 font-semibold text-center">
+                                UNIT
+                            </th>
+                            <th class="py-1.5 pr-3 font-semibold text-center">
+                                REFERENCE RANGE
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container
+                            *ngIf="labTests[category]['_uncategorized'].length"
+                        >
+                            <ng-container
+                                *ngFor="
+                                    let item of labTests[category]
+                                        ._uncategorized
+                                "
+                            >
+                                <tr
+                                    class="{{
+                                        item.customFooter ? '' : 'border-b'
+                                    }} border-slate-100 align-top"
+                                >
+                                    <td class="py-1.5 pr-3 text-slate-900">
+                                        {{ item.name }}
+                                    </td>
+                                    <td
+                                        class="py-1.5 pr-3 font-semibold text-slate-900 text-center"
+                                    >
+                                        {{ showText(item.value) }}
+                                    </td>
+                                    <td
+                                        class="py-1.5 pr-3 text-slate-900 text-center"
+                                    >
+                                        <p
+                                            *ngIf="
+                                                item.flag == 'High' ||
+                                                item.flag == 'Low'
+                                            "
+                                            class="font-bold text-rose-500"
+                                        >
+                                            {{ item.flag }}
+                                        </p>
+                                        <p *ngIf="item.flag == 'Normal'">
+                                            {{ item.flag }}
+                                        </p>
+                                    </td>
+                                    <td
+                                        class="py-1.5 pr-3 text-slate-900 text-center"
+                                        [innerHTML]="showText(item.value)"
+                                    ></td>
+                                    <td
+                                        class="py-1.5 pr-3 text-slate-900 text-center"
+                                    >
+                                        {{ item.referenceText }}
+                                    </td>
+                                </tr>
+                                <tr
+                                    *ngIf="item.customFooter"
+                                    class="border-b border-slate-100 w-full"
+                                >
+                                    <td class="py-1.5 pb-4" colspan="5">
+                                        <div
+                                            [innerHTML]="
+                                                sanitize(item.customFooter)
+                                            "
+                                        ></div>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </ng-container>
+
+                        <ng-container *ngFor="let subgroup of subCat[category]">
+                            <tr class="bg-slate-50">
+                                <td
+                                    colspan="5"
+                                    class="py-1.5 pr-3 font-semibold uppercase tracking-wider text-sky-800"
+                                >
+                                    <h6 class="font-bold text-sm">
+                                        {{ subgroup }}
+                                    </h6>
+                                </td>
+                            </tr>
+
+                            <ng-container
+                                *ngFor="
+                                    let item of labTests[category][subgroup]
+                                "
+                            >
+                                <tr
+                                    class="{{
+                                        item.customFooter ? '' : 'border-b'
+                                    }} border-slate-100 align-top"
+                                >
+                                    <td class="py-1.5 pr-3 text-slate-900">
+                                        {{ item.name }}
+                                    </td>
+                                    <td
+                                        class="py-1.5 pr-3 font-semibold text-slate-900 text-center"
+                                        [innerHTML]="showText(item.value)"
+                                    ></td>
+                                    <td
+                                        class="py-1.5 pr-3 text-slate-900 text-center"
+                                    >
+                                        <p
+                                            *ngIf="
+                                                item.flag == 'High' ||
+                                                item.flag == 'Low'
+                                            "
+                                            class="font-bold text-rose-500"
+                                        >
+                                            {{ item.flag }}
+                                        </p>
+                                        <p *ngIf="item.flag == 'Normal'">
+                                            {{ item.flag }}
+                                        </p>
+                                    </td>
+                                    <td
+                                        class="py-1.5 pr-3 text-slate-900 text-center"
+                                    >
+                                        {{ item.unit }}
+                                    </td>
+                                    <td
+                                        class="py-1.5 pr-3 text-slate-900 text-center"
+                                    >
+                                        {{ item.referenceText }}
+                                    </td>
+                                </tr>
+                                <tr
+                                    *ngIf="item.customFooter"
+                                    class="border-b border-slate-100 w-full"
+                                >
+                                    <td class="py-1.5 pb-4" colspan="5">
+                                        <div
+                                            [innerHTML]="
+                                                sanitize(item.customFooter)
+                                            "
+                                        ></div>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
+        </ng-container>
+    </section>
+
+    <footer [ngClass]="getClassNameForFooter()" class="text-xs text-slate-600">
+        <div></div>
+        <div class="flex justify-end">
+            <div>
+                <img src="assets/patho-sign.png" class="w-64" />
+            </div>
+        </div>
+        <p
+            class="col-span-2 mt-4 text-center text-[10px] italic text-slate-500"
+        >
+            Results relate only to the sample tested.
+        </p>
+    </footer>
+</article>

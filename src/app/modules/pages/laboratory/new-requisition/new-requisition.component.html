@@ -1,0 +1,279 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent"
+    >
+        <div class="flex-1 min-w-0">
+            <div class="mt-2">
+                <h2
+                    class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
+                >
+                    New Requisition
+                </h2>
+            </div>
+        </div>
+        <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <button
+                mat-flat-button
+                color="primary"
+                class="text-white"
+                (click)="submit()"
+            >
+                <mat-icon
+                    class="icon-size-5 mr-2"
+                    svgIcon="heroicons_solid:save"
+                ></mat-icon>
+                {{ "SAVE" | transloco }}
+            </button>
+        </div>
+    </div>
+
+    <div class="flex-auto p-6 sm:p-10 space-y-6">
+        <div class="bg-card shadow rounded mt-3 sm:mt-6">
+            <form [formGroup]="formGroup">
+                <div class="p-5 space-y-5">
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <mat-form-field class="w-full md:col-span-2">
+                            <mat-label>{{
+                                "PATIENT_NAME" | transloco
+                            }}</mat-label>
+                            <input
+                                type="text"
+                                matInput
+                                formControlName="patient"
+                                [matAutocomplete]="patientAuto"
+                                (focus)="
+                                    formGroup.controls.patient.untouched &&
+                                        formGroup.controls.patient.setValue(
+                                            null
+                                        )
+                                "
+                            />
+                            <mat-icon
+                                *ngIf="
+                                    formGroup.controls['patient']?.value &&
+                                    isObject(
+                                        formGroup.controls['patient']?.value
+                                    )
+                                "
+                                matSuffix
+                                class="text-teal-600"
+                                svgIcon="mat_outline:check"
+                            ></mat-icon>
+                            <mat-icon
+                                *ngIf="
+                                    formGroup.controls['patient'].touched &&
+                                    !isObject(
+                                        formGroup.controls['patient']?.value
+                                    )
+                                "
+                                matSuffix
+                                class="text-rose-600"
+                                svgIcon="mat_outline:cancel"
+                            ></mat-icon>
+                            <mat-autocomplete
+                                #patientAuto="matAutocomplete"
+                                [displayWith]="displayPatientFn"
+                            >
+                                <mat-option
+                                    *ngFor="
+                                        let option of patientFilteredOptions
+                                            | async
+                                    "
+                                    [value]="option"
+                                >
+                                    {{ option.fullName }} #{{
+                                        option.patientNo
+                                    }}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+
+                        <mat-form-field class="w-full">
+                            <mat-label>Refer Doctor</mat-label>
+                            <input
+                                type="text"
+                                matInput
+                                formControlName="doctor"
+                                [matAutocomplete]="doctorAuto"
+                                (focus)="
+                                    formGroup.controls.doctor.untouched &&
+                                        formGroup.controls.doctor.setValue(null)
+                                "
+                            />
+                            <mat-icon
+                                *ngIf="
+                                    formGroup.controls['doctor']?.value &&
+                                    isObject(
+                                        formGroup.controls['doctor']?.value
+                                    )
+                                "
+                                matSuffix
+                                class="text-teal-600"
+                                svgIcon="mat_outline:check"
+                            ></mat-icon>
+                            <mat-icon
+                                *ngIf="
+                                    formGroup.controls['doctor'].touched &&
+                                    !isObject(
+                                        formGroup.controls['doctor']?.value
+                                    )
+                                "
+                                matSuffix
+                                class="text-rose-600"
+                                svgIcon="mat_outline:cancel"
+                            ></mat-icon>
+                            <mat-autocomplete
+                                #doctorAuto="matAutocomplete"
+                                [displayWith]="displayDoctorFn"
+                            >
+                                <mat-option
+                                    *ngFor="
+                                        let option of doctorFilteredOptions
+                                            | async
+                                    "
+                                    [value]="option"
+                                >
+                                    {{ option.fullName }} ({{
+                                        option.specialization
+                                    }}) #{{ option.doctorNo }}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+
+                        <mat-form-field class="w-full">
+                            <mat-label>Refer Centre</mat-label>
+                            <input
+                                type="text"
+                                matInput
+                                formControlName="referCentre"
+                            />
+                        </mat-form-field>
+
+                        <mat-form-field class="w-full">
+                            <mat-label>Collected Date</mat-label>
+                            <input
+                                matInput
+                                [ngxMatDatetimePicker]="collectedDate"
+                                placeholder="Choose a date"
+                                formControlName="collectedDate"
+                                (focus)="collectedDate.open()"
+                            />
+                            <mat-datepicker-toggle
+                                matSuffix
+                                [for]="collectedDate"
+                            ></mat-datepicker-toggle>
+                            <ngx-mat-datetime-picker
+                                #collectedDate
+                                [showSeconds]="true"
+                                [stepSecond]="true"
+                            >
+                            </ngx-mat-datetime-picker>
+                        </mat-form-field>
+
+                        <mat-form-field class="w-full">
+                            <mat-label>Received Date</mat-label>
+                            <input
+                                matInput
+                                [ngxMatDatetimePicker]="receivedDate"
+                                placeholder="Choose a date"
+                                formControlName="receivedDate"
+                                (focus)="receivedDate.open()"
+                            />
+                            <mat-datepicker-toggle
+                                matSuffix
+                                [for]="receivedDate"
+                            ></mat-datepicker-toggle>
+                            <ngx-mat-datetime-picker
+                                #receivedDate
+                                [showSeconds]="true"
+                                [stepSecond]="true"
+                            >
+                            </ngx-mat-datetime-picker>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="bg-card shadow rounded mt-3 sm:mt-6">
+            <div class="p-5 space-y-5">
+                <h4 class="font-bold text-lg">Investigations Requested</h4>
+
+                <div class="grid md:grid-cols-2 gap-5">
+                    <div
+                        *ngFor="let category of categories"
+                        class="rounded bg-gray-100 border border-gray-200 shadow-sm overflow-hidden"
+                    >
+                        <div class="p-2 bg-slate-300">
+                            <div class="flex space-x-2 items-center">
+                                <h5 class="font-bold">{{ category }}</h5>
+                                <div>
+                                    <button
+                                        class="rounded-full text-xs border border-slate-400 px-2 hover:border-indigo-300 hover:text-indigo-500 transition-colors"
+                                        (click)="selectAll(labTests[category])"
+                                    >
+                                        Select All
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            *ngIf="labTests[category]['_uncategorized'].length"
+                            class="p-2 text-sm space-y-2"
+                        >
+                            <div class="grid grid-cols-2 gap-2">
+                                <div
+                                    *ngFor="
+                                        let item of labTests[category]
+                                            ._uncategorized
+                                    "
+                                >
+                                    <mat-checkbox
+                                        [(ngModel)]="item.isSelected"
+                                        color="primary"
+                                    >
+                                        <p>{{ item.name }}</p>
+                                    </mat-checkbox>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="p-2 text-sm space-y-2"
+                            *ngFor="let subgroup of subCat[category]"
+                        >
+                            <div class="flex space-x-2 items-center">
+                                <h6 class="font-bold">{{ subgroup }}</h6>
+                                <div>
+                                    <button
+                                        class="rounded-full text-xs border border-slate-300 px-2 hover:border-indigo-300 hover:text-indigo-500 transition-colors"
+                                        (click)="
+                                            selectAll(
+                                                labTests[category][subgroup]
+                                            )
+                                        "
+                                    >
+                                        Select All
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div
+                                    *ngFor="
+                                        let item of labTests[category][subgroup]
+                                    "
+                                >
+                                    <mat-checkbox
+                                        [(ngModel)]="item.isSelected"
+                                        color="primary"
+                                    >
+                                        <p>{{ item.name }}</p>
+                                    </mat-checkbox>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

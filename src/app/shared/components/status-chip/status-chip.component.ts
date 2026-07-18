@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 
 const SUCCESS: string[] = ['Active', 'Completed'];
 
-const WARNING: string[] = ['Booked'];
+const WARNING: string[] = ['Booked', 'Pending'];
 
 const INFO: string[] = [];
 
