@@ -127,5 +127,7 @@
     "VIEW_APPOINTMENT": "View Appointment",
     "PATIENT_INFORMATION": "Patient Information",
     "DOCTOR_INFORMATION": "Doctor Information",
-    "REFER_DOCTOR_INFORMATION": "Refer Doctor Information"
+    "REFER_DOCTOR_INFORMATION": "Refer Doctor Information",
+
+    "Laboratory": "Laboratory"
 }
