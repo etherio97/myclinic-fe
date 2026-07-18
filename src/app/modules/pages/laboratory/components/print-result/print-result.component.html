@@ -136,7 +136,7 @@
                                         {{ item.name }}
                                     </td>
                                     <td
-                                        class="py-1.5 pr-3 font-semibold text-slate-900 text-center"
+                                        class="py-1.5 pr-3 text-slate-900 text-center"
                                     >
                                         {{ showText(item.value) }}
                                     </td>
@@ -158,8 +158,9 @@
                                     </td>
                                     <td
                                         class="py-1.5 pr-3 text-slate-900 text-center"
-                                        [innerHTML]="showText(item.value)"
-                                    ></td>
+                                    >
+                                        {{ item.unit }}
+                                    </td>
                                     <td
                                         class="py-1.5 pr-3 text-slate-900 text-center"
                                     >
@@ -170,7 +171,7 @@
                                     *ngIf="item.customFooter"
                                     class="border-b border-slate-100 w-full"
                                 >
-                                    <td class="py-1.5 pb-4" colspan="5">
+                                    <td class="pt-6 pb-4" colspan="5">
                                         <div
                                             [innerHTML]="
                                                 sanitize(item.customFooter)
@@ -203,11 +204,13 @@
                                         item.customFooter ? '' : 'border-b'
                                     }} border-slate-100 align-top"
                                 >
-                                    <td class="py-1.5 pr-3 text-slate-900">
+                                    <td
+                                        class="py-1.5 pr-3 text-slate-900 max-w-20"
+                                    >
                                         {{ item.name }}
                                     </td>
                                     <td
-                                        class="py-1.5 pr-3 font-semibold text-slate-900 text-center"
+                                        class="py-1.5 pr-3 text-slate-900 text-center"
                                         [innerHTML]="showText(item.value)"
                                     ></td>
                                     <td
@@ -241,7 +244,7 @@
                                     *ngIf="item.customFooter"
                                     class="border-b border-slate-100 w-full"
                                 >
-                                    <td class="py-1.5 pb-4" colspan="5">
+                                    <td class="pt-6 pb-4" colspan="5">
                                         <div
                                             [innerHTML]="
                                                 sanitize(item.customFooter)
