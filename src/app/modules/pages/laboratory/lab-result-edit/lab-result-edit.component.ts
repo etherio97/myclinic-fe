@@ -42,6 +42,7 @@ export class LabResultEditComponent implements OnInit {
 
     ngOnInit(): void {
         this.formGroup = this._fb.group({
+            labPatientNo: [''],
             reportedDate: ['', Validators.required],
         });
 
@@ -108,8 +109,9 @@ export class LabResultEditComponent implements OnInit {
     confirmSubmit() {
         const data: any = {};
         data.order = this.data.id;
-        data.reportedDate = this.formGroup.value.reportedDate;
         data.items = this.data.items;
+        data.reportedDate = this.formGroup.value.reportedDate;
+        data.labPatientNo = this.formGroup.value.labPatientNo || null;
         this._labResultService.update(this.id, data).subscribe(() => {
             this._router.navigate(['/laboratory', 'reports', this.id]);
         });

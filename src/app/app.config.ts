@@ -2,7 +2,7 @@ import { FuseNavigationItem } from '../@fuse/components/navigation';
 
 export const __LANG = '__lang';
 
-export const BASE_URL = ['localhost', '127.0.0.1', '192.168.1.40'].includes(
+export const BASE_URL = ['localhost', '127.0.0.1', '192.168.1.20'].includes(
     location.hostname,
 )
     ? `http://${location.hostname}:3000`

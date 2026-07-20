@@ -41,6 +41,7 @@ export class LabResultEntryComponent implements OnInit {
 
     ngOnInit(): void {
         this.formGroup = this._fb.group({
+            labPatientNo: [''],
             reportedDate: ['', Validators.required],
         });
 
@@ -111,16 +112,11 @@ export class LabResultEntryComponent implements OnInit {
     }
 
     confirmSubmit() {
-        const data: any = cloneDeep(this.formGroup.value);
-        data.patient = this.data.patient.id;
-        data.doctor = this.data.doctor?.id;
+        const data: any = {};
         data.order = this.orderId;
-        data.patient = this.data.patient;
-        data.doctor = this.data.doctor;
-        data.centre = this.data.centre;
-        data.collectedDate = this.data.collectedDate;
-        data.receivedDate = this.data.receivedDate;
         data.items = this.data.items;
+        data.reportedDate = this.formGroup.value.reportedDate;
+        data.labPatientNo = this.formGroup.value.labPatientNo || null;
         this._labResultService.create(data).subscribe((response: any) => {
             this._router.navigate(['/laboratory', 'reports', response.id]);
         });

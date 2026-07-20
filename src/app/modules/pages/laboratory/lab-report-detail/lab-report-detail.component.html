@@ -94,7 +94,21 @@
                                 <tr>
                                     <td class="py-2 pr-2 w-32">Patient ID</td>
                                     <td class="py-2 font-bold">
-                                        MYP-{{ data.order.patient.patientNo }}
+                                        <ng-container
+                                            *ngIf="
+                                                data.labPatientNo;
+                                                else showOnlyPatientNo
+                                            "
+                                        >
+                                            MYP-{{
+                                                data.order.patient.patientNo
+                                            }}/{{ data.labPatientNo }}
+                                        </ng-container>
+                                        <ng-template #showOnlyPatientNo>
+                                            MYP-{{
+                                                data.order.patient.patientNo
+                                            }}
+                                        </ng-template>
                                     </td>
                                 </tr>
                             </tbody>

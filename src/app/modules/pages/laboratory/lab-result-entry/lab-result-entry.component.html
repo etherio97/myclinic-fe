@@ -78,7 +78,14 @@
                                 <tr>
                                     <td class="py-2 pr-2 w-32">Patient ID</td>
                                     <td class="py-2 font-bold">
-                                        MYP-{{ data.patient.patientNo }}
+                                        MYP-{{ data.patient.patientNo }}/
+                                        <input
+                                            class="py-1 px-2 w-24 rounded bg-white border border-slate-200"
+                                            type="text"
+                                            [formControl]="
+                                                formGroup.controls.labPatientNo
+                                            "
+                                        />
                                     </td>
                                 </tr>
                             </tbody>
