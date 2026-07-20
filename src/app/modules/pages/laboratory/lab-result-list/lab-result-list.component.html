@@ -176,6 +176,7 @@
                             </a>
                             <button
                                 *ngIf="
+                                    element.status !== 'Deleted' &&
                                     ['admin', 'manager', 'lab-admin'].includes(
                                         role
                                     )
