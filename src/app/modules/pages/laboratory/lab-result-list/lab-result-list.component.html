@@ -164,6 +164,7 @@
                     <td mat-cell *matCellDef="let element">
                         <div class="flex justify-center items-center">
                             <a
+                                *ngIf="element.status !== 'Deleted'"
                                 mat-icon-button
                                 [routerLink]="[element.id]"
                                 matTooltip="{{ 'VIEW_DETAILS' | transloco }}"
