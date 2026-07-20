@@ -41,7 +41,7 @@ export const APP_CONFIG = {
     CASHFLOW_CATEGORY: ['Capital', 'Revenue', 'Operation', 'Personal', 'Other'],
     EXPENSE_CATEGORY: ['CF', 'Other', 'Pharmacy'],
     LAB_ITEM_TYPES: ['enum', 'numeric', 'richtext', 'text'],
-    LAB_ORDER_STATUS: ['Completed', 'Pending', 'Deleted'],
+    LAB_ORDER_STATUS: ['Pending', 'Completed', 'Deleted'],
 };
 
 export const NAVIGATION_ITEMS: FuseNavigationItem[] = [

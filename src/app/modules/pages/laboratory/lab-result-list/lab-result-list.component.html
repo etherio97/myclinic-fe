@@ -54,6 +54,17 @@
                             <mat-datepicker #pickerEnd></mat-datepicker>
                         </mat-form-field>
                     </div>
+                    <div class="w-full sm:w-1/3 pr-6">
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>{{ "TYPE" | transloco }}</mat-label>
+                            <mat-select formControlName="status">
+                                <mat-option value=""> Active </mat-option>
+                                <mat-option value="Deleted">
+                                    Deleted
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
                 </div>
 
                 <div
@@ -162,6 +173,21 @@
                                     class="icon-size-4"
                                 ></mat-icon>
                             </a>
+                            <button
+                                *ngIf="
+                                    ['admin', 'manager', 'lab-admin'].includes(
+                                        role
+                                    )
+                                "
+                                mat-icon-button
+                                (click)="removeItem(element.id)"
+                                matTooltip="{{ 'DELETE' | transloco }}"
+                            >
+                                <mat-icon
+                                    svgIcon="heroicons_outline:trash"
+                                    class="icon-size-4"
+                                ></mat-icon>
+                            </button>
                         </div>
                     </td>
                 </ng-container>

@@ -52,7 +52,7 @@
             </span>
         </div>
         <div class="flex gap-2">
-            <span class="w-36 text-slate-500">Age / Gender:</span>
+            <span class="w-36 text-slate-500">Age / Sex:</span>
             <span class="font-medium text-slate-900">
                 {{ calculateAge(data.order.patient.dateOfBirth) }} Y /
                 {{ data.order.patient.gender }}
@@ -62,7 +62,7 @@
             <span class="w-36 text-slate-500">Patient ID:</span>
             <span class="font-medium text-slate-900">
                 <ng-container *ngIf="data.labPatientNo; else showOnlyPatientNo">
-                    MYP-{{ data.order.patient.patientNo }}/{{
+                    MYP-{{ data.order.patient.patientNo }}-{{
                         data.labPatientNo
                     }}
                 </ng-container>

@@ -71,9 +71,9 @@
                         <mat-form-field class="w-full" appearance="fill">
                             <mat-label>{{ "TYPE" | transloco }}</mat-label>
                             <mat-select formControlName="status">
-                                <mat-option value="">
+                                <!-- <mat-option value="">
                                     {{ "ALL" | transloco }}
-                                </mat-option>
+                                </mat-option> -->
                                 <mat-option
                                     *ngFor="let item of labOrderStatus"
                                     [value]="item"

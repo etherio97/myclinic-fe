@@ -50,6 +50,9 @@ export class LabResultEditComponent implements OnInit {
             this.id = id;
 
             this._labResultService.findById(id).subscribe((data: any) => {
+                this.formGroup.controls.labPatientNo.setValue(
+                    data.labPatientNo,
+                );
                 this.formGroup.controls.reportedDate.setValue(
                     data.reportedDate,
                 );

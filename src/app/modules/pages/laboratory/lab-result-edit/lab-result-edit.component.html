@@ -2,14 +2,20 @@
     <div
         class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent"
     >
-        <div class="flex-1 min-w-0">
-            <div class="mt-2">
-                <h2
-                    class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
-                >
-                    {{ "RESULT_EDIT" | transloco }}
-                </h2>
-            </div>
+        <div class="flex items-center">
+            <button
+                mat-icon-button
+                matTooltip="Back"
+                routerLink="../.."
+                type="button"
+            >
+                <mat-icon svgIcon="mat_outline:chevron_left"></mat-icon>
+            </button>
+            <h2
+                class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
+            >
+                {{ "RESULT_EDIT" | transloco }}
+            </h2>
         </div>
         <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
             <button
@@ -90,7 +96,7 @@
                                         {{ "PATIENT_ID" | transloco }}
                                     </td>
                                     <td class="py-2 font-bold">
-                                        MYP-{{ data.patient.patientNo }}/
+                                        MYP-{{ data.patient.patientNo }}-
                                         <input
                                             class="py-1 px-2 w-24 rounded bg-white border border-slate-200"
                                             type="text"

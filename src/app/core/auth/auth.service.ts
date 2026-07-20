@@ -161,7 +161,6 @@ export class AuthService {
                     }
 
                     this.accessToken = response.access_token;
-                    console.log(response);
 
                     this._authenticated = true;
 

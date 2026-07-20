@@ -50,7 +50,7 @@ export class LabOrderListComponent implements OnInit, AfterViewInit {
         this.formGroup = this._fb.group({
             startDate: moment().subtract(7, 'd'),
             endDate: moment(),
-            status: '',
+            status: 'Pending',
         });
 
         this._userService.get().subscribe(({ role }) => {

@@ -43,6 +43,7 @@ export class LabResultListComponent implements OnInit, AfterViewInit {
         this.formGroup = this._fb.group({
             startDate: moment().subtract(7, 'd'),
             endDate: moment(),
+            status: '',
         });
 
         this._userService.get().subscribe(({ role }) => {
@@ -61,6 +62,9 @@ export class LabResultListComponent implements OnInit, AfterViewInit {
 
     reloadData() {
         const condition: any = {};
+        if (this.formGroup.controls.status.value) {
+            condition.status = this.formGroup.controls.status.value;
+        }
         if (moment.isMoment(this.formGroup.controls.startDate.value)) {
             condition.startDate =
                 this.formGroup.controls.startDate.value.format('yyyy-MM-DD');
