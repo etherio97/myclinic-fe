@@ -7,7 +7,7 @@
                 <h2
                     class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
                 >
-                    Orders
+                    {{ "ORDERS" | transloco }}
                 </h2>
             </div>
         </div>
@@ -22,7 +22,7 @@
                     class="icon-size-5 mr-2"
                     svgIcon="heroicons_solid:plus"
                 ></mat-icon>
-                New
+                {{ "NEW" | transloco }}
             </button>
         </div>
     </div>
@@ -94,7 +94,7 @@
                         color="primary"
                         class="text-white"
                     >
-                        Search
+                        {{ "SEARCH" | transloco }}
                     </button>
                 </div>
             </form>
@@ -112,7 +112,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Order ID
+                        {{ "ORDER_ID" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element" class="text-center">
                         <p class="font-bold">MLO-{{ element.orderNo }}</p>
@@ -124,7 +124,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Patient Name
+                        {{ "PATIENT_NAME" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element" class="">
                         {{ element.patient.fullName }}
@@ -136,7 +136,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Refer Doctor
+                        {{ "REFER_DOCTOR" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element" class="text-center">
                         {{ element.doctor ? element.doctor.fullName : "" }}
@@ -148,7 +148,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Refer Centre
+                        {{ "REFER_CENTRE" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element" class="text-center">
                         {{ element.referCentre }}
@@ -160,7 +160,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Status
+                        {{ "STATUS" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element" class="text-center">
                         <app-status-chip
@@ -174,7 +174,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Collected Date
+                        {{ "COLLECTED_DATE" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element" class="text-center">
                         {{ element.collectedDate | date: "dd/MM/yyyy hh:mm a" }}
@@ -186,7 +186,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center w-30"
                     >
-                        Actions
+                        {{ "ACTIONS" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element">
                         <div class="flex justify-center items-center">
@@ -198,7 +198,7 @@
                                 "
                                 mat-icon-button
                                 [routerLink]="['report', element.id]"
-                                matTooltip="{{ 'Result Entry' | transloco }}"
+                                matTooltip="{{ 'RESULT_ENTRY' | transloco }}"
                             >
                                 <mat-icon
                                     svgIcon="mat_outline:input"

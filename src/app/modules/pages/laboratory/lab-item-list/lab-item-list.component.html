@@ -7,7 +7,7 @@
                 <h2
                     class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
                 >
-                    Test Items
+                    {{ "TEST_ITEMS" | transloco }}
                 </h2>
             </div>
         </div>
@@ -22,7 +22,7 @@
                     class="icon-size-5 mr-2"
                     svgIcon="heroicons_solid:plus"
                 ></mat-icon>
-                New
+                {{ "NEW" | transloco }}
             </button>
         </div>
     </div>
@@ -37,7 +37,9 @@
                 <div class="flex flex-wrap w-full px-3 sm:px-6 pt-2 sm:pt-4">
                     <div class="w-full sm:w-2/4 pr-6">
                         <mat-form-field class="w-full" appearance="fill">
-                            <mat-label> Item Name </mat-label>
+                            <mat-label>
+                                {{ "ITEM_NAME" | transloco }}
+                            </mat-label>
                             <input
                                 matInput
                                 formControlName="name"
@@ -48,12 +50,16 @@
                     </div>
                     <div class="w-full sm:w-1/4 pr-6">
                         <mat-form-field class="w-full" appearance="fill">
-                            <mat-label> Category </mat-label>
+                            <mat-label>
+                                {{ "CATEGORY" | transloco }}
+                            </mat-label>
                             <mat-select
                                 formControlName="category"
                                 placeholder="Category"
                             >
-                                <mat-option value=""> - All - </mat-option>
+                                <mat-option value="">
+                                    {{ "ALL" | transloco }}
+                                </mat-option>
                                 <mat-option
                                     *ngFor="let category of categories"
                                     [value]="category"
@@ -65,12 +71,16 @@
                     </div>
                     <div class="w-full sm:w-1/4 pr-6">
                         <mat-form-field class="w-full" appearance="fill">
-                            <mat-label> Sub Group </mat-label>
+                            <mat-label>
+                                {{ "SUB_GROUP" | transloco }}
+                            </mat-label>
                             <mat-select
                                 formControlName="subgroup"
                                 placeholder="subgroup"
                             >
-                                <mat-option value=""> - All - </mat-option>
+                                <mat-option value="">
+                                    {{ "ALL" | transloco }}
+                                </mat-option>
                                 <mat-option
                                     *ngFor="let subgroup of subgroups"
                                     [value]="subgroup"
@@ -91,7 +101,7 @@
                         color="primary"
                         class="text-white"
                     >
-                        Search
+                        {{ "SEARCH" | transloco }}
                     </button>
                 </div>
             </form>
@@ -109,7 +119,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Item Name
+                        {{ "ITEM_NAME" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element" class="text-center">
                         <p class="font-bold">{{ element.name }}</p>
@@ -121,7 +131,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Type
+                        {{ "TYPE" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element" class="">
                         <span
@@ -137,7 +147,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Category
+                        {{ "CATEGORY" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element" class="text-center">
                         {{ element.category }}
@@ -149,7 +159,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Sub Group
+                        {{ "SUB_GROUP" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element" class="text-center">
                         {{ element.subgroup }}
@@ -161,7 +171,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center"
                     >
-                        Unit
+                        {{ "UNIT" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element" class="text-center">
                         {{ element.unit }}
@@ -173,7 +183,7 @@
                         *matHeaderCellDef
                         class="mx-2 text-center w-30"
                     >
-                        Actions
+                        {{ "ACTIONS" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element">
                         <div class="flex items-center justify-center">

@@ -59,7 +59,7 @@ export class LabInputItemComponent implements OnInit {
             if (value > this.item.rangeFemale.high) return 'High';
             return 'Normal';
         }
-        return '';
+        return this.flag || this.item.flag || '';
     }
 
     getReferenceText() {

@@ -157,22 +157,22 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
             //     },
             // },
             {
-                title: 'Laboratory',
+                title: 'LABORATORY',
                 type: 'collapsable',
                 icon: 'heroicons_solid:beaker',
                 children: [
                     {
-                        title: 'Orders',
+                        title: 'ORDERS',
                         type: 'basic',
                         link: '/laboratory/orders',
                     },
                     {
-                        title: 'Reports',
+                        title: 'REPORTS',
                         type: 'basic',
                         link: '/laboratory/reports',
                     },
                     {
-                        title: 'Test Items',
+                        title: 'TEST_ITEMS',
                         type: 'basic',
                         link: '/laboratory/items',
                     },

@@ -7,7 +7,7 @@
                 <h2
                     class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
                 >
-                    Result Entry
+                    {{ "RESULT_ENTRY" | transloco }}
                 </h2>
             </div>
         </div>
@@ -35,19 +35,25 @@
                         <table class="w-full border-collapse">
                             <tbody>
                                 <tr>
-                                    <td class="py-2 pr-2 w-32">Patient Name</td>
+                                    <td class="py-2 pr-2 w-32">
+                                        {{ "PATIENT_NAME" | transloco }}
+                                    </td>
                                     <td class="py-2 font-bold">
                                         {{ data.patient.fullName }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="py-2 pr-2 w-32">Refer Doctor</td>
+                                    <td class="py-2 pr-2 w-32">
+                                        {{ "REFER_DOCTOR" | transloco }}
+                                    </td>
                                     <td class="py-2 font-bold">
                                         {{ data.doctor?.fullName }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="py-2 pr-2 w-32">Refer Centre</td>
+                                    <td class="py-2 pr-2 w-32">
+                                        {{ "REFER_CENTRE" | transloco }}
+                                    </td>
                                     <td class="py-2 font-bold">
                                         {{ data.referCentre }}
                                     </td>
@@ -59,7 +65,9 @@
                         <table class="w-full border-collapse">
                             <tbody>
                                 <tr>
-                                    <td class="py-2 pr-2 w-32">Age</td>
+                                    <td class="py-2 pr-2 w-32">
+                                        {{ "AGE" | transloco }}
+                                    </td>
                                     <td class="py-2 font-bold">
                                         {{
                                             calculateAge(
@@ -70,13 +78,17 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="py-2 pr-2 w-32">Sex</td>
+                                    <td class="py-2 pr-2 w-32">
+                                        {{ "SEX" | transloco }}
+                                    </td>
                                     <td class="py-2 font-bold">
                                         {{ data.patient.gender }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="py-2 pr-2 w-32">Patient ID</td>
+                                    <td class="py-2 pr-2 w-32">
+                                        {{ "PATIENT_ID" | transloco }}
+                                    </td>
                                     <td class="py-2 font-bold">
                                         MYP-{{ data.patient.patientNo }}/
                                         <input
@@ -96,7 +108,7 @@
                             <tbody>
                                 <tr>
                                     <td class="py-2 pr-2 w-32">
-                                        Collected Date
+                                        {{ "COLLECTED_DATE" | transloco }}
                                     </td>
                                     <td class="py-2 font-bold">
                                         {{
@@ -107,7 +119,7 @@
                                 </tr>
                                 <tr>
                                     <td class="py-2 pr-2 w-32">
-                                        Recieved Date
+                                        {{ "RECEIVED_DATE" | transloco }}
                                     </td>
                                     <td class="py-2 font-bold">
                                         {{
@@ -118,7 +130,7 @@
                                 </tr>
                                 <tr>
                                     <td class="py-2 pr-2 w-32">
-                                        Reported Date
+                                        {{ "REPORTED_DATE" | transloco }}
                                     </td>
                                     <td class="py-2 font-bold">
                                         <mat-form-field class="w-full">

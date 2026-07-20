@@ -7,7 +7,7 @@
                 <h2
                     class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
                 >
-                    Report Detail
+                    {{ "REPORT_DETIALS" | transloco }}
                 </h2>
             </div>
         </div>
@@ -25,7 +25,7 @@
                     svgIcon="mat_outline:edit"
                     class="icon-size-5 mr-2"
                 ></mat-icon>
-                Edit Result
+                {{ "EDIT" | transloco }}
             </button>
 
             <button
@@ -51,19 +51,25 @@
                         <table class="w-full border-collapse">
                             <tbody>
                                 <tr>
-                                    <td class="py-2 pr-2 w-32">Patient Name</td>
+                                    <td class="py-2 pr-2 w-32">
+                                        {{ "PATIENT_NAME" | transloco }}
+                                    </td>
                                     <td class="py-2 font-bold">
                                         {{ data.order.patient.fullName }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="py-2 pr-2 w-32">Refer Doctor</td>
+                                    <td class="py-2 pr-2 w-32">
+                                        {{ "REFER_DOCTOR" | transloco }}
+                                    </td>
                                     <td class="py-2 font-bold">
                                         {{ data.order.doctor?.fullName }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="py-2 pr-2 w-32">Refer Centre</td>
+                                    <td class="py-2 pr-2 w-32">
+                                        {{ "REFER_CENTRE" | transloco }}
+                                    </td>
                                     <td class="py-2 font-bold">
                                         {{ data.order.referCentre }}
                                     </td>
@@ -75,7 +81,9 @@
                         <table class="w-full border-collapse">
                             <tbody>
                                 <tr>
-                                    <td class="py-2 pr-2 w-32">Age</td>
+                                    <td class="py-2 pr-2 w-32">
+                                        {{ "AGE" | transloco }}
+                                    </td>
                                     <td class="py-2 font-bold">
                                         {{
                                             calculateAge(
@@ -86,13 +94,17 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="py-2 pr-2 w-32">Sex</td>
+                                    <td class="py-2 pr-2 w-32">
+                                        {{ "SEX" | transloco }}
+                                    </td>
                                     <td class="py-2 font-bold">
                                         {{ data.order.patient.gender }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="py-2 pr-2 w-32">Patient ID</td>
+                                    <td class="py-2 pr-2 w-32">
+                                        {{ "PATIENT_ID" | transloco }}
+                                    </td>
                                     <td class="py-2 font-bold">
                                         <ng-container
                                             *ngIf="
@@ -119,7 +131,7 @@
                             <tbody>
                                 <tr>
                                     <td class="py-2 pr-2 w-32">
-                                        Collected Date
+                                        {{ "COLLECTED_DATE" | transloco }}
                                     </td>
                                     <td class="py-2 font-bold">
                                         {{
@@ -130,7 +142,7 @@
                                 </tr>
                                 <tr>
                                     <td class="py-2 pr-2 w-32">
-                                        Recieved Date
+                                        {{ "RECEIVED_DATE" | transloco }}
                                     </td>
                                     <td class="py-2 font-bold">
                                         {{
@@ -141,7 +153,7 @@
                                 </tr>
                                 <tr>
                                     <td class="py-2 pr-2 w-32">
-                                        Reported Date
+                                        {{ "REPORTED_DATE" | transloco }}
                                     </td>
                                     <td class="py-2 font-bold">
                                         {{
@@ -163,18 +175,20 @@
                     [(ngModel)]="signatureInBottom"
                     color="primary"
                 >
-                    Signature in bottom
+                    {{ "SIGNATURE_IN_BOTTOM" | transloco }}
                 </mat-slide-toggle>
 
                 <mat-slide-toggle [(ngModel)]="displayHeader" color="primary">
-                    Show Header
+                    {{ "SHOW_HEADER" | transloco }}
                 </mat-slide-toggle>
             </div>
 
             <div *ngIf="signatureInBottom" class="pb-5 pt-2">
                 <fuse-alert type="warning" class="w-fit px-4 mx-auto">
-                    A4 Size တစ်မျက်နှာထက်ပိုသွားပါက လက်မှတ်သည် ဆေးအဖြေများနှင့်
-                    ရောနှောသွားတတ်ပါသည်။
+                    {{
+                        "WARNING_EXCEED_A4_SIZE_OVERLAP_WITH_SIGNATURE"
+                            | transloco
+                    }}
                 </fuse-alert>
             </div>
 
