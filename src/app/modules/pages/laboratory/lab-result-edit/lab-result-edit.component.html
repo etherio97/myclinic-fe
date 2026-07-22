@@ -53,7 +53,7 @@
                                         {{ "REFER_DOCTOR" | transloco }}
                                     </td>
                                     <td class="py-2 font-bold">
-                                        {{ data.doctor?.fullName }}
+                                        {{ data.referDoctor || "-" }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -61,7 +61,7 @@
                                         {{ "REFER_CENTRE" | transloco }}
                                     </td>
                                     <td class="py-2 font-bold">
-                                        {{ data.referCentre }}
+                                        {{ data.referCentre || "-" }}
                                     </td>
                                 </tr>
                             </tbody>

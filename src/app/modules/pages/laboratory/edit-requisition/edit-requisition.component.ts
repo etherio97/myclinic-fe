@@ -52,7 +52,7 @@ export class EditRequisitionComponent implements OnInit {
     ngOnInit(): void {
         this.formGroup = this._fb.group({
             patient: ['', Validators.required],
-            doctor: [''],
+            referDoctor: [''],
             referCentre: [''],
             collectedDate: ['', Validators.required],
             receivedDate: ['', Validators.required],
@@ -71,7 +71,7 @@ export class EditRequisitionComponent implements OnInit {
             );
 
         this.doctorFilteredOptions =
-            this.formGroup.controls.doctor.valueChanges.pipe(
+            this.formGroup.controls.referDoctor.valueChanges.pipe(
                 startWith(''),
                 map((value) => {
                     const filterText =
@@ -131,7 +131,7 @@ export class EditRequisitionComponent implements OnInit {
             this.isLoaded = true;
             this.formGroup.patchValue({
                 patient: response.patient,
-                doctor: response.doctor,
+                referDoctor: response.referDoctor,
                 referCentre: response.referCentre,
                 collectedDate: response.collectedDate,
                 receivedDate: response.receivedDate,
@@ -151,7 +151,7 @@ export class EditRequisitionComponent implements OnInit {
     }
 
     displayDoctorFn(doctor: any): string {
-        return doctor ? `${doctor.fullName} (${doctor.specialization})` : '';
+        return typeof doctor === 'object' ? doctor.fullName : doctor;
     }
 
     private _filterPatient(value: string): string[] {
@@ -210,15 +210,6 @@ export class EditRequisitionComponent implements OnInit {
                 'Invalid',
             );
         }
-        if (
-            this.formGroup.value.doctor &&
-            typeof this.formGroup.value.doctor !== 'object'
-        ) {
-            return this._confirmService.error(
-                MESSAGES.PLEASE_SELECT_DOCTOR,
-                'Invalid',
-            );
-        }
         this._confirmService
             .confirm(MESSAGES.CONFIRM_CREATE_USER)
             .beforeClosed()
@@ -230,7 +221,9 @@ export class EditRequisitionComponent implements OnInit {
     confirmSubmit() {
         const data: any = cloneDeep(this.formGroup.value);
         data.patient = data.patient.id;
-        data.doctor = data.doctor?.id;
+        if (typeof data.referDoctor === 'object') {
+            data.referDoctor = data.referDoctor.fullName;
+        }
         data.items = [];
         Object.values(this.labTests).forEach((items: any) =>
             Object.values(items).forEach((items: any) =>

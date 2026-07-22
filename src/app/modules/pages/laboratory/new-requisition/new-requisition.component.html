@@ -103,35 +103,15 @@
                             <input
                                 type="text"
                                 matInput
-                                formControlName="doctor"
+                                formControlName="referDoctor"
                                 [matAutocomplete]="doctorAuto"
                                 (focus)="
-                                    formGroup.controls.doctor.untouched &&
-                                        formGroup.controls.doctor.setValue(null)
+                                    formGroup.controls.referDoctor.untouched &&
+                                        formGroup.controls.referDoctor.setValue(
+                                            null
+                                        )
                                 "
                             />
-                            <mat-icon
-                                *ngIf="
-                                    formGroup.controls['doctor']?.value &&
-                                    isObject(
-                                        formGroup.controls['doctor']?.value
-                                    )
-                                "
-                                matSuffix
-                                class="text-teal-600"
-                                svgIcon="mat_outline:check"
-                            ></mat-icon>
-                            <mat-icon
-                                *ngIf="
-                                    formGroup.controls['doctor'].touched &&
-                                    !isObject(
-                                        formGroup.controls['doctor']?.value
-                                    )
-                                "
-                                matSuffix
-                                class="text-rose-600"
-                                svgIcon="mat_outline:cancel"
-                            ></mat-icon>
                             <mat-autocomplete
                                 #doctorAuto="matAutocomplete"
                                 [displayWith]="displayDoctorFn"

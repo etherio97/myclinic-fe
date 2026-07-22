@@ -63,7 +63,7 @@
                                         {{ "REFER_DOCTOR" | transloco }}
                                     </td>
                                     <td class="py-2 font-bold">
-                                        {{ data.order.doctor?.fullName }}
+                                        {{ data.order.referDoctor || "-" }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -71,7 +71,7 @@
                                         {{ "REFER_CENTRE" | transloco }}
                                     </td>
                                     <td class="py-2 font-bold">
-                                        {{ data.order.referCentre }}
+                                        {{ data.order.referCentre || "-" }}
                                     </td>
                                 </tr>
                             </tbody>
