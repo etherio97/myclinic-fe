@@ -71,9 +71,9 @@ export class LabInputItemComponent implements OnInit {
         }
         if (this.item.rangeMale) {
             if (this.patient.gender === 'Male') {
-                return `${this.item.rangeMale} - ${this.item.rangeMale}`;
+                return `${this.item.rangeMale.low} - ${this.item.rangeMale.high}`;
             }
-            return `${this.item.rangeFemale} - ${this.item.rangeFemale}`;
+            return `${this.item.rangeFemale.low} - ${this.item.rangeFemale.high}`;
         }
         return '';
     }
