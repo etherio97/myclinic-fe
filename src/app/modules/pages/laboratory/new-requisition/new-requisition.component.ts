@@ -120,7 +120,7 @@ export class NewRequisitionComponent implements OnInit {
     }
 
     displayDoctorFn(doctor: any): string {
-        return typeof doctor === 'object' ? doctor.fullName : doctor;
+        return doctor && typeof doctor === 'object' ? doctor.fullName : doctor;
     }
 
     private _filterPatient(value: string): string[] {
@@ -190,7 +190,8 @@ export class NewRequisitionComponent implements OnInit {
     confirmSubmit() {
         const data: any = cloneDeep(this.formGroup.value);
         data.patient = data.patient.id;
-        if (typeof data.referDoctor === 'object') {
+        console.log(data.referDoctor);
+        if (data.referDoctor && typeof data.referDoctor === 'object') {
             data.referDoctor = data.referDoctor.fullName;
         }
         data.items = [];

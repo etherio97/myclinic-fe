@@ -221,7 +221,7 @@ export class EditRequisitionComponent implements OnInit {
     confirmSubmit() {
         const data: any = cloneDeep(this.formGroup.value);
         data.patient = data.patient.id;
-        if (typeof data.referDoctor === 'object') {
+        if (data.referDoctor && typeof data.referDoctor === 'object') {
             data.referDoctor = data.referDoctor.fullName;
         }
         data.items = [];
