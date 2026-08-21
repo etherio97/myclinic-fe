@@ -165,6 +165,8 @@
     "HIGH": "High",
     "REFERENCE_TEXT": "Reference Text",
     "CUSTOM_FOOTER": "Custom Footer",
+    "INCREMENT": "Increment",
+    "DECREMENT": "Decrement",
 
     "XXX": ""
 }
