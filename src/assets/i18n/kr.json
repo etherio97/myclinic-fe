@@ -164,5 +164,7 @@
     "LOW": "낮음",
     "HIGH": "높음",
     "REFERENCE_TEXT": "참고 텍스트",
-    "CUSTOM_FOOTER": "사용자 정의 푸터"
+    "CUSTOM_FOOTER": "사용자 정의 푸터",
+    "INCREMENT": "증가",
+    "DECREMENT": "감소"
 }

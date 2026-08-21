@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { APP_CONFIG, MESSAGES, MY_DATE_FORMATS } from 'app/app.config';
@@ -49,7 +49,15 @@ export class CreateReceiptComponent implements OnInit {
 
     itemTypes = APP_CONFIG.ITEM_TYPES;
 
+    inputAmount = 0;
+
+    inputPrecentage = 0;
+
+    private _selectedItem: any;
+
     private _modal!: MatDialogRef<CreatePatientModalComponent>;
+
+    @ViewChild('adjustPriceModal') adjustPriceModalRef!: TemplateRef<any>;
 
     constructor(
         private _receiptService: ReceiptService,
@@ -385,5 +393,34 @@ export class CreateReceiptComponent implements OnInit {
 
     doSomething() {
         this.formGroup.controls.patient.setValue(null);
+    }
+
+    openAdjustPriceModal(selectedItem: any) {
+        this._selectedItem = selectedItem;
+        this.inputAmount = this._selectedItem.sellingPrice || 0;
+        this.inputPrecentage = 20;
+        this._modal = this._dialog.open(this.adjustPriceModalRef, {
+            width: '100%',
+            minWidth: '280px',
+            maxWidth: '380px',
+        });
+    }
+
+    incrementAmount() {
+        let amount = this.inputAmount,
+            precent = this.inputPrecentage;
+        let value = amount * (precent / 100);
+        this._selectedItem.sellingPrice =
+            this._selectedItem.sellingPrice + value;
+        this._modal.close();
+    }
+
+    decrementAmount() {
+        let amount = this.inputAmount,
+            precent = this.inputPrecentage;
+        let value = amount * (precent / 100);
+        this._selectedItem.sellingPrice =
+            this._selectedItem.sellingPrice - value;
+        this._modal.close();
     }
 }

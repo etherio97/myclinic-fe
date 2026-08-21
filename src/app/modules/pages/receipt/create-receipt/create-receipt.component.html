@@ -332,22 +332,22 @@
                     <table class="w-full border-collapse">
                         <thead>
                             <tr class="border-b">
-                                <th class="text-left py-2">
+                                <th class="text-left p-2 w-full">
                                     {{ "ITEM_NAME" | transloco }}
                                 </th>
-                                <th class="text-right py-2">
+                                <th class="text-center p-2 w-">
                                     {{ "PRICE" | transloco }}
                                 </th>
-                                <th class="text-right py-2">
+                                <th class="text-center p-2">
                                     {{ "QUANTITY" | transloco }}
                                 </th>
-                                <th class="text-right py-2">
+                                <th class="text-center p-2">
                                     {{ "DISCOUNT" | transloco }}
                                 </th>
-                                <th class="text-right py-2">
+                                <th class="text-center p-2">
                                     {{ "TOTAL" | transloco }}
                                 </th>
-                                <th class="text-center py-2">
+                                <th class="text-center p-2">
                                     {{ "ACTION" | transloco }}
                                 </th>
                             </tr>
@@ -360,18 +360,31 @@
                                 "
                                 class="border-b"
                             >
-                                <td class="py-2">{{ item.name }}</td>
-                                <td class="text-right py-2">
-                                    <input
-                                        class="py-1 px-2 w-24 rounded bg-white text-center"
-                                        matInput
-                                        type="number"
-                                        (change)="recalculateDiscount()"
-                                        [(ngModel)]="item.sellingPrice"
-                                        [ngModelOptions]="{ standalone: true }"
-                                    />
+                                <td class="p-2 w-full">{{ item.name }}</td>
+                                <td class="text-right p-2">
+                                    <div class="flex items-center space-x-1">
+                                        <!-- prettier-ignore -->
+                                        <input
+                                            class="py-1 px-2 w-24 rounded bg-white text-center"
+                                            matInput
+                                            type="number"
+                                            (change)="recalculateDiscount()"
+                                            [(ngModel)]="item.sellingPrice"
+                                            [ngModelOptions]="{ standalone: true }"
+                                        />
+                                        <button
+                                            type="button"
+                                            mat-icon-button
+                                            (click)="openAdjustPriceModal(item)"
+                                        >
+                                            <mat-icon
+                                                svgIcon="mat_outline:price_change"
+                                                class="icon-size-4"
+                                            ></mat-icon>
+                                        </button>
+                                    </div>
                                 </td>
-                                <td class="text-right py-2">
+                                <td class="text-right p-2">
                                     <input
                                         class="py-1 px-2 w-12 rounded bg-white text-center"
                                         matInput
@@ -381,7 +394,7 @@
                                         [ngModelOptions]="{ standalone: true }"
                                     />
                                 </td>
-                                <td class="text-right py-2">
+                                <td class="text-right p-2">
                                     <input
                                         class="py-1 px-2 w-24 rounded bg-white text-center"
                                         matInput
@@ -391,14 +404,16 @@
                                         [ngModelOptions]="{ standalone: true }"
                                     />
                                 </td>
-                                <td class="text-right py-2 w-30">
-                                    {{
-                                        item.sellingPrice * item.quantity -
-                                            (item.discount || 0)
-                                            | currency: "MMK" : "" : "0.0-0"
-                                    }}
+                                <td class="text-right p-2">
+                                    <div class="w-24">
+                                        {{
+                                            item.sellingPrice * item.quantity -
+                                                (item.discount || 0)
+                                                | currency: "MMK" : "" : "0.0-0"
+                                        }}
+                                    </div>
                                 </td>
-                                <td class="text-center py-2">
+                                <td class="text-center p-2">
                                     <button
                                         type="button"
                                         mat-icon-button
@@ -467,3 +482,54 @@
         </form>
     </div>
 </div>
+
+<ng-template #adjustPriceModal>
+    <div>
+        <mat-form-field class="w-full">
+            <mat-label>{{ "AMOUNT" | transloco }}</mat-label>
+            <input
+                [(ngModel)]="inputAmount"
+                [ngModelOptions]="{ standalone: true }"
+                type="number"
+                matInput
+            />
+        </mat-form-field>
+
+        <mat-form-field class="w-full">
+            <mat-label>{{ "PERCENTAGE" | transloco }}</mat-label>
+            <input
+                [(ngModel)]="inputPrecentage"
+                [ngModelOptions]="{ standalone: true }"
+                type="number"
+                matInput
+            />
+            <span matTextSuffix>%</span>
+        </mat-form-field>
+
+        <div class="flex justify-center space-x-2 items-center">
+            <button
+                (click)="decrementAmount()"
+                mat-button
+                class="flex items-center bg-indigo-600 text-white"
+            >
+                <mat-icon
+                    svgIcon="mat_outline:remove"
+                    class="icon-size-5 mr-2 text-white"
+                ></mat-icon>
+
+                {{ "DECREMENT" | transloco }}
+            </button>
+            <button
+                (click)="incrementAmount()"
+                mat-button
+                class="flex items-center bg-indigo-600 text-white"
+            >
+                <mat-icon
+                    svgIcon="mat_outline:add"
+                    class="icon-size-5 mr-2 text-white"
+                ></mat-icon>
+                {{ "INCREMENT" | transloco }}
+            </button>
+        </div>
+    </div>
+</ng-template>
