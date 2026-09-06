@@ -2,11 +2,21 @@ import { FuseNavigationItem } from '../@fuse/components/navigation';
 
 export const __LANG = '__lang';
 
-export const BASE_URL = ['localhost', '127.0.0.1', '192.168.1.20'].includes(
-    location.hostname,
-)
-    ? `http://${location.hostname}:3000`
-    : `${location.protocol}//${location.hostname}/api`;
+export let BASE_URL: string;
+
+if (['localhost', '127.0.0.1', '192.168.1.20'].includes(location.hostname)) {
+    BASE_URL = `http://${location.hostname}:3000`;
+} else {
+    switch (location.port) {
+        case '80':
+        case '443':
+            BASE_URL = `${location.protocol}//${location.hostname}/api`;
+            break;
+        default:
+            BASE_URL = `${location.protocol}//${location.hostname}:${location.port}/api`;
+            break;
+    }
+}
 
 export const SERVICE_URLS = {
     DOCTOR_API: `${BASE_URL}/doctor`,

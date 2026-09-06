@@ -38,10 +38,10 @@ export class ReceiptItemComponent implements OnInit {
 
     get title() {
         switch (this.type) {
-            case 'Laboratory':
-                return 'ဓာတ်ခွဲခန်းနှင့်ရောဂါရှာဖွေရေးစင်တာ';
+            // case 'Laboratory':
+            //     return 'အထူးကူဆေးခန်းနှင့်ရောဂါရှာဖွေရေးစင်တာ';
             default:
-                return 'အထွေထွေရောဂါကုဆေးခန်း';
+                return 'အထူးကူဆေးခန်းနှင့်ရောဂါရှာဖွေရေးစင်တာ';
         }
     }
 

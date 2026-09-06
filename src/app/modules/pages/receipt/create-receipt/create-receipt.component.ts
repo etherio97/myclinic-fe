@@ -407,20 +407,18 @@ export class CreateReceiptComponent implements OnInit {
     }
 
     incrementAmount() {
-        let amount = this.inputAmount,
-            precent = this.inputPrecentage;
+        let amount = parseInt(<any>this.inputAmount),
+            precent = parseInt(<any>this.inputPrecentage);
         let value = amount * (precent / 100);
-        this._selectedItem.sellingPrice =
-            this._selectedItem.sellingPrice + value;
+        this._selectedItem.sellingPrice = amount + value;
         this._modal.close();
     }
 
     decrementAmount() {
-        let amount = this.inputAmount,
-            precent = this.inputPrecentage;
+        let amount = parseInt(<any>this.inputAmount),
+            precent = parseInt(<any>this.inputPrecentage);
         let value = amount * (precent / 100);
-        this._selectedItem.sellingPrice =
-            this._selectedItem.sellingPrice - value;
+        this._selectedItem.sellingPrice = amount - value;
         this._modal.close();
     }
 }
