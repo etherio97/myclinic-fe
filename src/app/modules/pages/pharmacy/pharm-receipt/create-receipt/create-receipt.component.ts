@@ -219,16 +219,6 @@ export class CreateReceiptComponent implements OnInit {
         );
     }
 
-    private _filterDoctor(value: string): string[] {
-        const filterValue = typeof value == 'string' ? value.toLowerCase() : '';
-
-        return this.doctors.filter(
-            (option) =>
-                option.fullName.toLowerCase().includes(filterValue) ||
-                option.specialization.toLowerCase().includes(filterValue),
-        );
-    }
-
     openCreatePatientModal() {
         this._modal = this._dialog.open(CreatePatientModalComponent, {
             maxWidth: '80vw',
@@ -288,9 +278,7 @@ export class CreateReceiptComponent implements OnInit {
     confirmSubmit() {
         const data = clone(this.formGroup.value);
 
-        data.patient = data.patient.id;
-
-        data.doctor = data.doctor?.id;
+        data.patient = data.patient?.id;
 
         data.items = this.selectedItems;
 
