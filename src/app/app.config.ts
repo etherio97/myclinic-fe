@@ -31,6 +31,9 @@ export const SERVICE_URLS = {
     LAB_TEST_ITEM_API: `${BASE_URL}/lab-test-items`,
     LAB_ORDER_API: `${BASE_URL}/lab-orders`,
     LAB_RESULT_API: `${BASE_URL}/lab-results`,
+    PHARM_ITEM_API: `${BASE_URL}/pharm-item`,
+    PHARM_PURCHASE_API: `${BASE_URL}/pharm-purchase`,
+    PHARM_RECEIPT_API: `${BASE_URL}/pharm-receipt`,
 };
 
 export const APP_CONFIG = {
@@ -155,17 +158,40 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
                 },
             },
 
-            // Finance
-            // {
-            //     id: 'cashflow',
-            //     title: 'CASHFLOW',
-            //     type: 'basic',
-            //     icon: 'heroicons_solid:cash',
-            //     link: '/cashflow',
-            //     meta: {
-            //         roles: ['admin'],
-            //     },
-            // },
+            {
+                title: 'PHARMACY',
+                type: 'collapsable',
+                icon: 'mat_solid:medication',
+                children: [
+                    {
+                        title: 'RECEIPTS',
+                        type: 'basic',
+                        link: '/pharmacy/receipts',
+                        meta: { roles: ['admin', 'manager', 'cashier'] },
+                    },
+                    // {
+                    //     title: 'INVENTORY',
+                    //     type: 'basic',
+                    //     link: '/pharmacy/inventory',
+                    // },
+                    {
+                        title: 'PURCHASES',
+                        type: 'basic',
+                        link: '/pharmacy/purchases',
+                        meta: { roles: ['admin', 'manager'] },
+                    },
+                    {
+                        title: 'ITEMS',
+                        type: 'basic',
+                        link: '/pharmacy/items',
+                        meta: { roles: ['admin', 'manager', 'cashier'] },
+                    },
+                ],
+                meta: {
+                    roles: ['admin', 'manager', 'cashier'],
+                },
+            },
+
             {
                 title: 'LABORATORY',
                 type: 'collapsable',
@@ -271,4 +297,6 @@ export const MESSAGES = {
     SUCCESS_DELETE_ITEM: 'ဝန်ဆောင်မှုကို အောင်မြင်စွာ ဖျက်ပြီးပါပြီ။',
     CONFIRM_CREATE_ITEM: 'ဝန်ဆောင်မှုကို ထည့်သွင်းရန် သေချာပါသလား။',
     CONFIRM_UPDATE_ITEM: 'ဝန်ဆောင်မှုကို ပြင်ဆင်ရန် သေချာပါသလား။',
+    CONFIRM_DELETE_PHARM_ITEM: 'ဆေးဝါးအား ဖျက်ရန် သေချာပါသလား?',
+    SUCCESS_DELETE_PHARM_ITEM: 'ဆေးဝါးကို အောင်မြင်စွာ ဖျက်ပြီးပါပြီ။',
 };

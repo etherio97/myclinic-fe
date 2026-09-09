@@ -1,0 +1,110 @@
+<div class="w-full p-3 sm:p-8 mx-auto" style="max-width: 1400px">
+    <form [formGroup]="formGroup" (ngSubmit)="submit()">
+        <div class="mb-4">
+            <div class="flex justify-between">
+                <div class="flex items-center">
+                    <button
+                        mat-icon-button
+                        matTooltip="Back"
+                        routerLink=".."
+                        type="button"
+                    >
+                        <mat-icon svgIcon="mat_outline:chevron_left"></mat-icon>
+                    </button>
+                    <h2 class="text-3xl font-semibold tracking-tight leading-8">
+                        {{ "CREATE_NEW_ITEM" | transloco }}
+                    </h2>
+                </div>
+                <div>
+                    <button
+                        type="submit"
+                        mat-flat-button
+                        class="flex items-center bg-indigo-600 text-white"
+                    >
+                        <mat-icon
+                            svgIcon="mat_outline:save"
+                            class="icon-size-5 mr-2"
+                        ></mat-icon>
+                        {{ "SAVE" | transloco }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full pt-2 pb-2 mx-5">
+            <div class="grid grid-cols-2 gap-4">
+                <mat-form-field class="w-full">
+                    <mat-label>{{ "ITEM_CODE" | transloco }}</mat-label>
+                    <input type="text" matInput formControlName="code" />
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>{{ "ITEM_NAME" | transloco }}</mat-label>
+                    <input type="text" matInput formControlName="name" />
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>{{ "BARCODE" | transloco }}</mat-label>
+                    <input type="text" matInput formControlName="barcode" />
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>{{ "DESCRIPTION" | transloco }}</mat-label>
+                    <textarea
+                        matInput
+                        formControlName="description"
+                        rows="3"
+                    ></textarea>
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>{{ "UNITS" | transloco }}</mat-label>
+                    <input type="text" matInput formControlName="units" />
+                    <mat-hint>{{ "SPERATE_BY_COMMA" | transloco }}</mat-hint>
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>{{ "DEFAULT_UNIT" | transloco }}</mat-label>
+                    <input type="text" matInput formControlName="defaultUnit" />
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>{{ "TRACKING_UNIT" | transloco }}</mat-label>
+                    <input
+                        type="text"
+                        matInput
+                        formControlName="trackingUnit"
+                    />
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>{{ "QTY_PER_UNIT" | transloco }}</mat-label>
+                    <input
+                        type="number"
+                        matInput
+                        formControlName="qtyPerUnit"
+                    />
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>{{ "UNIT_PRICE" | transloco }}</mat-label>
+                    <input type="number" matInput formControlName="unitPrice" />
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>{{ "EACH_PRICE" | transloco }}</mat-label>
+                    <input type="number" matInput formControlName="eachPrice" />
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>{{ "MIN_THRESHOLD" | transloco }}</mat-label>
+                    <input
+                        type="number"
+                        matInput
+                        formControlName="minThreshold"
+                    />
+                </mat-form-field>
+            </div>
+        </div>
+    </form>
+</div>

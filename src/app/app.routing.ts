@@ -88,13 +88,13 @@ export const appRoutes: Route[] = [
                         (m) => m.AppointmentCalendarModule,
                     ),
             },
-            // {
-            //     path: 'cashflow',
-            //     loadChildren: () =>
-            //         import('app/modules/pages/cashflow/cashflow.module').then(
-            //             (m) => m.CashflowModule,
-            //         ),
-            // },
+            {
+                path: 'pharmacy',
+                loadChildren: () =>
+                    import('app/modules/pages/pharmacy/pharmacy.module').then(
+                        (m) => m.PharmacyModule,
+                    ),
+            },
             {
                 path: 'laboratory',
                 loadChildren: () =>

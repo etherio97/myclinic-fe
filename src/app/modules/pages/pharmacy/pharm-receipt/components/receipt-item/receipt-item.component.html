@@ -1,0 +1,140 @@
+<div class="receipt mx-auto shadow-card">
+    <div class="center">
+        <div style="display: flex; place-items: center">
+            <img class="logo" src="assets/logo.png" alt="Logo" />
+        </div>
+        <div class="bold">{{ title }}</div>
+        <div>
+            အမှတ် ၁၂၄၊ အမှတ် ၃ လမ်းမကြီး၊ သင်္ဃန်းကျွန်းကြီးမှတ်တိုင်၊
+            မင်္ဂလာဒုံမြို့နယ်၊ ရန်ကုန်မြို့
+        </div>
+        <div>ဖုန်း - 0943200001</div>
+    </div>
+
+    <div class="dashed"></div>
+
+    <table class="header">
+        <tbody>
+            <tr>
+                <td>Invoice</td>
+                <td>:</td>
+                <td style="text-align: right">MPR-{{ receiptNo || "-" }}</td>
+            </tr>
+            <tr>
+                <td>Date</td>
+                <td>:</td>
+                <td style="text-align: right">
+                    {{ date | date: "dd-MM-yyyy hh:mm:ss a" }}
+                </td>
+            </tr>
+            <tr *ngIf="patient">
+                <td>Patient ID</td>
+                <td>:</td>
+                <td style="text-align: right">
+                    MYP-{{ patient?.patientNo || "-" }}
+                </td>
+            </tr>
+            <tr *ngIf="patient">
+                <td>Patient Name</td>
+                <td>:</td>
+                <td style="text-align: right">
+                    {{ patient?.fullName || "-" }}
+                </td>
+            </tr>
+            <tr *ngIf="patient">
+                <td>Age / Sex</td>
+                <td>:</td>
+                <td style="text-align: right">
+                    {{
+                        patient?.dateOfBirth
+                            ? calculateAge(patient?.dateOfBirth) + "Y"
+                            : ""
+                    }}
+                    /
+                    {{ patient?.gender?.slice(0, 1) }}
+                </td>
+            </tr>
+            <tr>
+                <td>Cashier</td>
+                <td>:</td>
+                <td style="text-align: right">
+                    {{ cashier?.fullName || "-" }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="dashed"></div>
+    <div class="row bold"><span>ITEM</span><span>AMOUNT</span></div>
+    <div class="dashed"></div>
+    <div style="margin-bottom: 4px">
+        <ng-container *ngFor="let item of items">
+            <div style="margin-bottom: 2px">
+                <div>
+                    {{ item.name }}
+                </div>
+                <div class="row">
+                    <span>
+                        {{ item.quantity }} {{ item.unit }} x
+                        {{ item.sellingPrice | currency: "MMK" : "" : "0.0-0" }}
+                        <ng-container *ngIf="item.discount">
+                            <br />
+                            <i>
+                                Discount: -
+                                {{
+                                    item.discount
+                                        | currency: "MMK" : "" : "0.0-0"
+                                }}
+                            </i>
+                        </ng-container>
+                    </span>
+                    <span>
+                        {{
+                            item.quantity * item.sellingPrice
+                                | currency: "MMK" : "" : "0.0-0"
+                        }}
+                    </span>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+
+    <div class="dashed"></div>
+
+    <table>
+        <tbody>
+            <tr>
+                <td>Subtotal</td>
+                <td style="text-align: right">
+                    {{ subTotal || 0 | currency: "MMK" : "" : "0.0-0" }}
+                </td>
+            </tr>
+            <tr *ngIf="discount != 0">
+                <td>Discount</td>
+                <td style="text-align: right">
+                    {{ discount || 0 | currency: "MMK" : "" : "0.0-0" }}
+                </td>
+            </tr>
+            <tr>
+                <td>Total</td>
+                <td style="text-align: right" class="bold">
+                    {{ grandTotal || 0 | currency: "MMK" : "" : "0.0-0" }}
+                </td>
+            </tr>
+            <tr>
+                <td>Payment Method</td>
+                <td style="text-align: right">
+                    {{ paymentMethod }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="dashed"></div>
+
+    <div class="center">*** ကျေးဇူးအထူးပင်တင်ရှိပါသည်။ ***</div>
+
+    <!-- <div class="center" style="margin-top: 5px; font-size: smaller">
+        Printed at {{ printDate | date: "dd-MM-yyyy hh:mm:ss a" }}
+    </div> -->
+</div>

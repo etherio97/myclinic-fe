@@ -1,0 +1,122 @@
+<div
+    *ngIf="isLoaded"
+    class="w-full p-3 sm:p-8 mx-auto"
+    style="max-width: 1400px"
+>
+    <form [formGroup]="formGroup" (ngSubmit)="submit()">
+        <div class="mb-4">
+            <div class="flex justify-between">
+                <div class="flex items-center">
+                    <button
+                        mat-icon-button
+                        matTooltip="Back"
+                        routerLink="../.."
+                        type="button"
+                    >
+                        <mat-icon svgIcon="mat_outline:chevron_left"></mat-icon>
+                    </button>
+                    <h2 class="text-3xl font-semibold tracking-tight leading-8">
+                        {{ "EDIT_ITEM" | transloco }}
+                    </h2>
+                </div>
+                <div>
+                    <button
+                        type="submit"
+                        mat-flat-button
+                        class="flex items-center bg-indigo-600 text-white"
+                    >
+                        <mat-icon
+                            svgIcon="mat_outline:save"
+                            class="icon-size-5 mr-2"
+                        ></mat-icon>
+                        {{ "EDIT" | transloco }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full pt-2 pb-2 mx-5">
+            <div class="grid grid-cols-2 gap-4">
+                <mat-form-field class="w-full">
+                    <mat-label>{{ "ITEM" | transloco }}</mat-label>
+                    <input
+                        type="text"
+                        matInput
+                        readonly
+                        formControlName="item"
+                    />
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>{{ "DATE" | transloco }}</mat-label>
+                    <input
+                        type="text"
+                        [matDatepicker]="pickerStart"
+                        matInput
+                        formControlName="purchasedDate"
+                    />
+                    <mat-datepicker-toggle
+                        matIconSuffix
+                        [for]="pickerStart"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #pickerStart></mat-datepicker>
+                </mat-form-field>
+
+                <!-- <mat-form-field class="w-full">
+                    <mat-label>{{ "UNIT" | transloco }}</mat-label>
+                    <input
+                        type="text"
+                        matInput
+                        formControlName="unit"
+                        readonly
+                    />
+                </mat-form-field> -->
+
+                <mat-form-field class="w-full">
+                    <mat-label>{{ "SUPPLIER" | transloco }}</mat-label>
+                    <input type="text" matInput formControlName="supplier" />
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>{{ "EXPIRY_DATE" | transloco }}</mat-label>
+                    <input
+                        type="text"
+                        [matDatepicker]="pickerExpiry"
+                        matInput
+                        formControlName="expiryDate"
+                    />
+                    <mat-datepicker-toggle
+                        matIconSuffix
+                        [for]="pickerExpiry"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #pickerExpiry></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>{{ "COST" | transloco }}</mat-label>
+                    <input type="number" matInput formControlName="cost" />
+                </mat-form-field>
+
+                <!-- <mat-form-field class="w-full">
+                    <mat-label>{{ "QUANTITY" | transloco }}</mat-label>
+                    <input
+                        type="number"
+                        matInput
+                        formControlName="quantity"
+                        readonly
+                    />
+                </mat-form-field> -->
+
+                <mat-form-field class="w-full">
+                    <mat-label>{{ "DISCOUNT" | transloco }}</mat-label>
+                    <input type="number" matInput formControlName="discount" />
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>{{ "TOTAL" | transloco }}</mat-label>
+                    <input type="number" matInput formControlName="total" />
+                </mat-form-field>
+            </div>
+        </div>
+    </form>
+</div>

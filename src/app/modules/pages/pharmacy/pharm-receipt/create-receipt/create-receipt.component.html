@@ -1,0 +1,436 @@
+<div class="w-full">
+    <div class="w-full p-3 sm:p-8 mx-auto relative" style="max-width: 1400px">
+        <form [formGroup]="formGroup" (ngSubmit)="submit()">
+            <div class="mb-4">
+                <div class="flex justify-between">
+                    <div class="flex items-center">
+                        <button
+                            mat-icon-button
+                            matTooltip="Back"
+                            routerLink=".."
+                            type="button"
+                        >
+                            <mat-icon
+                                svgIcon="mat_outline:chevron_left"
+                            ></mat-icon>
+                        </button>
+                        <h2
+                            class="text-3xl font-semibold tracking-tight leading-8"
+                        >
+                            {{ "CREATE_NEW_RECEIPT" | transloco }}
+                        </h2>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button
+                            type="submit"
+                            mat-flat-button
+                            class="flex items-center bg-indigo-600 text-white"
+                        >
+                            <mat-icon
+                                svgIcon="mat_outline:save"
+                                class="icon-size-5 mr-2"
+                            ></mat-icon>
+                            {{ "SAVE" | transloco }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- For Patient Information -->
+            <div class="w-full pt-2 pb-2 mx-5">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="flex items-center justify-between">
+                        <mat-form-field class="w-full">
+                            <mat-label>{{
+                                "PATIENT_NAME" | transloco
+                            }}</mat-label>
+                            <input
+                                type="text"
+                                matInput
+                                formControlName="patient"
+                                [matAutocomplete]="patientAuto"
+                                (focus)="
+                                    formGroup.controls.patient.untouched &&
+                                        formGroup.controls.patient.setValue(
+                                            null
+                                        )
+                                "
+                            />
+                            <mat-icon
+                                *ngIf="
+                                    formGroup.controls['patient']?.value &&
+                                    isObject(
+                                        formGroup.controls['patient']?.value
+                                    )
+                                "
+                                matSuffix
+                                class="text-teal-600"
+                                svgIcon="mat_outline:check"
+                            ></mat-icon>
+                            <mat-icon
+                                *ngIf="
+                                    formGroup.controls['patient'].touched &&
+                                    !isObject(
+                                        formGroup.controls['patient']?.value
+                                    )
+                                "
+                                matSuffix
+                                class="text-rose-600"
+                                svgIcon="mat_outline:cancel"
+                            ></mat-icon>
+                            <mat-autocomplete
+                                #patientAuto="matAutocomplete"
+                                [displayWith]="displayPatientFn"
+                            >
+                                <mat-option
+                                    *ngFor="
+                                        let option of patientFilteredOptions
+                                            | async
+                                    "
+                                    [value]="option"
+                                >
+                                    {{ option.fullName }} #{{
+                                        option.patientNo
+                                    }}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+
+                    <mat-form-field class="w-full pt-4">
+                        <mat-label>{{ "DATE" | transloco }}</mat-label>
+                        <mat-hint>
+                            <div class="h-4">
+                                {{ "LEAVE_BLANK_FOR_CURRENT_TIME" | transloco }}
+                            </div>
+                        </mat-hint>
+                        <input
+                            matInput
+                            [ngxMatDatetimePicker]="picker"
+                            placeholder="Choose a date"
+                            formControlName="date"
+                            (focus)="picker.open()"
+                        />
+                        <mat-datepicker-toggle
+                            matSuffix
+                            [for]="picker"
+                        ></mat-datepicker-toggle>
+                        <ngx-mat-datetime-picker
+                            #picker
+                            [showSeconds]="true"
+                            [stepSecond]="true"
+                        >
+                        </ngx-mat-datetime-picker>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <!-- For Others -->
+            <div class="w-full pt-2 pb-2 mx-5">
+                <div class="grid grid-cols-2 gap-4">
+                    <mat-form-field class="w-full">
+                        <mat-label>{{
+                            "PAYMENT_METHOD" | transloco
+                        }}</mat-label>
+                        <mat-select formControlName="paymentMethod">
+                            <mat-option
+                                *ngFor="let paymentMethod of paymentMethods"
+                                [value]="paymentMethod"
+                            >
+                                {{ paymentMethod }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <div class="grid grid-cols-3 gap-2">
+                        <mat-form-field class="w-full col-span-1">
+                            <mat-label>{{
+                                "DISCOUNT_PERCENTAGE" | transloco
+                            }}</mat-label>
+                            <input
+                                type="number"
+                                matInput
+                                formControlName="discountPercent"
+                            />
+                            <span matTextSuffix>%</span>
+                        </mat-form-field>
+
+                        <mat-form-field class="w-full col-span-2">
+                            <mat-label>{{
+                                "DISCOUNT_AMOUNT" | transloco
+                            }}</mat-label>
+                            <input
+                                type="number"
+                                matInput
+                                formControlName="discountAmount"
+                            />
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+            <!-- For Items -->
+            <div class="w-full pt-2 pb-2 mx-5">
+                <mat-form-field class="w-full">
+                    <mat-label>{{ "ADD_ITEM" | transloco }}</mat-label>
+                    <input
+                        type="text"
+                        matInput
+                        formControlName="item"
+                        [matAutocomplete]="itemAuto"
+                        (click)="
+                            formGroup.controls.item.untouched &&
+                                formGroup.controls.item.setValue(null)
+                        "
+                    />
+                    <mat-autocomplete
+                        #itemAuto="matAutocomplete"
+                        [displayWith]="displayItemFn"
+                        (optionSelected)="onItemSelect($event)"
+                    >
+                        <mat-option
+                            *ngFor="let option of itemFilteredOptions | async"
+                            [value]="option"
+                        >
+                            <table class="w-full">
+                                <tbody>
+                                    <tr class="w-full">
+                                        <td class="w-[15%] py-2">
+                                            <span class="text-xs">
+                                                {{ option.code }}
+                                            </span>
+                                        </td>
+                                        <td class="w-[65%] py-2">
+                                            {{ option.name }}
+                                        </td>
+                                        <td class="w-[10%] text-center py-2">
+                                            {{ option.unitPrice }}
+                                        </td>
+                                        <td class="w-[10%] text-center py-2">
+                                            {{ option.eachPrice }}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+                <div
+                    class="w-full border border-gray-200 overflow-hidden rounded"
+                >
+                    <div
+                        class="flex justify-end items-center bg-white px-12 font-bold space-x-12 rounded py-3"
+                    >
+                        <div class="text-center flex space-x-2">
+                            <p>
+                                {{ "SUBTOTAL" | transloco }}
+                            </p>
+                            <p>
+                                {{
+                                    getSubTotal()
+                                        | currency: "MMK" : "" : "0.0-0"
+                                }}
+                            </p>
+                        </div>
+                        <div class="text-center flex space-x-2">
+                            <p>
+                                {{ "DISCOUNT" | transloco }}
+                            </p>
+                            <p>
+                                {{
+                                    getDiscount()
+                                        | currency: "MMK" : "" : "0.0-0"
+                                }}
+                            </p>
+                        </div>
+                        <div class="text-center flex space-x-2">
+                            <p>
+                                {{ "TOTAL" | transloco }}
+                            </p>
+                            <p>
+                                {{
+                                    getGrandTotal()
+                                        | currency: "MMK" : "" : "0.0-0"
+                                }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 relative">
+                    <table class="w-full border-collapse">
+                        <thead>
+                            <tr class="border-b">
+                                <th class="text-left p-2 w-full">
+                                    {{ "ITEM_NAME" | transloco }}
+                                </th>
+                                <th class="text-center p-2 w-">
+                                    {{ "UNIT" | transloco }}
+                                </th>
+                                <th class="text-center p-2 w-">
+                                    {{ "PRICE" | transloco }}
+                                </th>
+                                <th class="text-center p-2">
+                                    {{ "QUANTITY" | transloco }}
+                                </th>
+                                <th class="text-center p-2">
+                                    {{ "DISCOUNT" | transloco }}
+                                </th>
+                                <th class="text-center p-2">
+                                    {{ "TOTAL" | transloco }}
+                                </th>
+                                <th class="text-center p-2">
+                                    {{ "ACTION" | transloco }}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="
+                                    let item of selectedItemsReverse;
+                                    let i = index
+                                "
+                                class="border-b"
+                            >
+                                <td class="p-2 w-full">
+                                    {{ item.name }}
+                                    <ng-container
+                                        *ngIf="
+                                            item.qtyPerUnit &&
+                                            item.units[0] == item.unit
+                                        "
+                                    >
+                                        ({{ item.qtyPerUnit }}')
+                                    </ng-container>
+                                </td>
+                                <td class="text-right p-2">
+                                    <select
+                                        class="py-1 px-2 w-24 rounded bg-white text-center"
+                                        matInput
+                                        type="number"
+                                        (change)="
+                                            onChangeUnit(item, $event.target)
+                                        "
+                                        [(ngModel)]="item.unit"
+                                        [ngModelOptions]="{ standalone: true }"
+                                    >
+                                        <option
+                                            *ngFor="let unit of item.units"
+                                            [value]="unit"
+                                        >
+                                            {{ unit }}
+                                        </option>
+                                    </select>
+                                </td>
+                                <td class="text-right p-2">
+                                    <div class="flex items-center space-x-1">
+                                        <!-- prettier-ignore -->
+                                        <input
+                                            class="py-1 px-2 w-24 rounded bg-white text-center"
+                                            matInput
+                                            type="number"
+                                            (change)="recalculateDiscount()"
+                                            [(ngModel)]="item.sellingPrice"
+                                            [ngModelOptions]="{ standalone: true }"
+                                        />
+                                    </div>
+                                </td>
+                                <td class="text-right p-2">
+                                    <input
+                                        class="py-1 px-2 w-12 rounded bg-white text-center"
+                                        matInput
+                                        type="number"
+                                        (change)="recalculateDiscount()"
+                                        [(ngModel)]="item.quantity"
+                                        [ngModelOptions]="{ standalone: true }"
+                                    />
+                                </td>
+                                <td class="text-right p-2">
+                                    <input
+                                        class="py-1 px-2 w-24 rounded bg-white text-center"
+                                        matInput
+                                        type="number"
+                                        (change)="recalculateDiscount()"
+                                        [(ngModel)]="item.discount"
+                                        [ngModelOptions]="{ standalone: true }"
+                                    />
+                                </td>
+                                <td class="text-right p-2">
+                                    <div class="w-24">
+                                        {{
+                                            item.sellingPrice * item.quantity -
+                                                (item.discount || 0)
+                                                | currency: "MMK" : "" : "0.0-0"
+                                        }}
+                                    </div>
+                                </td>
+                                <td class="text-center p-2">
+                                    <button
+                                        type="button"
+                                        mat-icon-button
+                                        color="warn"
+                                        (click)="removeItem(item.code)"
+                                    >
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <!-- Total -->
+                            <tr class="text-center">
+                                <th colspan="5" class="py-4">
+                                    {{ "SUBTOTAL" | transloco }}
+                                </th>
+                                <th colspan="2" class="py-4">
+                                    {{
+                                        getSubTotal()
+                                            | currency: "MMK" : "" : "0.0-0"
+                                    }}
+                                </th>
+                            </tr>
+                            <tr class="text-center">
+                                <th colspan="5" class="py-4">
+                                    {{ "DISCOUNT" | transloco }}
+                                </th>
+                                <th colspan="2" class="py-4">
+                                    {{
+                                        getDiscount()
+                                            | currency: "MMK" : "" : "0.0-0"
+                                    }}
+                                </th>
+                            </tr>
+                            <tr class="text-center">
+                                <th colspan="5" class="py-4">
+                                    {{ "TOTAL" | transloco }}
+                                </th>
+                                <th colspan="2" class="py-4">
+                                    {{
+                                        getGrandTotal()
+                                            | currency: "MMK" : "" : "0.0-0"
+                                    }}
+                                </th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="my-4 flex justify-end">
+                <div class="flex items-center gap-2">
+                    <button
+                        type="submit"
+                        mat-flat-button
+                        class="flex items-center bg-indigo-600 text-white"
+                    >
+                        <mat-icon
+                            svgIcon="mat_outline:save"
+                            class="icon-size-5 mr-2"
+                        ></mat-icon>
+                        {{ "SAVE" | transloco }}
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
