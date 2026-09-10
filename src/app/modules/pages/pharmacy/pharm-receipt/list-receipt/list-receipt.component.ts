@@ -18,8 +18,9 @@ export class ListReceiptComponent implements OnInit, AfterViewInit {
         'receiptNo',
         'date',
         'patient.fullName',
+        'items',
         'subTotal',
-        'discountAmount',
+        // 'discountAmount',
         'grandTotal',
         'actions',
     ];
@@ -137,5 +138,23 @@ export class ListReceiptComponent implements OnInit, AfterViewInit {
         const workbook = utils.book_new();
         utils.book_append_sheet(workbook, worksheet, 'Receipts');
         writeFile(workbook, fileName);
+    }
+
+    showItem(items: any[]) {
+        let data = items.map(
+            (item) => item.code + ' * ' + item.quantity + item.unit,
+        );
+        let l = data.length;
+        if (l > 5) {
+            let n = l - 5;
+            return (
+                '<li>' +
+                data.slice(0, 5).join('</li><li>') +
+                '</li><p class="text-teal-600 text-xs">+' +
+                n +
+                ' more items</p>'
+            );
+        }
+        return '<li>' + data.join('</li><li>') + '</li>';
     }
 }

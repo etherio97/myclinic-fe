@@ -183,7 +183,26 @@
                                 *ngFor="let item of data.items; let i = index"
                                 class="border-b"
                             >
-                                <td class="py-2">{{ item.name }}</td>
+                                <td class="py-2 flex">
+                                    <div class="flex items-center space-x-2">
+                                        <span
+                                            class="px-1.5 py-0.5 rounded bg-slate-600 text-white text-xs"
+                                        >
+                                            {{ item.code }}
+                                        </span>
+                                        <span
+                                            >{{ item.name }}
+                                            <ng-container
+                                                *ngIf="
+                                                    item.qtyPerUnit &&
+                                                    item.units[0] == item.unit
+                                                "
+                                            >
+                                                ({{ item.qtyPerUnit }}')
+                                            </ng-container>
+                                        </span>
+                                    </div>
+                                </td>
                                 <td class="text-right py-2">
                                     {{
                                         item.sellingPrice
