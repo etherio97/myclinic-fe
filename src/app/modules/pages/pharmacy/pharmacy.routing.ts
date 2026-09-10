@@ -22,4 +22,11 @@ export const pharmRoutes: Route[] = [
                 (m) => m.PharmReceiptModule,
             ),
     },
+    {
+        path: 'inventory',
+        loadChildren: () =>
+            import('./pharm-inventory/pharm-inventory.module').then(
+                (m) => m.PharmInventoryModule,
+            ),
+    },
 ];

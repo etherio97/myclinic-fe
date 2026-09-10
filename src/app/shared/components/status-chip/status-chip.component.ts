@@ -1,12 +1,18 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-const SUCCESS: string[] = ['Active', 'Completed'];
+const SUCCESS: string[] = ['Active', 'Completed', 'OK'];
 
-const WARNING: string[] = ['Booked', 'Pending'];
+const WARNING: string[] = ['Booked', 'Pending', 'Low Stock'];
 
 const INFO: string[] = [];
 
-const DANGER: string[] = ['Inactive', 'Deleted', 'Cancelled', 'No Show'];
+const DANGER: string[] = [
+    'Inactive',
+    'Deleted',
+    'Cancelled',
+    'No Show',
+    'Out of Stock',
+];
 
 @Component({
     selector: 'app-status-chip',

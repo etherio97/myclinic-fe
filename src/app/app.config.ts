@@ -34,6 +34,7 @@ export const SERVICE_URLS = {
     PHARM_ITEM_API: `${BASE_URL}/pharm-item`,
     PHARM_PURCHASE_API: `${BASE_URL}/pharm-purchase`,
     PHARM_RECEIPT_API: `${BASE_URL}/pharm-receipt`,
+    PHARM_INVENTORY_API: `${BASE_URL}/pharm-inventory`,
 };
 
 export const APP_CONFIG = {
@@ -174,6 +175,12 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
                     //     type: 'basic',
                     //     link: '/pharmacy/inventory',
                     // },
+                    {
+                        title: 'INVENTORY',
+                        type: 'basic',
+                        link: '/pharmacy/inventory',
+                        meta: { roles: ['admin', 'manager', 'cashier'] },
+                    },
                     {
                         title: 'PURCHASES',
                         type: 'basic',

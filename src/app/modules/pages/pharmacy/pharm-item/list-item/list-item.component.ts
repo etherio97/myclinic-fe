@@ -18,7 +18,7 @@ export class ListItemComponent implements OnInit, AfterViewInit {
         'defaultUnit',
         'unitPrice',
         'eachPrice',
-        'stocks',
+        'minThreshold',
         'actions',
     ];
 

@@ -5,8 +5,11 @@ import { APP_CONFIG, MESSAGES } from 'app/app.config';
 import { PatientService } from 'app/services/patient.service';
 import { startWith, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { clone, cloneDeep } from 'lodash';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { clone, cloneDeep, filter } from 'lodash';
+import {
+    MatAutocomplete,
+    MatAutocompleteSelectedEvent,
+} from '@angular/material/autocomplete';
 import moment from 'moment';
 import { ConfirmService } from 'app/services/confirm.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -135,13 +138,47 @@ export class CreateReceiptComponent implements OnInit {
     private _filterItem(value: any): any[] {
         const filterValue =
             typeof value === 'string' ? value.toLowerCase() : '';
-
-        return this.items.filter(
-            (option) =>
+        return this.items.filter((option) => {
+            return (
+                option.code.toLowerCase() == filterValue ||
+                option.barcode == filterValue ||
                 option.name.toLowerCase().includes(filterValue) ||
-                option.code.toLowerCase().includes(filterValue) ||
-                option.barcode?.toLowerCase().includes(filterValue),
-        );
+                option.code.toLowerCase().includes(filterValue)
+            );
+        });
+    }
+
+    private _isKeyDown = false;
+
+    onKeyDown() {
+        this._isKeyDown = true;
+    }
+
+    selectFirstItemOnEnter(event: Event, autocomplete: MatAutocomplete): void {
+        event.preventDefault(); // Prevent form submission
+
+        if (this._isKeyDown) return;
+
+        let value = (<any>event.target).value;
+        if (value) {
+            let item = this.items.find(
+                (item) => item.code.toLowerCase() == value.toLowerCase(),
+            );
+            if (item) {
+                this.onItemSelect(<any>{ option: { value: item } });
+                return;
+            }
+        }
+
+        const options = autocomplete.options.toArray();
+        if (options.length > 0) {
+            const firstOption = options[0];
+            autocomplete.optionSelected.emit({
+                source: autocomplete,
+                option: firstOption,
+            } as MatAutocompleteSelectedEvent);
+            // autocomplete.closed;
+        }
     }
 
     onItemSelect(event: MatAutocompleteSelectedEvent): void {
@@ -157,6 +194,7 @@ export class CreateReceiptComponent implements OnInit {
         setTimeout(() => {
             this.formGroup.get('item')?.markAsUntouched();
             this.formGroup.get('item')?.setValue('');
+            this._isKeyDown = false;
         });
     }
 
@@ -343,7 +381,8 @@ export class CreateReceiptComponent implements OnInit {
     }
 
     get selectedItemsReverse() {
-        return this.selectedItems ? [...this.selectedItems].reverse() : [];
+        // return this.selectedItems ? [...this.selectedItems] : [];
+        return this.selectedItems;
     }
 
     isObject(obj: any) {

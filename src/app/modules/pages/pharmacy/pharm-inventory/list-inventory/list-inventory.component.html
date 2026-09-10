@@ -1,0 +1,577 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent"
+    >
+        <div class="flex-1 min-w-0">
+            <div class="mt-2">
+                <h2
+                    class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
+                >
+                    {{ "PHARMACY_INVENTORY" | transloco }}
+                </h2>
+            </div>
+        </div>
+        <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4"></div>
+    </div>
+
+    <div class="flex-auto p-6 sm:p-10">
+        <div class="w-full pt-2 pb-2 sm:pt-6 sm:pb-2 bg-card rounded shadow">
+            <form [formGroup]="formGroup" class="w-full">
+                <div class="flex flex-wrap w-full px-3 sm:px-6 pt-2 sm:pt-4">
+                    <div class="w-full sm:w-3/4 pr-6">
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>
+                                {{ "SEARCH_VALUE" | transloco }}
+                            </mat-label>
+                            <input
+                                matInput
+                                formControlName="searchValue"
+                                type="text"
+                                placeholder="Search item"
+                            />
+                        </mat-form-field>
+                    </div>
+                    <div class="w-full sm:w-1/4 pr-6">
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>
+                                {{ "SORT_BY" | transloco }}
+                            </mat-label>
+                            <mat-select formControlName="sortBy">
+                                <mat-option value="name:asc">
+                                    Name (A to Z)
+                                </mat-option>
+                                <!-- <mat-option value="name:desc">
+                                Name (Z to A)
+                            </mat-option> -->
+                                <mat-option value="stock:asc">
+                                    Stock (Lowest)
+                                </mat-option>
+                                <mat-option value="stock:desc">
+                                    Stock (Highest)
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="bg-card shadow rounded mt-2 sm:mt-4">
+            <div class="p-6 sm:p-10 space-y-10">
+                <!-- Out of stocks -->
+                <div>
+                    <mat-accordion multi>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <h4 class="font-bold text-lg">
+                                        Out of Stocks
+                                    </h4>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+
+                            <div>
+                                <table
+                                    class="w-full text-center"
+                                    mat-table
+                                    [dataSource]="outOfStockItems"
+                                >
+                                    <ng-container matColumnDef="name">
+                                        <th
+                                            mat-header-cell
+                                            *matHeaderCellDef
+                                            class="mx-2 text-center text-xs"
+                                        >
+                                            {{ "ITEM_NAME" | transloco }}
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let element"
+                                            class="text-center text-sm"
+                                        >
+                                            {{ element.itemName }}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="code">
+                                        <th
+                                            mat-header-cell
+                                            *matHeaderCellDef
+                                            class="mx-2 text-center text-xs"
+                                        >
+                                            {{ "CODE" | transloco }}
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let element"
+                                            class="text-center text-sm"
+                                        >
+                                            {{ element.itemCode }}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="status">
+                                        <th
+                                            mat-header-cell
+                                            *matHeaderCellDef
+                                            class="mx-2 text-center text-xs"
+                                        >
+                                            {{ "STATUS" | transloco }}
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let element"
+                                            class="text-center text-sm"
+                                        >
+                                            <app-status-chip
+                                                [status]="element.status"
+                                            ></app-status-chip>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="currentStock">
+                                        <th
+                                            mat-header-cell
+                                            *matHeaderCellDef
+                                            class="mx-2 text-center text-xs"
+                                        >
+                                            {{ "STOCKS" | transloco }}
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let element"
+                                            class="text-center text-sm"
+                                        >
+                                            {{ element.currentStock }}
+                                            {{ element.unit }}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="minThreshold">
+                                        <th
+                                            mat-header-cell
+                                            *matHeaderCellDef
+                                            class="mx-2 text-center text-xs"
+                                        >
+                                            {{ "MIN_THRESHOLD" | transloco }}
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let element"
+                                            class="text-center text-sm"
+                                        >
+                                            {{ element.minThreshold }}
+                                            {{ element.unit }}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="totalPurchased">
+                                        <th
+                                            mat-header-cell
+                                            *matHeaderCellDef
+                                            class="mx-2 text-center text-xs"
+                                        >
+                                            {{ "TOTAL_PURCHASED" | transloco }}
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let element"
+                                            class="text-center text-sm"
+                                        >
+                                            {{ element.totalPurchased }}
+                                            {{ element.unit }}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="totalSold">
+                                        <th
+                                            mat-header-cell
+                                            *matHeaderCellDef
+                                            class="mx-2 text-center text-xs"
+                                        >
+                                            {{ "TOTAL_SOLD" | transloco }}
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let element"
+                                            class="text-center text-sm"
+                                        >
+                                            {{ element.totalSold }}
+                                            {{ element.unit }}
+                                        </td>
+                                    </ng-container>
+
+                                    <tr
+                                        mat-header-row
+                                        *matHeaderRowDef="
+                                            displayedColumnsForExtra
+                                        "
+                                    ></tr>
+                                    <tr
+                                        mat-row
+                                        *matRowDef="
+                                            let row;
+                                            columns: displayedColumnsForExtra
+                                        "
+                                    ></tr>
+                                </table>
+                            </div>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+
+                <!-- Low stocks -->
+                <div>
+                    <mat-accordion multi>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <h4 class="font-bold text-lg">
+                                        Low Stocks
+                                    </h4>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+
+                            <div>
+                                <table
+                                    class="w-full text-center"
+                                    mat-table
+                                    [dataSource]="lowStockItems"
+                                >
+                                    <ng-container matColumnDef="name">
+                                        <th
+                                            mat-header-cell
+                                            *matHeaderCellDef
+                                            class="mx-2 text-center text-xs"
+                                        >
+                                            {{ "ITEM_NAME" | transloco }}
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let element"
+                                            class="text-center text-sm"
+                                        >
+                                            {{ element.itemName }}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="code">
+                                        <th
+                                            mat-header-cell
+                                            *matHeaderCellDef
+                                            class="mx-2 text-center text-xs"
+                                        >
+                                            {{ "CODE" | transloco }}
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let element"
+                                            class="text-center text-sm"
+                                        >
+                                            {{ element.itemCode }}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="status">
+                                        <th
+                                            mat-header-cell
+                                            *matHeaderCellDef
+                                            class="mx-2 text-center text-xs"
+                                        >
+                                            {{ "STATUS" | transloco }}
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let element"
+                                            class="text-center text-sm"
+                                        >
+                                            <app-status-chip
+                                                [status]="element.status"
+                                            ></app-status-chip>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="currentStock">
+                                        <th
+                                            mat-header-cell
+                                            *matHeaderCellDef
+                                            class="mx-2 text-center text-xs"
+                                        >
+                                            {{ "STOCKS" | transloco }}
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let element"
+                                            class="text-center text-sm"
+                                        >
+                                            {{ element.currentStock }}
+                                            {{ element.unit }}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="minThreshold">
+                                        <th
+                                            mat-header-cell
+                                            *matHeaderCellDef
+                                            class="mx-2 text-center text-xs"
+                                        >
+                                            {{ "MIN_THRESHOLD" | transloco }}
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let element"
+                                            class="text-center text-sm"
+                                        >
+                                            {{ element.minThreshold }}
+                                            {{ element.unit }}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="totalPurchased">
+                                        <th
+                                            mat-header-cell
+                                            *matHeaderCellDef
+                                            class="mx-2 text-center text-xs"
+                                        >
+                                            {{ "TOTAL_PURCHASED" | transloco }}
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let element"
+                                            class="text-center text-sm"
+                                        >
+                                            {{ element.totalPurchased }}
+                                            {{ element.unit }}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="totalSold">
+                                        <th
+                                            mat-header-cell
+                                            *matHeaderCellDef
+                                            class="mx-2 text-center text-xs"
+                                        >
+                                            {{ "TOTAL_SOLD" | transloco }}
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let element"
+                                            class="text-center text-sm"
+                                        >
+                                            {{ element.totalSold }}
+                                            {{ element.unit }}
+                                        </td>
+                                    </ng-container>
+
+                                    <tr
+                                        mat-header-row
+                                        *matHeaderRowDef="
+                                            displayedColumnsForExtra
+                                        "
+                                    ></tr>
+                                    <tr
+                                        mat-row
+                                        *matRowDef="
+                                            let row;
+                                            columns: displayedColumnsForExtra
+                                        "
+                                    ></tr>
+                                </table>
+                            </div>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+
+                <!-- Stocks -->
+                <div>
+                    <mat-accordion multi>
+                        <mat-expansion-panel [expanded]="true">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <h4 class="font-bold text-lg">
+                                        {{ "Stocks" | transloco }}
+                                    </h4>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+
+                            <div>
+                                <table
+                                    class="w-full text-center"
+                                    mat-table
+                                    [dataSource]="dataSource"
+                                >
+                                    <ng-container matColumnDef="name">
+                                        <th
+                                            mat-header-cell
+                                            *matHeaderCellDef
+                                            class="mx-2 text-center text-xs"
+                                        >
+                                            {{ "ITEM_NAME" | transloco }}
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let element"
+                                            class="text-center text-sm"
+                                        >
+                                            {{ element.itemName }}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="code">
+                                        <th
+                                            mat-header-cell
+                                            *matHeaderCellDef
+                                            class="mx-2 text-center text-xs"
+                                        >
+                                            {{ "CODE" | transloco }}
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let element"
+                                            class="text-center text-sm"
+                                        >
+                                            {{ element.itemCode }}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="status">
+                                        <th
+                                            mat-header-cell
+                                            *matHeaderCellDef
+                                            class="mx-2 text-center text-xs"
+                                        >
+                                            {{ "STATUS" | transloco }}
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let element"
+                                            class="text-center text-sm"
+                                        >
+                                            <app-status-chip
+                                                [status]="element.status"
+                                            ></app-status-chip>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="currentStock">
+                                        <th
+                                            mat-header-cell
+                                            *matHeaderCellDef
+                                            class="mx-2 text-center text-xs"
+                                        >
+                                            {{ "STOCKS" | transloco }}
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let element"
+                                            class="text-center text-sm"
+                                        >
+                                            {{
+                                                calculateStock(
+                                                    element.currentStock,
+                                                    element.unit,
+                                                    element.units,
+                                                    element.qtyPerUnit
+                                                )
+                                            }}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="qtyPerUnit">
+                                        <th
+                                            mat-header-cell
+                                            *matHeaderCellDef
+                                            class="mx-2 text-center text-xs"
+                                        >
+                                            {{ "QTY_PER_UNIT" | transloco }}
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let element"
+                                            class="text-center text-sm"
+                                        >
+                                            {{ element.qtyPerUnit }}
+                                            {{
+                                                element.units[1] ||
+                                                    element.units[0]
+                                            }}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="minThreshold">
+                                        <th
+                                            mat-header-cell
+                                            *matHeaderCellDef
+                                            class="mx-2 text-center text-xs"
+                                        >
+                                            {{ "MIN_THRESHOLD" | transloco }}
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let element"
+                                            class="text-center text-sm"
+                                        >
+                                            {{ element.minThreshold }}
+                                            {{ element.unit }}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="totalPurchased">
+                                        <th
+                                            mat-header-cell
+                                            *matHeaderCellDef
+                                            class="mx-2 text-center text-xs"
+                                        >
+                                            {{ "TOTAL_PURCHASED" | transloco }}
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let element"
+                                            class="text-center text-sm"
+                                        >
+                                            {{
+                                                calculateStock(
+                                                    element.totalPurchased,
+                                                    element.unit,
+                                                    element.units,
+                                                    element.qtyPerUnit
+                                                )
+                                            }}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="totalSold">
+                                        <th
+                                            mat-header-cell
+                                            *matHeaderCellDef
+                                            class="mx-2 text-center text-xs"
+                                        >
+                                            {{ "TOTAL_SOLD" | transloco }}
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let element"
+                                            class="text-center text-sm"
+                                        >
+                                            {{
+                                                calculateStock(
+                                                    element.totalSold,
+                                                    element.unit,
+                                                    element.units,
+                                                    element.qtyPerUnit
+                                                )
+                                            }}
+                                        </td>
+                                    </ng-container>
+
+                                    <tr
+                                        mat-header-row
+                                        *matHeaderRowDef="displayedColumns"
+                                    ></tr>
+                                    <tr
+                                        mat-row
+                                        *matRowDef="
+                                            let row;
+                                            columns: displayedColumns
+                                        "
+                                    ></tr>
+                                </table>
+                                <div
+                                    class="flex flex-row justify-end border-t bg-gray-50 dark:bg-gray-700"
+                                >
+                                    <mat-paginator
+                                        showFirstLastButtons
+                                        [pageSizeOptions]="[20, 50, 100]"
+                                        class="bg-gray-50 dark:bg-gray-700"
+                                    >
+                                    </mat-paginator>
+                                </div>
+                            </div>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
