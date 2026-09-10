@@ -346,6 +346,7 @@
         <ngx-scanner-qrcode
             #action="scanner"
             (event)="onScan($event)"
+            [config]="config"
         ></ngx-scanner-qrcode>
     </div>
 </ng-template>

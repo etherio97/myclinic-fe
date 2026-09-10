@@ -24,6 +24,7 @@ import { PharmReceiptService } from 'app/services/pharm-receipt.service';
 import { PharmItemService } from 'app/services/pharm-item.service';
 import {
     NgxScannerQrcodeComponent,
+    ScannerQRCodeConfig,
     ScannerQRCodeResult,
 } from 'ngx-scanner-qrcode';
 
@@ -418,12 +419,22 @@ export class CreateReceiptMobileComponent implements OnInit, OnDestroy {
 
     scannedItem: any;
 
+    config: ScannerQRCodeConfig = {
+        constraints: {
+            video: {
+                facingMode: 'environment', // 'environment' targets the main/back camera
+                width: { ideal: 280 },
+                height: { ideal: 280 },
+            },
+        },
+    };
+
     openScanner() {
         this._isScanned = false;
         this.scannedItem = null;
         this._modal = this._dialog.open(this.qrCodeScannerRef, {
-            height: '50%',
-            width: '50%',
+            height: '380px',
+            width: '280px',
         });
 
         this._sub = this._modal.afterOpened().subscribe(() => {
