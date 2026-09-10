@@ -37,7 +37,12 @@
                             "src/favicon.png",
                             "src/manifest.json",
                             "src/version",
-                            "src/assets"
+                            "src/assets",
+                            {
+                                "glob": "**/*",
+                                "input": "node_modules/ngx-scanner-qrcode/wasm/",
+                                "output": "./assets/wasm/"
+                            }
                         ],
                         "stylePreprocessorOptions": {
                             "includePaths": ["src/@fuse/styles"]

@@ -1,0 +1,443 @@
+<div
+    class="w-full p-3 sm:p-8 mx-auto mr-5 md:mr-0 relative"
+    style="max-width: 1400px"
+>
+    <form [formGroup]="formGroup" (ngSubmit)="submit()">
+        <div class="mb-4">
+            <div class="flex justify-between">
+                <div class="flex items-center">
+                    <button
+                        mat-icon-button
+                        matTooltip="Back"
+                        routerLink=".."
+                        type="button"
+                    >
+                        <mat-icon svgIcon="mat_outline:chevron_left"></mat-icon>
+                    </button>
+                    <h2 class="text-3xl font-semibold tracking-tight leading-8">
+                        {{ "CREATE_NEW_RECEIPT" | transloco }}
+                    </h2>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button
+                        type="submit"
+                        mat-flat-button
+                        class="flex items-center bg-indigo-600 text-white"
+                    >
+                        <mat-icon
+                            svgIcon="mat_outline:save"
+                            class="icon-size-5 mr-2"
+                        ></mat-icon>
+                        {{ "SAVE" | transloco }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- For Patient Information -->
+        <div class="w-full pt-2 pb-2 mx-5">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="flex items-center justify-between">
+                    <mat-form-field class="w-full">
+                        <mat-label>{{ "PATIENT_NAME" | transloco }}</mat-label>
+                        <input
+                            type="text"
+                            matInput
+                            formControlName="patient"
+                            [matAutocomplete]="patientAuto"
+                            (focus)="
+                                formGroup.controls.patient.untouched &&
+                                    formGroup.controls.patient.setValue(null)
+                            "
+                        />
+                        <mat-icon
+                            *ngIf="
+                                formGroup.controls['patient']?.value &&
+                                isObject(formGroup.controls['patient']?.value)
+                            "
+                            matSuffix
+                            class="text-teal-600"
+                            svgIcon="mat_outline:check"
+                        ></mat-icon>
+                        <mat-icon
+                            *ngIf="
+                                formGroup.controls['patient'].touched &&
+                                !isObject(formGroup.controls['patient']?.value)
+                            "
+                            matSuffix
+                            class="text-rose-600"
+                            svgIcon="mat_outline:cancel"
+                        ></mat-icon>
+                        <mat-autocomplete
+                            #patientAuto="matAutocomplete"
+                            [displayWith]="displayPatientFn"
+                        >
+                            <mat-option
+                                *ngFor="
+                                    let option of patientFilteredOptions | async
+                                "
+                                [value]="option"
+                            >
+                                {{ option.fullName }} #{{ option.patientNo }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+
+                <mat-form-field class="w-full pt-4">
+                    <mat-label>{{ "DATE" | transloco }}</mat-label>
+                    <mat-hint>
+                        <div class="h-4">
+                            {{ "LEAVE_BLANK_FOR_CURRENT_TIME" | transloco }}
+                        </div>
+                    </mat-hint>
+                    <input
+                        matInput
+                        [ngxMatDatetimePicker]="picker"
+                        placeholder="Choose a date"
+                        formControlName="date"
+                        (focus)="picker.open()"
+                    />
+                    <mat-datepicker-toggle
+                        matSuffix
+                        [for]="picker"
+                    ></mat-datepicker-toggle>
+                    <ngx-mat-datetime-picker
+                        #picker
+                        [showSeconds]="true"
+                        [stepSecond]="true"
+                    >
+                    </ngx-mat-datetime-picker>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <!-- For Others -->
+        <div class="w-full pt-2 pb-2 mx-5">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <mat-form-field class="w-full">
+                    <mat-label>{{ "PAYMENT_METHOD" | transloco }}</mat-label>
+                    <mat-select formControlName="paymentMethod">
+                        <mat-option
+                            *ngFor="let paymentMethod of paymentMethods"
+                            [value]="paymentMethod"
+                        >
+                            {{ paymentMethod }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <div class="grid grid-cols-3 gap-2">
+                    <mat-form-field class="w-full col-span-1">
+                        <mat-label>{{
+                            "DISCOUNT_PERCENTAGE" | transloco
+                        }}</mat-label>
+                        <input
+                            type="number"
+                            matInput
+                            formControlName="discountPercent"
+                        />
+                        <span matTextSuffix>%</span>
+                    </mat-form-field>
+
+                    <mat-form-field class="w-full col-span-2">
+                        <mat-label>{{
+                            "DISCOUNT_AMOUNT" | transloco
+                        }}</mat-label>
+                        <input
+                            type="number"
+                            matInput
+                            formControlName="discountAmount"
+                        />
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+
+        <!-- For Items -->
+        <div class="w-full pt-2 pb-2 mx-5">
+            <div class="mb-4 w-full flex justify-end">
+                <button
+                    mat-raised-button
+                    type="button"
+                    class="flex items-center bg-slate-500 text-white mr-2"
+                    (click)="openScanner()"
+                >
+                    <mat-icon svgIcon="mat_outline:camera"></mat-icon>
+                    Scan
+                </button>
+            </div>
+
+            <mat-form-field class="w-full">
+                <mat-label>{{ "ADD_ITEM" | transloco }}</mat-label>
+                <input
+                    type="text"
+                    matInput
+                    formControlName="item"
+                    [matAutocomplete]="itemAuto"
+                    (click)="
+                        formGroup.controls.item.untouched &&
+                            formGroup.controls.item.setValue(null)
+                    "
+                    (keydown.enter)="selectFirstItemOnEnter($event, itemAuto)"
+                    (keydown.arrowDown)="onKeyDown()"
+                />
+                <mat-autocomplete
+                    #itemAuto="matAutocomplete"
+                    [displayWith]="displayItemFn"
+                    (optionSelected)="onItemSelect($event)"
+                >
+                    <mat-option
+                        *ngFor="let option of itemFilteredOptions | async"
+                        [value]="option"
+                    >
+                        <table class="w-full">
+                            <tbody>
+                                <tr class="w-full">
+                                    <td class="w-[15%] py-2">
+                                        <span class="text-xs">
+                                            {{ option.code }}
+                                        </span>
+                                    </td>
+                                    <td class="w-[65%] py-2">
+                                        {{ option.name }}
+                                    </td>
+                                    <td class="w-[10%] text-center py-2">
+                                        {{ option.unitPrice }}
+                                    </td>
+                                    <td class="w-[10%] text-center py-2">
+                                        {{ option.eachPrice }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+
+            <div class="w-full border border-gray-200 overflow-hidden rounded">
+                <div
+                    class="flex justify-end flex-col md:flex-row md:items-center bg-white px-2 md:px-12 font-bold space-y-2 md:space-y-0 md:space-x-12 rounded py-3"
+                >
+                    <div
+                        class="text-center grid grid-cols-2 md:flex md:space-x-2"
+                    >
+                        <p>
+                            {{ "SUBTOTAL" | transloco }}
+                        </p>
+                        <p>
+                            {{ getSubTotal() | currency: "MMK" : "" : "0.0-0" }}
+                        </p>
+                    </div>
+                    <div
+                        class="text-center grid grid-cols-2 md:flex md:space-x-2"
+                    >
+                        <p>
+                            {{ "DISCOUNT" | transloco }}
+                        </p>
+                        <p>
+                            {{ getDiscount() | currency: "MMK" : "" : "0.0-0" }}
+                        </p>
+                    </div>
+                    <div
+                        class="text-center grid grid-cols-2 md:flex md:space-x-2"
+                    >
+                        <p>
+                            {{ "TOTAL" | transloco }}
+                        </p>
+                        <p>
+                            {{
+                                getGrandTotal() | currency: "MMK" : "" : "0.0-0"
+                            }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4 relative space-y-2">
+                <div
+                    *ngFor="let item of selectedItemsReverse; let i = index"
+                    class="w-full space-y-2 border-b border-b-slate-200 pb-2"
+                >
+                    <div class="flex items-center space-x-2">
+                        <span
+                            class="px-1.5 py-0.5 rounded bg-slate-600 text-white text-xs"
+                        >
+                            {{ item.code }}
+                        </span>
+                        <span class="font-bold">
+                            {{ item.name }}
+                            <ng-container
+                                *ngIf="
+                                    item.qtyPerUnit &&
+                                    item.units[0] == item.unit
+                                "
+                            >
+                                ({{ item.qtyPerUnit }}')
+                            </ng-container>
+                        </span>
+                    </div>
+                    <div class="flex space-x-1 items-center">
+                        <select
+                            class="py-1 px-2 w-24 rounded bg-white text-center"
+                            matInput
+                            type="number"
+                            (change)="onChangeUnit(item, $event.target)"
+                            [(ngModel)]="item.unit"
+                            [ngModelOptions]="{ standalone: true }"
+                        >
+                            <option
+                                *ngFor="let unit of item.units"
+                                [value]="unit"
+                            >
+                                {{ unit }}
+                            </option>
+                        </select>
+
+                        <input
+                            class="py-1 px-2 w-24 rounded bg-white text-center"
+                            matInput
+                            type="number"
+                            (change)="recalculateDiscount()"
+                            [(ngModel)]="item.sellingPrice"
+                            [ngModelOptions]="{ standalone: true }"
+                        />
+
+                        <span>*</span>
+
+                        <input
+                            class="py-1 px-2 w-12 rounded bg-white text-center"
+                            matInput
+                            type="number"
+                            (change)="recalculateDiscount()"
+                            [(ngModel)]="item.quantity"
+                            [ngModelOptions]="{ standalone: true }"
+                        />
+                    </div>
+
+                    <div class="flex space-x-1 items-center">
+                        <input
+                            class="py-1 px-2 w-24 rounded bg-white text-center"
+                            matInput
+                            type="number"
+                            placeholder="Discount"
+                            (change)="recalculateDiscount()"
+                            [(ngModel)]="item.discount"
+                            [ngModelOptions]="{ standalone: true }"
+                        />
+
+                        <p class="font-bold">
+                            Amount:
+                            {{
+                                item.sellingPrice * item.quantity -
+                                    (item.discount || 0)
+                                    | currency: "MMK" : "" : "0.0-0"
+                            }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<ng-template #qrCodeScannerRef>
+    <div class="scanner-dialog-container">
+        <ngx-scanner-qrcode
+            #action="scanner"
+            (event)="onScan($event)"
+        ></ngx-scanner-qrcode>
+    </div>
+</ng-template>
+
+<ng-template #inputItemRef>
+    <div class="space-y-2">
+        <div class="space-y-1">
+            <p class="font-bold">
+                {{ scannedItem.name }}
+            </p>
+            <p class="text-slate-400 text-xs">
+                {{ scannedItem.code }}
+            </p>
+
+            <div class="grid grid-cols-2">
+                <div>
+                    <p class="text-xs text-slate-400">
+                        Unit Price ({{ scannedItem.units[0] }})
+                    </p>
+                    <p class="font-bold">{{ scannedItem.unitPrice }}</p>
+                </div>
+                <div *ngIf="scannedItem.units.length > 1">
+                    <p class="text-xs text-slate-400">
+                        Each Price ({{ scannedItem.units[1] }})
+                    </p>
+                    <p class="font-bold">{{ scannedItem.eachPrice }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <mat-form-field class="w-full">
+                <mat-label>Unit</mat-label>
+                <mat-select [(ngModel)]="scannedItem.unit">
+                    <mat-option
+                        *ngFor="let item of scannedItem.units"
+                        [value]="item"
+                    >
+                        {{ item }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+                <mat-label>Quantity</mat-label>
+                <input type="tel" [(ngModel)]="scannedItem.quantity" matInput />
+            </mat-form-field>
+        </div>
+
+        <div class="flex justify-center items-center">
+            <button
+                class="bg-primary-600 text-white"
+                mat-flat-button
+                mat-dialog-close
+            >
+                Confirm
+            </button>
+            <button
+                (click)="onConfirmScanned()"
+                class="bg-primary-600 text-white"
+                mat-flat-button
+            >
+                Confirm
+            </button>
+        </div>
+    </div>
+</ng-template>
+
+<style>
+    /* Constrain the main dialog box */
+    .scanner-dialog-container {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        overflow: hidden;
+    }
+
+    /* Fixed-aspect box for the camera feed */
+    .scanner-wrapper {
+        position: relative;
+        width: 100%;
+        max-height: 100%;
+        border-radius: 8px;
+        overflow: hidden;
+        background-color: #000000;
+    }
+
+    /* Force the scanner video and canvas layers to scale inside the wrapper */
+    ::ng-deep ngx-scanner-qrcode video,
+    ::ng-deep ngx-scanner-qrcode canvas {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+    }
+</style>

@@ -30,6 +30,11 @@ import { CreatePatientModalComponent } from './components/create-patient-modal/c
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { EditReceiptComponent } from './edit-receipt/edit-receipt.component';
 import { TranslocoModule } from '@ngneat/transloco';
+import { CreateReceiptMobileComponent } from './create-receipt-mobile/create-receipt-mobile.component';
+import { NgxScannerQrcodeModule, LOAD_WASM } from 'ngx-scanner-qrcode';
+import { MatDialogModule } from '@angular/material/dialog';
+
+LOAD_WASM('assets/wasm/ngx-scanner-qrcode.wasm').subscribe();
 
 @NgModule({
     declarations: [
@@ -39,8 +44,10 @@ import { TranslocoModule } from '@ngneat/transloco';
         ViewReceiptComponent,
         CreatePatientModalComponent,
         EditReceiptComponent,
+        CreateReceiptMobileComponent,
     ],
     imports: [
+        NgxScannerQrcodeModule,
         RouterModule.forChild(pharmReceiptRoutes),
         SharedModule,
         MatInputModule,

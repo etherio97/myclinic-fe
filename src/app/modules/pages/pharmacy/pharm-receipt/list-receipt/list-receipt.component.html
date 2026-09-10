@@ -11,19 +11,32 @@
                 </h2>
             </div>
         </div>
-        <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+        <div
+            class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4 space-x-2"
+        >
             <button
-                *ngIf="!['lab-admin'].includes(role)"
                 mat-flat-button
                 color="primary"
                 routerLink="create"
-                class="text-white"
+                class="text-white hidden sm:block"
             >
                 <mat-icon
                     class="icon-size-5 mr-2"
                     svgIcon="heroicons_solid:plus"
                 ></mat-icon>
                 {{ "NEW" | transloco }}
+            </button>
+            <button
+                mat-flat-button
+                color="primary"
+                routerLink="create-mobile"
+                class="text-white sm:hidden"
+            >
+                <mat-icon
+                    class="icon-size-5 mr-2"
+                    svgIcon="heroicons_solid:plus"
+                ></mat-icon>
+                {{ "NEW_MOBILE" | transloco }}
             </button>
         </div>
     </div>

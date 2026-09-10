@@ -4,7 +4,7 @@ export const __LANG = '__lang';
 
 export let BASE_URL: string;
 
-if (['localhost', '127.0.0.1', '192.168.1.20'].includes(location.hostname)) {
+if (['localhost', '127.0.0.1', '192.168.1.7'].includes(location.hostname)) {
     BASE_URL = `http://${location.hostname}:3000`;
 } else {
     switch (location.port) {
