@@ -521,6 +521,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 ng-apexcharts
 MIT
 
+ngx-scanner-qrcode
+LGPL-2.1+
+
 perfect-scrollbar
 MIT
 The MIT License (MIT)
