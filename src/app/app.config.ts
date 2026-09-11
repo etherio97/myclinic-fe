@@ -17,7 +17,7 @@ if (['localhost', '127.0.0.1', '192.168.1.7'].includes(location.hostname)) {
             break;
     }
 }
-BASE_URL = 'https://2ce5-2a0d-5600-234-7000-7c43-e865-997-bed0.ngrok-free.app';
+// BASE_URL = 'https://2ce5-2a0d-5600-234-7000-7c43-e865-997-bed0.ngrok-free.app';
 
 export const SERVICE_URLS = {
     DOCTOR_API: `${BASE_URL}/doctor`,
