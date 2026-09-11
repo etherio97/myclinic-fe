@@ -223,6 +223,16 @@
                         class="text-center grid grid-cols-2 md:flex md:space-x-2"
                     >
                         <p>
+                            {{ "TOTAL_ITEMS" | transloco }}
+                        </p>
+                        <p>
+                            {{ selectedItems.length }}
+                        </p>
+                    </div>
+                    <div
+                        class="text-center grid grid-cols-2 md:flex md:space-x-2"
+                    >
+                        <p>
                             {{ "SUBTOTAL" | transloco }}
                         </p>
                         <p>
@@ -334,6 +344,15 @@
                                     | currency: "MMK" : "" : "0.0-0"
                             }}
                         </p>
+
+                        <button
+                            type="button"
+                            mat-icon-button
+                            color="warn"
+                            (click)="removeItem(i)"
+                        >
+                            <mat-icon>delete</mat-icon>
+                        </button>
                     </div>
                 </div>
             </div>

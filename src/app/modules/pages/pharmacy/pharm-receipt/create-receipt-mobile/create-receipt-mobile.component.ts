@@ -251,12 +251,15 @@ export class CreateReceiptMobileComponent implements OnInit, OnDestroy {
         }
     }
 
-    removeItem(code: string): void {
-        const index = this.selectedItems.findIndex(
-            (item) => item.code === code,
-        );
-        if (index === -1) return;
-        this.selectedItems.splice(index, 1);
+    removeItem(index: any): void {
+        const items = [];
+
+        for (let i = 0; i < this.selectedItems.length; i++) {
+            if (i !== index) {
+                items.push(this.selectedItems[i]);
+            }
+        }
+        this.selectedItems = items;
         this.recalculateDiscount();
     }
 
