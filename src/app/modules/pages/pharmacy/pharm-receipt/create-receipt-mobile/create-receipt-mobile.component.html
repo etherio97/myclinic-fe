@@ -342,12 +342,23 @@
 </div>
 
 <ng-template #qrCodeScannerRef>
-    <div class="scanner-dialog-container">
+    <div class="scanner-dialog-container space-y-2">
         <ngx-scanner-qrcode
             #action="scanner"
             (event)="onScan($event)"
             [config]="config"
         ></ngx-scanner-qrcode>
+
+        <mat-form-field class="w-full">
+            <mat-select
+                (valueChange)="onChangeDevice($event)"
+                [value]="selectedDevice"
+            >
+                <mat-option *ngFor="let device of devices" [value]="device">
+                    {{ device.label }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
     </div>
 </ng-template>
 
@@ -396,13 +407,13 @@
             </mat-form-field>
         </div>
 
-        <div class="flex justify-center items-center">
+        <div class="flex justify-center items-center space-x-2">
             <button
                 class="bg-primary-600 text-white"
                 mat-flat-button
-                mat-dialog-close
+                (click)="closeModal()"
             >
-                Confirm
+                Close
             </button>
             <button
                 (click)="onConfirmScanned()"

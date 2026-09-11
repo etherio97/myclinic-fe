@@ -212,7 +212,7 @@ export class CreateReceiptMobileComponent implements OnInit, OnDestroy {
 
         if (!selectedItem) return;
 
-        selectedItem.unit = selectedItem.defaultUnit;
+        selectedItem.unit = selectedItem.unit || selectedItem.defaultUnit;
         selectedItem.quantity = selectedItem.quantity || 1;
         this.selectedItems.push(selectedItem);
         this.onChangeUnit(selectedItem, selectedItem.unit);
@@ -429,9 +429,17 @@ export class CreateReceiptMobileComponent implements OnInit, OnDestroy {
         },
     };
 
+    devices: any[] = [];
+
+    selectedDevice!: any;
+
+    // Define a key for localStorage
+    private readonly CAMERA_STORAGE_KEY = 'preferred_camera_device';
+
     openScanner() {
         this._isScanned = false;
         this.scannedItem = null;
+
         this._modal = this._dialog.open(this.qrCodeScannerRef, {
             height: '380px',
             width: '280px',
@@ -439,7 +447,40 @@ export class CreateReceiptMobileComponent implements OnInit, OnDestroy {
 
         this._sub = this._modal.afterOpened().subscribe(() => {
             if (this.scanner) {
-                this.scanner.start();
+                // Subscribe to devices observable to ensure devices are fully loaded (crucial for iOS)
+                this.scanner.devices.subscribe((devices: any[]) => {
+                    if (!devices || devices.length === 0) return;
+
+                    this.devices = devices;
+
+                    // 1. Retrieve saved device ID from localStorage
+                    const savedDeviceId = localStorage.getItem(
+                        this.CAMERA_STORAGE_KEY,
+                    );
+
+                    // 2. Find matching device by deviceId or label
+                    let targetDevice = devices.find(
+                        (d) => d.deviceId === savedDeviceId,
+                    );
+
+                    // 3. Fallback: If no saved device, target the back/environment camera on iOS
+                    if (!targetDevice) {
+                        targetDevice = devices.find((d) =>
+                            /back|rear|environment/i.test(d.label),
+                        );
+                    }
+
+                    if (targetDevice) {
+                        this.selectedDevice = targetDevice;
+                        // Play the target device directly
+                        this.scanner.playDevice(targetDevice.deviceId);
+                    } else {
+                        // Fallback to default start if no specific device is matched
+                        this.scanner.start();
+                        this.selectedDevice =
+                            this.devices[this.scanner.deviceIndexActive];
+                    }
+                });
             }
         });
 
@@ -449,6 +490,22 @@ export class CreateReceiptMobileComponent implements OnInit, OnDestroy {
                 this.scanner.stop();
             }
         });
+    }
+
+    onChangeDevice(event: any) {
+        if (this.scanner && this.scanner.isStart && event) {
+            this.selectedDevice = event;
+
+            // Save the chosen device ID to localStorage
+            if (this.selectedDevice.deviceId) {
+                localStorage.setItem(
+                    this.CAMERA_STORAGE_KEY,
+                    this.selectedDevice.deviceId,
+                );
+            }
+
+            this.scanner.playDevice(this.selectedDevice.deviceId);
+        }
     }
 
     onScan(results: ScannerQRCodeResult[]) {
@@ -481,5 +538,9 @@ export class CreateReceiptMobileComponent implements OnInit, OnDestroy {
                 value: item,
             },
         });
+    }
+
+    closeModal() {
+        this._modal.close();
     }
 }
