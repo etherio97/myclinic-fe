@@ -21,7 +21,7 @@
             *ngIf="['admin', 'lab-admin'].includes(role)"
         ></app-admin-dashboard>
         <app-manager-dashboard
-            *ngIf="['manager', 'cashier'].includes(role)"
+            *ngIf="['manager', 'cashier', 'pharm-cashier'].includes(role)"
         ></app-manager-dashboard>
     </div>
 </div>

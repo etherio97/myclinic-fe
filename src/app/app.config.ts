@@ -38,7 +38,14 @@ export const SERVICE_URLS = {
 };
 
 export const APP_CONFIG = {
-    ADMIN_ROLES: ['admin', 'manager', 'cashier', 'lab-admin', 'lab-cashier'],
+    ADMIN_ROLES: [
+        'admin',
+        'manager',
+        'cashier',
+        'lab-admin',
+        'lab-cashier',
+        'pharm-cashier',
+    ],
     MANAGER_ROLES: ['cashier'],
     GENDERS: ['Male', 'Female'],
     APPOINTMENT_STATUS: ['Booked', 'Completed', 'No Show', 'Cancelled'],
@@ -75,6 +82,7 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
                         'cashier',
                         'lab-admin',
                         'lab-cashier',
+                        'pharm-cashier',
                     ],
                 },
             },
@@ -168,7 +176,14 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
                         title: 'RECEIPTS',
                         type: 'basic',
                         link: '/pharmacy/receipts',
-                        meta: { roles: ['admin', 'manager', 'cashier'] },
+                        meta: {
+                            roles: [
+                                'admin',
+                                'manager',
+                                'cashier',
+                                'pharm-cashier',
+                            ],
+                        },
                     },
                     // {
                     //     title: 'INVENTORY',
@@ -179,7 +194,14 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
                         title: 'INVENTORY',
                         type: 'basic',
                         link: '/pharmacy/inventory',
-                        meta: { roles: ['admin', 'manager', 'cashier'] },
+                        meta: {
+                            roles: [
+                                'admin',
+                                'manager',
+                                'cashier',
+                                'pharm-cashier',
+                            ],
+                        },
                     },
                     {
                         title: 'PURCHASES',
@@ -191,11 +213,18 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
                         title: 'ITEMS',
                         type: 'basic',
                         link: '/pharmacy/items',
-                        meta: { roles: ['admin', 'manager', 'cashier'] },
+                        meta: {
+                            roles: [
+                                'admin',
+                                'manager',
+                                'cashier',
+                                'pharm-cashier',
+                            ],
+                        },
                     },
                 ],
                 meta: {
-                    roles: ['admin', 'manager', 'cashier'],
+                    roles: ['admin', 'manager', 'cashier', 'pharm-cashier'],
                 },
             },
 

@@ -15,21 +15,20 @@ export class ListInventoryComponent implements OnInit, AfterViewInit {
     displayedColumns: string[] = [
         'code',
         'name',
-        'qtyPerUnit',
-        'currentStock',
-        'status',
-        'minThreshold',
         'totalPurchased',
         'totalSold',
+        'status',
+        'currentStock',
+        // 'minThreshold',
     ];
 
     displayedColumnsForExtra: string[] = [
         'code',
         'name',
-        'currentStock',
-        'minThreshold',
         'totalPurchased',
         'totalSold',
+        'currentStock',
+        'minThreshold',
     ];
 
     dataSource: MatTableDataSource<any> = new MatTableDataSource<any>();
@@ -97,6 +96,16 @@ export class ListInventoryComponent implements OnInit, AfterViewInit {
                     (a, b) => b.currentStock - a.currentStock,
                 );
                 break;
+            case 'sale:asc':
+                this.dataSource.data = this.dataSource.data.sort(
+                    (a, b) => a.totalSold - b.totalSold,
+                );
+                break;
+            case 'sale:desc':
+                this.dataSource.data = this.dataSource.data.sort(
+                    (a, b) => b.totalSold - a.totalSold,
+                );
+                break;
         }
     }
 
@@ -141,19 +150,20 @@ export class ListInventoryComponent implements OnInit, AfterViewInit {
         units: string[],
         quantityPerUnit: string,
     ) {
-        let qty = parseInt(quantity);
-        let qtyPerUnit = parseInt(quantityPerUnit);
-        if (units.length === 1) {
-            return `${quantity} ${unit}`;
-        }
-        let st = qty / qtyPerUnit;
-        let str = Math.floor(st);
-        let rm = st.toString().split('.')[1];
-        let nr = `${str} ${units[0]}`;
+        // let qty = parseInt(quantity);
+        // let qtyPerUnit = parseInt(quantityPerUnit);
+        // if (units.length === 1) {
+        //     return `${quantity} ${unit}`;
+        // }
+        // let st = qty / qtyPerUnit;
+        // let str = Math.floor(st);
+        // let rm = st.toString().split('.')[1];
+        // let nr = `${str} ${units[0]}`;
 
-        if (rm) nr += ` ${rm} ${units[1]}`;
+        // if (rm) nr += ` ${rm} ${units[1]}`;
 
-        // return `${quantity} ${unit} / ${nr}`;
-        return nr;
+        // // return `${quantity} ${unit} / ${nr}`;
+        // return nr;
+        return `${quantity} ${unit}`;
     }
 }

@@ -190,6 +190,13 @@
     "SUPPLIER": "Supplier",
     "CODE": "Code",
     "STOCKS": "Stocks",
+    "PHARMACY_INVENTORY": "Pharmacy Inventory",
+    "SORT_BY": "Sort By",
+    "Stocks": "Stocks",
+    "TOTAL_PURCHASED": "Total Purchased",
+    "TOTAL_SOLD": "Total Sold",
+    "NEW_MOBILE": "New (M)",
+    "TOTAL_ITEMS": "Total Items",
 
     "XXX": ""
 }

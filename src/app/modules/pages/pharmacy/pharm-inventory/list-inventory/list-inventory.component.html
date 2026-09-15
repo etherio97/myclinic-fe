@@ -49,6 +49,12 @@
                                 <mat-option value="stock:desc">
                                     Stock (Highest)
                                 </mat-option>
+                                <mat-option value="sale:asc">
+                                    Sale (Lowest)
+                                </mat-option>
+                                <mat-option value="sale:desc">
+                                    Sale (Highest)
+                                </mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
@@ -90,6 +96,11 @@
                                             class="text-center text-sm"
                                         >
                                             {{ element.itemName }}
+                                            <ng-container
+                                                *ngIf="element.qtyPerUnit > 1"
+                                            >
+                                                ({{ element.qtyPerUnit }}&apos;)
+                                            </ng-container>
                                         </td>
                                     </ng-container>
                                     <ng-container matColumnDef="code">
@@ -246,6 +257,11 @@
                                             class="text-center text-sm"
                                         >
                                             {{ element.itemName }}
+                                            <ng-container
+                                                *ngIf="element.qtyPerUnit > 1"
+                                            >
+                                                ({{ element.qtyPerUnit }}&apos;)
+                                            </ng-container>
                                         </td>
                                     </ng-container>
                                     <ng-container matColumnDef="code">
@@ -402,6 +418,11 @@
                                             class="text-center text-sm"
                                         >
                                             {{ element.itemName }}
+                                            <ng-container
+                                                *ngIf="element.qtyPerUnit > 1"
+                                            >
+                                                ({{ element.qtyPerUnit }}&apos;)
+                                            </ng-container>
                                         </td>
                                     </ng-container>
                                     <ng-container matColumnDef="code">
@@ -458,26 +479,6 @@
                                                     element.units,
                                                     element.qtyPerUnit
                                                 )
-                                            }}
-                                        </td>
-                                    </ng-container>
-                                    <ng-container matColumnDef="qtyPerUnit">
-                                        <th
-                                            mat-header-cell
-                                            *matHeaderCellDef
-                                            class="mx-2 text-center text-xs"
-                                        >
-                                            {{ "QTY_PER_UNIT" | transloco }}
-                                        </th>
-                                        <td
-                                            mat-cell
-                                            *matCellDef="let element"
-                                            class="text-center text-sm"
-                                        >
-                                            {{ element.qtyPerUnit }}
-                                            {{
-                                                element.units[1] ||
-                                                    element.units[0]
                                             }}
                                         </td>
                                     </ng-container>

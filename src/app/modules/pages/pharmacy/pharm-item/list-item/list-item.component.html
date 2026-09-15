@@ -13,6 +13,7 @@
         </div>
         <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
             <button
+                *ngIf="['admin', 'manager'].includes(role)"
                 mat-flat-button
                 color="primary"
                 routerLink="create"
@@ -119,11 +120,16 @@
                         {{ "ITEM_NAME" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element" class="text-center">
-                        <p class="font-bold">{{ element.name }}</p>
-
-                        <p class="text-sm text-gray-500">
-                            {{ element.description }}
+                        <p>
+                            <b>{{ element.name }}</b>
+                            <ng-container *ngIf="element.qtyPerUnit > 1">
+                                ({{ element.qtyPerUnit }}&apos;)
+                            </ng-container>
                         </p>
+
+                        <!-- <p class="text-sm text-gray-500">
+                            {{ element.description }}
+                        </p> -->
                     </td>
                 </ng-container>
                 <ng-container matColumnDef="code">
@@ -197,6 +203,7 @@
                     <td mat-cell *matCellDef="let element">
                         <div class="flex">
                             <a
+                                *ngIf="['admin', 'manager'].includes(role)"
                                 mat-icon-button
                                 [routerLink]="['edit', element.code]"
                                 matTooltip="{{ 'EDIT' | transloco }}"
@@ -207,11 +214,7 @@
                                 ></mat-icon>
                             </a>
                             <button
-                                *ngIf="
-                                    ['admin', 'manager', 'lab-admin'].includes(
-                                        role
-                                    )
-                                "
+                                *ngIf="['admin', 'manager'].includes(role)"
                                 mat-icon-button
                                 (click)="removeItem(element.code)"
                                 matTooltip="{{ 'DELETE' | transloco }}"
