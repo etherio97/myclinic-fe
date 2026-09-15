@@ -8,15 +8,18 @@ import { SERVICE_URLS } from 'app/app.config';
 export class PharmItemService {
     constructor(private _http: HttpClient) {}
 
-    getAll({
-        name,
-        code,
-        barcode,
-    }: {
-        name?: string;
-        code?: string;
-        barcode?: string;
-    }) {
+    getAll(
+        {
+            name,
+            code,
+            barcode,
+        }: {
+            name?: string;
+            code?: string;
+            barcode?: string;
+        },
+        showAll = false,
+    ) {
         const params: any = {};
 
         if (name) {
@@ -29,6 +32,10 @@ export class PharmItemService {
 
         if (barcode) {
             params.barcode = barcode;
+        }
+
+        if (showAll) {
+            params.showAll = true;
         }
 
         return this._http.get([SERVICE_URLS.PHARM_ITEM_API, 'list'].join('/'), {

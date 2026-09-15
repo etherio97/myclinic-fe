@@ -192,6 +192,21 @@
                         {{ element.eachPrice | currency: "MMK" : "" : "0.0" }}
                     </td>
                 </ng-container>
+
+                <ng-container matColumnDef="status">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="mx-2 text-center"
+                    >
+                        {{ "STATUS" | transloco }}
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        <app-status-chip
+                            [status]="element.status"
+                        ></app-status-chip>
+                    </td>
+                </ng-container>
                 <ng-container matColumnDef="actions">
                     <th
                         mat-header-cell
@@ -202,6 +217,17 @@
                     </th>
                     <td mat-cell *matCellDef="let element">
                         <div class="flex">
+                            <button
+                                *ngIf="['admin', 'manager'].includes(role)"
+                                mat-icon-button
+                                (click)="changeStatus(element)"
+                                matTooltip="{{ 'CHANGE_STATUS' | transloco }}"
+                            >
+                                <mat-icon
+                                    svgIcon="mat_solid:published_with_changes"
+                                    class="icon-size-4"
+                                ></mat-icon>
+                            </button>
                             <a
                                 *ngIf="['admin', 'manager'].includes(role)"
                                 mat-icon-button

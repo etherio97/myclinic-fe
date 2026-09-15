@@ -15,10 +15,10 @@ export class ListItemComponent implements OnInit, AfterViewInit {
     displayedColumns: string[] = [
         'code',
         'name',
+        'status',
         'defaultUnit',
         'unitPrice',
         'eachPrice',
-        // 'minThreshold',
         'actions',
     ];
 
@@ -53,16 +53,8 @@ export class ListItemComponent implements OnInit, AfterViewInit {
         this._userService.get().subscribe(({ role }) => {
             this.role = role;
 
-            if (this.role == 'lab-admin') {
-                this.formGroup.controls.itemType.setValue('Laboratory');
-            }
-
-            this.initializeData();
+            this.reloadData();
         });
-    }
-
-    initializeData() {
-        this.reloadData();
     }
 
     ngAfterViewInit(): void {
@@ -71,7 +63,7 @@ export class ListItemComponent implements OnInit, AfterViewInit {
 
     reloadData() {
         this._itemService
-            .getAll(this.formGroup.value)
+            .getAll({ ...this.formGroup.value }, true)
             .subscribe((result: any) => {
                 this.searchResult = this.dataSource.data = result;
             });
@@ -93,5 +85,32 @@ export class ListItemComponent implements OnInit, AfterViewInit {
                 .afterOpened()
                 .subscribe(() => this.reloadData());
         });
+    }
+
+    changeStatus(element: any) {
+        let message = '';
+        if (element.status === 'Active') {
+            message = MESSAGES.CONFIRM_DEACTIVATE_USER;
+        } else {
+            message = MESSAGES.CONFIRM_ACTIVATE_USER;
+        }
+
+        this.confirmService
+            .confirm(message)
+            .beforeClosed()
+            .subscribe(
+                (value) =>
+                    value === 'confirmed' && this.confirmChangeStatus(element),
+            );
+    }
+
+    confirmChangeStatus(element: any) {
+        this._itemService
+            .update(element.code, {
+                status: element.status === 'Active' ? 'Inactive' : 'Active',
+            })
+            .subscribe(() => {
+                this.reloadData();
+            });
     }
 }
