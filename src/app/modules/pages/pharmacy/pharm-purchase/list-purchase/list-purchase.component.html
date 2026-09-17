@@ -68,6 +68,23 @@
                             <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
                     </div>
+
+                    <div class="w-full sm:w-1/3 pr-6">
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>{{ "SORT_BY" | transloco }}</mat-label>
+                            <mat-select formControlName="sortBy">
+                                <mat-option value="date:desc">
+                                    Date (Newest)
+                                </mat-option>
+                                <mat-option value="name:asc">
+                                    Name (A to Z)
+                                </mat-option>
+                                <mat-option value="exp:asc">
+                                    Expiry (Nearest)
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
                 </div>
 
                 <div
@@ -124,7 +141,9 @@
                         {{ "EXPIRY_DATE" | transloco }}
                     </th>
                     <td mat-cell *matCellDef="let element" class="text-center">
-                        {{ element.expiryDate | date: "dd/MM/yyyy" }}
+                        {{ element.expiryDate | date: "dd/MM/yyyy" }} ({{
+                            generateRemainingMonth(element.expiryDate)
+                        }})
                     </td>
                 </ng-container>
                 <ng-container matColumnDef="quantity">

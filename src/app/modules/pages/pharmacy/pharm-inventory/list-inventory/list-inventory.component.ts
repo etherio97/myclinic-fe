@@ -77,8 +77,8 @@ export class ListInventoryComponent implements OnInit, AfterViewInit {
         const sortBy = value || this.formGroup.value.sortBy;
         switch (sortBy) {
             case 'name:asc':
-                this.dataSource.data = this.dataSource.data.sort(
-                    (a, b) => a.itemName - b.itemName,
+                this.dataSource.data = this.dataSource.data.sort((a, b) =>
+                    a.itemName.localeCompare(b.itemName),
                 );
                 break;
             // case 'name:desc':

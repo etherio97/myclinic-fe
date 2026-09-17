@@ -49,21 +49,17 @@ export class ListPurchaseComponent implements OnInit, AfterViewInit {
         this.formGroup = this._fb.group({
             startDate: [moment().startOf('month')],
             endDate: [moment().endOf('month')],
+            sortBy: ['date:desc'],
         });
 
         this._userService.get().subscribe(({ role }) => {
             this.role = role;
-
-            if (this.role == 'lab-admin') {
-                this.formGroup.controls.itemType.setValue('Laboratory');
-            }
-
-            this.initializeData();
+            this.reloadData();
         });
-    }
 
-    initializeData() {
-        this.reloadData();
+        this.formGroup.controls.sortBy.valueChanges.subscribe((value) =>
+            this.sortData(value),
+        );
     }
 
     ngAfterViewInit(): void {
@@ -90,7 +86,34 @@ export class ListPurchaseComponent implements OnInit, AfterViewInit {
         }
         this._purchaseService.getAll(condition).subscribe((result: any) => {
             this.searchResult = this.dataSource.data = result;
+            this.sortData();
         });
+    }
+
+    sortData(value: string | void) {
+        const sortBy = value || this.formGroup.value.sortBy;
+        switch (sortBy) {
+            case 'name:asc':
+                this.dataSource.data = this.dataSource.data.sort((a, b) =>
+                    a.item.name.localeCompare(b.item.name),
+                );
+                break;
+            case 'exp:asc':
+                this.dataSource.data = this.dataSource.data.sort((a, b) =>
+                    moment(a.expiryDate).diff(moment(b.expiryDate)),
+                );
+                break;
+            case 'date:desc':
+                this.dataSource.data = this.dataSource.data.sort((a, b) =>
+                    moment(a.date).diff(moment(b.date)),
+                );
+                break;
+        }
+    }
+
+    generateRemainingMonth(date: string) {
+        let m = moment(date).diff(moment(), 'months');
+        return m < 0 ? 'Expired' : m + ' months';
     }
 
     removeItem(id: string) {
