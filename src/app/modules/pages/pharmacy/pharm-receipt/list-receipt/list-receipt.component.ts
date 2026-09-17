@@ -33,6 +33,8 @@ export class ListReceiptComponent implements OnInit, AfterViewInit {
 
     role!: string;
 
+    grandTotal = 0;
+
     @ViewChild(MatPaginator) paginator!: MatPaginator;
 
     constructor(
@@ -87,6 +89,15 @@ export class ListReceiptComponent implements OnInit, AfterViewInit {
         }
         this._receiptService.getAll(condition).subscribe((result: any) => {
             this.searchResult = this.dataSource.data = result;
+
+            let grandTotal = 0;
+
+            if (Array.isArray(result)) {
+                for (let item of result) {
+                    grandTotal += Number.parseFloat(item.grandTotal);
+                }
+            }
+            this.grandTotal = grandTotal;
         });
     }
 
