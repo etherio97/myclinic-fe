@@ -345,8 +345,7 @@ export class CreateReceiptComponent implements OnInit {
                 this._router.navigate(
                     ['/pharmacy', 'receipts', 'view', response.id],
                     {
-                        // now disabled because of POS printer is not setup yet, will enable this in the future
-                        // queryParams: { print: 'true' },
+                        queryParams: { print: 'true' },
                     },
                 );
             });

@@ -368,13 +368,12 @@ export class CreateReceiptMobileComponent implements OnInit, OnDestroy {
             this.receiptNo = response.receiptNo;
             this.cashier = response.user;
             setTimeout(() => {
-                this._router.navigate(
-                    ['/pharmacy', 'receipts', 'view', response.id],
-                    {
-                        // now disabled because of POS printer is not setup yet, will enable this in the future
-                        // queryParams: { print: 'true' },
-                    },
-                );
+                this._router.navigate([
+                    '/pharmacy',
+                    'receipts',
+                    'view',
+                    response.id,
+                ]);
             });
         });
     }

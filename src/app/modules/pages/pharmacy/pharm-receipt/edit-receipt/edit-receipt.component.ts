@@ -329,8 +329,7 @@ export class EditReceiptComponent implements OnInit {
                     this._router.navigate(
                         ['/receipts', 'view', this.receiptId],
                         {
-                            // now disabled because of POS printer is not setup yet, will enable this in the future
-                            // queryParams: { print: 'true' },
+                            queryParams: { print: 'true' },
                         },
                     );
                 });
