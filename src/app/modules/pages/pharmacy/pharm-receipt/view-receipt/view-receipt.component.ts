@@ -42,7 +42,7 @@ export class ViewReceiptComponent implements OnInit {
             this.route.queryParams.subscribe(
                 (params) =>
                     params.print === 'true' &&
-                    setTimeout(() => this.handlePrint()),
+                    setTimeout(() => this.handlePrint(), 300),
             );
         });
     }

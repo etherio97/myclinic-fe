@@ -1,4 +1,4 @@
-<div class="w-full">
+<div class="w-full print:hidden">
     <div class="w-full p-3 sm:p-8 mx-auto relative" style="max-width: 1400px">
         <form [formGroup]="formGroup" (ngSubmit)="submit()">
             <div class="mb-4">
@@ -533,3 +533,32 @@
         </div>
     </div>
 </ng-template>
+
+<style>
+    /* Hidden on screen (web) */
+    .print-only {
+        display: none;
+    }
+
+    /* Shown on print */
+    @media print {
+        .print-only {
+            display: block; /* Or 'inline', 'flex', etc., depending on the element type */
+        }
+    }
+</style>
+
+<app-receipt-item
+    class="pb-10 print:p-0 print:m-0 print-only"
+    [patient]="formGroup.controls.type.value"
+    receiptNo="OFFLINE"
+    [date]="formGroup.controls.date.value || now()"
+    [items]="selectedItems"
+    [patient]="formGroup.controls.patient.value"
+    [paymentMethod]="formGroup.controls.paymentMethod.value"
+    [doctor]="formGroup.controls.doctor.value"
+    [grandTotal]="getGrandTotal()"
+    [subTotal]="getSubTotal()"
+    [discount]="getDiscount()"
+    [cashier]="user"
+></app-receipt-item>

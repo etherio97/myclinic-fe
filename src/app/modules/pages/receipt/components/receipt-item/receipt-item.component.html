@@ -27,21 +27,21 @@
                     {{ date | date: "dd-MM-yyyy hh:mm:ss a" }}
                 </td>
             </tr>
-            <tr>
+            <tr *ngIf="patient">
                 <td>Patient ID</td>
                 <td>:</td>
                 <td style="text-align: right">
                     MYP-{{ patient?.patientNo || "-" }}
                 </td>
             </tr>
-            <tr>
+            <tr *ngIf="patient">
                 <td>Patient Name</td>
                 <td>:</td>
                 <td style="text-align: right">
                     {{ patient?.fullName || "-" }}
                 </td>
             </tr>
-            <tr>
+            <tr *ngIf="patient">
                 <td>Age / Sex</td>
                 <td>:</td>
                 <td style="text-align: right">
@@ -54,7 +54,7 @@
                     {{ patient?.gender?.slice(0, 1) }}
                 </td>
             </tr>
-            <tr>
+            <tr *ngIf="doctor">
                 <td>Doctor Name</td>
                 <td>:</td>
                 <td style="text-align: right">
@@ -63,7 +63,7 @@
                     </ng-container>
                 </td>
             </tr>
-            <tr>
+            <tr *ngIf="cashier">
                 <td>Cashier</td>
                 <td>:</td>
                 <td style="text-align: right">

@@ -16,6 +16,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CreatePatientModalComponent } from '../components/create-patient-modal/create-patient-modal.component';
 import { PharmReceiptService } from 'app/services/pharm-receipt.service';
 import { PharmItemService } from 'app/services/pharm-item.service';
+import { UserService } from 'app/core/user/user.service';
 
 @Component({
     selector: 'app-create-receipt',
@@ -54,6 +55,8 @@ export class CreateReceiptComponent implements OnInit {
 
     inputPrecentage = 0;
 
+    user!: any;
+
     private _selectedItem: any;
 
     private _modal!: MatDialogRef<CreatePatientModalComponent>;
@@ -67,6 +70,7 @@ export class CreateReceiptComponent implements OnInit {
         private _router: Router,
         private route: ActivatedRoute,
         private _dialog: MatDialog,
+        private _userService: UserService,
     ) {}
 
     ngOnInit(): void {
@@ -77,6 +81,11 @@ export class CreateReceiptComponent implements OnInit {
             discountAmount: [''],
             discountPercent: [''],
             item: [''],
+        });
+
+        this._userService.get().subscribe((user) => {
+            user.fullName = user.fullname;
+            this.user = user;
         });
 
         this.formGroup.controls.discountPercent.valueChanges.subscribe(
@@ -393,5 +402,9 @@ export class CreateReceiptComponent implements OnInit {
 
     doSomething() {
         this.formGroup.controls.patient.setValue(null);
+    }
+
+    now() {
+        return moment();
     }
 }

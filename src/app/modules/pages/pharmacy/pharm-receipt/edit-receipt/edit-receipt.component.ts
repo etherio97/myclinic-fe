@@ -1,20 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { APP_CONFIG, MESSAGES, MY_DATE_FORMATS } from 'app/app.config';
-import { MAT_DATE_FORMATS } from '@angular/material/core';
-import { DoctorService } from 'app/services/doctor.service';
-import { ReceiptService } from 'app/services/receipt.service';
+import { APP_CONFIG, MESSAGES } from 'app/app.config';
 import { PatientService } from 'app/services/patient.service';
-import { ItemService } from 'app/services/item.service';
 import { startWith, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { clone } from 'lodash';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { clone, cloneDeep, filter } from 'lodash';
+import {
+    MatAutocomplete,
+    MatAutocompleteSelectedEvent,
+} from '@angular/material/autocomplete';
 import moment from 'moment';
 import { ConfirmService } from 'app/services/confirm.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CreatePatientModalComponent } from '../components/create-patient-modal/create-patient-modal.component';
+import { PharmReceiptService } from 'app/services/pharm-receipt.service';
+import { PharmItemService } from 'app/services/pharm-item.service';
 
 @Component({
     selector: 'app-edit-receipt',
@@ -47,19 +48,24 @@ export class EditReceiptComponent implements OnInit {
 
     cashier!: any;
 
-    receiptId = '';
-
     itemTypes = APP_CONFIG.ITEM_TYPES;
 
-    private _modal!: MatDialogRef<CreatePatientModalComponent>;
+    _id!: string;
+
+    inputAmount = 0;
+
+    inputPrecentage = 0;
 
     isLoaded = false;
 
+    private _selectedItem: any;
+
+    private _modal!: MatDialogRef<CreatePatientModalComponent>;
+
     constructor(
-        private _receiptService: ReceiptService,
-        private _doctorService: DoctorService,
+        private _receiptService: PharmReceiptService,
         private _patientService: PatientService,
-        private _itemService: ItemService,
+        private _itemService: PharmItemService,
         private _fb: FormBuilder,
         private _confirmService: ConfirmService,
         private _router: Router,
@@ -69,14 +75,12 @@ export class EditReceiptComponent implements OnInit {
 
     ngOnInit(): void {
         this.formGroup = this._fb.group({
-            patient: ['', Validators.required],
-            doctor: [''],
+            patient: [''],
             date: [''],
             paymentMethod: ['Cash', Validators.required],
             discountAmount: [''],
             discountPercent: [''],
             item: [''],
-            type: ['Clinic'],
         });
 
         this.formGroup.controls.discountPercent.valueChanges.subscribe(
@@ -87,30 +91,13 @@ export class EditReceiptComponent implements OnInit {
             },
         );
 
-        this.route.params.subscribe((params) => {
-            this.receiptId = params['id'];
-            this._receiptService
-                .findById(this.receiptId)
-                .subscribe((res: any) => {
-                    this.isLoaded = true;
-                    let discount = 0;
-                    for (let item of res.items) {
-                        if (item.discount) {
-                            discount += item.discount;
-                        }
-                    }
-                    res.discountAmount -= discount;
-                    this.formGroup.patchValue(res);
-                    this.selectedItems = res.items || [];
-                });
+        this.route.params.subscribe(({ id }) => {
+            this._id = id;
+            this.initializeData();
         });
 
         this._itemService.getAll({}).subscribe((res: any) => {
             this.items = res;
-        });
-
-        this._doctorService.getAll({}).subscribe((res: any) => {
-            this.doctors = res;
         });
 
         this.reloadPatients();
@@ -118,13 +105,13 @@ export class EditReceiptComponent implements OnInit {
         this.patientFilteredOptions =
             this.formGroup.controls.patient.valueChanges.pipe(
                 startWith(''),
-                map((value) => this._filterPatient(value || '')),
-            );
-
-        this.doctorFilteredOptions =
-            this.formGroup.controls.doctor.valueChanges.pipe(
-                startWith(''),
-                map((value) => this._filterDoctor(value || '')),
+                map((value) => {
+                    const filterText =
+                        typeof value === 'object' && value
+                            ? value.fullName
+                            : value;
+                    return this._filterPatient(filterText || '');
+                }),
             );
 
         this.itemFilteredOptions =
@@ -132,6 +119,21 @@ export class EditReceiptComponent implements OnInit {
                 startWith(''),
                 map((value) => this._filterItem(value || '')),
             );
+    }
+
+    initializeData() {
+        this._receiptService.findById(this._id).subscribe((res: any) => {
+            this.isLoaded = true;
+            let discount = 0;
+            for (let item of res.items) {
+                if (item.discount) {
+                    discount += item.discount;
+                }
+            }
+            res.discountAmount -= discount;
+            this.formGroup.patchValue(res);
+            this.selectedItems = res.items || [];
+        });
     }
 
     reloadPatients() {
@@ -144,10 +146,6 @@ export class EditReceiptComponent implements OnInit {
         return patient ? `${patient.fullName} #${patient.patientNo}` : '';
     }
 
-    displayDoctorFn(doctor: any): string {
-        return doctor ? `${doctor.fullName} (${doctor.specialization})` : '';
-    }
-
     displayItemFn(item: any): string {
         return item && item.name ? item.name : '';
     }
@@ -155,41 +153,81 @@ export class EditReceiptComponent implements OnInit {
     private _filterItem(value: any): any[] {
         const filterValue =
             typeof value === 'string' ? value.toLowerCase() : '';
-
-        const itemList = this.items.filter(
-            (item) => item.itemType === this.formGroup.value.type,
-        );
-
-        return itemList
-            .filter(
-                (option) =>
-                    !this.selectedItems.some(
-                        (selected) => selected.id == option.id,
-                    ),
-            )
-            .filter((option) =>
-                option.name.toLowerCase().includes(filterValue),
+        return this.items.filter((option) => {
+            return (
+                option.code.toLowerCase() == filterValue ||
+                option.barcode == filterValue ||
+                option.name.toLowerCase().includes(filterValue) ||
+                option.code.toLowerCase().includes(filterValue)
             );
+        });
+    }
+
+    private _isKeyDown = false;
+
+    onKeyDown() {
+        this._isKeyDown = true;
+    }
+
+    selectFirstItemOnEnter(event: Event, autocomplete: MatAutocomplete): void {
+        event.preventDefault(); // Prevent form submission
+
+        if (this._isKeyDown) return;
+
+        let value = (<any>event.target).value;
+        if (value) {
+            let item = this.items.find(
+                (item) => item.code.toLowerCase() == value.toLowerCase(),
+            );
+            if (item) {
+                this.onItemSelect(<any>{ option: { value: item } });
+                return;
+            }
+        }
+
+        const options = autocomplete.options.toArray();
+        if (options.length > 0) {
+            const firstOption = options[0];
+            autocomplete.optionSelected.emit({
+                source: autocomplete,
+                option: firstOption,
+            } as MatAutocompleteSelectedEvent);
+            // autocomplete.closed;
+        }
     }
 
     onItemSelect(event: MatAutocompleteSelectedEvent): void {
-        const selectedItem = event.option.value;
+        const selectedItem = cloneDeep(event.option.value);
 
         if (!selectedItem) return;
 
-        if (!!this.selectedItems.find(({ id }) => id === selectedItem.id)) {
-            selectedItem.quantity++;
-        } else {
-            selectedItem.quantity = 1;
-
-            this.selectedItems.push(selectedItem);
-        }
-
-        this.recalculateDiscount();
+        selectedItem.unit = selectedItem.defaultUnit;
+        selectedItem.quantity = 1;
+        this.selectedItems.push(selectedItem);
+        this.onChangeUnit(selectedItem, selectedItem.unit);
 
         setTimeout(() => {
+            this.formGroup.get('item')?.markAsUntouched();
             this.formGroup.get('item')?.setValue('');
+            this._isKeyDown = false;
         });
+    }
+
+    onChangeUnit(item: any, unit: any) {
+        if (item.units.length === 1) {
+            item.sellingPrice = item.unitPrice;
+            this.recalculateDiscount();
+            return;
+        }
+        if (typeof unit === 'object') {
+            unit = unit.value;
+        }
+        if (item.units[0] === unit) {
+            item.sellingPrice = item.unitPrice;
+        } else {
+            item.sellingPrice = item.eachPrice;
+        }
+        this.recalculateDiscount();
     }
 
     recalculateDiscount() {
@@ -202,10 +240,15 @@ export class EditReceiptComponent implements OnInit {
         }
     }
 
-    removeItem(id: string): void {
-        const index = this.selectedItems.findIndex((item) => item.id === id);
-        if (index === -1) return;
-        this.selectedItems.splice(index, 1);
+    removeItem(index: any): void {
+        const items = [];
+
+        for (let i = 0; i < this.selectedItems.length; i++) {
+            if (i !== index) {
+                items.push(this.selectedItems[i]);
+            }
+        }
+        this.selectedItems = items;
         this.recalculateDiscount();
     }
 
@@ -229,16 +272,6 @@ export class EditReceiptComponent implements OnInit {
 
         return this.patients.filter((option) =>
             option.fullName.toLowerCase().includes(filterValue),
-        );
-    }
-
-    private _filterDoctor(value: string): string[] {
-        const filterValue = typeof value == 'string' ? value.toLowerCase() : '';
-
-        return this.doctors.filter(
-            (option) =>
-                option.fullName.toLowerCase().includes(filterValue) ||
-                option.specialization.toLowerCase().includes(filterValue),
         );
     }
 
@@ -291,7 +324,7 @@ export class EditReceiptComponent implements OnInit {
             );
         }
         this._confirmService
-            .confirm(MESSAGES.CONFIRM_UPDATE_RECEIPT)
+            .confirm(MESSAGES.CONFIRM_CREATE_RECEIPT)
             .beforeClosed()
             .subscribe(
                 (value) => value === 'confirmed' && this.confirmSubmit(),
@@ -301,9 +334,7 @@ export class EditReceiptComponent implements OnInit {
     confirmSubmit() {
         const data = clone(this.formGroup.value);
 
-        data.patient = data.patient.id;
-
-        data.doctor = data.doctor?.id;
+        data.patient = data.patient?.id;
 
         data.items = this.selectedItems;
 
@@ -323,11 +354,11 @@ export class EditReceiptComponent implements OnInit {
         delete data.discountPercent;
 
         this._receiptService
-            .update(this.receiptId, data)
+            .update(this._id, data)
             .subscribe((response: any) => {
                 setTimeout(() => {
                     this._router.navigate(
-                        ['/receipts', 'view', this.receiptId],
+                        ['/pharmacy', 'receipts', 'view', this._id],
                         {
                             queryParams: { print: 'true' },
                         },
@@ -367,10 +398,15 @@ export class EditReceiptComponent implements OnInit {
     }
 
     get selectedItemsReverse() {
-        return this.selectedItems ? [...this.selectedItems].reverse() : [];
+        // return this.selectedItems ? [...this.selectedItems] : [];
+        return this.selectedItems;
     }
 
     isObject(obj: any) {
         return typeof obj === 'object';
+    }
+
+    doSomething() {
+        this.formGroup.controls.patient.setValue(null);
     }
 }

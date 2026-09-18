@@ -1,5 +1,5 @@
 <div class="w-full" *ngIf="isLoaded">
-    <div class="w-full p-3 sm:p-8 mx-auto" style="max-width: 1400px">
+    <div class="w-full p-3 sm:p-8 mx-auto relative" style="max-width: 1400px">
         <form [formGroup]="formGroup" (ngSubmit)="submit()">
             <div class="mb-4">
                 <div class="flex justify-between">
@@ -49,6 +49,12 @@
                                 matInput
                                 formControlName="patient"
                                 [matAutocomplete]="patientAuto"
+                                (focus)="
+                                    formGroup.controls.patient.untouched &&
+                                        formGroup.controls.patient.setValue(
+                                            null
+                                        )
+                                "
                             />
                             <mat-icon
                                 *ngIf="
@@ -89,69 +95,21 @@
                                 </mat-option>
                             </mat-autocomplete>
                         </mat-form-field>
-                        <button
-                            type="button"
-                            mat-icon-button
-                            (click)="openCreatePatientModal()"
-                            matTooltip="Create New Patient"
-                        >
-                            <mat-icon
-                                svgIcon="heroicons_solid:user-add"
-                            ></mat-icon>
-                        </button>
                     </div>
 
-                    <mat-form-field class="w-full">
-                        <mat-label>{{ "DOCTOR_NAME" | transloco }}</mat-label>
-                        <input
-                            type="text"
-                            matInput
-                            formControlName="doctor"
-                            [matAutocomplete]="doctorAuto"
-                        />
-                        <mat-icon
-                            *ngIf="
-                                formGroup.controls['doctor']?.value &&
-                                isObject(formGroup.controls['doctor']?.value)
-                            "
-                            matSuffix
-                            class="text-teal-600"
-                            svgIcon="mat_outline:check"
-                        ></mat-icon>
-                        <mat-icon
-                            *ngIf="
-                                formGroup.controls['doctor'].touched &&
-                                !isObject(formGroup.controls['doctor']?.value)
-                            "
-                            matSuffix
-                            class="text-rose-600"
-                            svgIcon="mat_outline:cancel"
-                        ></mat-icon>
-                        <mat-autocomplete
-                            #doctorAuto="matAutocomplete"
-                            [displayWith]="displayDoctorFn"
-                        >
-                            <mat-option
-                                *ngFor="
-                                    let option of doctorFilteredOptions | async
-                                "
-                                [value]="option"
-                            >
-                                {{ option.fullName }} ({{
-                                    option.specialization
-                                }}) #{{ option.doctorNo }}
-                            </mat-option>
-                        </mat-autocomplete>
-                    </mat-form-field>
-
-                    <mat-form-field class="w-full">
+                    <mat-form-field class="w-full pt-4">
                         <mat-label>{{ "DATE" | transloco }}</mat-label>
+                        <mat-hint>
+                            <div class="h-4">
+                                {{ "LEAVE_BLANK_FOR_CURRENT_TIME" | transloco }}
+                            </div>
+                        </mat-hint>
                         <input
                             matInput
                             [ngxMatDatetimePicker]="picker"
                             placeholder="Choose a date"
                             formControlName="date"
-                            (click)="picker.open()"
+                            (focus)="picker.open()"
                         />
                         <mat-datepicker-toggle
                             matSuffix
@@ -163,18 +121,6 @@
                             [stepSecond]="true"
                         >
                         </ngx-mat-datetime-picker>
-                    </mat-form-field>
-
-                    <mat-form-field>
-                        <mat-label>{{ "TYPE" | transloco }}</mat-label>
-                        <mat-select formControlName="type">
-                            <mat-option
-                                *ngFor="let item of itemTypes"
-                                [value]="item"
-                            >
-                                {{ item }}
-                            </mat-option>
-                        </mat-select>
                     </mat-form-field>
                 </div>
             </div>
@@ -236,6 +182,10 @@
                             formGroup.controls.item.untouched &&
                                 formGroup.controls.item.setValue(null)
                         "
+                        (keydown.enter)="
+                            selectFirstItemOnEnter($event, itemAuto)
+                        "
+                        (keydown.arrowDown)="onKeyDown()"
                     />
                     <mat-autocomplete
                         #itemAuto="matAutocomplete"
@@ -249,20 +199,19 @@
                             <table class="w-full">
                                 <tbody>
                                     <tr class="w-full">
-                                        <td class="w-[60%] py-2">
+                                        <td class="w-[15%] py-2">
+                                            <span class="text-xs">
+                                                {{ option.code }}
+                                            </span>
+                                        </td>
+                                        <td class="w-[65%] py-2">
                                             {{ option.name }}
                                         </td>
-                                        <td class="w-[20%] text-center py-2">
-                                            {{ option.category }}
+                                        <td class="w-[10%] text-center py-2">
+                                            {{ option.unitPrice }}
                                         </td>
-                                        <td class="w-[20%] text-right py-2">
-                                            {{
-                                                option.sellingPrice
-                                                    | currency
-                                                        : "MMK"
-                                                        : ""
-                                                        : "0.0-0"
-                                            }}
+                                        <td class="w-[10%] text-center py-2">
+                                            {{ option.eachPrice }}
                                         </td>
                                     </tr>
                                 </tbody>
@@ -277,6 +226,14 @@
                     <div
                         class="flex justify-end items-center bg-white px-12 font-bold space-x-12 rounded py-3"
                     >
+                        <div class="text-center flex space-x-2">
+                            <p>
+                                {{ "TOTAL_ITEMS" | transloco }}
+                            </p>
+                            <p>
+                                {{ selectedItems.length }}
+                            </p>
+                        </div>
                         <div class="text-center flex space-x-2">
                             <p>
                                 {{ "SUBTOTAL" | transloco }}
@@ -313,26 +270,29 @@
                     </div>
                 </div>
 
-                <div class="mt-4">
+                <div class="mt-4 relative">
                     <table class="w-full border-collapse">
                         <thead>
                             <tr class="border-b">
-                                <th class="text-left py-2">
+                                <th class="text-left p-2 w-full">
                                     {{ "ITEM_NAME" | transloco }}
                                 </th>
-                                <th class="text-right py-2">
+                                <th class="text-center p-2 w-">
+                                    {{ "UNIT" | transloco }}
+                                </th>
+                                <th class="text-center p-2 w-">
                                     {{ "PRICE" | transloco }}
                                 </th>
-                                <th class="text-right py-2">
+                                <th class="text-center p-2">
                                     {{ "QUANTITY" | transloco }}
                                 </th>
-                                <th class="text-right py-2">
+                                <th class="text-center p-2">
                                     {{ "DISCOUNT" | transloco }}
                                 </th>
-                                <th class="text-right py-2">
+                                <th class="text-center p-2">
                                     {{ "TOTAL" | transloco }}
                                 </th>
-                                <th class="text-center py-2">
+                                <th class="text-center p-2">
                                     {{ "ACTION" | transloco }}
                                 </th>
                             </tr>
@@ -345,18 +305,59 @@
                                 "
                                 class="border-b"
                             >
-                                <td class="py-2">{{ item.name }}</td>
-                                <td class="text-right py-2">
-                                    <input
+                                <td class="p-2 w-full">
+                                    <div class="flex items-center space-x-1">
+                                        <span
+                                            class="px-1.5 py-0.5 rounded bg-slate-600 text-white text-xs"
+                                        >
+                                            {{ item.code }}
+                                        </span>
+                                        <span>
+                                            {{ item.name }}
+                                            <ng-container
+                                                *ngIf="
+                                                    item.qtyPerUnit &&
+                                                    item.units[0] == item.unit
+                                                "
+                                            >
+                                                ({{ item.qtyPerUnit }}')
+                                            </ng-container>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="text-right p-2">
+                                    <select
                                         class="py-1 px-2 w-24 rounded bg-white text-center"
                                         matInput
                                         type="number"
-                                        (change)="recalculateDiscount()"
-                                        [(ngModel)]="item.sellingPrice"
+                                        (change)="
+                                            onChangeUnit(item, $event.target)
+                                        "
+                                        [(ngModel)]="item.unit"
                                         [ngModelOptions]="{ standalone: true }"
-                                    />
+                                    >
+                                        <option
+                                            *ngFor="let unit of item.units"
+                                            [value]="unit"
+                                        >
+                                            {{ unit }}
+                                        </option>
+                                    </select>
                                 </td>
-                                <td class="text-right py-2">
+                                <td class="text-right p-2">
+                                    <div class="flex items-center space-x-1">
+                                        <!-- prettier-ignore -->
+                                        <input
+                                            class="py-1 px-2 w-24 rounded bg-white text-center"
+                                            matInput
+                                            type="number"
+                                            (change)="recalculateDiscount()"
+                                            [(ngModel)]="item.sellingPrice"
+                                            [ngModelOptions]="{ standalone: true }"
+                                        />
+                                    </div>
+                                </td>
+                                <td class="text-right p-2">
                                     <input
                                         class="py-1 px-2 w-12 rounded bg-white text-center"
                                         matInput
@@ -366,7 +367,7 @@
                                         [ngModelOptions]="{ standalone: true }"
                                     />
                                 </td>
-                                <td class="text-right py-2">
+                                <td class="text-right p-2">
                                     <input
                                         class="py-1 px-2 w-24 rounded bg-white text-center"
                                         matInput
@@ -376,19 +377,21 @@
                                         [ngModelOptions]="{ standalone: true }"
                                     />
                                 </td>
-                                <td class="text-right py-2 w-30">
-                                    {{
-                                        item.sellingPrice * item.quantity -
-                                            (item.discount || 0)
-                                            | currency: "MMK" : "" : "0.0-0"
-                                    }}
+                                <td class="text-right p-2">
+                                    <div class="w-24">
+                                        {{
+                                            item.sellingPrice * item.quantity -
+                                                (item.discount || 0)
+                                                | currency: "MMK" : "" : "0.0-0"
+                                        }}
+                                    </div>
                                 </td>
-                                <td class="text-center py-2">
+                                <td class="text-center p-2">
                                     <button
                                         type="button"
                                         mat-icon-button
                                         color="warn"
-                                        (click)="removeItem(item.id)"
+                                        (click)="removeItem(i)"
                                     >
                                         <mat-icon>delete</mat-icon>
                                     </button>
@@ -397,7 +400,7 @@
 
                             <!-- Total -->
                             <tr class="text-center">
-                                <th colspan="4" class="py-4">
+                                <th colspan="5" class="py-4">
                                     {{ "SUBTOTAL" | transloco }}
                                 </th>
                                 <th colspan="2" class="py-4">
@@ -408,7 +411,7 @@
                                 </th>
                             </tr>
                             <tr class="text-center">
-                                <th colspan="4" class="py-4">
+                                <th colspan="5" class="py-4">
                                     {{ "DISCOUNT" | transloco }}
                                 </th>
                                 <th colspan="2" class="py-4">
@@ -419,7 +422,7 @@
                                 </th>
                             </tr>
                             <tr class="text-center">
-                                <th colspan="4" class="py-4">
+                                <th colspan="5" class="py-4">
                                     {{ "TOTAL" | transloco }}
                                 </th>
                                 <th colspan="2" class="py-4">
