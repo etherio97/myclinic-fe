@@ -19,7 +19,6 @@ export class ListInventoryComponent implements OnInit, AfterViewInit {
         'totalSold',
         'status',
         'currentStock',
-        // 'minThreshold',
     ];
 
     displayedColumnsForExtra: string[] = [
@@ -52,6 +51,7 @@ export class ListInventoryComponent implements OnInit, AfterViewInit {
 
     ngOnInit(): void {
         this.formGroup = this._fb.group({
+            showAll: '0',
             searchValue: '',
             sortBy: 'name:asc',
         });
@@ -81,11 +81,6 @@ export class ListInventoryComponent implements OnInit, AfterViewInit {
                     a.itemName.localeCompare(b.itemName),
                 );
                 break;
-            // case 'name:desc':
-            //     this.dataSource.data = this.dataSource.data.sort(
-            //         (a, b) => b.itemName - a.itemName,
-            //     );
-            //     break;
             case 'stock:asc':
                 this.dataSource.data = this.dataSource.data.sort(
                     (a, b) => a.currentStock - b.currentStock,
@@ -124,24 +119,39 @@ export class ListInventoryComponent implements OnInit, AfterViewInit {
     }
 
     reloadData() {
-        this._inventoryService.getAll().subscribe((result: any) => {
-            this.searchResult = this.dataSource.data = result.map(
-                (item: any) => {
-                    item.status = this.getStatus(item);
-                    return item;
-                },
-            );
+        this._inventoryService
+            .getAll({ showAll: this.formGroup.value.showAll })
+            .subscribe((result: any) => {
+                this.searchResult = this.dataSource.data = result.map(
+                    (item: any) => {
+                        item.status = this.getStatus(item);
+                        return item;
+                    },
+                );
 
-            this.lowStockItems.data = this.searchResult.filter(
-                (item) => item.status === 'Low Stock',
-            );
+                this.lowStockItems.data = this.searchResult.filter(
+                    (item) => item.status === 'Low Stock',
+                );
 
-            this.outOfStockItems.data = this.searchResult.filter(
-                (item) => item.status === 'Out of Stock',
-            );
+                this.outOfStockItems.data = this.searchResult.filter(
+                    (item) => item.status === 'Out of Stock',
+                );
 
-            this.sortData();
-        });
+                let searchValue = this.formGroup.value.searchValue;
+                if (searchValue) {
+                    this.dataSource.data = this.searchResult.filter(
+                        (option) =>
+                            option.itemName
+                                .toLowerCase()
+                                .includes(searchValue.toLowerCase()) ||
+                            option.itemCode
+                                .toLowerCase()
+                                .includes(searchValue.toLowerCase()),
+                    );
+                }
+
+                this.sortData();
+            });
     }
 
     calculateStock(

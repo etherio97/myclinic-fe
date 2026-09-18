@@ -11,7 +11,22 @@
                 </h2>
             </div>
         </div>
-        <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4"></div>
+        <div class="flex items-center mt-6 sm:mt-0 sm:ml-4 space-x-2">
+            <mat-form-field class="w-32">
+                <mat-select [formControl]="formGroup.controls.showAll">
+                    <mat-option value="0">Active Only</mat-option>
+                    <mat-option value="1">Show All</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <button
+                mat-flat-button
+                class="bg-primary text-white"
+                (click)="reloadData()"
+            >
+                {{ "RELOAD" | transloco }}
+            </button>
+        </div>
     </div>
 
     <div class="flex-auto p-6 sm:p-10">
@@ -40,9 +55,6 @@
                                 <mat-option value="name:asc">
                                     Name (A to Z)
                                 </mat-option>
-                                <!-- <mat-option value="name:desc">
-                                Name (Z to A)
-                            </mat-option> -->
                                 <mat-option value="stock:asc">
                                     Stock (Lowest)
                                 </mat-option>
@@ -95,12 +107,15 @@
                                             *matCellDef="let element"
                                             class="text-center text-sm"
                                         >
-                                            {{ element.itemName }}
-                                            <ng-container
-                                                *ngIf="element.qtyPerUnit > 1"
-                                            >
-                                                ({{ element.qtyPerUnit }}&apos;)
-                                            </ng-container>
+                                            <!-- prettier-ignore -->
+                                            <p [class]="element.itemStatus !== 'Active' ? 'line-through text-red-600' : ''">
+                                                {{ element.itemName }}
+                                                <ng-container
+                                                    *ngIf="element.qtyPerUnit > 1"
+                                                >
+                                                    ({{ element.qtyPerUnit }}&apos;)
+                                                </ng-container>
+                                            </p>
                                         </td>
                                     </ng-container>
                                     <ng-container matColumnDef="code">
@@ -256,12 +271,15 @@
                                             *matCellDef="let element"
                                             class="text-center text-sm"
                                         >
+                                            <!-- prettier-ignore -->
+                                            <p [class]="element.itemStatus !== 'Active' ? 'line-through text-red-600' : ''">
                                             {{ element.itemName }}
-                                            <ng-container
-                                                *ngIf="element.qtyPerUnit > 1"
-                                            >
-                                                ({{ element.qtyPerUnit }}&apos;)
-                                            </ng-container>
+                                                <ng-container
+                                                    *ngIf="element.qtyPerUnit > 1"
+                                                >
+                                                    ({{ element.qtyPerUnit }}&apos;)
+                                                </ng-container>
+                                            </p>
                                         </td>
                                     </ng-container>
                                     <ng-container matColumnDef="code">
@@ -417,12 +435,15 @@
                                             *matCellDef="let element"
                                             class="text-center text-sm"
                                         >
+                                            <!-- prettier-ignore -->
+                                            <p [class]="element.itemStatus !== 'Active' ? 'line-through text-red-600' : ''">
                                             {{ element.itemName }}
                                             <ng-container
                                                 *ngIf="element.qtyPerUnit > 1"
                                             >
                                                 ({{ element.qtyPerUnit }}&apos;)
                                             </ng-container>
+                                            </p>
                                         </td>
                                     </ng-container>
                                     <ng-container matColumnDef="code">

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { APP_CONFIG, MESSAGES } from 'app/app.config';
@@ -60,6 +60,8 @@ export class CreateReceiptComponent implements OnInit {
     private _selectedItem: any;
 
     private _modal!: MatDialogRef<CreatePatientModalComponent>;
+
+    @ViewChild('itemsViewTable') itemsViewTableRef: any;
 
     constructor(
         private _receiptService: PharmReceiptService,
@@ -199,6 +201,11 @@ export class CreateReceiptComponent implements OnInit {
         selectedItem.quantity = 1;
         this.selectedItems.push(selectedItem);
         this.onChangeUnit(selectedItem, selectedItem.unit);
+
+        this.itemsViewTableRef.nativeElement.scrollTo({
+            top: this.itemsViewTableRef.nativeElement.scrollHeight,
+            behavior: 'smooth',
+        });
 
         setTimeout(() => {
             this.formGroup.get('item')?.markAsUntouched();

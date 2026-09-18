@@ -8,9 +8,10 @@ import { SERVICE_URLS } from 'app/app.config';
 export class PharmInventoryService {
     constructor(private _http: HttpClient) {}
 
-    getAll() {
+    getAll(params: any) {
         return this._http.get(
             [SERVICE_URLS.PHARM_INVENTORY_API, 'list'].join('/'),
+            { params },
         );
     }
 }
