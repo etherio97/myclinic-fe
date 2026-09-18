@@ -18,9 +18,10 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { MY_DATE_FORMATS } from 'app/app.config';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { InventoryPrintComponent } from './components/inventory-print/inventory-print.component';
 
 @NgModule({
-    declarations: [ListInventoryComponent],
+    declarations: [ListInventoryComponent, InventoryPrintComponent],
     imports: [
         RouterModule.forChild(pharmInventoryRoutes),
         SharedModule,
