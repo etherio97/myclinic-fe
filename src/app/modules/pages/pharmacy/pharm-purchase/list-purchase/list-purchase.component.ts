@@ -15,6 +15,7 @@ import moment from 'moment';
 export class ListPurchaseComponent implements OnInit, AfterViewInit {
     displayedColumns: string[] = [
         'purchasedDate',
+        'item.code',
         'item.name',
         'expiryDate',
         'cost',
@@ -50,16 +51,14 @@ export class ListPurchaseComponent implements OnInit, AfterViewInit {
             startDate: [moment().startOf('month')],
             endDate: [moment().endOf('month')],
             sortBy: ['date:desc'],
+            status: ['Active'],
+            itemCode: [''],
         });
 
         this._userService.get().subscribe(({ role }) => {
             this.role = role;
             this.reloadData();
         });
-
-        this.formGroup.controls.sortBy.valueChanges.subscribe((value) =>
-            this.sortData(value),
-        );
     }
 
     ngAfterViewInit(): void {
@@ -67,7 +66,11 @@ export class ListPurchaseComponent implements OnInit, AfterViewInit {
     }
 
     reloadData() {
-        const condition: any = {};
+        const condition: any = {
+            itemCode: this.formGroup.value.itemCode,
+            status: this.formGroup.value.status,
+            sortBy: this.formGroup.value.sortBy,
+        };
         if (moment.isMoment(this.formGroup.controls.startDate.value)) {
             condition.startDate =
                 this.formGroup.controls.startDate.value.format('yyyy-MM-DD');
@@ -86,29 +89,7 @@ export class ListPurchaseComponent implements OnInit, AfterViewInit {
         }
         this._purchaseService.getAll(condition).subscribe((result: any) => {
             this.searchResult = this.dataSource.data = result;
-            this.sortData();
         });
-    }
-
-    sortData(value: string | void) {
-        const sortBy = value || this.formGroup.value.sortBy;
-        switch (sortBy) {
-            case 'name:asc':
-                this.dataSource.data = this.dataSource.data.sort((a, b) =>
-                    a.item.name.localeCompare(b.item.name),
-                );
-                break;
-            case 'exp:asc':
-                this.dataSource.data = this.dataSource.data.sort((a, b) =>
-                    moment(a.expiryDate).diff(moment(b.expiryDate)),
-                );
-                break;
-            case 'date:desc':
-                this.dataSource.data = this.dataSource.data.sort((a, b) =>
-                    moment(a.date).diff(moment(b.date)),
-                );
-                break;
-        }
     }
 
     generateRemainingMonth(date: string) {
@@ -118,19 +99,39 @@ export class ListPurchaseComponent implements OnInit, AfterViewInit {
 
     removeItem(id: string) {
         this.confirmService
-            .confirm(MESSAGES.CONFIRM_DELETE_PHARM_ITEM)
+            .confirm(MESSAGES.CONFIRM_DELETE_PHARM_PURCHASE)
             .beforeClosed()
             .subscribe(
                 (value) => value === 'confirmed' && this.confirmRemoveItem(id),
             );
     }
 
-    confirmRemoveItem(id: string) {
+    private confirmRemoveItem(id: string) {
         this._purchaseService.remove(id).subscribe(() => {
             this.confirmService
-                .success(MESSAGES.SUCCESS_DELETE_PHARM_ITEM)
+                .success(MESSAGES.SUCCESS_DELETE_PHARM_PURCHASE)
                 .afterOpened()
                 .subscribe(() => this.reloadData());
         });
+    }
+
+    archiveItem(id: string) {
+        this.confirmService
+            .confirm(MESSAGES.CONFIRM_ARCHIVE_PHARM_PURCHASE)
+            .beforeClosed()
+            .subscribe(
+                (value) => value === 'confirmed' && this.confirmArchiveItem(id),
+            );
+    }
+
+    confirmArchiveItem(id: string) {
+        this._purchaseService
+            .update(id, { status: 'Archive' })
+            .subscribe(() => {
+                this.confirmService
+                    .success(MESSAGES.SUCCESS_ARCHIVE_PHARM_PURCHASE)
+                    .afterOpened()
+                    .subscribe(() => this.reloadData());
+            });
     }
 }

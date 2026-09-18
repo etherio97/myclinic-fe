@@ -108,7 +108,10 @@ export class CreatePurchaseComponent implements OnInit {
         if (!data.expiryDate) {
             delete data.expiryDate;
         }
-        this._purchaseService.create(data).subscribe(() => {
+        this._purchaseService.create(data).subscribe(({ error }: any) => {
+            if (error) {
+                return this._confirmService.error(error);
+            }
             this._router.navigate(['/pharmacy/purchases']);
         });
     }

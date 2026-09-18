@@ -335,4 +335,9 @@ export const MESSAGES = {
     CONFIRM_UPDATE_ITEM: 'ဝန်ဆောင်မှုကို ပြင်ဆင်ရန် သေချာပါသလား။',
     CONFIRM_DELETE_PHARM_ITEM: 'ဆေးဝါးအား ဖျက်ရန် သေချာပါသလား?',
     SUCCESS_DELETE_PHARM_ITEM: 'ဆေးဝါးကို အောင်မြင်စွာ ဖျက်ပြီးပါပြီ။',
+    CONFIRM_DELETE_PHARM_PURCHASE: 'ဆေးအဝယ်အား ဖျက်ရန် သေချာပါသလား?',
+    SUCCESS_DELETE_PHARM_PURCHASE: 'ဆေးအဝယ်အား အောင်မြင်စွာ ဖျက်ပြီးပါပြီ။',
+    CONFIRM_ARCHIVE_PHARM_PURCHASE: 'ဆေးအဝယ်အား Archive လုပ်ရန် သေချာပါသလား?',
+    SUCCESS_ARCHIVE_PHARM_PURCHASE:
+        'ဆေးအဝယ်အား အောင်မြင်စွာ Archive လုပ်ပြီးပါပြီ။',
 };
