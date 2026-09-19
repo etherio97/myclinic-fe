@@ -15,8 +15,9 @@ import moment from 'moment';
 export class ListPurchaseComponent implements OnInit, AfterViewInit {
     displayedColumns: string[] = [
         'purchasedDate',
-        'item.code',
+        // 'item.code',
         'item.name',
+        'supplier',
         'expiryDate',
         'cost',
         'quantity',
