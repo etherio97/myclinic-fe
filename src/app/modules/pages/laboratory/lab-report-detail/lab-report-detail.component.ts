@@ -23,7 +23,7 @@ export class LabReportDetailComponent implements OnInit {
 
     displayHeader = true;
 
-    signatureInBottom = false;
+    signatureInBottom = true;
 
     role!: string;
     userId!: string;

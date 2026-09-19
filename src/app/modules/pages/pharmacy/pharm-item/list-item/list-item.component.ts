@@ -90,9 +90,9 @@ export class ListItemComponent implements OnInit, AfterViewInit {
     changeStatus(element: any) {
         let message = '';
         if (element.status === 'Active') {
-            message = MESSAGES.CONFIRM_DEACTIVATE_USER;
+            message = MESSAGES.CONFIRM_DEACTIVATE_PHARM_ITEM;
         } else {
-            message = MESSAGES.CONFIRM_ACTIVATE_USER;
+            message = MESSAGES.CONFIRM_ACTIVATE_PHARM_ITEM;
         }
 
         this.confirmService

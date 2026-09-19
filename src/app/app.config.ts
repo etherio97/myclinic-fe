@@ -340,4 +340,6 @@ export const MESSAGES = {
     CONFIRM_ARCHIVE_PHARM_PURCHASE: 'ဆေးအဝယ်အား Archive လုပ်ရန် သေချာပါသလား?',
     SUCCESS_ARCHIVE_PHARM_PURCHASE:
         'ဆေးအဝယ်အား အောင်မြင်စွာ Archive လုပ်ပြီးပါပြီ။',
+    CONFIRM_DEACTIVATE_PHARM_ITEM: 'ဆေးဝါးအား မရောင်းချရန် သေချာပါသလား?',
+    CONFIRM_ACTIVATE_PHARM_ITEM: 'ဆေးဝါးအား ပြန်လည်ရောင်းချလိုပါသလား?',
 };

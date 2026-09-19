@@ -53,6 +53,7 @@ export class ListPurchaseComponent implements OnInit, AfterViewInit {
             sortBy: ['date:desc'],
             status: ['Active'],
             itemCode: [''],
+            itemName: [''],
         });
 
         this._userService.get().subscribe(({ role }) => {
@@ -68,6 +69,7 @@ export class ListPurchaseComponent implements OnInit, AfterViewInit {
     reloadData() {
         const condition: any = {
             itemCode: this.formGroup.value.itemCode,
+            itemName: this.formGroup.value.itemName,
             status: this.formGroup.value.status,
             sortBy: this.formGroup.value.sortBy,
         };
