@@ -158,8 +158,13 @@
                 </div>
             </div>
 
+            <!-- Appointments -->
             <div class="w-full mx-5 bg-white rounded overflow-hidden shadow">
                 <div
+                    *ngIf="
+                        ['admin', 'manager', 'cashier'].includes(role) &&
+                        appointments
+                    "
                     class="bg-[#f2f2f2] px-5 py-2 w-full border-b border-[#e2e2e2]"
                 >
                     <div class="flex justify-between">
@@ -295,7 +300,7 @@
                                     ></app-status-chip>
                                 </td>
                                 <td class="flex items-center justify-center">
-                                    <button
+                                    <a
                                         mat-icon-button
                                         [routerLink]="[
                                             '/appointments',
@@ -310,7 +315,7 @@
                                             svgIcon="feather:info"
                                             class="icon-size-4"
                                         ></mat-icon>
-                                    </button>
+                                    </a>
                                 </td>
                             </tr>
                         </tbody>
@@ -318,8 +323,13 @@
                 </div>
             </div>
 
+            <!-- Receipts (Clinic,Lab) -->
             <div
-                *ngIf="receipts"
+                *ngIf="
+                    ['admin', 'manager', 'cashier', 'lab-admin'].includes(
+                        role
+                    ) && receipts
+                "
                 class="w-full mx-5 bg-white rounded overflow-hidden shadow"
             >
                 <div
@@ -430,7 +440,7 @@
                                     }}
                                 </td>
                                 <td class="flex items-center justify-center">
-                                    <button
+                                    <a
                                         mat-icon-button
                                         [routerLink]="[
                                             '/receipts',
@@ -445,7 +455,224 @@
                                             svgIcon="feather:info"
                                             class="icon-size-4"
                                         ></mat-icon>
-                                    </button>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Pharmacy Receipts -->
+            <div
+                *ngIf="
+                    ['admin', 'manager', 'cashier', 'pharm-cashier'].includes(
+                        role
+                    ) && pharmReceipts
+                "
+                class="w-full mx-5 bg-white rounded overflow-hidden shadow"
+            >
+                <div
+                    class="bg-[#f2f2f2] px-5 py-2 w-full border-b border-[#e2e2e2]"
+                >
+                    <div class="flex justify-between">
+                        <div class="flex items-center">
+                            <h3 class="font-semibold tracking-tight leading-8">
+                                {{ "PHAMACY_RECEIPTS" | transloco }}
+                            </h3>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button
+                                type="button"
+                                mat-stroked-button
+                                class="items-center text-sm"
+                                [routerLink]="[
+                                    '/pharmacy/ receipts',
+                                    'create',
+                                    data.id,
+                                ]"
+                            >
+                                <mat-icon
+                                    svgIcon="mat_outline:add_shopping_cart"
+                                    class="icon-size-5 mr-2"
+                                ></mat-icon>
+                                {{ "CREATE_RECEIPT" | transloco }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 p-5">
+                    <table class="w-full border-collapse">
+                        <thead>
+                            <tr class="border-b">
+                                <th class="text-center py-2">
+                                    {{ "DATE" | transloco }}
+                                </th>
+                                <th class="text-center py-2">
+                                    {{ "ITEMS" | transloco }}
+                                </th>
+                                <th class="text-center py-2">
+                                    {{ "SUBTOTAL" | transloco }}
+                                </th>
+                                <th class="text-center py-2">
+                                    {{ "DISCOUNT" | transloco }}
+                                </th>
+                                <th class="text-center py-2">
+                                    {{ "TOTAL" | transloco }}
+                                </th>
+                                <th class="text-center py-2"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="
+                                    let receipt of pharmReceipts;
+                                    let i = index
+                                "
+                                class="border-b"
+                            >
+                                <td class="text-center py-2">
+                                    {{
+                                        receipt.date
+                                            | date: "dd-MM-yyyy hh:mm a"
+                                    }}
+                                </td>
+                                <td class="py-2">
+                                    <ul
+                                        class="list-disc text-sm"
+                                        [innerHTML]="showItem(receipt.items)"
+                                    ></ul>
+                                </td>
+                                <td class="text-center py-2">
+                                    {{
+                                        receipt.subtotal
+                                            | currency: "MMK" : "" : "0.0-0"
+                                    }}
+                                </td>
+                                <td class="text-center py-2">
+                                    {{
+                                        receipt.discountAmount
+                                            | currency: "MMK" : "" : "0.0-0"
+                                    }}
+                                </td>
+                                <td class="text-center py-2">
+                                    {{
+                                        receipt.grandTotal
+                                            | currency: "MMK" : "" : "0.0-0"
+                                    }}
+                                </td>
+                                <td class="flex items-center justify-center">
+                                    <a
+                                        mat-icon-button
+                                        [routerLink]="[
+                                            '/pharmacy/receipts',
+                                            'view',
+                                            receipt.id,
+                                        ]"
+                                        matTooltip="{{
+                                            'VIEW_DETAILS' | transloco
+                                        }}"
+                                    >
+                                        <mat-icon
+                                            svgIcon="feather:info"
+                                            class="icon-size-4"
+                                        ></mat-icon>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Lab Results -->
+            <div
+                *ngIf="
+                    ['admin', 'manager', 'lab-admin', 'lab-cashier'].includes(
+                        role
+                    ) && labResults
+                "
+                class="w-full mx-5 bg-white rounded overflow-hidden shadow"
+            >
+                <div
+                    class="bg-[#f2f2f2] px-5 py-2 w-full border-b border-[#e2e2e2]"
+                >
+                    <div class="flex justify-between">
+                        <div class="flex items-center">
+                            <h3 class="font-semibold tracking-tight leading-8">
+                                {{ "LAB_RESULTS" | transloco }}
+                            </h3>
+                        </div>
+                        <div class="flex items-center gap-2"></div>
+                    </div>
+                </div>
+
+                <div class="mt-4 p-5">
+                    <table class="w-full border-collapse">
+                        <thead>
+                            <tr class="border-b">
+                                <th class="text-center py-2">
+                                    {{ "REPORT_ID" | transloco }}
+                                </th>
+                                <th class="text-center py-2">
+                                    {{ "REFER_DOCTOR" | transloco }}
+                                </th>
+                                <th class="text-center py-2">
+                                    {{ "REFER_CENTRE" | transloco }}
+                                </th>
+                                <th class="text-center py-2">
+                                    {{ "COLLECTED_DATE" | transloco }}
+                                </th>
+                                <th class="text-center py-2">
+                                    {{ "REPORTED_DATE" | transloco }}
+                                </th>
+                                <th class="text-center py-2"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let item of labResults; let i = index"
+                                class="border-b"
+                            >
+                                <td class="py-2 text-center">
+                                    MLR-{{ item.resultNo }}
+                                </td>
+                                <td class="py-2 text-center">
+                                    {{ item.order.referDoctor }}
+                                </td>
+                                <td class="text-center py-2">
+                                    {{ item.order.referCentre }}
+                                </td>
+                                <td class="text-center py-2">
+                                    {{
+                                        item.order.collectedDate
+                                            | date: "dd-MM-yyyy hh:mm a"
+                                    }}
+                                </td>
+                                <td class="text-center py-2">
+                                    {{
+                                        item.reportedDate
+                                            | date: "dd-MM-yyyy hh:mm a"
+                                    }}
+                                </td>
+                                <td class="flex items-center justify-center">
+                                    <a
+                                        mat-icon-button
+                                        [routerLink]="[
+                                            '/laboratory',
+                                            'reports',
+                                            item.id,
+                                        ]"
+                                        matTooltip="{{
+                                            'VIEW_DETAILS' | transloco
+                                        }}"
+                                    >
+                                        <mat-icon
+                                            svgIcon="feather:info"
+                                            class="icon-size-4"
+                                        ></mat-icon>
+                                    </a>
                                 </td>
                             </tr>
                         </tbody>

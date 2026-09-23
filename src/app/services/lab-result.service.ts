@@ -14,6 +14,14 @@ export class LabResultService {
         });
     }
 
+    getPatientResults(patientId: string) {
+        return this._http.get(
+            [SERVICE_URLS.LAB_RESULT_API, 'patient-results', patientId].join(
+                '/',
+            ),
+        );
+    }
+
     findById(id: string) {
         return this._http.get(
             [SERVICE_URLS.LAB_RESULT_API, 'list', id].join('/'),
