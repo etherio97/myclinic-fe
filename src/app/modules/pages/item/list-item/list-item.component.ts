@@ -53,7 +53,7 @@ export class ListItemComponent implements OnInit, AfterViewInit {
         this._userService.get().subscribe(({ role }) => {
             this.role = role;
 
-            if (this.role == 'lab-admin') {
+            if (['lab-admin', 'lab-cashier'].includes(this.role)) {
                 this.formGroup.controls.itemType.setValue('Laboratory');
             }
 

@@ -38,7 +38,10 @@
                     <input type="text" matInput formControlName="name" />
                 </mat-form-field>
 
-                <mat-form-field class="w-full">
+                <mat-form-field
+                    class="w-full"
+                    *ngIf="!['lab-admin', 'lab-cashier'].includes(role)"
+                >
                     <mat-label>{{ "TYPE" | transloco }}</mat-label>
                     <mat-select formControlName="itemType">
                         <mat-option

@@ -96,6 +96,7 @@
                             </mat-autocomplete>
                         </mat-form-field>
                         <button
+                            *ngIf="!['lab-admin', 'lab-cashier'].includes(role)"
                             type="button"
                             mat-icon-button
                             (click)="openCreatePatientModal()"
@@ -180,7 +181,9 @@
                         </ngx-mat-datetime-picker>
                     </mat-form-field>
 
-                    <mat-form-field>
+                    <mat-form-field
+                        *ngIf="!['lab-admin', 'lab-cashier'].includes(role)"
+                    >
                         <mat-label>{{ "TYPE" | transloco }}</mat-label>
                         <mat-select formControlName="type">
                             <mat-option

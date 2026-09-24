@@ -93,7 +93,14 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
                 icon: 'mat_solid:people',
                 link: '/patients',
                 meta: {
-                    roles: ['admin', 'manager', 'cashier'],
+                    roles: [
+                        'admin',
+                        'manager',
+                        'cashier',
+                        'lab-admin',
+                        'lab-cashier',
+                        'pharm-cashier',
+                    ],
                 },
             },
             {
@@ -103,7 +110,13 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
                 icon: 'mat_solid:receipt_long',
                 link: '/receipts',
                 meta: {
-                    roles: ['admin', 'manager', 'cashier', 'lab-admin'],
+                    roles: [
+                        'admin',
+                        'manager',
+                        'cashier',
+                        'lab-admin',
+                        'lab-cashier',
+                    ],
                 },
             },
             {
@@ -163,7 +176,13 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
                 icon: 'mat_solid:inventory_2',
                 link: '/items',
                 meta: {
-                    roles: ['admin', 'manager', 'cashier', 'lab-admin'],
+                    roles: [
+                        'admin',
+                        'manager',
+                        'cashier',
+                        'lab-admin',
+                        'lab-cashier',
+                    ],
                 },
             },
 

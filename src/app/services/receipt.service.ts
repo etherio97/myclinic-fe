@@ -27,9 +27,10 @@ export class ReceiptService {
         return this._http.get([SERVICE_URLS.RECEIPT_API, 'list', id].join('/'));
     }
 
-    getPatientReceipt(patientId: string) {
+    getPatientReceipt(patientId: string, type: string) {
         return this._http.get(
             [SERVICE_URLS.RECEIPT_API, 'patient-receipts', patientId].join('/'),
+            { params: { type } },
         );
     }
 

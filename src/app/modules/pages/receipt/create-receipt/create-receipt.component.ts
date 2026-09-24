@@ -56,6 +56,8 @@ export class CreateReceiptComponent implements OnInit {
 
     user!: any;
 
+    role!: string;
+
     private _selectedItem: any;
 
     private _modal!: MatDialogRef<CreatePatientModalComponent>;
@@ -88,8 +90,14 @@ export class CreateReceiptComponent implements OnInit {
         });
 
         this._userService.get().subscribe((user) => {
-            user.fullName = user.fullname;
             this.user = user;
+            this.role = user.role;
+            switch (this.role) {
+                case 'lab-admin':
+                case 'lab-cashier':
+                    this.formGroup.controls.type.setValue('Laboratory');
+                    break;
+            }
         });
 
         this.formGroup.controls.discountPercent.valueChanges.subscribe(

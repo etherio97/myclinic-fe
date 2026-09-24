@@ -289,6 +289,10 @@ const CHART_REVENUE_DAILY = {
     },
 };
 
+const CHART_REVENUE_PHARM = cloneDeep(CHART_REVENUE);
+
+const CHART_REVENUE_PHARM_DAILY = cloneDeep(CHART_REVENUE_DAILY);
+
 @Component({
     selector: 'app-admin-dashboard',
     templateUrl: './admin-dashboard.component.html',
@@ -311,6 +315,10 @@ export class AdminDashboardComponent implements OnInit {
     chartVisitorsDaily: any = CHART_VISITORS_DAILY;
 
     chartRevenueDaily: any = CHART_REVENUE_DAILY;
+
+    chartRevenuePharm: any = CHART_REVENUE_PHARM;
+
+    chartRevenuePharmDaily: any = CHART_REVENUE_PHARM_DAILY;
 
     role!: string;
 
@@ -418,6 +426,16 @@ export class AdminDashboardComponent implements OnInit {
                         })),
                     },
                 ];
+
+                this.chartRevenuePharm.series = [
+                    {
+                        name: 'Revenue',
+                        data: data.pharmRevenueTrend.map((item: any) => ({
+                            x: moment(item.label).format('yyyy-MM-DD'),
+                            y: item.value,
+                        })),
+                    },
+                ];
             });
     }
 
@@ -452,6 +470,16 @@ export class AdminDashboardComponent implements OnInit {
                         name: 'Revenue',
                         data: data.revenueTrend.map((item: any) => ({
                             x: moment(item.label).format('HH:mm:ss'),
+                            y: item.value,
+                        })),
+                    },
+                ];
+
+                this.chartRevenuePharmDaily.series = [
+                    {
+                        name: 'Revenue',
+                        data: data.pharmRevenueTrend.map((item: any) => ({
+                            x: moment(item.label).format('yyyy-MM-DD'),
                             y: item.value,
                         })),
                     },

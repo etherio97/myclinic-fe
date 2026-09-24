@@ -13,6 +13,7 @@
         </div>
         <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
             <button
+                *ngIf="['admin', 'manager', 'cashier'].includes(role)"
                 mat-flat-button
                 color="primary"
                 routerLink="create"

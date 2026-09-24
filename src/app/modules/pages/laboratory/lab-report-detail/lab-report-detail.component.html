@@ -55,7 +55,24 @@
                                         {{ "PATIENT_NAME" | transloco }}
                                     </td>
                                     <td class="py-2 font-bold">
-                                        {{ data.order.patient.fullName }}
+                                        <a
+                                            class="hover:text-indigo-400 text-indigo-600 underline decoration-dotted transition-colors space-x-1"
+                                            [routerLink]="[
+                                                '/patients',
+                                                'view',
+                                                data.order.patient.id,
+                                            ]"
+                                        >
+                                            <span>
+                                                {{
+                                                    data.order.patient.fullName
+                                                }}
+                                            </span>
+                                            <mat-icon
+                                                svgIcon="mat_outline:open_in_new"
+                                                class="icon-size-3"
+                                            ></mat-icon>
+                                        </a>
                                     </td>
                                 </tr>
                                 <tr>

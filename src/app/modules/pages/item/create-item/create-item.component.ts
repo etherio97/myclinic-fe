@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { clone } from 'lodash';
 import { ConfirmService } from 'app/services/confirm.service';
+import { UserService } from 'app/core/user/user.service';
 
 @Component({
     selector: 'app-create-item',
@@ -24,11 +25,14 @@ export class CreateItemComponent implements OnInit {
 
     categoryFilteredOptions!: Observable<string[]>;
 
+    role!: string;
+
     constructor(
         private _itemService: ItemService,
         private _fb: FormBuilder,
         private _confirmService: ConfirmService,
         private _router: Router,
+        private _userService: UserService,
     ) {}
 
     ngOnInit(): void {
@@ -38,6 +42,16 @@ export class CreateItemComponent implements OnInit {
             category: ['', Validators.required],
             sellingPrice: ['', Validators.required],
             basePrice: [''],
+        });
+
+        this._userService.get().subscribe(({ role }) => {
+            this.role = role;
+            switch (role) {
+                case 'lab-admin':
+                case 'lab-cashier':
+                    this.formGroup.controls.itemType.setValue('Laboratory');
+                    break;
+            }
         });
 
         this.formGroup.controls.itemType.valueChanges.subscribe((value) => {

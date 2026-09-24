@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { UserService } from 'app/core/user/user.service';
 import { DashboardService } from 'app/services/dashboard.service';
 import { cloneDeep } from 'lodash-es';
 import moment from 'moment';
@@ -146,6 +147,8 @@ const CHART_REVENUE_DAILY = {
     },
 };
 
+const CHART_REVENUE_PHARM_DAILY = cloneDeep(CHART_REVENUE_DAILY);
+
 @Component({
     selector: 'app-manager-dashboard',
     templateUrl: './manager-dashboard.component.html',
@@ -161,14 +164,23 @@ export class ManagerDashboardComponent implements OnInit {
 
     chartRevenueDaily: any = CHART_REVENUE_DAILY;
 
+    chartRevenuePharmDaily: any = CHART_REVENUE_PHARM_DAILY;
+
+    role!: string;
+
     constructor(
         private _fb: FormBuilder,
         private _dashboardService: DashboardService,
+        private _userService: UserService,
     ) {}
 
     ngOnInit(): void {
         this.formGroup = this._fb.group({
             daily: [moment()],
+        });
+
+        this._userService.get().subscribe(({ role }) => {
+            this.role = role;
         });
 
         this.formGroup.controls.daily.valueChanges.subscribe(() => {
@@ -220,6 +232,16 @@ export class ManagerDashboardComponent implements OnInit {
                         name: 'Revenue',
                         data: data.revenueTrend.map((item: any) => ({
                             x: moment(item.label).format('HH:mm:ss'),
+                            y: item.value,
+                        })),
+                    },
+                ];
+
+                this.chartRevenuePharmDaily.series = [
+                    {
+                        name: 'Revenue',
+                        data: data.pharmRevenueTrend.map((item: any) => ({
+                            x: moment(item.label).format('yyyy-MM-DD'),
                             y: item.value,
                         })),
                     },

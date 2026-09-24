@@ -17,6 +17,7 @@
                 </div>
                 <div class="flex items-center gap-2">
                     <button
+                        *ngIf="['admin', 'manager', 'cashier'].includes(role)"
                         type="button"
                         mat-flat-button
                         class="items-center bg-indigo-600 text-white text-sm"
@@ -31,6 +32,7 @@
                 </div>
             </div>
 
+            <!-- Patient Information -->
             <div class="w-full py-2 mx-5 bg-white rounded p-5 shadow">
                 <div class="grid md:grid-cols-2 gap-x-20 gap-y-0">
                     <div>
@@ -159,12 +161,11 @@
             </div>
 
             <!-- Appointments -->
-            <div class="w-full mx-5 bg-white rounded overflow-hidden shadow">
+            <div
+                *ngIf="appointments"
+                class="w-full mx-5 bg-white rounded overflow-hidden shadow"
+            >
                 <div
-                    *ngIf="
-                        ['admin', 'manager', 'cashier'].includes(role) &&
-                        appointments
-                    "
                     class="bg-[#f2f2f2] px-5 py-2 w-full border-b border-[#e2e2e2]"
                 >
                     <div class="flex justify-between">
@@ -325,11 +326,7 @@
 
             <!-- Receipts (Clinic,Lab) -->
             <div
-                *ngIf="
-                    ['admin', 'manager', 'cashier', 'lab-admin'].includes(
-                        role
-                    ) && receipts
-                "
+                *ngIf="receipts"
                 class="w-full mx-5 bg-white rounded overflow-hidden shadow"
             >
                 <div
@@ -343,6 +340,11 @@
                         </div>
                         <div class="flex items-center gap-2">
                             <button
+                                *ngIf="
+                                    ['admin', 'manager', 'cashier'].includes(
+                                        role
+                                    )
+                                "
                                 type="button"
                                 mat-stroked-button
                                 class="items-center text-sm"
@@ -400,6 +402,14 @@
                                 <td class="text-center py-2">
                                     <ng-container *ngIf="receipt.doctor">
                                         <a
+                                            *ngIf="
+                                                [
+                                                    'admin',
+                                                    'manager',
+                                                    'cashier',
+                                                ].includes(role);
+                                                else patientName
+                                            "
                                             class="hover:text-indigo-400 text-indigo-600 underline decoration-dotted transition-colors space-x-1"
                                             [routerLink]="[
                                                 '/doctors',
@@ -419,6 +429,15 @@
                                                 class="icon-size-3"
                                             ></mat-icon>
                                         </a>
+                                        <ng-template #patientName>
+                                            <span>
+                                                {{ receipt.doctor.fullName }}
+                                                ({{
+                                                    receipt.doctor
+                                                        .specialization
+                                                }})
+                                            </span>
+                                        </ng-template>
                                     </ng-container>
                                 </td>
                                 <td class="text-center py-2">
@@ -465,11 +484,7 @@
 
             <!-- Pharmacy Receipts -->
             <div
-                *ngIf="
-                    ['admin', 'manager', 'cashier', 'pharm-cashier'].includes(
-                        role
-                    ) && pharmReceipts
-                "
+                *ngIf="pharmReceipts"
                 class="w-full mx-5 bg-white rounded overflow-hidden shadow"
             >
                 <div
@@ -588,11 +603,7 @@
 
             <!-- Lab Results -->
             <div
-                *ngIf="
-                    ['admin', 'manager', 'lab-admin', 'lab-cashier'].includes(
-                        role
-                    ) && labResults
-                "
+                *ngIf="labResults"
                 class="w-full mx-5 bg-white rounded overflow-hidden shadow"
             >
                 <div

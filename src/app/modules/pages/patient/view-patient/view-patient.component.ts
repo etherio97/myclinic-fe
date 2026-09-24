@@ -49,9 +49,20 @@ export class ViewPatientComponent implements OnInit {
     }
 
     loadData() {
+        let type = '';
+
         this._patientService.findById(this.id).subscribe((result) => {
             this.data = result;
         });
+
+        switch (this.role) {
+            case 'lab-admin':
+            case 'lab-cashier':
+                type = 'Laboratory';
+                break;
+            default:
+                type = '';
+        }
 
         ['admin', 'manager', 'cashier'].includes(this.role) &&
             this._appointmentService
@@ -60,9 +71,11 @@ export class ViewPatientComponent implements OnInit {
                     this.appointments = result;
                 });
 
-        ['admin', 'manager', 'cashier', 'lab-admin'].includes(this.role) &&
+        ['admin', 'manager', 'cashier', 'lab-admin', 'lab-cashier'].includes(
+            this.role,
+        ) &&
             this._receiptService
-                .getPatientReceipt(this.id)
+                .getPatientReceipt(this.id, type)
                 .subscribe((result) => {
                     this.receipts = result;
                 });

@@ -24,8 +24,9 @@
         </div>
         <div class="md:flex md:space-x-5 w-full">
             <div class="space-y-8 md:w-full">
-                <!-- chart: revenue -->
+                <!-- chart: revenue clinic+lab -->
                 <div
+                    *ngIf="['cashier'].includes(role)"
                     class="sm:col-span-2 lg:col-span-3 bg-card dark flex flex-col flex-auto shadow rounded-2xl overflow-hidden"
                 >
                     <div
@@ -35,7 +36,7 @@
                             <div
                                 class="mr-4 text-xl font-semibold tracking-tight leading-7"
                             >
-                                {{ "REVENUE_TREND" | transloco }}
+                                {{ "REVENUE_TREND_CLINIC_LAB" | transloco }}
                             </div>
                         </div>
                     </div>
@@ -55,8 +56,41 @@
                     </div>
                 </div>
 
+                <!-- chart: revenue pharmacy -->
+                <div
+                    *ngIf="['cashier', 'pharm-cashier'].includes(role)"
+                    class="sm:col-span-2 lg:col-span-3 bg-card dark flex flex-col flex-auto shadow rounded-2xl overflow-hidden"
+                >
+                    <div
+                        class="flex items-center justify-between mt-4 ml-10 mr-6 sm:mr-10"
+                    >
+                        <div class="flex flex-col">
+                            <div
+                                class="mr-4 text-xl font-semibold tracking-tight leading-7"
+                            >
+                                {{ "REVENUE_TREND_PHARMACY" | transloco }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col flex-auto h-80">
+                        <apx-chart
+                            class="flex-auto w-full h-full"
+                            [chart]="chartRevenuePharmDaily.chart"
+                            [colors]="chartRevenuePharmDaily.colors"
+                            [dataLabels]="chartRevenuePharmDaily.dataLabels"
+                            [grid]="chartRevenuePharmDaily.grid"
+                            [series]="chartRevenuePharmDaily.series"
+                            [tooltip]="chartRevenuePharmDaily.tooltip"
+                            [xaxis]="chartRevenuePharmDaily.xaxis"
+                            [yaxis]="chartRevenuePharmDaily.yaxis"
+                            [stroke]="{ width: 2, curve: 'smooth' }"
+                        ></apx-chart>
+                    </div>
+                </div>
+
                 <!-- chart: daily unique patients -->
                 <div
+                    *ngIf="['cashier'].includes(role)"
                     class="sm:col-span-2 lg:col-span-3 bg-card dark flex flex-col flex-auto shadow rounded-2xl overflow-hidden"
                 >
                     <div
@@ -90,15 +124,23 @@
             <div class="space-y-3 flex flex-col py-6 lg:py-0 lg:w-[460px]">
                 <!-- Total Revenue -->
                 <app-display-item
+                    *ngIf="['cashier'].includes(role)"
                     title="{{ 'TOTAL_REVENUE' | transloco }}"
                     unit="{{ 'KYATS' | transloco }}"
-                    [current]="int(dailyData?.total_revenue)"
-                    [previous]="int(prevDailyData?.total_revenue)"
+                    [current]="
+                        int(dailyData?.total_revenue) +
+                        int(dailyData?.total_pharm_revenue || 0)
+                    "
+                    [previous]="
+                        int(prevDailyData?.total_revenue) +
+                        int(prevDailyData?.total_pharm_revenue || 0)
+                    "
                     [isCurrency]="true"
                 ></app-display-item>
 
                 <!-- Total Clinic Revenue -->
                 <app-display-item
+                    *ngIf="['cashier'].includes(role)"
                     title="{{ 'TOTAL_CLINIC_REVENUE' | transloco }}"
                     unit="{{ 'KYATS' | transloco }}"
                     [current]="int(dailyData?.total_clinic_revenue)"
@@ -108,6 +150,7 @@
 
                 <!-- Total Lab Revenue -->
                 <app-display-item
+                    *ngIf="['cashier'].includes(role)"
                     title="{{ 'TOTAL_LABORATORY_REVENUE' | transloco }}"
                     unit="{{ 'KYATS' | transloco }}"
                     [current]="int(dailyData?.total_lab_revenue)"
@@ -115,17 +158,34 @@
                     [isCurrency]="true"
                 ></app-display-item>
 
+                <!-- Total Pharmacy Revenue -->
+                <app-display-item
+                    title="{{ 'TOTAL_PHARMACY_REVENUE' | transloco }}"
+                    unit="{{ 'KYATS' | transloco }}"
+                    [current]="int(dailyData?.total_pharm_revenue)"
+                    [previous]="int(prevDailyData?.total_pharm_revenue)"
+                    [isCurrency]="true"
+                ></app-display-item>
+
                 <!-- Total Discount -->
                 <app-display-item
+                    *ngIf="['cashier'].includes(role)"
                     title="{{ 'TOTAL_DISCOUNT' | transloco }}"
                     unit="{{ 'KYATS' | transloco }}"
-                    [current]="int(dailyData?.total_discount)"
-                    [previous]="int(prevDailyData?.total_discount)"
+                    [current]="
+                        int(dailyData?.total_discount || 0) +
+                        int(dailyData?.total_pharm_discount || 0)
+                    "
+                    [previous]="
+                        int(prevDailyData?.total_discount || 0) +
+                        int(prevDailyData?.total_pharm_discount || 0)
+                    "
                     [isCurrency]="true"
                 ></app-display-item>
 
                 <!-- Total Patient -->
                 <app-display-item
+                    *ngIf="['cashier'].includes(role)"
                     title="{{ 'NEW_PATIENTS' | transloco }}"
                     unit="{{ 'PATIENTS' | transloco }}"
                     [current]="int(dailyData?.total_patients)"
@@ -135,6 +195,7 @@
 
                 <!-- Total Expenses -->
                 <app-display-item
+                    *ngIf="['cashier'].includes(role)"
                     title="{{ 'TOTAL_EXPENSES' | transloco }}"
                     unit="{{ 'KYATS' | transloco }}"
                     [current]="int(dailyData?.total_expenses)"
