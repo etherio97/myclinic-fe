@@ -479,7 +479,7 @@ export class AdminDashboardComponent implements OnInit {
                     {
                         name: 'Revenue',
                         data: data.pharmRevenueTrend.map((item: any) => ({
-                            x: moment(item.label).format('yyyy-MM-DD'),
+                            x: moment(item.label).format('HH:mm:ss'),
                             y: item.value,
                         })),
                     },
