@@ -16,6 +16,8 @@
     "DASHBOARD": "Dashboard",
     "MONTHLY_REPORT": "Monthly Report",
     "REVENUE_TREND": "Revenue Trend",
+    "REVENUE_TREND_CLINIC_LAB": "Revenue Trend (Clinic+Lab)",
+    "REVENUE_TREND_PHARMACY": "Revenue Trend (Pharmacy)",
     "UNIQUE_PATIENTS": "Unique Patients",
     "DAILY_REPORT": "Daily Report",
     "MONTHLY": "Monthly",
@@ -200,6 +202,8 @@
     "RELOAD": "Reload",
     "PHAMACY_RECEIPTS": "Pharmacy Receipts",
     "LAB_RESULTS": "Laboratory Results",
+    "CREATE_NEW_PURCHASE": "Create New Purchase",
+    "TOTAL_PHARMACY_REVENUE": "Total Pharmacy Revenue",
 
     "XXX": ""
 }
