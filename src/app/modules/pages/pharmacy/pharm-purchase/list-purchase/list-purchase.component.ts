@@ -40,6 +40,8 @@ export class ListPurchaseComponent implements OnInit, AfterViewInit {
 
     role!: string;
 
+    grandTotal!: number;
+
     constructor(
         private _fb: FormBuilder,
         private confirmService: ConfirmService,
@@ -92,6 +94,11 @@ export class ListPurchaseComponent implements OnInit, AfterViewInit {
         }
         this._purchaseService.getAll(condition).subscribe((result: any) => {
             this.searchResult = this.dataSource.data = result;
+            this.grandTotal = result.reduce(
+                (prev: number, current: any) =>
+                    prev + parseFloat(current.total),
+                0,
+            );
         });
     }
 
@@ -136,5 +143,24 @@ export class ListPurchaseComponent implements OnInit, AfterViewInit {
                     .afterOpened()
                     .subscribe(() => this.reloadData());
             });
+    }
+
+    unarchiveItem(id: string) {
+        this.confirmService
+            .confirm(MESSAGES.CONFIRM_UNARCHIVE_PHARM_PURCHASE)
+            .beforeClosed()
+            .subscribe(
+                (value) =>
+                    value === 'confirmed' && this.confirmUnrchiveItem(id),
+            );
+    }
+
+    confirmUnrchiveItem(id: string) {
+        this._purchaseService.update(id, { status: 'Active' }).subscribe(() => {
+            this.confirmService
+                .success(MESSAGES.SUCCESS_UNARCHIVE_PHARM_PURCHASE)
+                .afterOpened()
+                .subscribe(() => this.reloadData());
+        });
     }
 }

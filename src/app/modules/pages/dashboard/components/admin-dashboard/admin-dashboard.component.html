@@ -100,7 +100,7 @@
                                 </div>
                             </div>
 
-                            <!-- chart: daily unique patients -->
+                            <!-- chart: monthly unique patients -->
                             <div
                                 class="sm:col-span-2 lg:col-span-3 bg-card dark flex flex-col flex-auto shadow rounded-2xl overflow-hidden"
                             >
@@ -430,10 +430,10 @@
                                 }}"
                                 unit="{{ 'KYATS' | transloco }}"
                                 [current]="
-                                    int(monthlyData?.total_pharm_revenue)
+                                    int(dailyData?.total_pharm_revenue)
                                 "
                                 [previous]="
-                                    int(prevMonthlyData?.total_pharm_revenue)
+                                    int(prevDailyData?.total_pharm_revenue)
                                 "
                                 [isCurrency]="true"
                             ></app-display-item>

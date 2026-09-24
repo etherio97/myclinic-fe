@@ -297,6 +297,17 @@
                                     class="icon-size-4"
                                 ></mat-icon>
                             </button>
+                            <button
+                                *ngIf="element.status === 'Archive'"
+                                mat-icon-button
+                                (click)="unarchiveItem(element.id)"
+                                matTooltip="{{ 'UNARCHIVE' | transloco }}"
+                            >
+                                <mat-icon
+                                    svgIcon="heroicons_outline:archive"
+                                    class="icon-size-4"
+                                ></mat-icon>
+                            </button>
                             <a
                                 *ngIf="element.status !== 'Archive'"
                                 mat-icon-button
@@ -337,6 +348,19 @@
                     class="bg-gray-50 dark:bg-gray-700"
                 >
                 </mat-paginator>
+            </div>
+        </div>
+
+        <div class="bg-card shadow rounded p-5 mt-5">
+            <div class="flex justify-end items-center">
+                <div class="flex space-x-2">
+                    <p class="px-2 font-bold">
+                        {{ "TOTAL_REVENUE" | transloco }}:
+                    </p>
+                    <p class="pr-5 font-bold">
+                        {{ grandTotal | currency: "MMK" : "" : "0.0-0" }}
+                    </p>
+                </div>
             </div>
         </div>
     </div>

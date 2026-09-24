@@ -357,8 +357,12 @@ export const MESSAGES = {
     CONFIRM_DELETE_PHARM_PURCHASE: 'ဆေးအဝယ်အား ဖျက်ရန် သေချာပါသလား?',
     SUCCESS_DELETE_PHARM_PURCHASE: 'ဆေးအဝယ်အား အောင်မြင်စွာ ဖျက်ပြီးပါပြီ။',
     CONFIRM_ARCHIVE_PHARM_PURCHASE: 'ဆေးအဝယ်အား Archive လုပ်ရန် သေချာပါသလား?',
+    CONFIRM_UNARCHIVE_PHARM_PURCHASE:
+        'ဆေးအဝယ်အား Unarchive လုပ်ရန် သေချာပါသလား?',
     SUCCESS_ARCHIVE_PHARM_PURCHASE:
         'ဆေးအဝယ်အား အောင်မြင်စွာ Archive လုပ်ပြီးပါပြီ။',
+    SUCCESS_UNARCHIVE_PHARM_PURCHASE:
+        'ဆေးအဝယ်အား အောင်မြင်စွာ Unarchive လုပ်ပြီးပါပြီ။',
     CONFIRM_DEACTIVATE_PHARM_ITEM: 'ဆေးဝါးအား မရောင်းချရန် သေချာပါသလား?',
     CONFIRM_ACTIVATE_PHARM_ITEM: 'ဆေးဝါးအား ပြန်လည်ရောင်းချလိုပါသလား?',
 };

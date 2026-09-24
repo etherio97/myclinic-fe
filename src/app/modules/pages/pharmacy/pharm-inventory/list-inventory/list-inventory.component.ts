@@ -44,6 +44,8 @@ export class ListInventoryComponent implements OnInit, AfterViewInit {
 
     role!: string;
 
+    trackingUnits: string[] = [];
+
     constructor(
         private _fb: FormBuilder,
         private _inventoryService: PharmInventoryService,
@@ -53,28 +55,54 @@ export class ListInventoryComponent implements OnInit, AfterViewInit {
         this.formGroup = this._fb.group({
             showAll: '0',
             searchValue: '',
+            trackingUnit: [],
             sortBy: 'name:asc',
         });
 
         this.formGroup.controls.sortBy.valueChanges.subscribe((value) =>
-            this.sortData(value),
+            setTimeout(() => this.filterData()),
         );
 
-        this.formGroup.controls.searchValue.valueChanges.subscribe((value) => {
-            let filterValue = value.toLowerCase();
-            this.dataSource.data = this.searchResult.filter(
-                (option) =>
-                    option.itemName.toLowerCase().includes(filterValue) ||
-                    option.itemCode.toLowerCase().includes(filterValue),
-            );
-            this.sortData();
-        });
+        this.formGroup.controls.trackingUnit.valueChanges.subscribe((value) =>
+            setTimeout(() => this.filterData()),
+        );
+
+        this.formGroup.controls.searchValue.valueChanges.subscribe((value) =>
+            setTimeout(() => this.filterData()),
+        );
 
         this.reloadData();
     }
 
-    sortData(value: string | void) {
-        const sortBy = value || this.formGroup.value.sortBy;
+    filterData() {
+        let isFiltered = false;
+        let searchValue = this.formGroup.value.searchValue;
+        let data: any = this.searchResult;
+        if (searchValue) {
+            isFiltered = true;
+            let filterValue = searchValue.toLowerCase();
+            data = data.filter(
+                (option: any) =>
+                    option.itemName.toLowerCase().includes(filterValue) ||
+                    option.itemCode.toLowerCase().includes(filterValue),
+            );
+        }
+        let trackingUnit = this.formGroup.value.trackingUnit;
+        if (trackingUnit?.length) {
+            isFiltered = true;
+            data = data.filter((option: any) =>
+                trackingUnit.includes(option.unit),
+            );
+        }
+        if (!isFiltered) {
+            data = this.searchResult;
+        }
+        this.dataSource.data = data;
+        this.sortData();
+    }
+
+    sortData() {
+        const sortBy = this.formGroup.value.sortBy;
         switch (sortBy) {
             case 'name:asc':
                 this.dataSource.data = this.dataSource.data.sort((a, b) =>
@@ -137,20 +165,16 @@ export class ListInventoryComponent implements OnInit, AfterViewInit {
                     (item) => item.status === 'Out of Stock',
                 );
 
-                let searchValue = this.formGroup.value.searchValue;
-                if (searchValue) {
-                    this.dataSource.data = this.searchResult.filter(
-                        (option) =>
-                            option.itemName
-                                .toLowerCase()
-                                .includes(searchValue.toLowerCase()) ||
-                            option.itemCode
-                                .toLowerCase()
-                                .includes(searchValue.toLowerCase()),
-                    );
-                }
+                let trackingUnits: string[] = [];
 
-                this.sortData();
+                this.searchResult.forEach((item) => {
+                    trackingUnits.includes(item.unit) ||
+                        trackingUnits.push(item.unit);
+                });
+
+                this.trackingUnits = trackingUnits;
+
+                this.filterData();
             });
     }
 

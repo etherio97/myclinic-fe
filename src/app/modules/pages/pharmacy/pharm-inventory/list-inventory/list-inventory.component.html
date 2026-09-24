@@ -33,7 +33,7 @@
         <div class="w-full pt-2 pb-2 sm:pt-6 sm:pb-2 bg-card rounded shadow">
             <form [formGroup]="formGroup" class="w-full">
                 <div class="flex flex-wrap w-full px-3 sm:px-6 pt-2 sm:pt-4">
-                    <div class="w-full sm:w-3/4 pr-6">
+                    <div class="w-full sm:w-2/4 pr-6">
                         <mat-form-field class="w-full" appearance="fill">
                             <mat-label>
                                 {{ "SEARCH_VALUE" | transloco }}
@@ -44,6 +44,21 @@
                                 type="text"
                                 placeholder="Search item"
                             />
+                        </mat-form-field>
+                    </div>
+                    <div class="w-full sm:w-1/4 pr-6">
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>
+                                {{ "TRACKING_UNIT" | transloco }}
+                            </mat-label>
+                            <mat-select formControlName="trackingUnit" multiple>
+                                <mat-option
+                                    *ngFor="let unit of trackingUnits"
+                                    [value]="unit"
+                                >
+                                    {{ unit }}
+                                </mat-option>
+                            </mat-select>
                         </mat-form-field>
                     </div>
                     <div class="w-full sm:w-1/4 pr-6">

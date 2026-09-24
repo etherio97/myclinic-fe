@@ -270,8 +270,10 @@ export class EditReceiptComponent implements OnInit {
     private _filterPatient(value: string): string[] {
         const filterValue = typeof value == 'string' ? value.toLowerCase() : '';
 
-        return this.patients.filter((option) =>
-            option.fullName.toLowerCase().includes(filterValue),
+        return this.patients.filter(
+            (option) =>
+                option.fullName.toLowerCase().includes(filterValue) ||
+                option.patientNo.toString().includes(filterValue),
         );
     }
 

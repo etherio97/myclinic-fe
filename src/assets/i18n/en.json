@@ -204,6 +204,8 @@
     "LAB_RESULTS": "Laboratory Results",
     "CREATE_NEW_PURCHASE": "Create New Purchase",
     "TOTAL_PHARMACY_REVENUE": "Total Pharmacy Revenue",
+    "ARCHIVE": "Archive",
+    "UNARCHIVE": "Unarchive",
 
     "XXX": ""
 }
