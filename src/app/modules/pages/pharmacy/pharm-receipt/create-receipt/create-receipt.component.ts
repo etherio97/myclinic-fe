@@ -63,6 +63,8 @@ export class CreateReceiptComponent implements OnInit {
 
     @ViewChild('itemsViewTable') itemsViewTableRef: any;
 
+    @ViewChild('mainContainer') mainContainerRef: any;
+
     constructor(
         private _receiptService: PharmReceiptService,
         private _patientService: PatientService,
@@ -202,9 +204,19 @@ export class CreateReceiptComponent implements OnInit {
         this.selectedItems.push(selectedItem);
         this.onChangeUnit(selectedItem, selectedItem.unit);
 
-        this.itemsViewTableRef.nativeElement.scrollTo({
-            top: this.itemsViewTableRef.nativeElement.scrollHeight,
-            behavior: 'smooth',
+        setTimeout(() => {
+            this.itemsViewTableRef.nativeElement.scrollTo({
+                top: this.itemsViewTableRef.nativeElement.scrollHeight,
+                behavior: 'smooth',
+            });
+
+            setTimeout(() => {
+                window.innerHeight > 800 &&
+                    window.scrollTo({
+                        top: document.body.scrollHeight,
+                        behavior: 'smooth',
+                    });
+            }, 200);
         });
 
         setTimeout(() => {
