@@ -19,9 +19,15 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { MY_DATE_FORMATS } from 'app/app.config';
+import { CreateMultipleItemComponent } from './create-multiple-item/create-multiple-item.component';
 
 @NgModule({
-    declarations: [ListItemComponent, CreateItemComponent, EditItemComponent],
+    declarations: [
+        ListItemComponent,
+        CreateItemComponent,
+        EditItemComponent,
+        CreateMultipleItemComponent,
+    ],
     imports: [
         RouterModule.forChild(pharmItemRoutes),
         SharedModule,

@@ -11,8 +11,22 @@
                 </h2>
             </div>
         </div>
-        <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+        <div
+            class="flex flex-shrink-0 space-x-2 items-center mt-6 sm:mt-0 sm:ml-4"
+        >
             <button
+                mat-flat-button
+                color="primary"
+                routerLink="create-batch"
+                class="text-white"
+            >
+                <mat-icon
+                    class="icon-size-5 mr-2"
+                    svgIcon="heroicons_solid:plus"
+                ></mat-icon>
+                {{ "BATCH" | transloco }}
+            </button>
+            <!-- <button
                 mat-flat-button
                 color="primary"
                 routerLink="create"
@@ -23,7 +37,7 @@
                     svgIcon="heroicons_solid:plus"
                 ></mat-icon>
                 {{ "NEW" | transloco }}
-            </button>
+            </button> -->
         </div>
     </div>
 

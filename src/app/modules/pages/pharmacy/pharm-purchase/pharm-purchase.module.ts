@@ -19,12 +19,15 @@ import { CreatePurchaseComponent } from './create-purchase/create-purchase.compo
 import { EditPurchaseComponent } from './edit-purchase/edit-purchase.component';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { MY_DATE_FORMATS } from 'app/app.config';
+import { CreateMultiplePurchaseComponent } from './create-multiple-purchase/create-multiple-purchase.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
     declarations: [
         ListPurchaseComponent,
         CreatePurchaseComponent,
         EditPurchaseComponent,
+        CreateMultiplePurchaseComponent,
     ],
     imports: [
         RouterModule.forChild(pharmPurchaseRoutes),
@@ -42,6 +45,7 @@ import { MY_DATE_FORMATS } from 'app/app.config';
         MatAutocompleteModule,
         MatPaginatorModule,
         TranslocoModule,
+        MatTooltipModule,
     ],
     providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }],
 })

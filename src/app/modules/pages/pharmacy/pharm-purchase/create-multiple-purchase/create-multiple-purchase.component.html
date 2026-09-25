@@ -1,0 +1,223 @@
+<div class="w-full p-3 sm:p-8 mx-auto" style="max-width: 1400px">
+    <form [formGroup]="formGroup" (ngSubmit)="submit()">
+        <div class="mb-4">
+            <div class="flex justify-between">
+                <div class="flex items-center">
+                    <button
+                        mat-icon-button
+                        matTooltip="Back"
+                        routerLink=".."
+                        type="button"
+                    >
+                        <mat-icon svgIcon="mat_outline:chevron_left"></mat-icon>
+                    </button>
+                    <h2 class="text-3xl font-semibold tracking-tight leading-8">
+                        {{ "CREATE_BATCH_PURCHASES" | transloco }}
+                    </h2>
+                </div>
+                <div>
+                    <button
+                        type="submit"
+                        mat-flat-button
+                        class="flex items-center bg-indigo-600 text-white"
+                    >
+                        <mat-icon
+                            svgIcon="mat_outline:save"
+                            class="icon-size-5 mr-2"
+                        ></mat-icon>
+                        {{ "SAVE" | transloco }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full pt-2 pb-2 mx-5">
+            <div class="grid md:grid-cols-2 gap-4">
+                <mat-form-field class="w-full">
+                    <mat-label>{{ "SUPPLIER" | transloco }}</mat-label>
+                    <input type="text" matInput formControlName="supplier" />
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>{{ "DATE" | transloco }}</mat-label>
+                    <input
+                        type="text"
+                        [matDatepicker]="pickerStart"
+                        matInput
+                        formControlName="purchasedDate"
+                    />
+                    <mat-datepicker-toggle
+                        matIconSuffix
+                        [for]="pickerStart"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #pickerStart></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <div class="bg-card shadow-sm space-y-2 p-4">
+                <div class="pb-4 flex justify-end">
+                    <div class="flex space-x-4 items-center">
+                        <div class="flex items-center space-x-1">
+                            <p class="">Total Items:</p>
+                            <p class="font-bold">{{ formGroups.length }}</p>
+                        </div>
+                        <button
+                            type="button"
+                            mat-flat-button
+                            class="flex items-center bg-slate-600 text-white"
+                            (click)="addPurchase()"
+                        >
+                            <mat-icon
+                                svgIcon="mat_outline:add"
+                                class="icon-size-5 mr-2"
+                            ></mat-icon>
+                            {{ "ADD" | transloco }}
+                        </button>
+                    </div>
+                </div>
+
+                <div
+                    *ngFor="let fb of formGroups; let i = index"
+                    @slideInRight
+                    @slideOutRight
+                >
+                    <div class="grid md:grid-cols-11 gap-2">
+                        <mat-form-field class="w-full col-span-3">
+                            <mat-label>{{ "ITEM" | transloco }}</mat-label>
+                            <input
+                                type="text"
+                                matInput
+                                [formControl]="fb.controls.item"
+                                [matAutocomplete]="itemAuto"
+                            />
+                            <mat-autocomplete
+                                #itemAuto="matAutocomplete"
+                                [displayWith]="displayItemFn"
+                                (optionSelected)="onItemSelect($event, fb)"
+                            >
+                                <mat-option
+                                    *ngFor="
+                                        let option of itemFilteredOptions[i]
+                                            | async
+                                    "
+                                    [value]="option"
+                                >
+                                    <table class="w-full">
+                                        <tbody>
+                                            <tr class="w-full">
+                                                <td class="w-[15%] py-2">
+                                                    <span class="text-xs">
+                                                        {{ option.code }}
+                                                    </span>
+                                                </td>
+                                                <td class="w-[75%] py-2">
+                                                    {{ option.name }}
+                                                </td>
+                                                <td
+                                                    class="w-[10%] text-center py-2"
+                                                >
+                                                    {{ option.trackingUnit }}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+
+                        <mat-form-field class="w-full">
+                            <mat-label>{{ "UNIT" | transloco }}</mat-label>
+                            <input
+                                type="text"
+                                matInput
+                                [formControl]="fb.controls.unit"
+                            />
+                        </mat-form-field>
+
+                        <mat-form-field class="w-full col-span-2">
+                            <mat-label>{{
+                                "EXPIRY_DATE" | transloco
+                            }}</mat-label>
+                            <input
+                                type="text"
+                                [matDatepicker]="pickerExpiry"
+                                matInput
+                                [formControl]="fb.controls.expiryDate"
+                            />
+                            <mat-datepicker-toggle
+                                matIconSuffix
+                                [for]="pickerExpiry"
+                            ></mat-datepicker-toggle>
+                            <mat-datepicker #pickerExpiry></mat-datepicker>
+                        </mat-form-field>
+
+                        <mat-form-field class="w-full">
+                            <mat-label>{{ "COST" | transloco }}</mat-label>
+                            <input
+                                type="number"
+                                matInput
+                                [formControl]="fb.controls.cost"
+                            />
+                        </mat-form-field>
+
+                        <mat-form-field class="w-full">
+                            <mat-label>{{ "QUANTITY" | transloco }}</mat-label>
+                            <input
+                                type="number"
+                                matInput
+                                [formControl]="fb.controls.quantity"
+                            />
+                        </mat-form-field>
+
+                        <mat-form-field class="w-full">
+                            <mat-label>{{ "DISCOUNT" | transloco }}</mat-label>
+                            <input
+                                type="number"
+                                matInput
+                                [formControl]="fb.controls.discount"
+                            />
+                        </mat-form-field>
+
+                        <div class="flex space-x-1 items-center col-span-2">
+                            <mat-form-field class="w-full">
+                                <mat-label>{{ "TOTAL" | transloco }}</mat-label>
+                                <input
+                                    type="number"
+                                    matInput
+                                    [formControl]="fb.controls.total"
+                                />
+                            </mat-form-field>
+
+                            <button
+                                mat-icon-button
+                                type="button"
+                                (click)="removePurchase(i)"
+                            >
+                                <mat-icon
+                                    class="text-rose-500"
+                                    svgIcon="mat_solid:delete"
+                                    matTooltip="{{ 'DELETE' | transloco }}"
+                                ></mat-icon>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div
+                        *ngIf="
+                            formGroups.length !== 1 &&
+                            i + 1 !== formGroups.length
+                        "
+                    >
+                        <hr />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- 
+
+
+               
+-->

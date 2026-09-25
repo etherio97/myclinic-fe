@@ -206,6 +206,10 @@
     "TOTAL_PHARMACY_REVENUE": "Total Pharmacy Revenue",
     "ARCHIVE": "Archive",
     "UNARCHIVE": "Unarchive",
+    "BATCH": "Batch",
+    "CREATE_BATCH_PURCHASES": "Create Batch Purchases",
+    "CREATE_BATCH_ITEMS": "Create Batch Items",
+    "ADD": "Add",
 
     "XXX": ""
 }
