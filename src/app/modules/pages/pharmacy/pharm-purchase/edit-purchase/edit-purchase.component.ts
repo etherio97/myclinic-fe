@@ -9,6 +9,7 @@ import { ConfirmService } from 'app/services/confirm.service';
 import { PharmItemService } from 'app/services/pharm-item.service';
 import { PharmPurchaseService } from 'app/services/pharm-purchase.service';
 import moment from 'moment';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 @Component({
     selector: 'app-edit-purchase',
@@ -19,15 +20,11 @@ export class EditPurchaseComponent implements OnInit {
 
     formGroup!: FormGroup;
 
-    categories: any = [];
-
-    itemTypes: any = APP_CONFIG.ITEM_TYPES;
-
-    itemTypeFilteredOptions!: Observable<string[]>;
-
-    categoryFilteredOptions!: Observable<string[]>;
+    itemFilteredOption!: Observable<string[]>;
 
     id!: string;
+
+    items: any[] = [];
 
     constructor(
         private _itemService: PharmItemService,
@@ -51,6 +48,15 @@ export class EditPurchaseComponent implements OnInit {
             total: [0, Validators.required],
         });
 
+        this._itemService.getAll({}).subscribe((items: any) => {
+            this.items = items;
+        });
+
+        this.formGroup.controls.item.valueChanges.pipe(
+            startWith(''),
+            map((value) => this._filterItem(value || '')),
+        );
+
         this.formGroup.controls.cost.valueChanges.subscribe(() => {
             this.recalculateTotal();
         });
@@ -63,6 +69,12 @@ export class EditPurchaseComponent implements OnInit {
             this.recalculateTotal();
         });
 
+        this.itemFilteredOption =
+            this.formGroup.controls.item.valueChanges.pipe(
+                startWith(''),
+                map((value) => this._filterItem(value || '')),
+            );
+
         this.route.params.subscribe(({ id }) => {
             this.id = id;
             this.loadData();
@@ -73,7 +85,6 @@ export class EditPurchaseComponent implements OnInit {
         this._purchaseService.findById(this.id).subscribe((result: any) => {
             this.isLoaded = true;
             this.formGroup.patchValue(result);
-            this.formGroup.controls.item.setValue(result.item.name);
         });
     }
 
@@ -81,10 +92,12 @@ export class EditPurchaseComponent implements OnInit {
         const cost = this.formGroup.controls.cost.value || 0;
         const quantity = this.formGroup.controls.quantity.value || 0;
         const discount = this.formGroup.controls.discount.value || 0;
-
         const total = cost * quantity - discount;
-
         this.formGroup.controls.total.setValue(total);
+    }
+
+    displayItemFn(item: any): string {
+        return item && item.name ? item.name : '';
     }
 
     submit() {
@@ -96,7 +109,7 @@ export class EditPurchaseComponent implements OnInit {
         }
 
         this._confirmService
-            .confirm(MESSAGES.CONFIRM_UPDATE_ITEM)
+            .confirm(MESSAGES.CONFIRM_UPDATE_PURCHASE)
             .beforeClosed()
             .subscribe(
                 (value) => value === 'confirmed' && this.confirmSubmit(),
@@ -105,27 +118,28 @@ export class EditPurchaseComponent implements OnInit {
 
     confirmSubmit() {
         const data = clone(this.formGroup.value);
-        delete data.item;
-        delete data.unit;
-        delete data.quantity;
-        this._itemService.update(this.id, data).subscribe(() => {
-            this._router.navigate(['/items']);
+        //
+        this._purchaseService.update(this.id, data).subscribe(() => {
+            this._router.navigate(['/pharmacy', 'purchases']);
         });
     }
 
-    private _filterItemType(value: string) {
-        const filterValue = value.toString().toLowerCase();
-
-        return this.itemTypes.filter((option: string) =>
-            option.toLowerCase().includes(filterValue),
-        );
+    onItemSelect(event: MatAutocompleteSelectedEvent): void {
+        const selectedItem = event.option.value;
+        if (!selectedItem) return;
+        this.formGroup.controls.item.setValue(selectedItem);
+        this.formGroup.controls.unit.setValue(selectedItem.trackingUnit);
     }
 
-    private _filterCategory(value: string) {
-        const filterValue = value.toString().toLowerCase();
+    private _filterItem(value: any): any[] {
+        const filterValue =
+            typeof value === 'string' ? value.toLowerCase() : '';
 
-        return this.categories.filter((option: string) =>
-            option.toLowerCase().includes(filterValue),
+        return this.items.filter(
+            (option) =>
+                option.name.toLowerCase().includes(filterValue) ||
+                option.code.toLowerCase().includes(filterValue) ||
+                option.barcode?.toLowerCase().includes(filterValue),
         );
     }
 }

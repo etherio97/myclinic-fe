@@ -92,9 +92,7 @@ export class CreateMultiplePurchaseComponent implements OnInit {
         const cost = fb.controls.cost.value || 0;
         const quantity = fb.controls.quantity.value || 0;
         const discount = fb.controls.discount.value || 0;
-
         const total = cost * quantity - discount;
-
         fb.controls.total.setValue(total);
     }
 

@@ -13,7 +13,6 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatSelectModule } from '@angular/material/select';
 import { ListItemComponent } from './list-item/list-item.component';
-import { CreateItemComponent } from './create-item/create-item.component';
 import { EditItemComponent } from './edit-item/edit-item.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -24,9 +23,8 @@ import { CreateMultipleItemComponent } from './create-multiple-item/create-multi
 @NgModule({
     declarations: [
         ListItemComponent,
-        CreateItemComponent,
-        EditItemComponent,
         CreateMultipleItemComponent,
+        EditItemComponent,
     ],
     imports: [
         RouterModule.forChild(pharmItemRoutes),

@@ -12,7 +12,7 @@
                         <mat-icon svgIcon="mat_outline:chevron_left"></mat-icon>
                     </button>
                     <h2 class="text-3xl font-semibold tracking-tight leading-8">
-                        {{ "CREATE_BATCH_PURCHASES" | transloco }}
+                        {{ "CREATE_NEW_PURCHASE" | transloco }}
                     </h2>
                 </div>
                 <div>
@@ -130,6 +130,7 @@
                             <input
                                 type="text"
                                 matInput
+                                readonly
                                 [formControl]="fb.controls.unit"
                             />
                         </mat-form-field>

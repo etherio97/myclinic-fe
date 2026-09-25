@@ -15,7 +15,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { TranslocoModule } from '@ngneat/transloco';
 import { ListPurchaseComponent } from './list-purchase/list-purchase.component';
-import { CreatePurchaseComponent } from './create-purchase/create-purchase.component';
 import { EditPurchaseComponent } from './edit-purchase/edit-purchase.component';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { MY_DATE_FORMATS } from 'app/app.config';
@@ -25,9 +24,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 @NgModule({
     declarations: [
         ListPurchaseComponent,
-        CreatePurchaseComponent,
-        EditPurchaseComponent,
         CreateMultiplePurchaseComponent,
+        EditPurchaseComponent,
     ],
     imports: [
         RouterModule.forChild(pharmPurchaseRoutes),

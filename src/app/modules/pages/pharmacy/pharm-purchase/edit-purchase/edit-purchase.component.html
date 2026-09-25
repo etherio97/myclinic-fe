@@ -42,8 +42,46 @@
                     <input
                         type="text"
                         matInput
-                        readonly
                         formControlName="item"
+                        [matAutocomplete]="itemAuto"
+                    />
+                    <mat-autocomplete
+                        #itemAuto="matAutocomplete"
+                        [displayWith]="displayItemFn"
+                        (optionSelected)="onItemSelect($event)"
+                    >
+                        <mat-option
+                            *ngFor="let option of itemFilteredOption | async"
+                            [value]="option"
+                        >
+                            <table class="w-full">
+                                <tbody>
+                                    <tr class="w-full">
+                                        <td class="w-[15%] py-2">
+                                            <span class="text-xs">
+                                                {{ option.code }}
+                                            </span>
+                                        </td>
+                                        <td class="w-[75%] py-2">
+                                            {{ option.name }}
+                                        </td>
+                                        <td class="w-[10%] text-center py-2">
+                                            {{ option.trackingUnit }}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>{{ "UNIT" | transloco }}</mat-label>
+                    <input
+                        type="text"
+                        matInput
+                        formControlName="unit"
+                        readonly
                     />
                 </mat-form-field>
 
@@ -61,16 +99,6 @@
                     ></mat-datepicker-toggle>
                     <mat-datepicker #pickerStart></mat-datepicker>
                 </mat-form-field>
-
-                <!-- <mat-form-field class="w-full">
-                    <mat-label>{{ "UNIT" | transloco }}</mat-label>
-                    <input
-                        type="text"
-                        matInput
-                        formControlName="unit"
-                        readonly
-                    />
-                </mat-form-field> -->
 
                 <mat-form-field class="w-full">
                     <mat-label>{{ "SUPPLIER" | transloco }}</mat-label>

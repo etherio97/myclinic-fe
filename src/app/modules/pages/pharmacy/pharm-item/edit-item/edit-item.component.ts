@@ -43,6 +43,19 @@ export class EditItemComponent implements OnInit {
             stocks: [''],
         });
 
+        this.formGroup.controls.units.valueChanges.subscribe((value) => {
+            if (!value) return;
+            let units = value.split(',').map((x: string) => x.trim());
+            setTimeout(() =>
+                this.formGroup.controls.defaultUnit.setValue(units[0]),
+            );
+            setTimeout(() =>
+                this.formGroup.controls.trackingUnit.setValue(
+                    units[units.length - 1],
+                ),
+            );
+        });
+
         this.route.params.subscribe(({ id }) => {
             this.id = id;
             this.loadData();
@@ -52,6 +65,7 @@ export class EditItemComponent implements OnInit {
     loadData() {
         this._itemService.findById(this.id).subscribe((result: any) => {
             this.isLoaded = true;
+            result.units = result.units.join(',');
             this.formGroup.patchValue(result);
         });
     }
@@ -74,8 +88,24 @@ export class EditItemComponent implements OnInit {
 
     confirmSubmit() {
         const data = clone(this.formGroup.value);
+        data.units = data.units.split(',').map((unit: string) => unit.trim());
+        data.name = data.name.trim();
         this._itemService.update(this.id, data).subscribe(() => {
             this._router.navigate(['/pharmacy/items']);
         });
+    }
+
+    getDefaultUnits() {
+        if (!this.formGroup.controls.units.value) return [];
+        return this.formGroup.controls.units.value
+            .split(',')
+            .map((i: string) => i.trim());
+    }
+
+    getTrackingUnits() {
+        if (!this.formGroup.controls.units.value) return [];
+        return this.formGroup.controls.units.value
+            .split(',')
+            .map((i: string) => i.trim());
     }
 }

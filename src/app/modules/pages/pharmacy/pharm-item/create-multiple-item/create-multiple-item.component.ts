@@ -114,15 +114,6 @@ export class CreateMultipleItemComponent implements OnInit {
             if (!data.eachPrice) {
                 delete data.eachPrice;
             }
-            if (!data.discount) {
-                data.discount = 0;
-            }
-            if (!data.supplier) {
-                delete data.supplier;
-            }
-            if (!data.expiryDate) {
-                delete data.expiryDate;
-            }
             return this._itemService.create(data).pipe(
                 map((res: any) => ({
                     index,

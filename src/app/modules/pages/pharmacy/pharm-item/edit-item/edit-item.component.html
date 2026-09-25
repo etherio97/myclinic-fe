@@ -39,7 +39,12 @@
             <div class="grid grid-cols-2 gap-4">
                 <mat-form-field class="w-full">
                     <mat-label>{{ "ITEM_CODE" | transloco }}</mat-label>
-                    <input type="text" matInput formControlName="code" />
+                    <input
+                        type="text"
+                        readonly
+                        matInput
+                        formControlName="code"
+                    />
                 </mat-form-field>
 
                 <mat-form-field class="w-full">
@@ -69,16 +74,26 @@
 
                 <mat-form-field class="w-full">
                     <mat-label>{{ "DEFAULT_UNIT" | transloco }}</mat-label>
-                    <input type="text" matInput formControlName="defaultUnit" />
+                    <mat-select formControlName="defaultUnit">
+                        <mat-option
+                            *ngFor="let unit of getDefaultUnits()"
+                            [value]="unit"
+                        >
+                            {{ unit }}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
 
                 <mat-form-field class="w-full">
                     <mat-label>{{ "TRACKING_UNIT" | transloco }}</mat-label>
-                    <input
-                        type="text"
-                        matInput
-                        formControlName="trackingUnit"
-                    />
+                    <mat-select formControlName="trackingUnit">
+                        <mat-option
+                            *ngFor="let unit of getTrackingUnits()"
+                            [value]="unit"
+                        >
+                            {{ unit }}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
 
                 <mat-form-field class="w-full">
@@ -108,19 +123,11 @@
                         formControlName="minThreshold"
                     />
                 </mat-form-field>
-                <mat-form-field class="w-full">
-                    <mat-label>{{ "MIN_THRESHOLD" | transloco }}</mat-label>
-                    <input
-                        type="number"
-                        matInput
-                        formControlName="minThreshold"
-                    />
-                </mat-form-field>
 
-                <mat-form-field class="w-full">
+                <!-- <mat-form-field class="w-full">
                     <mat-label>{{ "STOCKS" | transloco }}</mat-label>
                     <input type="number" matInput formControlName="stocks" />
-                </mat-form-field>
+                </mat-form-field> -->
             </div>
         </div>
     </form>
