@@ -392,8 +392,14 @@
                                 *ngIf="['admin', 'manager'].includes(role)"
                                 title="{{ 'TOTAL_REVENUE' | transloco }}"
                                 unit="{{ 'KYATS' | transloco }}"
-                                [current]="int(dailyData?.total_revenue)"
-                                [previous]="int(prevDailyData?.total_revenue)"
+                                [current]="
+                                    int(dailyData?.total_revenue) +
+                                    int(dailyData?.total_pharm_revenue || 0)
+                                "
+                                [previous]="
+                                    int(prevDailyData?.total_revenue) +
+                                    int(prevDailyData?.total_pharm_revenue || 0)
+                                "
                                 [isCurrency]="true"
                             ></app-display-item>
 
@@ -429,9 +435,7 @@
                                     'TOTAL_PHARMACY_REVENUE' | transloco
                                 }}"
                                 unit="{{ 'KYATS' | transloco }}"
-                                [current]="
-                                    int(dailyData?.total_pharm_revenue)
-                                "
+                                [current]="int(dailyData?.total_pharm_revenue)"
                                 [previous]="
                                     int(prevDailyData?.total_pharm_revenue)
                                 "

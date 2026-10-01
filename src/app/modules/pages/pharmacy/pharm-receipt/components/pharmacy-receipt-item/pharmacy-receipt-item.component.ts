@@ -1,11 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-    selector: 'app-receipt-item',
-    templateUrl: './receipt-item.component.html',
-    styleUrls: ['./receipt-item.component.scss'],
+    selector: 'app-pharmacy-receipt-item',
+    templateUrl: './pharmacy-receipt-item.component.html',
+    styleUrls: ['./pharmacy-receipt-item.component.scss'],
 })
-export class ReceiptItemComponent implements OnInit {
+export class PharmacyReceiptItemComponent implements OnInit {
     @Input() items: any;
 
     @Input() date!: string;

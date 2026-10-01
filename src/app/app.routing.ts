@@ -40,6 +40,13 @@ export const appRoutes: Route[] = [
                     ),
             },
             {
+                path: 'pos-mode',
+                loadChildren: () =>
+                    import('app/modules/pages/pos/pos.module').then(
+                        (m) => m.PosModule,
+                    ),
+            },
+            {
                 path: 'doctors',
                 loadChildren: () =>
                     import('app/modules/pages/doctor/doctor.module').then(

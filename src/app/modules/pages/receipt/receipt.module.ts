@@ -30,19 +30,19 @@ import { CreatePatientModalComponent } from './components/create-patient-modal/c
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { EditReceiptComponent } from './edit-receipt/edit-receipt.component';
 import { TranslocoModule } from '@ngneat/transloco';
+import { ReceiptSharedModule } from './receipt-shared.module';
 
 @NgModule({
     declarations: [
         ListReceiptComponent,
         CreateReceiptComponent,
-        ReceiptItemComponent,
         ViewReceiptComponent,
-        CreatePatientModalComponent,
         EditReceiptComponent,
     ],
     imports: [
         RouterModule.forChild(receiptRoutes),
         SharedModule,
+        ReceiptSharedModule,
         MatInputModule,
         MatIconModule,
         MatButtonModule,

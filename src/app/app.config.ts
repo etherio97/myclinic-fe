@@ -87,6 +87,16 @@ export const NAVIGATION_ITEMS: FuseNavigationItem[] = [
                 },
             },
             {
+                id: 'pos',
+                title: 'POS',
+                type: 'basic',
+                icon: 'mat_solid:point_of_sale',
+                link: '/pos-mode',
+                meta: {
+                    roles: ['admin', 'manager', 'cashier'],
+                },
+            },
+            {
                 id: 'patients',
                 title: 'PATIENTS',
                 type: 'basic',

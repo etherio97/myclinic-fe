@@ -1,0 +1,355 @@
+<div class="w-full print:hidden">
+    <div class="w-full p-3 sm:p-8 mx-auto relative" style="max-width: 1400px">
+        <form [formGroup]="formGroup">
+            <div class="mb-4">
+                <div class="flex justify-between">
+                    <div class="flex items-center">
+                        <h2
+                            class="text-3xl font-semibold tracking-tight leading-8"
+                        >
+                            Point Of Sale
+                        </h2>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button
+                            type="button"
+                            mat-flat-button
+                            class="flex items-center bg-slate-600 text-white"
+                            (click)="printAll()"
+                        >
+                            <mat-icon
+                                svgIcon="mat_outline:print"
+                                class="icon-size-5 mr-2"
+                            ></mat-icon>
+                            All
+                        </button>
+                        <button
+                            *ngIf="responseClinic"
+                            type="button"
+                            mat-flat-button
+                            class="flex items-center bg-slate-600 text-white"
+                            (click)="printClinicReceipt()"
+                        >
+                            <mat-icon
+                                svgIcon="mat_outline:print"
+                                class="icon-size-5 mr-2"
+                            ></mat-icon>
+                            Clinic
+                        </button>
+                        <button
+                            *ngIf="responseLab"
+                            type="button"
+                            mat-flat-button
+                            class="flex items-center bg-slate-600 text-white"
+                            (click)="printLabReceipt()"
+                        >
+                            <mat-icon
+                                svgIcon="mat_outline:print"
+                                class="icon-size-5 mr-2"
+                            ></mat-icon>
+                            Lab
+                        </button>
+                        <button
+                            *ngIf="responsePharmacy"
+                            type="button"
+                            mat-flat-button
+                            class="flex items-center bg-slate-600 text-white"
+                            (click)="printPharmacyReceipt()"
+                        >
+                            <mat-icon
+                                svgIcon="mat_outline:print"
+                                class="icon-size-5 mr-2"
+                            ></mat-icon>
+                            Pharmacy
+                        </button>
+                        <button
+                            (click)="reset()"
+                            type="button"
+                            mat-flat-button
+                            class="flex items-center bg-amber-600 text-white"
+                        >
+                            <mat-icon
+                                svgIcon="mat_outline:restart_alt"
+                                class="icon-size-5 mr-2"
+                            ></mat-icon>
+                            Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- For Patient Information -->
+            <div class="w-full pt-2 pb-2 mx-5">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="flex items-center justify-between">
+                        <mat-form-field class="w-full">
+                            <mat-label>{{
+                                "PATIENT_NAME" | transloco
+                            }}</mat-label>
+                            <input
+                                type="text"
+                                matInput
+                                formControlName="patient"
+                                [matAutocomplete]="patientAuto"
+                                (focus)="
+                                    formGroup.controls.patient.untouched &&
+                                        formGroup.controls.patient.setValue(
+                                            null
+                                        )
+                                "
+                            />
+                            <mat-icon
+                                *ngIf="
+                                    formGroup.controls['patient']?.value &&
+                                    isObject(
+                                        formGroup.controls['patient']?.value
+                                    )
+                                "
+                                matSuffix
+                                class="text-teal-600"
+                                svgIcon="mat_outline:check"
+                            ></mat-icon>
+                            <mat-icon
+                                *ngIf="
+                                    formGroup.controls['patient'].touched &&
+                                    !isObject(
+                                        formGroup.controls['patient']?.value
+                                    )
+                                "
+                                matSuffix
+                                class="text-rose-600"
+                                svgIcon="mat_outline:cancel"
+                            ></mat-icon>
+                            <mat-autocomplete
+                                #patientAuto="matAutocomplete"
+                                [displayWith]="displayPatientFn"
+                            >
+                                <mat-option
+                                    *ngFor="
+                                        let option of patientFilteredOptions
+                                            | async
+                                    "
+                                    [value]="option"
+                                >
+                                    {{ option.fullName }} #{{
+                                        option.patientNo
+                                    }}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                        <button
+                            type="button"
+                            mat-icon-button
+                            (click)="openCreatePatientModal()"
+                            matTooltip="{{ 'CREATE_NEW_PATIENT' | transloco }}"
+                        >
+                            <mat-icon
+                                svgIcon="heroicons_solid:user-add"
+                            ></mat-icon>
+                        </button>
+                    </div>
+
+                    <mat-form-field class="w-full">
+                        <mat-label>{{ "DOCTOR_NAME" | transloco }}</mat-label>
+                        <input
+                            type="text"
+                            matInput
+                            formControlName="doctor"
+                            [matAutocomplete]="doctorAuto"
+                            (focus)="
+                                formGroup.controls.doctor.untouched &&
+                                    formGroup.controls.doctor.setValue(null)
+                            "
+                        />
+                        <mat-icon
+                            *ngIf="
+                                formGroup.controls['doctor']?.value &&
+                                isObject(formGroup.controls['doctor']?.value)
+                            "
+                            matSuffix
+                            class="text-teal-600"
+                            svgIcon="mat_outline:check"
+                        ></mat-icon>
+                        <mat-icon
+                            *ngIf="
+                                formGroup.controls['doctor'].touched &&
+                                !isObject(formGroup.controls['doctor']?.value)
+                            "
+                            matSuffix
+                            class="text-rose-600"
+                            svgIcon="mat_outline:cancel"
+                        ></mat-icon>
+                        <mat-autocomplete
+                            #doctorAuto="matAutocomplete"
+                            [displayWith]="displayDoctorFn"
+                        >
+                            <mat-option
+                                *ngFor="
+                                    let option of doctorFilteredOptions | async
+                                "
+                                [value]="option"
+                            >
+                                {{ option.fullName }} ({{
+                                    option.specialization
+                                }}) #{{ option.doctorNo }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <mat-tab-group mat-align-tabs="start" class="-mx-4">
+                <mat-tab label="Clinic">
+                    <app-clinic-pos
+                        *ngIf="!isReseting"
+                        type="Clinic"
+                        (onSubmitted)="onSubmittedClinic($event)"
+                        [form]="formGroup"
+                        [items]="items"
+                    ></app-clinic-pos>
+                </mat-tab>
+                <mat-tab label="Laboratory">
+                    <app-clinic-pos
+                        *ngIf="!isReseting"
+                        type="Laboratory"
+                        (onSubmitted)="onSubmittedClinic($event)"
+                        [form]="formGroup"
+                        [items]="items"
+                    ></app-clinic-pos>
+                </mat-tab>
+                <mat-tab label="Pharmacy">
+                    <app-pharmacy-pos
+                        *ngIf="!isReseting"
+                        (onSubmitted)="onSubmittedPharmacy($event)"
+                        [form]="formGroup"
+                        [items]="pharmItems"
+                    ></app-pharmacy-pos>
+                </mat-tab>
+            </mat-tab-group>
+        </form>
+    </div>
+</div>
+
+<ng-template #finalPopup>
+    <div class="space-y-4">
+        <!-- Clinic Total -->
+        <div class="grid grid-cols-2 gap-2 place-items-center">
+            <p class="font-bold">Clinic Total</p>
+            <div class="w-full">
+                <p
+                    class="px-4 py-2 bg-slate-100 shadow-sm rounded-lg border border-slate-500"
+                >
+                    {{ int(responseClinic?.grandTotal || 0) }}
+                </p>
+            </div>
+        </div>
+        <!-- Lab Total -->
+        <div class="grid grid-cols-2 gap-2 place-items-center">
+            <p class="font-bold">Laboratory Total</p>
+            <div class="w-full">
+                <p
+                    class="px-4 py-2 bg-slate-100 shadow-sm rounded-lg border border-slate-500"
+                >
+                    {{ int(responseLab?.grandTotal || 0) }}
+                </p>
+            </div>
+        </div>
+        <!-- Pharmacy Total -->
+        <div class="grid grid-cols-2 gap-2 place-items-center">
+            <p class="font-bold">Pharmacy Total</p>
+            <div class="w-full">
+                <p
+                    class="px-4 py-2 bg-slate-100 shadow-sm rounded-lg border border-slate-500"
+                >
+                    {{ int(responsePharmacy?.grandTotal || 0) }}
+                </p>
+            </div>
+        </div>
+        <!-- Grand Total -->
+        <div class="grid grid-cols-2 gap-2 place-items-center">
+            <p class="font-bold text-lg">Grand Total</p>
+            <div class="w-full">
+                <p
+                    class="text-lg font-bold px-4 py-2 bg-slate-100 shadow-sm rounded-lg border border-slate-500"
+                >
+                    {{
+                        int(responseClinic?.grandTotal || 0) +
+                            int(responseLab?.grandTotal || 0) +
+                            int(responsePharmacy?.grandTotal || 0)
+                    }}
+                </p>
+            </div>
+        </div>
+        <!-- Actions Button -->
+        <div class="flex justify-center pt-4 items-center space-x-2">
+            <button
+                type="button"
+                mat-flat-button
+                class="flex items-center bg-slate-600 text-white"
+                (click)="closeModal()"
+            >
+                <mat-icon
+                    svgIcon="mat_outline:close"
+                    class="icon-size-5 mr-2"
+                ></mat-icon>
+                Close
+            </button>
+            <button
+                type="button"
+                mat-flat-button
+                class="flex items-center bg-indigo-600 text-white"
+                (click)="confirmReset()"
+            >
+                <mat-icon
+                    svgIcon="mat_outline:check"
+                    class="icon-size-5 mr-2"
+                ></mat-icon>
+                Done
+            </button>
+        </div>
+    </div>
+</ng-template>
+
+<style>
+    /* Hidden on screen (web) */
+    .print-only {
+        display: none;
+    }
+
+    /* Shown on print */
+    @media print {
+        .print-only {
+            display: block; /* Or 'inline', 'flex', etc., depending on the element type */
+        }
+    }
+</style>
+
+<app-receipt-item
+    *ngIf="isPrintingClinic && response"
+    class="pb-10 print:p-0 print:m-0 print-only"
+    [patient]="formGroup.controls.patient.value"
+    [receiptNo]="response.receiptNo"
+    [date]="response.date"
+    [items]="response.items"
+    [paymentMethod]="response.paymentMethod"
+    [doctor]="formGroup.controls.doctor.value"
+    [grandTotal]="response.grandTotal"
+    [subTotal]="response.subTotal"
+    [discount]="response.discount"
+    [cashier]="cashier"
+></app-receipt-item>
+
+<app-pharmacy-receipt-item
+    *ngIf="isPrintingPharmacy && response"
+    class="pb-10 print:p-0 print:m-0 print-only"
+    [patient]="formGroup.controls.patient.value"
+    [receiptNo]="response.receiptNo"
+    [date]="response.date"
+    [items]="response.items"
+    [paymentMethod]="response.paymentMethod"
+    [doctor]="formGroup.controls.doctor.value"
+    [grandTotal]="response.grandTotal"
+    [subTotal]="response.subTotal"
+    [discount]="response.discount"
+    [cashier]="cashier"
+></app-pharmacy-receipt-item>

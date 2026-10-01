@@ -473,7 +473,7 @@
     }
 </style>
 
-<app-receipt-item
+<app-pharmacy-receipt-item
     class="pb-10 print:p-0 print:m-0 print-only"
     receiptNo="OFFLINE"
     [date]="formGroup.controls.date.value || now()"
@@ -484,4 +484,4 @@
     [subTotal]="getSubTotal()"
     [discount]="getDiscount()"
     [cashier]="user"
-></app-receipt-item>
+></app-pharmacy-receipt-item>
