@@ -215,32 +215,47 @@ export class POSComponent implements OnInit {
     response!: any;
 
     printClinicReceipt() {
-        this.isPrintingClinic = true;
-        this.isPrintingPharmacy = false;
-        this.response = this.responseClinic;
-        setTimeout(() => window.print(), 400);
+        return new Promise((resolve) => {
+            this.isPrintingClinic = true;
+            this.isPrintingPharmacy = false;
+            this.response = this.responseClinic;
+            setTimeout(() => {
+                window.print();
+                resolve(true);
+            }, 400);
+        });
     }
 
     printLabReceipt() {
-        this.isPrintingClinic = true;
-        this.isPrintingPharmacy = false;
-        this.response = this.responseLab;
-        setTimeout(() => window.print(), 400);
+        return new Promise((resolve) => {
+            this.isPrintingClinic = true;
+            this.isPrintingPharmacy = false;
+            this.response = this.responseLab;
+            setTimeout(() => {
+                window.print();
+                resolve(true);
+            }, 400);
+        });
     }
 
     isPrintingPharmacy = false;
 
     printPharmacyReceipt() {
-        this.isPrintingPharmacy = true;
-        this.isPrintingClinic = false;
-        this.response = this.responsePharmacy;
-        setTimeout(() => window.print(), 400);
+        return new Promise((resolve) => {
+            this.isPrintingPharmacy = true;
+            this.isPrintingClinic = false;
+            this.response = this.responsePharmacy;
+            setTimeout(() => {
+                window.print();
+                resolve(true);
+            }, 400);
+        });
     }
 
-    printAll() {
-        this.responseClinic && this.printClinicReceipt();
-        this.responsePharmacy && this.printPharmacyReceipt();
-        this.responseLab && this.printLabReceipt();
+    async printAll() {
+        this.responseClinic && (await this.printClinicReceipt());
+        this.responsePharmacy && (await this.printPharmacyReceipt());
+        this.responseLab && (await this.printLabReceipt());
         if (this.responseClinic || this.responsePharmacy || this.responseLab)
             this.reset();
     }
