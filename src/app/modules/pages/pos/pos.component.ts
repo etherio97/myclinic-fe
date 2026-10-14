@@ -81,7 +81,7 @@ export class POSComponent implements OnInit {
         });
 
         this._userService.user$.subscribe((user) => {
-            this.cashier = user;
+            this.cashier = { fullName: user.fullname };
         });
 
         this.route.params.subscribe(({ patientId }) => {
